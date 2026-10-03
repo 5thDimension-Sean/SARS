@@ -16,13 +16,20 @@ import { AnalysisRail } from "./analysis-rail";
 import { TimelinePanel } from "./timeline-panel";
 import rawData from "@/data/sample-data.json";
 import type {
-  SampleDataset,
+  DashboardDataset,
   LayerState,
   Polarization,
 } from "@/lib/sample-schema";
 import { useDashboardTools } from "@/hooks/use-dashboard-tools";
-const data = rawData as SampleDataset;
+import {
+  adaptPipelineManifest,
+  isSampleManifestSentinel,
+  withPipelineFrames,
+} from "@/lib/manifest-adapter";
+const sampleData = rawData as DashboardDataset;
 export function Dashboard() {
+  const [data, setData] = useState<DashboardDataset>(sampleData);
+  const [manifestError, setManifestError] = useState<string | null>(null);
   const panelTrigger = useRef<HTMLButtonElement | null>(null);
   const [phenomenonIndex, setPhenomenon] = useState(0),
     [locationIndex, setLocation] = useState(0),
@@ -49,18 +56,67 @@ export function Dashboard() {
     if (mobilePanel) lastMobilePanel.current = mobilePanel;
   }, [mobilePanel]);
   const renderedPanel = mobilePanel ?? lastMobilePanel.current;
+  useEffect(() => {
+    const controller = new AbortController();
+    async function loadManifest() {
+      try {
+        const response = await fetch("/data/manifest.json", {
+          signal: controller.signal,
+          cache: "no-cache",
+        });
+        if (response.status === 404 || response.status === 204) return;
+        if (!response.ok)
+          throw new Error(
+            `Pipeline manifest could not be loaded (HTTP ${response.status}).`,
+          );
+        const json: unknown = await response.json();
+        if (isSampleManifestSentinel(json)) return;
+        const manifest = adaptPipelineManifest(json);
+        if (controller.signal.aborted) return;
+        setData(withPipelineFrames(sampleData, manifest));
+        setPhenomenon(0);
+        setLocation(0);
+        setIndex(manifest.phenomenon.locations[0].acquisitions.length - 1);
+        setBaseline(
+          Math.max(0, manifest.phenomenon.locations[0].acquisitions.length - 2),
+        );
+        setPlaying(false);
+      } catch (error) {
+        if (!controller.signal.aborted)
+          setManifestError(
+            error instanceof Error
+              ? error.message
+              : "Pipeline manifest is invalid.",
+          );
+      }
+    }
+    void loadManifest();
+    return () => controller.abort();
+  }, []);
   const p = data.phenomena[phenomenonIndex],
     location = p.locations[locationIndex],
     after = location.acquisitions[index],
     before = location.acquisitions[Math.min(baseline, index)];
-  const selectLocation = useCallback((pi: number, li: number) => {
-    setPhenomenon(pi);
-    setLocation(li);
-    setIndex(data.phenomena[pi].locations[li].acquisitions.length - 1);
-    setBaseline(0);
-    setPlaying(false);
-    setMobilePanel(null);
-  }, []);
+  const derived = location.provenance === "derived";
+  const activePolarization = after.polarization.includes(polarization)
+    ? polarization
+    : after.polarization[0];
+  const selectLocation = useCallback(
+    (pi: number, li: number) => {
+      const selectedLocation = data.phenomena[pi].locations[li];
+      setPhenomenon(pi);
+      setLocation(li);
+      setIndex(selectedLocation.acquisitions.length - 1);
+      setBaseline(
+        selectedLocation.provenance === "derived"
+          ? Math.max(0, selectedLocation.acquisitions.length - 2)
+          : 0,
+      );
+      setPlaying(false);
+      setMobilePanel(null);
+    },
+    [data],
+  );
   const changeIndex = useCallback((i: number) => {
     setIndex(i);
     setBaseline((b) => Math.min(b, i));
@@ -73,7 +129,7 @@ export function Dashboard() {
       hotspot: location.id,
       acquisition: after.date,
       baseline: before.date,
-      provenance: "sample",
+      provenance: derived ? "derived" : "sample",
     },
     selectLocation,
   );
@@ -155,7 +211,7 @@ export function Dashboard() {
     location,
     before,
     after,
-    polarization,
+    polarization: activePolarization,
     onPolarization: setPolarization,
     viewMode,
     onViewMode: setViewMode,
@@ -167,6 +223,7 @@ export function Dashboard() {
       </a>
       <MissionBar
         acquisition={location.acquisitions.at(-1)!}
+        provenance={derived ? "derived" : "sample"}
         data={data}
         searchOpen={searchOpen}
         onSearchOpen={setSearchOpen}
@@ -223,7 +280,7 @@ export function Dashboard() {
             before={before}
             after={after}
             layers={layers}
-            polarization={polarization}
+            polarization={activePolarization}
             viewMode={viewMode}
           >
             <TimelinePanel
@@ -243,17 +300,33 @@ export function Dashboard() {
       </SidebarProvider>
       <footer className="system-bar">
         <span>
-          <span className="text-cyan">◇</span> SAMPLE MODE{" "}
-          <span className="footer-detail">/ NO LIVE DATA</span>
+          <span className="text-cyan">◇</span>{" "}
+          {derived ? "DERIVED DATA" : "SAMPLE MODE"}{" "}
+          <span className="footer-detail">
+            / {derived ? "OFFLINE GCOV" : "NO LIVE DATA"}
+          </span>
         </span>
-        <span>NASA SPACE APPS 2026 · SAR-WALTZ</span>
+        <span
+          title={manifestError ?? undefined}
+          className={manifestError ? "text-amber" : ""}
+        >
+          {manifestError
+            ? "WARN · MANIFEST INVALID / USING SAMPLES"
+            : "NASA SPACE APPS 2026 · SAR-WALTZ"}
+        </span>
         <span>
           <Satellite size={11} /> {after.productType} / L-BAND
         </span>
       </footer>
+      {manifestError && (
+        <div className="manifest-error" role="status">
+          <strong>WARN · Pipeline data was not loaded.</strong> {manifestError}{" "}
+          Sample data remains available.
+        </div>
+      )}
       <output className="sr-only" aria-live="polite" aria-atomic="true">
-        {p.label}, {location.label}, selected acquisition {after.date}, sample
-        data.
+        {p.label}, {location.label}, selected acquisition {after.date},{" "}
+        {derived ? "derived GCOV" : "sample"} data.
       </output>
       <Sheet
         open={mobilePanel !== null}
@@ -276,8 +349,7 @@ export function Dashboard() {
                 : "Surface analysis"}
             </SheetTitle>
             <SheetDescription>
-              Sample dashboard controls. Close to return to the observation
-              viewport.
+              Dashboard controls. Close to return to the observation viewport.
             </SheetDescription>
           </SheetHeader>
           {renderedPanel === "layers" ? (

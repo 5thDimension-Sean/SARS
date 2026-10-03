@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
-import type { SampleDataset } from "@/lib/sample-schema";
+import type { DashboardDataset } from "@/lib/sample-schema";
 interface DashboardState {
   phenomenon: string;
   hotspot: string;
   acquisition: string;
   baseline: string;
-  provenance: "sample";
+  provenance: "sample" | "derived";
 }
 interface Registry {
   registerTool(
@@ -23,7 +23,7 @@ interface Registry {
   ): void | Promise<void>;
 }
 export function useDashboardTools(
-  data: SampleDataset,
+  data: DashboardDataset,
   state: DashboardState,
   selectLocation: (p: number, l: number) => void,
 ) {
@@ -39,7 +39,7 @@ export function useDashboardTools(
         name: "read_sar_dashboard",
         title: "Read SAR comparison",
         description:
-          "Read the selected sample phenomenon, hotspot, acquisition, and baseline.",
+          "Read the selected phenomenon, area, acquisition, baseline, and sample or derived provenance.",
         inputSchema: {
           type: "object",
           properties: {},
@@ -52,7 +52,7 @@ export function useDashboardTools(
         name: "select_sar_hotspot",
         title: "Select observation hotspot",
         description:
-          "Navigate the sample dashboard to one of its known hotspots. Geographic coordinates are real; all measurements are illustrative.",
+          "Navigate the dashboard to a known sample hotspot or loaded GCOV frame. Returned provenance distinguishes samples from processed data.",
         inputSchema: {
           type: "object",
           properties: {

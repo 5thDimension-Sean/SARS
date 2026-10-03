@@ -1,6 +1,6 @@
 # SAR-Waltz — Earth Observation Console
 
-Frontend checkpoint for the 2026 NASA Space Apps Challenge. React 19, Next.js static export, Tailwind CSS v4 semantic tokens, existing shadcn/Radix controls, Lucide, and Recharts.
+Earth observation frontend for the 2026 NASA Space Apps Challenge. React 19, Next.js static export, Tailwind CSS v4 semantic tokens, existing shadcn/Radix controls, Lucide, and Recharts.
 
 ## Run
 
@@ -39,7 +39,13 @@ All dates, acquisition identifiers, areas, events, values, and rendered textures
 
 `components/dashboard/observation-viewport.tsx` exposes `ObservationViewportProps`. Replace its procedural renderer with a chosen map engine while keeping dashboard components and their state contract intact. No CesiumJS, MapLibre, or deck.gl is installed. The procedural raster cache is bounded to 24 entries; sample surfaces update by acquisition and geographic seed.
 
-The future pipeline should emit or adapt its manifest to `SampleDataset` and populate the nullable URLs. The sample JSON module then becomes replaceable without changing the dashboard. Real overlays are intentionally deferred with the backend.
+The offline [Python pipeline](../pipeline/README.md) writes a manifest, transparent PNG overlays and dB COGs into `public/data/`. On load, the dashboard reads `/data/manifest.json`. The committed file is an explicit empty sample sentinel (`schemaVersion: "1.0"`, `provenance: "sample"`, `frames: []`); processing replaces it with a derived manifest. An absent file also preserves sample mode. Invalid manifests produce a visible warning and preserve the sample dashboard. The adapter validates provenance, dates, bounds, polarizations, 64-bin histograms, finite values, and relative asset paths before rendering. Only the exact empty sample sentinel bypasses derived validation.
+
+A loaded manifest adds a distinct **Processed GCOV** category. Its `DERIVED GCOV` badge, source metadata, geographic bounds, fixed display ranges, and histogram statistics stay separate from the illustrative wetland, forest, and earthquake categories. GCOV data is never presented as proven land loss or earthquake displacement. The primary derived metric is the difference of the valid reduced-raster mean dB values. If raster statistics are missing, it uses an explicitly labeled histogram-bin approximation of in-range pixels; unavailable means display `N/A`.
+
+The viewport renders Web Mercator PNGs at their geographic extent aspect ratio, with transparent nodata, bounds corners, HH/HV selection, and before/after swipe. It remains a dependency-free raster preview with a map placeholder label. Enable Change overlay to show a matching precomputed later-minus-earlier pair. Consecutive acquisitions have pipeline change rasters; selecting another baseline shows `NO PRECOMPUTED PAIR` and retains acquisition rasters. The Acquisition tab links to the selected dB COG. One-acquisition frames disable playback and the date slider.
+
+Rebuild after adding pipeline assets when serving `out/`; the development preview reads the public directory directly. No Python runs in the browser or static server. The dashboard continues to use `ObservationViewportProps`, so a future map engine can replace this renderer without changing the selection controls.
 
 ## Scientific and geographic references
 
@@ -49,6 +55,6 @@ The future pipeline should emit or adapt its manifest to `SampleDataset` and pop
 - [USGS Parkfield instrument](https://escweb.wr.usgs.gov/nsmp-data/GEOS/prk/parkfield_station.html), [USGS Hayward deformation monitoring](https://earthquake.usgs.gov/monitoring/deformation/data/download.php).
 - Forest window coordinates are inferred midpoints of [NASA ORNL Rondônia study bounds](https://daac.ornl.gov/LBA/guides/ND01_Georectified_Products.html) and [NASA ORNL Pará survey bounds](https://daac.ornl.gov/VEGETATION/guides/Forested_Areas_Para_Brazil.html).
 
-## Approval checkpoint
+## Verification
 
-The Python download/inspect/process pipeline is deferred until the frontend has been tested and approved. No backend pipeline is implemented in this checkpoint. See `docs/verification.md` for frontend checks and preview limits.
+`npm test` runs sample contract checks and pipeline adapter checks, including scientific ranges, normalization with out-of-range values, empty/malformed manifests, URL traversal rejection, provenance separation, chronological sorting, and missing signal values. `npm run build` validates TypeScript and creates the static output. See `docs/verification.md` for the original frontend interaction checks and preview limits; pipeline testing is documented in its own README.

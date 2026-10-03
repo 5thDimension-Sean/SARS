@@ -17,6 +17,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { ProceduralSurface } from "./procedural-surface";
+import { RasterSurface } from "./raster-surface";
 import type {
   Acquisition,
   Hotspot,
@@ -55,23 +56,47 @@ export function ObservationViewport({
     ),
     afterStage = location.acquisitions.findIndex((a) => a.date === after.date),
     seismic = p.analysis === "displacement";
+  const derived = location.provenance === "derived" && Boolean(location.bounds);
+  const changeLayer = location.changeLayers?.find(
+    (layer) =>
+      layer.type === "dbDiff" &&
+      layer.pol === polarization &&
+      layer.from === before.date &&
+      layer.to === after.date,
+  );
+  const showDerivedChange = derived && layers.change && Boolean(changeLayer);
+  const dbRange = after.dbRanges?.[polarization] ?? [-30, 0];
+  const changeRange = location.changeRangeDb ?? [-6, 6];
   const viewport = (
     <div
       className={`map-viewport ${p.id} ${expanded ? "expanded-viewport" : ""}`}
       ref={root}
-      aria-label="Procedural observation viewport"
+      aria-label={
+        derived
+          ? "Georeferenced static GCOV raster preview"
+          : "Procedural observation viewport"
+      }
     >
       <div className="surface-scene">
         <div className="surface-image" style={{ transform: `scale(${zoom})` }}>
-          <ProceduralSurface
-            phenomenon={p.id}
-            seed={location.textureSeed}
-            stage={beforeStage}
-            change={layers.change}
-            boundaries={layers.boundaries}
-            polarization={polarization}
-            viewMode={viewMode}
-          />
+          {derived ? (
+            <RasterSurface
+              url={before.layerUrls[polarization]}
+              bounds={location.bounds!}
+              boundaries={layers.boundaries}
+              label={`GCOV ${polarization} backscatter, ${before.date}`}
+            />
+          ) : (
+            <ProceduralSurface
+              phenomenon={p.id}
+              seed={location.textureSeed}
+              stage={beforeStage}
+              change={layers.change}
+              boundaries={layers.boundaries}
+              polarization={polarization}
+              viewMode={viewMode}
+            />
+          )}
         </div>
         <div
           className="surface-after"
@@ -81,28 +106,40 @@ export function ObservationViewport({
             className="surface-image"
             style={{ transform: `scale(${zoom})` }}
           >
-            <ProceduralSurface
-              phenomenon={p.id}
-              seed={location.textureSeed}
-              stage={afterStage}
-              change={layers.change}
-              boundaries={layers.boundaries}
-              polarization={polarization}
-              viewMode={viewMode}
-            />
+            {derived ? (
+              <RasterSurface
+                url={after.layerUrls[polarization]}
+                changeUrl={showDerivedChange ? changeLayer?.url : undefined}
+                bounds={location.bounds!}
+                boundaries={layers.boundaries}
+                label={`GCOV ${polarization} backscatter, ${after.date}`}
+              />
+            ) : (
+              <ProceduralSurface
+                phenomenon={p.id}
+                seed={location.textureSeed}
+                stage={afterStage}
+                change={layers.change}
+                boundaries={layers.boundaries}
+                polarization={polarization}
+                viewMode={viewMode}
+              />
+            )}
           </div>
         </div>
       </div>
       <div className="map-shading" />
       {layers.grid && <div className="map-grid" />}
-      <div className="scan-texture" />
+      {!derived && <div className="scan-texture" />}
       <div className="viewport-title">
         <span className="eyebrow">SELECTED AREA · {location.id}</span>
         <h1>{location.label}</h1>
         <p>{location.region}</p>
       </div>
       <div className="map-placeholder-badge">
-        PROCEDURAL VIEWPORT · PLACEHOLDER
+        {derived
+          ? "GEOGRAPHIC RASTER PREVIEW · MAP PLACEHOLDER"
+          : "PROCEDURAL VIEWPORT · PLACEHOLDER"}
       </div>
       <div className="comparison-tag before">
         BEFORE <b>{displayDate(before.date, true)}</b>
@@ -173,7 +210,15 @@ export function ObservationViewport({
             ? "GUNW · WRAPPED PHASE"
             : "GUNW · LOS DISPLACEMENT"
           : `GCOV · ${polarization} BACKSCATTER`}
-        {layers.change && <span>+ CHANGE</span>}
+        {layers.change && (
+          <span>
+            {derived
+              ? showDerivedChange
+                ? "+ DERIVED CHANGE"
+                : "· NO PRECOMPUTED PAIR"
+              : "+ CHANGE"}
+          </span>
+        )}
       </div>
       <div className="map-legend">
         <div>
@@ -181,11 +226,16 @@ export function ObservationViewport({
             ? viewMode === "phase"
               ? "WRAPPED PHASE · rad"
               : "LOS DISPLACEMENT · cm"
-            : "BACKSCATTER CHANGE · dB"}{" "}
-          <span>SAMPLE{!layers.change ? " · OFF" : ""}</span>
+            : derived && !showDerivedChange
+              ? `${polarization} BACKSCATTER · dB`
+              : "BACKSCATTER CHANGE · dB"}{" "}
+          <span>
+            {derived ? "DERIVED" : "SAMPLE"}
+            {!layers.change && !derived ? " · OFF" : ""}
+          </span>
         </div>
         <div
-          className={`colorbar ${seismic ? (viewMode === "phase" ? "phase" : "displacement") : "backscatter"}`}
+          className={`colorbar ${derived ? (showDerivedChange ? `derived-change ${location.colorMaps?.change ?? "RdBu_r"}` : `derived-backscatter ${location.colorMaps?.backscatter ?? "gray"}`) : seismic ? (viewMode === "phase" ? "phase" : "displacement") : "backscatter"}`}
         />
         <div className="colorbar-labels">
           {seismic ? (
@@ -202,6 +252,16 @@ export function ObservationViewport({
                 <span>+10 toward</span>
               </>
             )
+          ) : derived ? (
+            <>
+              <span>
+                {showDerivedChange ? `${changeRange[0]} decrease` : dbRange[0]}
+              </span>
+              <span>{showDerivedChange ? "0" : "FIXED RANGE"}</span>
+              <span>
+                {showDerivedChange ? `+${changeRange[1]} increase` : dbRange[1]}
+              </span>
+            </>
           ) : (
             <>
               <span>−6 decrease</span>
@@ -218,10 +278,12 @@ export function ObservationViewport({
           location.coordinates.longitude,
         )}
       </div>
-      <div className="map-scale">
-        <span />
-        {(5 / zoom).toFixed(1)} km <small>ILLUSTRATIVE</small>
-      </div>
+      {!derived && (
+        <div className="map-scale">
+          <span />
+          {(5 / zoom).toFixed(1)} km <small>ILLUSTRATIVE</small>
+        </div>
+      )}
       {children}
     </div>
   );
@@ -244,7 +306,7 @@ export function ObservationViewport({
             Expanded observation viewport
           </DialogTitle>
           <DialogDescription className="sr-only">
-            Illustrative sample comparison, map controls, and timeline. Escape
+            Acquisition comparison, viewport controls, and timeline. Escape
             returns to the dashboard.
           </DialogDescription>
           {viewport}

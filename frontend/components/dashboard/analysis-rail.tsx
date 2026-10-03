@@ -44,38 +44,88 @@ export function AnalysisRail({
   overlay?: boolean;
 }) {
   const seismic = p.analysis === "displacement";
-  const metric = after.metrics[0];
-  const delta = metric.value - before.metrics[0].value;
-  const status = before.date === after.date ? "NOMINAL" : metric.status;
+  const derived = after.provenance === "derived";
+  const badge = derived ? "DERIVED" : "SAMPLE";
+  const metric = (
+    derived
+      ? after.metrics.find((m) => m.id === `mean-${polarization}`)
+      : after.metrics[0]
+  )!;
+  const baselineMetric = derived
+    ? before.metrics.find((m) => m.id === metric.id)
+    : before.metrics[0];
+  const delta =
+    metric.value !== null && baselineMetric?.value != null
+      ? metric.value - baselineMetric.value
+      : null;
+  const status =
+    derived && delta === null
+      ? "WARN"
+      : before.date === after.date
+        ? "NOMINAL"
+        : metric.status;
   return (
     <div className={`analysis-rail ${overlay ? "overlay-rail" : ""}`}>
       <div className="rail-heading">
-        SURFACE ANALYSIS <span className="tiny-badge">SAMPLE</span>
+        SURFACE ANALYSIS{" "}
+        <span className={`tiny-badge ${derived ? "derived-badge" : ""}`}>
+          {badge}
+        </span>
       </div>
       <section className="rail-section metric-section">
         <div className="eyebrow">{metric.label.toUpperCase()}</div>
         <div className="primary-metric">
-          {Math.abs(delta).toFixed(1)}
+          {delta === null
+            ? "N/A"
+            : derived
+              ? `${delta > 0 ? "+" : ""}${delta.toFixed(2)}`
+              : Math.abs(delta).toFixed(1)}
           <span>{metric.unit}</span>
         </div>
-        <p className="metric-caption">Illustrative difference from baseline</p>
+        <p className="metric-caption">
+          {derived
+            ? "Mean signal difference from baseline"
+            : "Illustrative difference from baseline"}
+        </p>
+        {derived && <p className="sign-note">{metric.note}</p>}
+        {derived &&
+          location.processingNotes
+            ?.filter((note) => note.startsWith("WARN:"))
+            .map((note, i) => (
+              <p className="sign-note text-amber" key={i}>
+                {note}
+              </p>
+            ))}
         <div className={`status ${status.toLowerCase()}`}>
           {status === "NOMINAL" ? (
             <CheckCircle2 size={13} />
           ) : (
             <TriangleAlert size={13} />
           )}{" "}
-          {status} · {status === "NOMINAL" ? "SAMPLE SIGNAL" : "SAMPLE CHANGE"}
+          {derived
+            ? status === "WARN"
+              ? "WARN · SIGNAL UNAVAILABLE"
+              : "NOMINAL · DATA LOADED"
+            : `${status} · ${status === "NOMINAL" ? "SAMPLE SIGNAL" : "SAMPLE CHANGE"}`}
         </div>
         <div className="secondary-metrics">
-          {after.metrics.slice(1).map((m) => (
+          {(derived
+            ? after.metrics.filter((m) => m.id === `pixels-${polarization}`)
+            : after.metrics.slice(1)
+          ).map((m) => (
             <div key={m.id}>
               <span>{m.label}</span>
               <strong>
-                {m.value}
+                {m.value === null
+                  ? "N/A"
+                  : derived
+                    ? m.value.toLocaleString()
+                    : m.value}
                 <small> {m.unit}</small>
               </strong>
-              <span className="metric-provenance">SAMPLE</span>
+              <span className="metric-provenance">
+                {m.provenance.toUpperCase()}
+              </span>
             </div>
           ))}
         </div>
@@ -112,8 +162,12 @@ export function AnalysisRail({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="HV">HV · Cross polarization</SelectItem>
-              <SelectItem value="HH">HH · Co polarization</SelectItem>
+              {after.polarization.includes("HV") && (
+                <SelectItem value="HV">HV · Cross polarization</SelectItem>
+              )}
+              {after.polarization.includes("HH") && (
+                <SelectItem value="HH">HH · Co polarization</SelectItem>
+              )}
             </SelectContent>
           </Select>
         )}
@@ -165,7 +219,9 @@ export function AnalysisRail({
               </div>
               <div>
                 <dt>Product</dt>
-                <dd>{after.productType} · SAMPLE</dd>
+                <dd>
+                  {after.productType} · {badge}
+                </dd>
               </div>
               <div>
                 <dt>Polarization</dt>
@@ -186,18 +242,54 @@ export function AnalysisRail({
                 <dd>12 days nominal</dd>
               </div>
               <div>
+                <dt>Version</dt>
+                <dd>{after.productVersion}</dd>
+              </div>
+              {derived && (
+                <>
+                  <div>
+                    <dt>Composite release</dt>
+                    <dd>{after.compositeReleaseId ?? "UNKNOWN"}</dd>
+                  </div>
+                  <div>
+                    <dt>Data maturity</dt>
+                    <dd>{after.dataMaturity ?? "UNKNOWN"}</dd>
+                  </div>
+                </>
+              )}
+              {derived && (
+                <div>
+                  <dt>Track</dt>
+                  <dd>{location.track}</dd>
+                </div>
+              )}
+              <div>
                 <dt>Footprint</dt>
-                <dd>{location.areaKm2} km² · SAMPLE</dd>
+                <dd>
+                  {derived
+                    ? "Manifest geographic bounds"
+                    : `${location.areaKm2} km² · SAMPLE`}
+                </dd>
               </div>
               <div>
                 <dt>Layer source</dt>
-                <dd>Procedural sample</dd>
+                <dd>{derived ? after.source : "Procedural sample"}</dd>
               </div>
             </dl>
             <p className="sign-note">
-              Dates, orbit/frame identifiers, and coverage are illustrative. No
-              NASA products are loaded.
+              {derived
+                ? "Acquisition identifiers are read from the source product. The preview uses fixed display ranges and transparent masked pixels."
+                : "Dates, orbit/frame identifiers, and coverage are illustrative. No NASA products are loaded for this sample."}
             </p>
+            {derived && after.cogUrls?.[polarization] && (
+              <a
+                className="cog-link"
+                href={after.cogUrls[polarization]}
+                download
+              >
+                Download {polarization} dB COG
+              </a>
+            )}
           </section>
         </TabsContent>
       </Tabs>

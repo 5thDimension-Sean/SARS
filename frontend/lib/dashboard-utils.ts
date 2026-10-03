@@ -1,5 +1,5 @@
 export const displayDate = (iso: string, year = false) =>
-  new Date(iso + "T00:00:00Z")
+  new Date(iso.length === 10 ? iso + "T00:00:00Z" : iso)
     .toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "short",

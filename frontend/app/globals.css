@@ -1294,6 +1294,129 @@ input:focus-visible,
 .latest-mobile {
   display: none;
 }
+.derived-badge {
+  color: var(--signal);
+  border-color: #397979;
+  background: #112d2d80;
+}
+.gcov .map-legend {
+  background: #071018ee;
+  border: 1px solid #263e49;
+  padding: 8px;
+}
+.text-amber {
+  color: var(--warning);
+}
+.sparse-date-label {
+  visibility: hidden;
+}
+.manifest-error {
+  position: fixed;
+  bottom: 32px;
+  left: 12px;
+  right: 12px;
+  z-index: 55;
+  background: #322416;
+  border: 1px solid var(--warning);
+  padding: 9px 12px;
+  color: #f5d2a6;
+  font-size: 11px;
+}
+.raster-surface {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050b10;
+}
+.raster-frame {
+  position: relative;
+  flex-shrink: 0;
+  background: repeating-conic-gradient(#102029 0% 25%, #0a161e 0% 50%) 0 0 /
+    16px 16px;
+}
+.show-raster-boundary {
+  outline: 1px solid #68c6c6;
+  outline-offset: -1px;
+}
+.gcov-raster {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+}
+.raster-change {
+  opacity: 1;
+}
+.raster-corner {
+  position: absolute;
+  z-index: 1;
+  color: #afc9cd;
+  background: #071018d9;
+  padding: 3px 5px;
+  font:
+    8px ui-monospace,
+    Consolas,
+    monospace;
+}
+.raster-corner.northwest {
+  top: 0;
+  left: 0;
+}
+.raster-corner.southeast {
+  bottom: 0;
+  right: 0;
+}
+.raster-unavailable {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 48%;
+  z-index: 2;
+  color: var(--warning);
+  background: #101b22e8;
+  border: 1px solid #80673f;
+  text-align: center;
+  padding: 14px;
+  font:
+    11px ui-monospace,
+    Consolas,
+    monospace;
+}
+.colorbar.derived-backscatter.gray {
+  background: linear-gradient(90deg, #000, #fff);
+}
+.colorbar.derived-backscatter.viridis {
+  background: linear-gradient(
+    90deg,
+    #440154,
+    #3b528b,
+    #21918c,
+    #5ec962,
+    #fde725
+  );
+}
+.colorbar.derived-change.RdBu_r {
+  background: linear-gradient(
+    90deg,
+    #053061,
+    #4393c3,
+    #f7f7f7,
+    #d6604d,
+    #67001f
+  );
+}
+.colorbar.derived-change.coolwarm {
+  background: linear-gradient(90deg, #3b4cc0, #ddd, #b40426);
+}
+.cog-link {
+  display: inline-block;
+  color: var(--signal);
+  font-size: 11px;
+  margin-top: 10px;
+  text-decoration: underline;
+}
 .date-step-track {
   position: relative;
 }

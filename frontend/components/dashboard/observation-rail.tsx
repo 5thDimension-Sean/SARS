@@ -9,11 +9,17 @@ import {
   PanelLeftOpen,
   Layers,
   Info,
+  Satellite,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Sidebar } from "@/components/ui/sidebar";
 import type { Phenomenon, LayerState } from "@/lib/sample-schema";
-const icons = { wetland: Waves, earthquake: Activity, forest: Trees };
+const icons = {
+  wetland: Waves,
+  earthquake: Activity,
+  forest: Trees,
+  gcov: Satellite,
+};
 export function ObservationRail({
   phenomena,
   selected,
@@ -89,7 +95,8 @@ export function ObservationRail({
       </nav>
       <section className="rail-section expanded-content">
         <div className="eyebrow">
-          HOTSPOTS <span>02</span>
+          {p.id === "gcov" ? "PROCESSED FRAMES" : "HOTSPOTS"}{" "}
+          <span>{String(p.locations.length).padStart(2, "0")}</span>
         </div>
         {p.locations.map((l, i) => (
           <button
@@ -98,7 +105,9 @@ export function ObservationRail({
             key={l.id}
             onClick={() => onLocation(i)}
           >
-            <span className="hotspot-index">0{i + 1}</span>
+            <span className="hotspot-index">
+              {String(i + 1).padStart(2, "0")}
+            </span>
             <div>
               <strong>{l.label}</strong>
               <small>{l.region}</small>
@@ -135,14 +144,19 @@ export function ObservationRail({
       <div className="rail-note expanded-content">
         <Info size={16} aria-hidden />
         <p>
-          Real coordinates.
+          {p.id === "gcov" ? "Offline GCOV rasters." : "Real coordinates."}
           <br />
-          Illustrative surface changes.
+          {p.id === "gcov"
+            ? "Signal changes require interpretation."
+            : "Illustrative surface changes."}
         </p>
       </div>
       <div className="rail-footer">
         <span className="text-cyan">
-          ◇ <span className="expanded-content">SAMPLE MODE</span>
+          ◇{" "}
+          <span className="expanded-content">
+            {p.id === "gcov" ? "DERIVED DATA" : "SAMPLE MODE"}
+          </span>
         </span>
         <small className="expanded-content">NO LIVE TELEMETRY</small>
       </div>

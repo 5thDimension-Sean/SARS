@@ -8,18 +8,20 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import type { Acquisition, SampleDataset } from "@/lib/sample-schema";
+import type { Acquisition, DashboardDataset } from "@/lib/sample-schema";
 import { displayDate } from "@/lib/dashboard-utils";
 import { useEffect, useRef } from "react";
 export function MissionBar({
   acquisition,
+  provenance,
   data,
   searchOpen,
   onSearchOpen,
   onLocation,
 }: {
   acquisition: Acquisition;
-  data: SampleDataset;
+  provenance: "sample" | "derived";
+  data: DashboardDataset;
   searchOpen: boolean;
   onSearchOpen: (v: boolean) => void;
   onLocation: (p: number, l: number) => void;
@@ -44,9 +46,11 @@ export function MissionBar({
             <small>EARTH OBSERVATION CONSOLE</small>
           </div>
         </a>
-        <span className="sample-badge">
-          <span className="sample-pulse" />
-          SAMPLE DATA
+        <span
+          className={`sample-badge ${provenance === "derived" ? "derived-badge" : ""}`}
+        >
+          {provenance === "sample" && <span className="sample-pulse" />}
+          {provenance === "sample" ? "SAMPLE DATA" : "DERIVED GCOV"}
         </span>
         <div className="mission-context">
           <Satellite size={16} aria-hidden />
@@ -72,7 +76,7 @@ export function MissionBar({
         open={searchOpen}
         onOpenChange={onSearchOpen}
         title="Find an observation area"
-        description="Search six known sample hotspots by geographic name or area label."
+        description="Search sample hotspots and any loaded GCOV frames by geographic name, area label, or track/frame."
         className="search-dialog"
       >
         <CommandInput placeholder="Try Everglades, Parkfield, or Amazon…" />
@@ -103,7 +107,7 @@ export function MissionBar({
           ))}
         </CommandList>
         <div className="search-help">
-          REAL LOCATIONS · ILLUSTRATIVE DATA{" "}
+          REAL LOCATIONS · CHECK SOURCE BADGES{" "}
           <span>↑ ↓ to navigate · Enter to select</span>
         </div>
       </CommandDialog>

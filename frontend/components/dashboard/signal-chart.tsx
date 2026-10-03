@@ -40,8 +40,11 @@ export function SignalChart({
     return () => observer.disconnect();
   }, []);
   const seismic = phenomenon.analysis === "displacement";
+  const derived = after.provenance === "derived";
+  const beforeDistribution = before.histogramDb?.[polarization],
+    afterDistribution = after.histogramDb?.[polarization];
   const series: {
-    before: number;
+    before: number | null;
     after: number;
     distanceKm?: number;
     db?: number;
@@ -51,19 +54,42 @@ export function SignalChart({
         before: before.displacementProfileCm[i]?.displacementCm,
         after: pt.displacementCm,
       }))
-    : after.histogramBinsDb.map((bin, i) => ({
-        db: bin.db,
-        before: before.histogramBinsDb[i]?.[polarization],
-        after: bin[polarization],
-      }));
+    : derived && afterDistribution
+      ? afterDistribution.counts.map((_, i) => ({
+          db:
+            (afterDistribution.binEdges[i] +
+              afterDistribution.binEdges[i + 1]) /
+            2,
+          before: beforeDistribution
+            ? beforeDistribution.normalized[i] * 100
+            : null,
+          after: afterDistribution.normalized[i] * 100,
+        }))
+      : after.histogramBinsDb.map((bin, i) => ({
+          db: bin.db,
+          before: before.histogramBinsDb[i]?.[polarization],
+          after: bin[polarization],
+        }));
   const axes = (
     <>
       <CartesianGrid stroke="#283740" strokeDasharray="2 4" vertical={false} />
       <XAxis
         type="number"
         dataKey={seismic ? "distanceKm" : "db"}
-        domain={seismic ? [0, 24] : [-30, 0]}
-        ticks={seismic ? [0, 6, 12, 18, 24] : [-30, -20, -10, 0]}
+        domain={
+          seismic
+            ? [0, 24]
+            : derived
+              ? (after.dbRanges?.[polarization] ?? [-30, 0])
+              : [-30, 0]
+        }
+        ticks={
+          seismic
+            ? [0, 6, 12, 18, 24]
+            : derived
+              ? undefined
+              : [-30, -20, -10, 0]
+        }
         tick={{ fill: "#9aaebb", fontSize: 11 }}
         axisLine={{ stroke: "#3e515b" }}
         tickLine={false}
@@ -95,7 +121,9 @@ export function SignalChart({
         <span>
           {seismic ? "LOS DISPLACEMENT PROFILE" : "BACKSCATTER DISTRIBUTION"}
         </span>
-        <span className="tiny-badge">SAMPLE</span>
+        <span className={`tiny-badge ${derived ? "derived-badge" : ""}`}>
+          {derived ? "DERIVED" : "SAMPLE"}
+        </span>
       </div>
       <div className="chart-subtitle">
         {seismic
@@ -109,7 +137,7 @@ export function SignalChart({
         aria-label={
           seismic
             ? `Sample displacement profile in centimeters, comparing ${before.date} and ${after.date}`
-            : `Sample ${polarization} histogram in dB, comparing ${before.date} and ${after.date}`
+            : `${derived ? "Derived" : "Sample"} ${polarization} histogram in dB, comparing ${before.date} and ${after.date}`
         }
       >
         {visible && (
@@ -194,6 +222,13 @@ export function SignalChart({
       </div>
       {seismic && (
         <p className="sign-note">+ toward satellite · − away from satellite</p>
+      )}
+      {derived && (
+        <p className="sign-note">
+          Fixed-range bins; percentages use all valid reduced-raster pixels.
+          Out-of-range values are omitted.{" "}
+          {!beforeDistribution && "Baseline polarization unavailable."}
+        </p>
       )}
     </>
   );

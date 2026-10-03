@@ -38,6 +38,8 @@ export function TimelinePanel({
   onSpeed: (v: string) => void;
 }) {
   const acquisitions = location.acquisitions;
+  const derived = location.provenance === "derived";
+  const singleAcquisition = acquisitions.length === 1;
   return (
     <section className="timeline-panel" aria-label="Time comparison">
       <div className="timeline-top">
@@ -60,6 +62,7 @@ export function TimelinePanel({
           <button
             className={`play-button ${playing ? "playing" : ""}`}
             aria-label={playing ? "Pause timeline" : "Play timeline"}
+            disabled={singleAcquisition}
             onClick={() => onPlaying(!playing)}
           >
             {playing ? <Pause size={14} /> : <Play size={14} />}
@@ -115,12 +118,13 @@ export function TimelinePanel({
         </div>
         <span
           className="latest-mobile"
-          title={`Latest sample acquisition: ${acquisitions.at(-1)!.date}, ${acquisitions.at(-1)!.productType}, orbit ${acquisitions.at(-1)!.orbit}, frame ${acquisitions.at(-1)!.frame}`}
+          title={`Latest ${derived ? "derived" : "sample"} acquisition: ${acquisitions.at(-1)!.date}, ${acquisitions.at(-1)!.productType}, orbit ${acquisitions.at(-1)!.orbit}, frame ${acquisitions.at(-1)!.frame}`}
         >
           LATEST {displayDate(acquisitions.at(-1)!.date)}
           <small>
             {acquisitions.at(-1)!.productType} · F
-            {String(acquisitions.at(-1)!.frame).padStart(3, "0")} · SAMPLE
+            {String(acquisitions.at(-1)!.frame).padStart(3, "0")} ·{" "}
+            {derived ? "DERIVED" : "SAMPLE"}
           </small>
         </span>
       </div>
@@ -146,7 +150,8 @@ export function TimelinePanel({
         </div>
         <AccessibleSlider
           min={0}
-          max={acquisitions.length - 1}
+          max={Math.max(1, acquisitions.length - 1)}
+          disabled={singleAcquisition}
           step={1}
           value={[index]}
           onValueChange={(v) => onIndex(v[0])}
@@ -167,7 +172,18 @@ export function TimelinePanel({
                 title={event?.label}
               >
                 <span className="date-tick">{event ? "◆" : ""}</span>
-                <span>{displayDate(a.date)}</span>
+                <span
+                  className={
+                    acquisitions.length > 7 &&
+                    i !== index &&
+                    i !== acquisitions.length - 1 &&
+                    i % Math.ceil((acquisitions.length - 1) / 6) !== 0
+                      ? "sparse-date-label"
+                      : ""
+                  }
+                >
+                  {displayDate(a.date)}
+                </span>
               </button>
             );
           })}
@@ -175,11 +191,12 @@ export function TimelinePanel({
       </div>
       <div className="timeline-bottom">
         <span>
-          ◆ SAMPLE EVENT{" "}
+          {derived ? "OFFLINE ACQUISITIONS" : "◆ SAMPLE EVENT"}{" "}
           <span className="timeline-key-help"> / ← → STEP · HOME / END</span>
         </span>
         <span>
-          12-DAY REPEAT <span className="text-cyan">· SAMPLE</span>
+          12-DAY NOMINAL{" "}
+          <span className="text-cyan">· {derived ? "DERIVED" : "SAMPLE"}</span>
         </span>
       </div>
     </section>

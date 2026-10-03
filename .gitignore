@@ -1,0 +1,7 @@
+pipeline/.venv*/
+pipeline/downloads/
+pipeline/output/
+__pycache__/
+.pytest_cache/
+*.pyc
+
