@@ -18,6 +18,7 @@ import type {
 } from "@/lib/sample-schema";
 import { displayDate } from "@/lib/dashboard-utils";
 import { useEffect, useRef, useState } from "react";
+import { useTweenedSeries } from "@/hooks/use-tween";
 export function SignalChart({
   phenomenon,
   before,
@@ -43,7 +44,7 @@ export function SignalChart({
   const derived = after.provenance === "derived";
   const beforeDistribution = before.histogramDb?.[polarization],
     afterDistribution = after.histogramDb?.[polarization];
-  const series: {
+  const targetSeries: {
     before: number | null;
     after: number;
     distanceKm?: number;
@@ -70,6 +71,10 @@ export function SignalChart({
           before: before.histogramBinsDb[i]?.[polarization],
           after: bin[polarization],
         }));
+  const series = useTweenedSeries(
+    targetSeries,
+    `${phenomenon.id}/${before.date}/${after.date}/${polarization}/${after.orbit}`,
+  );
   const axes = (
     <>
       <CartesianGrid stroke="#283740" strokeDasharray="2 4" vertical={false} />

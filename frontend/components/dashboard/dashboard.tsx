@@ -217,7 +217,7 @@ export function Dashboard() {
     onViewMode: setViewMode,
   };
   return (
-    <main className="console">
+    <main className="console" data-playing={playing}>
       <a className="skip-link" href="#observation-view">
         Skip to observation viewport
       </a>
@@ -325,7 +325,10 @@ export function Dashboard() {
         </div>
       )}
       <output className="sr-only" aria-live="polite" aria-atomic="true">
-        {p.label}, {location.label}, selected acquisition {after.date},{" "}
+        {p.label}, {location.label}, acquisition {index + 1} of{" "}
+        {location.acquisitions.length}, {after.date}, baseline {before.date},{" "}
+        {after.metrics[0].label} {after.metrics[0].value ?? "not available"}{" "}
+        {after.metrics[0].unit}, status {after.metrics[0].status},{" "}
         {derived ? "derived GCOV" : "sample"} data.
       </output>
       <Sheet

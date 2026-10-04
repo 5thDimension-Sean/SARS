@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SignalChart } from "./signal-chart";
+import { LearnPanel } from "./learn-panel";
+import { TweenNumber } from "./tween-number";
 import type {
   Acquisition,
   Phenomenon,
@@ -75,11 +77,13 @@ export function AnalysisRail({
       <section className="rail-section metric-section">
         <div className="eyebrow">{metric.label.toUpperCase()}</div>
         <div className="primary-metric">
-          {delta === null
-            ? "N/A"
-            : derived
-              ? `${delta > 0 ? "+" : ""}${delta.toFixed(2)}`
-              : Math.abs(delta).toFixed(1)}
+          {delta === null ? (
+            "N/A"
+          ) : derived ? (
+            <TweenNumber value={delta} digits={2} signed />
+          ) : (
+            <TweenNumber value={Math.abs(delta)} digits={1} />
+          )}
           <span>{metric.unit}</span>
         </div>
         <p className="metric-caption">
@@ -176,6 +180,7 @@ export function AnalysisRail({
         <TabsList variant="line" className="analysis-tab-list">
           <TabsTrigger value="signal">Signal</TabsTrigger>
           <TabsTrigger value="acquisition">Acquisition</TabsTrigger>
+          <TabsTrigger value="learn">Learn</TabsTrigger>
         </TabsList>
         <TabsContent value="signal">
           <section className="rail-section chart-section">
@@ -196,6 +201,17 @@ export function AnalysisRail({
                 ? "The same acquisition is selected on both sides. Step forward to compare a change."
                 : after.insight}
             </p>
+            {!derived && before.date !== after.date && (
+              <p className="phase-readout" data-testid="phase-readout">
+                {displayDate(after.date, true)} vs baseline{" "}
+                {displayDate(before.date, true)}:{" "}
+                {after.metrics
+                  .filter((m) => m.id !== "area")
+                  .map((m) => `${m.label} ${m.value} ${m.unit}`)
+                  .join(" · ")}
+                {!seismic && ` · ${polarization} selected`}. SAMPLE DATA.
+              </p>
+            )}
             <div className="comparison-interval">
               {daysBetween(before.date, after.date)} DAYS{" "}
               <span>
@@ -291,6 +307,9 @@ export function AnalysisRail({
               </a>
             )}
           </section>
+        </TabsContent>
+        <TabsContent value="learn">
+          <LearnPanel phenomenonId={p.id} />
         </TabsContent>
       </Tabs>
       <section className="rail-section explanation-section">

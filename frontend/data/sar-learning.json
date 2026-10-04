@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0",
+  "provenance": "educational",
+  "source": {
+    "label": "NASA Earthdata · What is Synthetic Aperture Radar?",
+    "url": "https://www.earthdata.nasa.gov/learn/earth-observation-data-basics/sar",
+    "handbook": "Meyer, F. (2019). Spaceborne Synthetic Aperture Radar – Principles, Data Access, and Basic Processing Techniques. NASA SAR Handbook. doi:10.25966/ez4f-mg98",
+    "note": "Concepts are paraphrased from NASA Earthdata SAR learning material. Values shown elsewhere in this console are SAMPLE DATA."
+  },
+  "topics": [
+    {
+      "id": "active-sensing",
+      "title": "Active microwave sensing",
+      "summary": "SAR sends its own pulse of microwave energy and records what comes back, so it needs no sunlight and can image through cloud.",
+      "detail": "Optical sensors passively record reflected or emitted light. A radar instead measures how its own pulse reacts with terrain structure (mountains, forests, sea ice) and conditions such as soil moisture. That is why SAR works day and night and through most cloud cover.",
+      "keywords": ["day and night", "cloud", "active"]
+    },
+    {
+      "id": "synthetic-aperture",
+      "title": "What is synthetic about it?",
+      "summary": "Fine detail needs a very long antenna; SAR combines many acquisitions from a short antenna as the satellite moves to simulate one.",
+      "detail": "Resolution depends on the ratio of wavelength to antenna length. A ~5 cm (C-band) radar needing ~10 m detail from orbit would need an antenna of roughly 4 km if built physically. Combining a sequence of acquisitions along the orbit creates a synthetic aperture of that size.",
+      "keywords": ["resolution", "antenna", "aperture"]
+    },
+    {
+      "id": "geometry",
+      "title": "Viewing geometry",
+      "summary": "Slant range, ground range, azimuth (along-track), range (across-track), look angle and incidence angle define how the scene is seen.",
+      "detail": "The instrument measures slant range to the surface point that scattered the pulse; this can be projected to ground range. Flight direction is along-track (azimuth); perpendicular is across-track (range). Look angle is measured from nadir; incidence angle from the local surface normal. Both strongly shape backscatter, which is why orbit, frame and pass direction are shown for every acquisition.",
+      "keywords": ["slant range", "look angle", "incidence", "orbit", "pass direction"]
+    },
+    {
+      "id": "backscatter",
+      "title": "Amplitude and backscatter",
+      "summary": "Backscatter is the fraction of transmitted energy returned to the sensor, usually shown in decibels (dB).",
+      "detail": "Calibrated, terrain-corrected gamma-0 backscatter in this console is expressed as 10·log10(power). Lower dB means less energy returned. Smooth open water often returns little; rough or structured surfaces return more.",
+      "keywords": ["dB", "gamma-0", "amplitude"],
+      "modes": ["wetland", "forest"]
+    },
+    {
+      "id": "wavelength",
+      "title": "Wavelength and bands",
+      "summary": "Longer wavelengths (L, P) penetrate deeper into canopy and soil; shorter ones (X, C) interact mostly with the surface and top of the canopy.",
+      "detail": "Bands are letter-coded by frequency. X-band (~3 cm) barely penetrates broadleaf forest and mostly interacts with leaves at the canopy top. L-band (~23 cm) reaches large branches and trunks. Wavelength also controls penetration into soil, ice and dry sand.",
+      "keywords": ["L-band", "C-band", "X-band", "penetration"]
+    },
+    {
+      "id": "polarization",
+      "title": "Polarization",
+      "summary": "Transmit and receive orientation (H or V) are named in pairs: HH, HV, VH, VV. Each pair is sensitive to different scattering.",
+      "detail": "Sensors typically transmit linearly polarized energy and can choose the received polarization. HH or VV is co-polarized; HV or VH is cross-polarized. Comparing polarizations reveals surface structure.",
+      "keywords": ["HH", "HV", "VV", "cross-pol"],
+      "modes": ["wetland", "forest"]
+    },
+    {
+      "id": "scattering",
+      "title": "Scattering mechanisms",
+      "summary": "Rough-surface, volume and double-bounce scattering leave different signatures across polarizations.",
+      "detail": "Mechanism strength also changes with wavelength because penetration depth changes. C-band in a forest is mostly rough-surface scattering with a little volume scattering; L- and P-band add strong volume and double-bounce contributions from branches and trunks.",
+      "keywords": ["double bounce", "volume", "rough surface"]
+    },
+    {
+      "id": "moisture",
+      "title": "Roughness and moisture",
+      "summary": "Surface roughness and water content (dielectric response) change how much energy returns.",
+      "detail": "Smooth water mirrors the pulse away from the sensor and appears dark. Wetter soil and vegetation return more energy. Flooded vegetation can create bright double-bounce return between water and trunks, so backscatter alone cannot name the cause of a change.",
+      "keywords": ["moisture", "water", "roughness", "flooded vegetation"],
+      "modes": ["wetland"]
+    },
+    {
+      "id": "interferometry",
+      "title": "Phase and interferometry (InSAR)",
+      "summary": "Comparing the phase of two passes over the same target measures change in distance to the sensor, up to centimeter level.",
+      "detail": "InSAR uses recorded phase to measure instrument-to-target distance. Two or more observations at different times, plus geometry, give surface motion, for example after earthquakes or volcanic eruptions. Wrapped phase appears as repeating color cycles (fringes); each cycle corresponds to a fixed amount of line-of-sight motion. Coherence says how well the two passes agree.",
+      "keywords": ["InSAR", "phase", "coherence", "fringes", "line of sight"],
+      "modes": ["earthquake"]
+    },
+    {
+      "id": "limits",
+      "title": "Interpretation limits",
+      "summary": "Speckle, shadow, layover and foreshortening are properties of radar imaging, not changes on the ground.",
+      "detail": "Speckle arises because resolution cannot separate individual scatterers; multi-looking reduces it. Layover and shadow occur in steep terrain where look angle and slopes interact; foreshortening compresses slopes facing the radar. Real analyses also need orbit files, calibration, speckle filtering and terrain correction.",
+      "keywords": ["speckle", "shadow", "layover", "foreshortening"]
+    }
+  ],
+  "bands": [
+    { "band": "X", "frequencyGHz": "8–12", "wavelengthCm": "3.8–2.4", "use": "High resolution; urban, ice and snow; little vegetation penetration" },
+    { "band": "C", "frequencyGHz": "4–8", "wavelengthCm": "7.5–3.8", "use": "Workhorse for global mapping and change detection; ice, ocean" },
+    { "band": "S", "frequencyGHz": "2–4", "wavelengthCm": "15–7.5", "use": "Growing use; agriculture and denser vegetation" },
+    { "band": "L", "frequencyGHz": "1–2", "wavelengthCm": "30–15", "use": "Biomass, vegetation, geophysical monitoring, InSAR; high penetration" },
+    { "band": "P", "frequencyGHz": "0.3–1", "wavelengthCm": "100–30", "use": "Biomass and vegetation; experimental" }
+  ],
+  "scattering": [
+    { "mechanism": "Rough surface", "sensitive": "VV", "examples": "Bare soil, water" },
+    { "mechanism": "Volume", "sensitive": "HV / VH", "examples": "Leaves and branches in a canopy" },
+    { "mechanism": "Double bounce", "sensitive": "HH", "examples": "Buildings, tree trunks, inundated vegetation" }
+  ],
+  "modeNotes": {
+    "wetland": {
+      "title": "Reading wetland backscatter",
+      "body": "Open water tends toward low backscatter; flooded vegetation can brighten via double-bounce. HH and HV tell different stories. A decrease in dB is not proof of wetland loss: water level, season and viewing geometry all matter.",
+      "unit": "Backscatter (dB), gamma-0, with polarization and comparison dates"
+    },
+    "earthquake": {
+      "title": "Reading line-of-sight displacement",
+      "body": "Repeat-pass phase is converted to motion along the line of sight, in centimeters; positive means toward the sensor. Low coherence means unreliable phase. This is a GUNW-style illustration and is never derived from GCOV backscatter.",
+      "unit": "Line-of-sight displacement (cm), positive toward sensor"
+    },
+    "forest": {
+      "title": "Reading canopy backscatter",
+      "body": "L-band cross-polarized (HV) return follows canopy volume, so removing canopy can lower it. Moisture, flooding and processing differences can mimic loss, so independent validation is required.",
+      "unit": "Backscatter (dB), gamma-0, with polarization and comparison dates"
+    }
+  }
+}

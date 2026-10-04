@@ -1,12 +1,6 @@
 "use client";
-import {
-  Play,
-  Pause,
-  SkipBack,
-  SkipForward,
-  TriangleAlert,
-} from "lucide-react";
-import { AccessibleSlider } from "./accessible-slider";
+import { useRef } from "react";
+import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
 import {
   Select,
   SelectTrigger,
@@ -16,6 +10,11 @@ import {
 } from "@/components/ui/select";
 import type { Hotspot } from "@/lib/sample-schema";
 import { displayDate, daysBetween } from "@/lib/dashboard-utils";
+const SPEEDS = ["0.5", "1", "2"];
+/**
+ * Slim transport bar. Selection is always one of the fixed acquisitions;
+ * only the thumb's visual movement between stops is eased (CSS transition).
+ */
 export function TimelinePanel({
   location,
   index,
@@ -38,167 +37,184 @@ export function TimelinePanel({
   onSpeed: (v: string) => void;
 }) {
   const acquisitions = location.acquisitions;
+  const last = acquisitions.length - 1;
+  const single = acquisitions.length === 1;
   const derived = location.provenance === "derived";
-  const singleAcquisition = acquisitions.length === 1;
+  const track = useRef<HTMLDivElement>(null);
+  const t0 = Date.parse(acquisitions[0].date),
+    span = Math.max(1, Date.parse(acquisitions[last].date) - t0);
+  const pct = (i: number) =>
+    single ? 0 : ((Date.parse(acquisitions[i].date) - t0) / span) * 100;
+  const nearest = (clientX: number) => {
+    const box = track.current!.getBoundingClientRect();
+    const p = ((clientX - box.left) / box.width) * 100;
+    let best = 0;
+    acquisitions.forEach((_, i) => {
+      if (Math.abs(pct(i) - p) < Math.abs(pct(best) - p)) best = i;
+    });
+    return best;
+  };
+  const dragging = useRef(false);
+  const selected = acquisitions[index];
+  const event = location.events.find((e) => e.date === selected.date);
+  const valueText = `${displayDate(selected.date, true)}, acquisition ${index + 1} of ${acquisitions.length}${event ? `, ${event.label}` : ""}, ${derived ? "derived" : "sample"} data`;
+  const keyDown = (e: React.KeyboardEvent) => {
+    const map: Record<string, number> = {
+      ArrowRight: Math.min(last, index + 1),
+      ArrowUp: Math.min(last, index + 1),
+      ArrowLeft: Math.max(0, index - 1),
+      ArrowDown: Math.max(0, index - 1),
+      Home: 0,
+      End: last,
+    };
+    if (e.key in map) {
+      e.preventDefault();
+      onIndex(map[e.key]);
+    }
+  };
   return (
-    <section className="timeline-panel" aria-label="Time comparison">
-      <div className="timeline-top">
-        <div className="timeline-heading">
-          <span className="eyebrow">TIME COMPARISON</span>
-          <span className="timeline-count">
-            {String(index + 1).padStart(2, "0")} /{" "}
-            {String(acquisitions.length).padStart(2, "0")} ACQUISITIONS
-          </span>
-        </div>
-        <div className="timeline-actions">
-          <button
-            className="icon-button"
-            aria-label="Previous acquisition"
-            disabled={index === 0}
-            onClick={() => onIndex(index - 1)}
-          >
-            <SkipBack size={15} />
-          </button>
-          <button
-            className={`play-button ${playing ? "playing" : ""}`}
-            aria-label={playing ? "Pause timeline" : "Play timeline"}
-            disabled={singleAcquisition}
-            onClick={() => onPlaying(!playing)}
-          >
-            {playing ? <Pause size={14} /> : <Play size={14} />}
-          </button>
-          <button
-            className="icon-button"
-            aria-label="Next acquisition"
-            disabled={index === acquisitions.length - 1}
-            onClick={() => onIndex(index + 1)}
-          >
-            <SkipForward size={15} />
-          </button>
-          <Select value={speed} onValueChange={onSpeed}>
-            <SelectTrigger className="speed-select" aria-label="Playback speed">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="0.5">0.5×</SelectItem>
-              <SelectItem value="1">1×</SelectItem>
-              <SelectItem value="2">2×</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-      <div className="comparison-dates">
-        <div className="baseline-control">
-          <label id="baseline-label">BASELINE</label>
-          <Select
-            value={String(baseline)}
-            onValueChange={(v) => onBaseline(Number(v))}
-          >
-            <SelectTrigger
-              aria-labelledby="baseline-label"
-              className="baseline-select"
-            >
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {acquisitions.slice(0, index + 1).map((a, i) => (
-                <SelectItem value={String(i)} key={a.date}>
-                  {displayDate(a.date, true)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <span className="comparison-dash" />
-        <div>
-          <span className="eyebrow">SELECTED PASS</span>
-          <strong data-testid="selected-date">
-            {displayDate(acquisitions[index].date, true)}
-          </strong>
-        </div>
-        <span
-          className="latest-mobile"
-          title={`Latest ${derived ? "derived" : "sample"} acquisition: ${acquisitions.at(-1)!.date}, ${acquisitions.at(-1)!.productType}, orbit ${acquisitions.at(-1)!.orbit}, frame ${acquisitions.at(-1)!.frame}`}
+    <section className="transport" aria-label="Acquisition transport">
+      <div className="transport-controls">
+        <button
+          className="icon-button"
+          aria-label="Previous acquisition"
+          disabled={index === 0}
+          onClick={() => onIndex(index - 1)}
         >
-          LATEST {displayDate(acquisitions.at(-1)!.date)}
-          <small>
-            {acquisitions.at(-1)!.productType} · F
-            {String(acquisitions.at(-1)!.frame).padStart(3, "0")} ·{" "}
-            {derived ? "DERIVED" : "SAMPLE"}
-          </small>
-        </span>
+          <SkipBack size={14} />
+        </button>
+        <button
+          className={`play-button ${playing ? "playing" : ""}`}
+          aria-label={playing ? "Pause timeline" : "Play timeline"}
+          disabled={single}
+          onClick={() => onPlaying(!playing)}
+        >
+          {playing ? <Pause size={13} /> : <Play size={13} />}
+        </button>
+        <button
+          className="icon-button"
+          aria-label="Next acquisition"
+          disabled={index === last}
+          onClick={() => onIndex(index + 1)}
+        >
+          <SkipForward size={14} />
+        </button>
       </div>
-      <div className="date-step-track">
-        <div className="date-gaps">
-          {acquisitions.slice(1).map((a, i) => {
-            const days = daysBetween(acquisitions[i].date, a.date);
-            return days > 12 ? (
-              <div
-                key={a.date}
-                className="acquisition-gap"
-                style={{
-                  left: `${(i / (acquisitions.length - 1)) * 100}%`,
-                  width: `${100 / (acquisitions.length - 1)}%`,
-                }}
-                title={`${days}-day gap; no intermediate acquisition`}
-              >
-                <TriangleAlert size={10} />
-                {days}D GAP
-              </div>
-            ) : null;
-          })}
-        </div>
-        <AccessibleSlider
-          min={0}
-          max={Math.max(1, acquisitions.length - 1)}
-          disabled={singleAcquisition}
-          step={1}
-          value={[index]}
-          onValueChange={(v) => onIndex(v[0])}
-          label="Acquisition date"
-          valueText={displayDate(acquisitions[index].date, true)}
-          className="date-slider"
+      <div className="transport-date">
+        <span className="eyebrow">
+          {String(index + 1).padStart(2, "0")}/
+          {String(acquisitions.length).padStart(2, "0")}
+        </span>
+        <strong data-testid="selected-date">
+          {displayDate(selected.date, true)}
+        </strong>
+      </div>
+      <div className="transport-base">
+        <label id="baseline-label" className="eyebrow">
+          BASE
+        </label>
+        <Select
+          value={String(baseline)}
+          onValueChange={(v) => onBaseline(Number(v))}
+        >
+          <SelectTrigger
+            aria-labelledby="baseline-label"
+            className="baseline-select"
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {acquisitions.slice(0, index + 1).map((a, i) => (
+              <SelectItem value={String(i)} key={a.date}>
+                {displayDate(a.date, true)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div
+        className="transport-track"
+        ref={track}
+        onPointerDown={(e) => {
+          if ((e.target as HTMLElement).closest("button") || single) return;
+          dragging.current = true;
+          e.currentTarget.setPointerCapture(e.pointerId);
+          onIndex(nearest(e.clientX));
+        }}
+        onPointerMove={(e) => {
+          if (dragging.current) {
+            const i = nearest(e.clientX);
+            if (i !== index) onIndex(i);
+          }
+        }}
+        onPointerUp={() => (dragging.current = false)}
+        onPointerCancel={() => (dragging.current = false)}
+      >
+        <div className="transport-rail" />
+        <div
+          className="transport-progress"
+          style={{ width: `${pct(index)}%` }}
         />
-        <div className="date-ticks">
-          {acquisitions.map((a, i) => {
-            const event = location.events.find((e) => e.date === a.date);
-            return (
-              <button
-                key={a.date}
-                onClick={() => onIndex(i)}
-                className={`${i === index ? "selected" : ""} ${event ? "event-date" : ""}`}
-                aria-label={`${displayDate(a.date, true)}${event ? `, ${event.label}` : ""}`}
-                aria-pressed={i === index}
-                title={event?.label}
-              >
-                <span className="date-tick">{event ? "◆" : ""}</span>
-                <span
-                  className={
-                    acquisitions.length > 7 &&
-                    i !== index &&
-                    i !== acquisitions.length - 1 &&
-                    i % Math.ceil((acquisitions.length - 1) / 6) !== 0
-                      ? "sparse-date-label"
-                      : ""
-                  }
-                >
-                  {displayDate(a.date)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        {acquisitions.slice(1).map((a, i) => {
+          const days = daysBetween(acquisitions[i].date, a.date);
+          return days > 12 ? (
+            <div
+              key={a.date}
+              className="transport-gap"
+              style={{
+                left: `${pct(i)}%`,
+                width: `${pct(i + 1) - pct(i)}%`,
+              }}
+              title={`${days}-day gap; no intermediate acquisition`}
+            >
+              <span>{days}D GAP</span>
+            </div>
+          ) : null;
+        })}
+        {acquisitions.map((a, i) => {
+          const ev = location.events.find((e) => e.date === a.date);
+          const showLabel = i === 0 || i === last || i === index;
+          return (
+            <button
+              key={a.date}
+              className={`transport-tick ${i === index ? "selected" : ""} ${i === baseline && i !== index ? "base" : ""} ${ev ? "event" : ""}`}
+              style={{ left: `${pct(i)}%` }}
+              aria-label={`${displayDate(a.date, true)}${ev ? `, ${ev.label}` : ""}`}
+              aria-pressed={i === index}
+              title={ev?.label}
+              onClick={() => onIndex(i)}
+            >
+              {ev && <i className={ev.status.toLowerCase()}>◆</i>}
+              <b />
+              {showLabel && <span>{displayDate(a.date)}</span>}
+            </button>
+          );
+        })}
+        <div
+          className="transport-thumb"
+          role="slider"
+          tabIndex={single ? -1 : 0}
+          aria-label="Acquisition date"
+          aria-orientation="horizontal"
+          aria-valuemin={0}
+          aria-valuemax={last}
+          aria-valuenow={index}
+          aria-valuetext={valueText}
+          aria-disabled={single}
+          style={{ left: `${pct(index)}%` }}
+          onKeyDown={keyDown}
+        />
       </div>
-      <div className="timeline-bottom">
-        <span>
-          {derived ? "OFFLINE ACQUISITIONS" : "◆ SAMPLE EVENT"}{" "}
-          <span className="timeline-key-help"> / ← → STEP · HOME / END</span>
-        </span>
-        <span>
-          12-DAY NOMINAL{" "}
-          <span className="text-cyan">· {derived ? "DERIVED" : "SAMPLE"}</span>
-        </span>
-      </div>
+      <button
+        className="speed-button"
+        aria-label={`Playback speed ${speed}×. Activate to change.`}
+        onClick={() =>
+          onSpeed(SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length])
+        }
+      >
+        {speed}×
+      </button>
+      <span className="transport-tag">{derived ? "DERIVED" : "SAMPLE DATA"}</span>
     </section>
   );
 }

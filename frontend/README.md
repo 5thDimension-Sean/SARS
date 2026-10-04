@@ -34,6 +34,8 @@ GitHub Pages uses GitHub Actions as its deployment source. The workflow reads th
 - Drag the viewport comparison handle, or focus it and use arrow keys.
 - Toggle change highlights, area boundaries, and the coordinate grid. Zoom, recenter, or expand the viewport; Escape closes the expanded view.
 - Choose HH/HV for backscatter or displacement/wrapped phase for earthquakes. Signal and Acquisition tabs share the selected state.
+- Open the **Learn** tab in the Analysis rail for NASA Earthdata–based SAR fundamentals (active sensing, synthetic aperture, geometry, backscatter, bands, polarization, scattering, moisture, InSAR, speckle/shadow/layover/foreshortening). Content lives in `data/sar-learning.json` and is paraphrased from [NASA Earthdata: What is SAR?](https://www.earthdata.nasa.gov/learn/earth-observation-data-basics/sar); all measurements stay `SAMPLE DATA`.
+- The bottom **transport bar** spaces acquisition ticks by true date, shows the 24-day gap and events, and eases the thumb between stops. Selection is always a discrete acquisition (Left/Right/Home/End, tick click, slider role); only the visual movement, number tweening, chart interpolation and map crossfades are animated, and all are disabled under `prefers-reduced-motion`. The orbit sweep and night-texture drift run only during playback.
 - Select a baseline and acquisition, play the sequence at 0.5×/1×/2×, or use Left/Right and Home/End outside text inputs, sliders, tabs, and menus. Playback pauses at the final acquisition. The 24-day gap contains no invented intermediate pass.
 - At compact widths, open the Layers and Analysis overlays. They trap focus and return focus when closed. Motion follows `prefers-reduced-motion`; chart animations are disabled.
 

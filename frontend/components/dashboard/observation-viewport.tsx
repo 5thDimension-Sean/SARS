@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { ProceduralSurface } from "./procedural-surface";
 import { RasterSurface } from "./raster-surface";
+import { Crossfade } from "./crossfade";
 import type {
   Acquisition,
   Hotspot,
@@ -64,6 +65,7 @@ export function ObservationViewport({
       layer.from === before.date &&
       layer.to === after.date,
   );
+  const phaseEvent = location.events.find((e) => e.date === after.date);
   const showDerivedChange = derived && layers.change && Boolean(changeLayer);
   const dbRange = after.dbRanges?.[polarization] ?? [-30, 0];
   const changeRange = location.changeRangeDb ?? [-6, 6];
@@ -79,6 +81,9 @@ export function ObservationViewport({
     >
       <div className="surface-scene">
         <div className="surface-image" style={{ transform: `scale(${zoom})` }}>
+          <Crossfade
+            phaseKey={`${before.date}/${polarization}/${viewMode}/${layers.change}/${layers.boundaries}`}
+          >
           {derived ? (
             <RasterSurface
               url={before.layerUrls[polarization]}
@@ -97,6 +102,7 @@ export function ObservationViewport({
               viewMode={viewMode}
             />
           )}
+          </Crossfade>
         </div>
         <div
           className="surface-after"
@@ -106,6 +112,9 @@ export function ObservationViewport({
             className="surface-image"
             style={{ transform: `scale(${zoom})` }}
           >
+            <Crossfade
+              phaseKey={`${after.date}/${before.date}/${polarization}/${viewMode}/${layers.change}/${layers.boundaries}`}
+            >
             {derived ? (
               <RasterSurface
                 url={after.layerUrls[polarization]}
@@ -125,6 +134,7 @@ export function ObservationViewport({
                 viewMode={viewMode}
               />
             )}
+            </Crossfade>
           </div>
         </div>
       </div>
@@ -136,6 +146,27 @@ export function ObservationViewport({
         <h1>{location.label}</h1>
         <p>{location.region}</p>
       </div>
+      <svg
+        className="orbit-trace"
+        viewBox="0 0 200 100"
+        preserveAspectRatio="none"
+        aria-hidden
+        data-direction={after.passDirection}
+      >
+        <ellipse cx="100" cy="50" rx="96" ry="38" />
+        <ellipse cx="100" cy="50" rx="96" ry="38" className="orbit-sweep" />
+      </svg>
+      <div className="sweep-pulse" key={`sweep-${after.date}`} aria-hidden />
+      {phaseEvent && (
+        <div
+          className="phase-annotation"
+          data-status={phaseEvent.status}
+          role="status"
+        >
+          ◆ {phaseEvent.label.toUpperCase()} · {displayDate(after.date)} ·{" "}
+          {derived ? "DERIVED" : "SAMPLE DATA"}
+        </div>
+      )}
       <div className="map-placeholder-badge">
         {derived
           ? "GEOGRAPHIC RASTER PREVIEW · MAP PLACEHOLDER"
