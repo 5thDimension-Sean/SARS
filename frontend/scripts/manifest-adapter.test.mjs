@@ -22,6 +22,19 @@ const {
 } = await import(
   `data:text/javascript;base64,${Buffer.from(javascript).toString("base64")}`
 );
+test("pipeline assets use the deployment base path for GitHub Pages", () => {
+  const previous = process.env.NEXT_PUBLIC_BASE_PATH;
+  try {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/SARS";
+    assert.equal(pipelineAssetUrl("T001_F002/1_HV.png"), "/SARS/data/T001_F002/1_HV.png");
+    assert.equal(pipelineAssetUrl("T001_F002/1_HH.tif", "cog", "tif"), "/SARS/data/T001_F002/1_HH.tif");
+    assert.throws(() => pipelineAssetUrl("../outside.png"), /safe relative/);
+  } finally {
+    if (previous === undefined) delete process.env.NEXT_PUBLIC_BASE_PATH;
+    else process.env.NEXT_PUBLIC_BASE_PATH = previous;
+  }
+});
+
 test("only the exact empty sample sentinel bypasses scientific validation", () => {
   assert.equal(
     isSampleManifestSentinel({

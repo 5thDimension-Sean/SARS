@@ -37,7 +37,7 @@ export function MissionBar({
   return (
     <>
       <header className="mission-bar">
-        <a className="brand" href="/" aria-label="SAR-Waltz home">
+        <a className="brand" href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/`} aria-label="SAR-Waltz home">
           <Orbit size={31} aria-hidden />
           <div>
             <strong>

@@ -60,7 +60,7 @@ export function Dashboard() {
     const controller = new AbortController();
     async function loadManifest() {
       try {
-        const response = await fetch("/data/manifest.json", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/data/manifest.json`, {
           signal: controller.signal,
           cache: "no-cache",
         });

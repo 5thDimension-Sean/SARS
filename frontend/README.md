@@ -21,6 +21,12 @@ npm start
 
 The build writes `out/`. `npm start` serves that directory at http://127.0.0.1:5173/. Stop any existing preview before starting another on the same port. No authentication, database, Earthdata credentials, or runtime Python is needed.
 
+## GitHub Pages
+
+The published website is [SAR-Waltz on GitHub Pages](https://5thdimension-sean.github.io/SARS/). The workflow in [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) tests, builds, and deploys the frontend whenever `main` changes. It can also be started manually from the repository's Actions tab.
+
+GitHub Pages uses GitHub Actions as its deployment source. The workflow reads the site's base path from `actions/configure-pages` and passes it as `NEXT_PUBLIC_BASE_PATH` during the build. For this project URL, the value is `/SARS`; Next.js bundles, public assets, and pipeline links use that prefix. Local builds default to the domain root when the variable is unset. Changing the base path requires rebuilding the static output.
+
 ## Explore
 
 - Select Wetland loss, Earthquakes, or Deforestation, then either hotspot.
@@ -39,7 +45,7 @@ All dates, acquisition identifiers, areas, events, values, and rendered textures
 
 `components/dashboard/observation-viewport.tsx` exposes `ObservationViewportProps`. Replace its procedural renderer with a chosen map engine while keeping dashboard components and their state contract intact. No CesiumJS, MapLibre, or deck.gl is installed. The procedural raster cache is bounded to 24 entries; sample surfaces update by acquisition and geographic seed.
 
-The offline [Python pipeline](../pipeline/README.md) writes a manifest, transparent PNG overlays and dB COGs into `public/data/`. On load, the dashboard reads `/data/manifest.json`. The committed file is an explicit empty sample sentinel (`schemaVersion: "1.0"`, `provenance: "sample"`, `frames: []`); processing replaces it with a derived manifest. An absent file also preserves sample mode. Invalid manifests produce a visible warning and preserve the sample dashboard. The adapter validates provenance, dates, bounds, polarizations, 64-bin histograms, finite values, and relative asset paths before rendering. Only the exact empty sample sentinel bypasses derived validation.
+The offline [Python pipeline](../pipeline/README.md) writes a manifest, transparent PNG overlays and dB COGs into `public/data/`. On load, the dashboard reads `data/manifest.json` beneath the configured site base path. The committed file is an explicit empty sample sentinel (`schemaVersion: "1.0"`, `provenance: "sample"`, `frames: []`); processing replaces it with a derived manifest. An absent file also preserves sample mode. Invalid manifests produce a visible warning and preserve the sample dashboard. The adapter validates provenance, dates, bounds, polarizations, 64-bin histograms, finite values, and relative asset paths before rendering. Only the exact empty sample sentinel bypasses derived validation.
 
 A loaded manifest adds a distinct **Processed GCOV** category. Its `DERIVED GCOV` badge, source metadata, geographic bounds, fixed display ranges, and histogram statistics stay separate from the illustrative wetland, forest, and earthquake categories. GCOV data is never presented as proven land loss or earthquake displacement. The primary derived metric is the difference of the valid reduced-raster mean dB values. If raster statistics are missing, it uses an explicitly labeled histogram-bin approximation of in-range pixels; unavailable means display `N/A`.
 

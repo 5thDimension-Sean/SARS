@@ -85,7 +85,7 @@ export function pipelineAssetUrl(
     !s.toLowerCase().endsWith(`.${extension}`)
   )
     fail(path, `expected a safe relative .${extension} asset path`);
-  return `/data/${s}`;
+  return `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/data/${s}`;
 }
 
 /** The committed empty sentinel describes the shipped sample mode only. */
