@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight, Orbit, Satellite, ScanLine, HeartHandshake, ShieldCheck, ArrowRight } from "lucide-react";
 import { CompetitionShell, siteHref } from "@/components/site-navigation";
 import { studySites } from "@/lib/study-sites";
-import { SampleSignalInstrument } from "@/components/sample-signal-instrument";
+import { SampleMapTour } from "@/components/sample-map-tour";
 import { RadarFeatureTour } from "@/components/radar-feature-tour";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function Home() {
         </div>
         <p className="story-data-note"><ShieldCheck size={15}/> Fictional demo measurements are explicitly marked SAMPLE. Verified processed observations are labeled DERIVED.</p>
       </div>
-      <SampleSignalInstrument />
+      <SampleMapTour />
     </section>
 
     <section className="story-section story-why" data-reveal>
