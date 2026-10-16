@@ -117,6 +117,22 @@ export function Dashboard() {
     },
     [data],
   );
+  // Deep-link from the five study pages. Use only known hotspot IDs from the dataset.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("hotspot");
+    if (!requested) return;
+    for (let pi = 0; pi < data.phenomena.length; pi++) {
+      const li = data.phenomena[pi].locations.findIndex((l) => l.id === requested);
+      if (li < 0) continue;
+      const chosen = data.phenomena[pi].locations[li];
+      setPhenomenon(pi);
+      setLocation(li);
+      setIndex(chosen.acquisitions.length - 1);
+      setBaseline(chosen.provenance === "derived" ? Math.max(0, chosen.acquisitions.length - 2) : 0);
+      setPlaying(false);
+      break;
+    }
+  }, [data]);
   const changeIndex = useCallback((i: number) => {
     setIndex(i);
     setBaseline((b) => Math.min(b, i));
