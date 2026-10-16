@@ -1,0 +1,10 @@
+import { CompetitionShell, siteHref } from "@/components/site-navigation";
+export const metadata={title:"The science | SAR-Waltz"};
+const science=[
+  {title:"What is synthetic aperture radar?",body:"SAR sends microwave pulses to observe Earth's surface. Unlike optical sensors, it can acquire scenes at night and through many clouds. Radar response depends on moisture, roughness, vegetation, and viewing geometry."},
+  {title:"What are HH and HV?",body:"HH means horizontal transmission and reception. HV means horizontal transmission and vertical reception. Each polarization provides different information about how the surface scatters radar."},
+  {title:"What does a backscatter difference mean?",body:"A GCOV intensity change means a radar response changed. It is not automatically flooding, deforestation, or habitat loss. Examine acquisition conditions and compare with independent evidence."},
+  {title:"How can radar help study faults?",body:"Interferometric phase and line-of-sight displacement need suitable interferometric products, such as GUNW. GCOV intensity by itself does not measure ground displacement."},
+  {title:"Why does provenance matter?",body:"SAR-Waltz differentiates SAMPLE simulations from DERIVED products. Reliable interpretation depends on masks, calibration maturity, acquisition geometry, temporal gaps, and processing notes."}
+];
+export default function Learn(){return <CompetitionShell><section className="competition-page-intro"><p className="story-eyebrow">SCIENCE FIELD GUIDE</p><h1>What are we really seeing?</h1><p>Five essentials for investigating the planet with radar rather than mistaking a beautiful image for a verified answer.</p></section><div className="competition-lessons">{science.map((x,i)=><article className="competition-lesson" key={x.title}><span>{String(i+1).padStart(2,"0")}</span><div><h2>{x.title}</h2><p>{x.body}</p></div></article>)}</div><section className="story-finale"><h2>Explore a radar investigation.</h2><a className="story-btn story-btn-primary" href={siteHref("/explore/")}>Open the workspace →</a></section></CompetitionShell>}
