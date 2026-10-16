@@ -4,6 +4,8 @@ const pages = [
   { label: "Home", path: "/" },
   { label: "Five studies", path: "/#locations" },
   { label: "Explore", path: "/explore/" },
+  { label: "Map tools", path: "/map/" },
+  { label: "Disasters", path: "/disasters/" },
   { label: "Science", path: "/learn/" },
   { label: "Our team", path: "/#team" },
 ];
