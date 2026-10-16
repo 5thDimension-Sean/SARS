@@ -3,6 +3,7 @@ import { ArrowUpRight, Orbit, Satellite, ScanLine, HeartHandshake, ShieldCheck, 
 import { CompetitionShell, siteHref } from "@/components/site-navigation";
 import { studySites } from "@/lib/study-sites";
 import { SampleSignalInstrument } from "@/components/sample-signal-instrument";
+import { RadarFeatureTour } from "@/components/radar-feature-tour";
 
 export const metadata: Metadata = {
   title: "SAR-Waltz | Earth's stories, revealed by radar",
@@ -40,17 +41,9 @@ export default function Home() {
       </div>
     </section>
 
-    <section className="story-section story-method" data-reveal>
-      <div><p className="story-eyebrow">03 / SCIENCE MEETS DESIGN</p><h2>Powerful tools.<br />Understandable evidence.</h2><p>Explore the signal, annotate geographic regions, and communicate both findings and uncertainty. Our workflow is designed around real observation metadata, even when demonstrating with sample data.</p><a className="story-text-link" href={siteHref("/explore/")}>Explore the analysis workspace <ArrowRight size={17}/></a></div>
-      <div className="story-method-steps">
-        <article><Satellite/><div><h3>Observe</h3><p>Find a location and understand its SAR acquisitions and product types.</p></div></article>
-        <article><ScanLine/><div><h3>Compare</h3><p>Explore signal differences through a timeline, before/after view, and charts.</p></div></article>
-        <article><ShieldCheck/><div><h3>Question</h3><p>Check provenance, valid data, limitations, and alternative explanations.</p></div></article>
-        <article><HeartHandshake/><div><h3>Connect</h3><p>Explain why a scientific observation could matter beyond the pixels.</p></div></article>
-      </div>
-    </section>
+    <RadarFeatureTour />
 
-    <section className="story-section story-why">
+    <section className="story-section story-why" data-reveal>
       <div><p className="story-eyebrow">04 / HAZARD EXPLAINERS</p><h2>Before. During. After.</h2><p className="story-prose">Explore how investigators might use radar before, during, and after floods, earthquakes, and forest disturbances—with clear scientific limitations.</p></div>
       <div className="story-method-steps"><article><ShieldCheck/><div><h3>Disaster investigation playbooks</h3><p>Scientific questions, radar observations, and what each sensor cannot establish.</p><a className="story-text-link" href={siteHref("/disasters/")}>Explore disasters <ArrowRight size={17}/></a></div></article>
       <article><ScanLine/><div><h3>Interactive geographic toolbox</h3><p>Inspect a real geographic map, mark areas, measure distances, and export annotations.</p><a className="story-text-link" href={siteHref("/map/")}>Open map laboratory <ArrowRight size={17}/></a></div></article></div>
