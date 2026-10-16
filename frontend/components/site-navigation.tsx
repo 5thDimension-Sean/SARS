@@ -1,4 +1,5 @@
-import { Orbit } from "lucide-react";
+import { RadarBrand } from "@/components/radar-brand";
+import { MotionReveal } from "@/components/motion-reveal";
 
 const pages = [
   { label: "Home", path: "/" },
@@ -30,11 +31,12 @@ export function CompetitionShell({ children }: { children: React.ReactNode }) {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="competition-header">
         <a href={siteHref("/")} className="competition-brand" aria-label="SAR-Waltz home">
-          <Orbit size={28} aria-hidden="true" />
+          <RadarBrand size={39} />
           <span><strong>SAR-Waltz</strong><small>EARTH OBSERVATION CONSOLE</small></span>
         </a>
         <SiteNavigation />
       </header>
+      <MotionReveal />
       <main id="main-content" className="competition-content">{children}</main>
       <footer className="competition-footer">
         <span>NASA Space Apps · Dancing with SARs</span>
