@@ -52,8 +52,13 @@ export default function Home() {
       </div>
     </section>
 
+    <section className="story-section story-why">
+      <div><p className="story-eyebrow">04 / HAZARD EXPLAINERS</p><h2>Before. During. After.</h2><p className="story-prose">Explore how investigators might use radar before, during, and after floods, earthquakes, and forest disturbances—with clear scientific limitations.</p></div>
+      <div className="story-method-steps"><article><ShieldCheck/><div><h3>Disaster investigation playbooks</h3><p>Scientific questions, radar observations, and what each sensor cannot establish.</p><a className="story-text-link" href={siteHref("/disasters/")}>Explore disasters <ArrowRight size={17}/></a></div></article>
+      <article><ScanLine/><div><h3>Interactive geographic toolbox</h3><p>Inspect a real geographic map, mark areas, measure distances, and export annotations.</p><a className="story-text-link" href={siteHref("/map/")}>Open map laboratory <ArrowRight size={17}/></a></div></article></div>
+    </section>
     <section className="story-section story-team" id="team">
-      <p className="story-eyebrow">04 / MEET THE TEAM</p>
+      <p className="story-eyebrow">05 / MEET THE TEAM</p>
       <h2>Built by two curious problem-solvers.</h2>
       <p className="story-team-intro">We believe powerful Earth-observation tools should be understandable, engaging, and scientifically honest. Our project combines software engineering, data exploration, and a shared curiosity about our changing planet.</p>
       <div className="story-team-grid">
