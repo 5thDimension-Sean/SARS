@@ -2,11 +2,10 @@ import { Orbit } from "lucide-react";
 
 const pages = [
   { label: "Home", path: "/" },
+  { label: "Five studies", path: "/#locations" },
   { label: "Explore", path: "/explore/" },
-  { label: "Compare", path: "/compare/" },
-  { label: "Locations", path: "/locations/" },
-  { label: "Learn", path: "/learn/" },
-  { label: "About", path: "/about/" },
+  { label: "Science", path: "/learn/" },
+  { label: "Our team", path: "/#team" },
 ];
 
 export function siteHref(path: string) {
