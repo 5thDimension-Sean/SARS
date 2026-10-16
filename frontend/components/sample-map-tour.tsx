@@ -10,7 +10,7 @@ import {siteHref} from "@/components/site-navigation";
 const dataset=sampleData as DashboardDataset;
 const everglades=dataset.phenomena.flatMap(p=>p.locations).find(h=>h.id==="W-01");
 const dates=everglades?.acquisitions.map(a=>a.date)??[];
-const A:[number,number]=[117,148],B:[399,77],C:[530,240],D:[248,329];
+const A:[number,number]=[117,148],B:[number,number]=[399,77],C:[number,number]=[530,240],D:[number,number]=[248,329];
 
 /** Regular geometry, not a geographic raster, terrain model, or measured land cover. */
 function surface(u:number,v:number):[number,number] {
@@ -100,7 +100,7 @@ function WireframeLandscape({index}:{index:number}) {
         <circle cx={point[0]} cy={point[1]} r="4.3" fill="#b9fff1"/>
         <path d={"M"+point[0]+" "+point[1]+" L498 93 L570 93"} fill="none" stroke="#b2e6db" strokeWidth="1.2" className="wire-draw wire-callout" pathLength="1"/>
         <rect x="521" y="74" width="46" height="16" rx="2" fill="#0c2027" stroke="#659c9c" strokeWidth=".6"/>
-        <text x="544" y="85.4" fontSize="9.4" textAnchor="middle" fill="#c2fff1" fontFamily="monospace" letterSpacing="1">{"0"+step.id==="010"?"10":String(step.id).padStart(2,"0")}</text>
+        <text x="544" y="85.4" fontSize="9.4" textAnchor="middle" fill="#c2fff1" fontFamily="monospace" letterSpacing="1">{String(step.id).padStart(2,"0")}</text>
         <text x="501" y="70" fontSize="8" fill="#9dc4cb" fontFamily="monospace">ACTIVE</text>
       </g>
       <text x="90" y="411" fill="#73959e" fontSize="9" fontFamily="monospace">ILLUSTRATIVE MODEL / NOT A MAP PRODUCT</text>
