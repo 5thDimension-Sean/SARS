@@ -25,7 +25,7 @@ type Entry={phenomenon:string;hotspot:Hotspot};
 function saveFile(filename:string,data:string,kind:string){
   const url=URL.createObjectURL(new Blob([data],{type:kind}));
   const link=document.createElement("a");
-  link.href=url;link.download=filename;document.body.append(link);link.click();link.remove();
+  link.href=url;link.download=filename;document.body.appendChild(link);link.click();link.remove();
   window.setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 export function GeospatialWorkspace(){
@@ -60,7 +60,7 @@ export function GeospatialWorkspace(){
     setAnnotations(old=>[...old,{id:createId(),kind,points,label:kind==="note"?"Observation note":kind+" "+(old.length+1)}]);
     setMessage("Unsaved annotations");
   }
-  modeRef.current=mode;onCommit.current=commit;
+  useEffect(()=>{modeRef.current=mode;onCommit.current=commit;});
   useEffect(()=>{
     const params=new URLSearchParams(window.location.search);
     const id=params.get("hotspot");
