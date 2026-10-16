@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowUpRight, Orbit, Satellite, ScanLine, HeartHandshake, ShieldCheck, ArrowRight } from "lucide-react";
 import { CompetitionShell, siteHref } from "@/components/site-navigation";
 import { studySites } from "@/lib/study-sites";
@@ -53,10 +54,10 @@ export default function Home() {
       <h2>Built by two curious problem-solvers.</h2>
       <p className="story-team-intro">We believe powerful Earth-observation tools should be understandable, engaging, and scientifically honest. Our project combines software engineering, data exploration, and a shared curiosity about our changing planet.</p>
       <div className="story-team-grid">
-        <article><div className="story-avatar"><span>RZ</span></div><div><p className="story-tag">CO-CREATOR · WINSTON CHURCHILL HIGH SCHOOL</p><h3>Roger Zhang</h3><p>I&apos;m a sophomore at Winston Churchill High School who enjoys turning creative ideas into practical technology. Through VEX Robotics and tennis, I&apos;ve developed a passion for teamwork, problem-solving, and challenging myself. For SAR-Waltz, I contributed to project design, research, user experience, and engineering.</p></div></article>
+        <article><div className="story-avatar story-avatar-photo"><Image src={siteHref("/team/roger.webp")} alt="Roger Zhang in Washington, D.C." width={190} height={238} unoptimized loading="lazy" /></div><div><p className="story-tag">CO-CREATOR · WINSTON CHURCHILL HIGH SCHOOL</p><h3>Roger Zhang</h3><p>I&apos;m a sophomore at Winston Churchill High School who enjoys turning creative ideas into practical technology. Through VEX Robotics and tennis, I&apos;ve developed a passion for teamwork, problem-solving, and challenging myself. For SAR-Waltz, I contributed to project design, research, user experience, and engineering.</p></div></article>
         <article><div className="story-avatar"><span>S</span></div><div><p className="story-tag">CO-CREATOR · MONTGOMERY BLAIR HIGH SCHOOL</p><h3>Sean</h3><p>Sean is a student at Montgomery Blair High School and a co-creator of SAR-Waltz, helping build a project that makes satellite radar exploration more accessible.</p></div></article>
       </div>
-      <p className="story-edit-note">Team photos and further details about Sean can be added before the final submission.</p>
+      <p className="story-edit-note">Additional details and a photo for Sean can be added before the final submission.</p>
     </section>
 
     <section className="story-finale" data-reveal><p className="story-eyebrow">THE NEXT QUESTION IS YOURS</p><h2>Don't just view the Earth.<br />Investigate it.</h2><a className="story-btn story-btn-primary" href={siteHref("/studies/everglades/")}>Explore the first story <ArrowRight size={17}/></a></section>
