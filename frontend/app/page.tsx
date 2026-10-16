@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight, Orbit, Satellite, ScanLine, HeartHandshake, ShieldCheck, ArrowRight } from "lucide-react";
 import { CompetitionShell, siteHref } from "@/components/site-navigation";
 import { studySites } from "@/lib/study-sites";
+import { SampleSignalInstrument } from "@/components/sample-signal-instrument";
 
 export const metadata: Metadata = {
   title: "SAR-Waltz | Earth's stories, revealed by radar",
@@ -21,18 +22,15 @@ export default function Home() {
         </div>
         <p className="story-data-note"><ShieldCheck size={15}/> Fictional demo measurements are explicitly marked SAMPLE. Verified processed observations are labeled DERIVED.</p>
       </div>
-      <div className="story-orbit-scene" aria-label="Abstract graphic representing radar scanning a planet; artistic illustration" role="img">
-        <span className="story-orbit-one"/><span className="story-orbit-two"/><span className="story-planet"/>
-        <span className="story-orbit-caption">OBSERVE · COMPARE · QUESTION</span>
-      </div>
+      <SampleSignalInstrument />
     </section>
 
-    <section className="story-section story-why">
+    <section className="story-section story-why" data-reveal>
       <div><p className="story-eyebrow">01 / WHY WE BUILT THIS</p><h2>Invisible signals.<br />Human consequences.</h2></div>
       <div className="story-prose"><p>When a wetland floods, a forest is disturbed, or the ground shifts, the impact is bigger than a change in an image. These environments touch wildlife, communities, and the places we call home.</p><p>Radar can revisit locations even when cloud cover makes optical observation difficult. But a radar change is a clue, not automatically a conclusion. We built SAR-Waltz to make that distinction visible.</p></div>
     </section>
 
-    <section className="story-section" id="locations">
+    <section className="story-section" id="locations" data-reveal>
       <div className="story-section-head"><div><p className="story-eyebrow">02 / FIVE LOCATIONS</p><h2>Five places. Five questions.</h2></div><p>Every study starts with a human question, then opens the science behind the signal.</p></div>
       <div className="story-study-grid">
         {studySites.map((site,i)=><a key={site.slug} className={"story-study-card story-theme-"+site.theme} href={siteHref("/studies/"+site.slug+"/")}>
@@ -42,7 +40,7 @@ export default function Home() {
       </div>
     </section>
 
-    <section className="story-section story-method">
+    <section className="story-section story-method" data-reveal>
       <div><p className="story-eyebrow">03 / SCIENCE MEETS DESIGN</p><h2>Powerful tools.<br />Understandable evidence.</h2><p>Explore the signal, annotate geographic regions, and communicate both findings and uncertainty. Our workflow is designed around real observation metadata, even when demonstrating with sample data.</p><a className="story-text-link" href={siteHref("/explore/")}>Explore the analysis workspace <ArrowRight size={17}/></a></div>
       <div className="story-method-steps">
         <article><Satellite/><div><h3>Observe</h3><p>Find a location and understand its SAR acquisitions and product types.</p></div></article>
@@ -57,7 +55,7 @@ export default function Home() {
       <div className="story-method-steps"><article><ShieldCheck/><div><h3>Disaster investigation playbooks</h3><p>Scientific questions, radar observations, and what each sensor cannot establish.</p><a className="story-text-link" href={siteHref("/disasters/")}>Explore disasters <ArrowRight size={17}/></a></div></article>
       <article><ScanLine/><div><h3>Interactive geographic toolbox</h3><p>Inspect a real geographic map, mark areas, measure distances, and export annotations.</p><a className="story-text-link" href={siteHref("/map/")}>Open map laboratory <ArrowRight size={17}/></a></div></article></div>
     </section>
-    <section className="story-section story-team" id="team">
+    <section className="story-section story-team" id="team" data-reveal>
       <p className="story-eyebrow">05 / MEET THE TEAM</p>
       <h2>Built by two curious problem-solvers.</h2>
       <p className="story-team-intro">We believe powerful Earth-observation tools should be understandable, engaging, and scientifically honest. Our project combines software engineering, data exploration, and a shared curiosity about our changing planet.</p>
@@ -68,6 +66,6 @@ export default function Home() {
       <p className="story-edit-note">Team photos and further details about Sean can be added before the final submission.</p>
     </section>
 
-    <section className="story-finale"><p className="story-eyebrow">THE NEXT QUESTION IS YOURS</p><h2>Don't just view the Earth.<br />Investigate it.</h2><a className="story-btn story-btn-primary" href={siteHref("/studies/everglades/")}>Explore the first story <ArrowRight size={17}/></a></section>
+    <section className="story-finale" data-reveal><p className="story-eyebrow">THE NEXT QUESTION IS YOURS</p><h2>Don't just view the Earth.<br />Investigate it.</h2><a className="story-btn story-btn-primary" href={siteHref("/studies/everglades/")}>Explore the first story <ArrowRight size={17}/></a></section>
   </CompetitionShell>;
 }
