@@ -2506,3 +2506,73 @@ input:focus-visible,
 @media(max-width:950px){.feature-tour{padding-top:75px;padding-bottom:70px}.feature-tour-grid{grid-template-columns:1fr;gap:15px}.feature-tour-sticky{position:relative;top:auto;grid-row:1}.feature-tour-step{min-height:0;padding:25px 0 42px}.feature-tour-step:last-child{min-height:0}.feature-step-details{margin-top:20px}.feature-tour-intro{margin-bottom:25px}.feature-graphic{height:310px}}
 @media(max-width:550px){.feature-graphic{height:260px}.feature-tour-intro h2{letter-spacing:-2px}.feature-tour-scene{padding:15px 13px 0}.feature-tour-topline,.feature-tour-footer{font-size:8px;padding:15px 13px}.feature-tour-annotation{padding:15px}}
 @media(prefers-reduced-motion:reduce){.feature-tour-stage{animation:none}.feature-tour-step{transition:none}.feature-progress i{transition:none}}
+
+/* Ten-step original rotating radar map schematic. All geometry illustrative. */
+.sample-map-tour{width:100%;max-width:730px;min-width:0;margin:0 auto;color:#e3eced;background:#070b11;border:1px solid #334047;border-radius:11px;overflow:hidden;box-shadow:0 25px 90px #000a,0 0 65px #4b8d9b16;isolation:isolate}
+.sample-map-tour-header{display:flex;gap:12px;align-items:center;justify-content:space-between;min-height:47px;padding:11px 18px;border-bottom:1px solid #243037;font:9px ui-monospace,Consolas,monospace;letter-spacing:1px;color:#9eb4c1}
+.sample-map-tour-heading{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.sample-map-tour-led{display:block;width:7px;height:7px;background:#74d8d3;border-radius:50%;box-shadow:0 0 16px #8debd7}
+.sample-map-tour-data{color:#edc18d;white-space:nowrap}
+.sample-map-tour-layout{display:grid;grid-template-columns:minmax(0,1fr) 151px;gap:0;height:388px;background:radial-gradient(ellipse at 35% 35%,#101d26,#050912 72%);border-bottom:1px solid #26343d}
+.sample-map-canvas{position:relative;min-width:0;overflow:hidden}
+.sample-map-canvas:before{content:"";position:absolute;inset:0;background:linear-gradient(#799ca708 1px,transparent 1px),linear-gradient(90deg,#799ca708 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse at center,#000,transparent 75%);pointer-events:none}
+.sample-map-canvas-label{position:absolute;top:16px;left:18px;color:#9ab5bc;z-index:3;font:8px ui-monospace,monospace;letter-spacing:1.4px}
+.sample-map-coordinate{position:absolute;left:18px;bottom:16px;font:9px ui-monospace,monospace;color:#b5d5db;z-index:3}
+.sample-map-orientation{position:absolute;right:12px;bottom:16px;font:9px ui-monospace,monospace;color:#9dc2ca;z-index:3}
+.sample-wireframe-perspective{position:absolute;inset:4% -10% -2% -12%;display:grid;place-items:center;transform-origin:52% 50%;transform:perspective(1100px) rotateX(2deg) rotateZ(var(--map-turn));animation:tour-map-arrival 2.1s cubic-bezier(.22,1,.36,1) both}
+.sample-wireframe-svg{width:100%;height:100%;max-height:460px;overflow:visible;filter:drop-shadow(0 15px 12px #0008)}
+.wire-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:tour-line-draw 2.6s cubic-bezier(.22,.6,.3,1) forwards}
+.wire-delay-0{animation-delay:.1s}.wire-delay-1{animation-delay:.36s}.wire-delay-2{animation-delay:.61s}
+.wire-grid{animation-delay:.55s;animation-duration:2.3s}
+.wire-contour{animation-duration:2.5s}
+.wire-channel{animation-duration:2.8s}
+.wire-map-feature{opacity:.24;transition:opacity .6s}
+.wire-map-feature.is-focused{opacity:1}
+.wire-map-feature:not(.is-focused) .wire-draw{animation-delay:1.2s}
+.wire-patch{animation-delay:1s;animation-duration:2.2s}
+.wireframe-callout{animation:tour-callout-in 1.05s 1.4s both}
+.wire-callout{animation-duration:1.35s;animation-delay:1.3s}
+.wire-pulse{transform-box:fill-box;transform-origin:center;animation:tour-pulse 3s ease-in-out infinite}
+.wire-highlight-region{animation:tour-callout-in .7s 1.1s both}
+.wire-transect{animation:tour-callout-in .7s 1.2s both}
+.sample-map-tour-list{min-width:0;border-left:1px solid #25333d;padding:16px 10px 10px;background:#060c14bb;display:flex;flex-direction:column}
+.sample-map-tour-list>p{font:9px ui-monospace,monospace;letter-spacing:1.3px;color:#c4d3dd;margin:0 0 16px 4px}
+.sample-map-tour-list-scroll{display:grid;grid-template-rows:repeat(10,minmax(0,1fr));gap:3px;min-height:0;flex:1}
+.sample-map-tour-list button{display:flex;gap:9px;align-items:center;text-align:left;min-width:0;padding:5px 4px;border-radius:2px;border-left:2px solid transparent;color:#8297a5;transition:color .2s,background .2s,border-color .2s}
+.sample-map-tour-list button>span:first-child{font:10px ui-monospace,monospace;opacity:.65}
+.sample-map-tour-list button>span:last-child{font:10px ui-monospace,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sample-map-tour-list button.active{color:#e0f0f3;border-left-color:#89d7e1;background:#1b35405e}
+.sample-map-tour-list button.active>span:first-child{color:#8fcfee;opacity:1}
+.sample-map-tour-list button:hover{color:#f1fafc}
+.sample-map-tour-description{padding:17px 24px 17px;min-height:207px;animation:tour-card-arrival .7s cubic-bezier(.22,1,.36,1) both}
+.sample-map-tour-meta{display:flex;align-items:center;justify-content:space-between;gap:14px;color:#7fc6e9;font:10px ui-monospace,monospace;letter-spacing:1.05px}
+.sample-map-tour-meta span:first-child{font-size:12px;font-weight:700}
+.sample-map-tour-meta i{color:#677e94;font-style:normal}
+.sample-map-tour-meta span:last-child{font-size:9px;color:#a1b8c5;text-align:right}
+.sample-map-tour-description h2{font-size:clamp(17px,1.55vw,23px);letter-spacing:-.4px;line-height:1.24;margin:12px 0 8px;font-weight:600;color:#f4f7fa}
+.sample-map-tour-description>p{font-size:11px;line-height:1.55;color:#bbc8d3;margin:0;min-height:48px}
+.sample-map-tour-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
+.sample-map-tour-tags span{display:inline-block;padding:4px 7px;border:1px solid #394451;border-radius:5px;color:#c5d4df;font:9px ui-monospace,monospace}
+.sample-map-tour-insight{font-size:10px;color:#efcda5;line-height:1.5;margin-top:8px}
+.sample-map-tour-bottom{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 18px 12px;border-top:1px solid #1d2c34}
+.sample-map-tour-transport{display:flex;align-items:center;gap:9px}
+.sample-map-tour-transport button{width:27px;height:27px;display:grid;place-items:center;border-radius:3px;border:1px solid #334a55;color:#bcd6da;background:#15232b}
+.sample-map-tour-transport button:hover{border-color:#90d7dc;background:#203943}
+.sample-map-tour-transport span{color:#92a8b9;font:9px ui-monospace,monospace;margin-left:3px}
+.sample-map-tour-bottom>a{display:flex;align-items:center;gap:6px;color:#b8f5e8;font:10px ui-monospace,monospace;text-decoration:none}
+.sample-map-progress{height:3px;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:2px;background:#070b10}
+.sample-map-progress button{padding:0;overflow:hidden;background:#20333e;position:relative;height:3px}
+.sample-map-progress button>span{position:absolute;left:0;top:0;bottom:0;width:0;background:#82dbe0}
+.sample-map-progress button.active>span{width:100%}
+.sample-map-progress button.active>span.is-running{animation:tour-step-progress 15s linear both}
+.sample-map-tour-footnote{display:flex;gap:7px;align-items:center;justify-content:space-between;padding:10px 18px;flex-wrap:wrap;color:#728d99;font:8px ui-monospace,monospace;letter-spacing:.2px}
+.sample-map-tour-footnote svg{flex:none}
+@keyframes tour-map-arrival{from{opacity:.45;transform:perspective(1100px) rotateX(9deg) rotateZ(calc(var(--map-turn) - 7deg)) scale(.96)}to{opacity:1;transform:perspective(1100px) rotateX(2deg) rotateZ(var(--map-turn)) scale(1)}}
+@keyframes tour-line-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes tour-callout-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tour-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.6)}}
+@keyframes tour-card-arrival{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tour-step-progress{from{width:0}to{width:100%}}
+@media(max-width:1100px){.sample-map-tour{max-width:750px}.sample-map-tour-layout{height:410px}.sample-map-tour-description{min-height:195px}.sample-map-tour-description h2{font-size:22px}}
+@media(max-width:620px){.sample-map-tour-layout{grid-template-columns:1fr;height:auto}.sample-map-canvas{height:320px}.sample-map-tour-list{border-left:0;border-top:1px solid #25333d;padding:12px}.sample-map-tour-list>p{margin-bottom:8px}.sample-map-tour-list-scroll{grid-template-rows:repeat(2,32px);grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}.sample-map-tour-list button{gap:4px;padding:4px 2px}.sample-map-tour-list button>span:last-child{font-size:8px;white-space:normal;line-height:1.2}.sample-map-tour-list button>span:first-child{font-size:8px}.sample-map-tour-description{min-height:230px;padding:16px}.sample-map-tour-meta{gap:10px}.sample-map-tour-meta span:last-child{font-size:8px}.sample-map-tour-footnote>span{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){.sample-wireframe-perspective,.wire-draw,.wireframe-callout,.wire-pulse,.wire-highlight-region,.wire-transect,.sample-map-tour-description,.sample-map-progress button.active>span.is-running{animation:none!important}.wire-draw{stroke-dashoffset:0!important}.sample-map-progress button.active>span{width:100%}.wire-map-feature{transition:none!important}}
