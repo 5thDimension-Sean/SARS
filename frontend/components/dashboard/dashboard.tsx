@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef, type CSSProperties } from "react";
 import { Layers, ChartNoAxesCombined, Satellite } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import {
@@ -34,6 +34,13 @@ export function Dashboard() {
   const [data, setData] = useState<DashboardDataset>(sampleData);
   const [manifestError, setManifestError] = useState<string | null>(null);
   const panelTrigger = useRef<HTMLButtonElement | null>(null);
+  const [leftWidth,setLeftWidth]=useState<number|null>(null);
+  const [rightWidth,setRightWidth]=useState<number|null>(null);
+  const [layoutVersion,setLayoutVersion]=useState(0);
+  const layoutStyle={
+    "--left-pane-width":leftWidth===null?undefined:leftWidth+"px",
+    "--right-pane-width":rightWidth===null?undefined:rightWidth+"px",
+  } as CSSProperties;
   const [phenomenonIndex, setPhenomenon] = useState(0),
     [locationIndex, setLocation] = useState(0),
     [index, setIndex] = useState(6),
@@ -257,15 +264,16 @@ export function Dashboard() {
       />
       <SidebarProvider
         className={`workspace min-h-0 ${collapsed ? "rail-collapsed" : ""}`}
+        style={layoutStyle}
       >
-        <ShrinkablePanel className="workspace-left-pane" minWidth={145} minHeight={280}>
+        <ShrinkablePanel className="workspace-left-pane" minWidth={145} minHeight={280} dockToGrid onWidthChange={width=>{setLeftWidth(width);setLayoutVersion(v=>v+1);}}>
         <ObservationRail
           {...railProps}
           collapsed={collapsed}
           onCollapse={() => setCollapsed((v) => !v)}
         />
         </ShrinkablePanel>
-        <ShrinkablePanel className="workspace-center-pane" minWidth={440} minHeight={410}>
+        <ShrinkablePanel className="workspace-center-pane" minWidth={440} minHeight={410} fillAvailableWidth fillVersion={layoutVersion}>
         <section
           className="viewport-column"
           id="observation-view"
@@ -327,7 +335,7 @@ export function Dashboard() {
           </ObservationViewport>
         </section>
         </ShrinkablePanel>
-        <ShrinkablePanel className="workspace-right-pane" minWidth={180} minHeight={290}>
+        <ShrinkablePanel className="workspace-right-pane" minWidth={180} minHeight={290} dockToGrid onWidthChange={width=>{setRightWidth(width);setLayoutVersion(v=>v+1);}}>
           <AnalysisRail {...analysisProps} />
         </ShrinkablePanel>
       </SidebarProvider>
