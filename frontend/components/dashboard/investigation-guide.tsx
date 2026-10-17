@@ -1,6 +1,6 @@
 "use client";
 import {useState} from "react";
-import {ArrowUpRight,FileDown,MapPin,ScanSearch,ShieldCheck,BookOpen,FileText} from "lucide-react";
+import {ArrowUpRight,FileDown,MapPin,ScanSearch,ShieldCheck,BookOpen,FileText,ChevronDown} from "lucide-react";
 import {Dialog,DialogContent,DialogTitle,DialogDescription} from "@/components/ui/dialog";
 import {siteHref} from "@/components/site-navigation";
 import type {InvestigationSnapshot} from "@/lib/investigation-report";
@@ -14,6 +14,7 @@ export function InvestigationGuide({
   comparePreset:(kind:"first"|"previous")=>void;
 }){
   const [detailsOpen,setDetailsOpen]=useState(false);
+  const [expanded,setExpanded]=useState(false);
   const isSample=snapshot.provenance==="SAMPLE";
   function saveNote(){
     const file=new Blob([snapshot.report+"\n"],{type:"text/plain;charset=utf-8"});
@@ -28,9 +29,14 @@ export function InvestigationGuide({
   return <>
     <section className="investigation-guide" aria-label="Earth change investigation findings">
       <div className="investigation-guide-top">
-        <div><span className="investigation-guide-kicker">FIELD INVESTIGATION / THREE QUESTIONS</span><strong>What can the radar actually tell us?</strong></div>
+        <button className="investigation-toggle" type="button" aria-expanded={expanded} aria-controls="investigation-explanation" onClick={()=>setExpanded(open=>!open)}>
+          <span className="investigation-guide-kicker">FIELD INVESTIGATION / THREE QUESTIONS</span>
+          <strong>What can the radar actually tell us?</strong>
+          <ChevronDown size={17} className={expanded?"is-open":""} aria-hidden="true"/>
+        </button>
         <span className={"investigation-source"+(isSample?"":" is-derived")}>{isSample?"SAMPLE · NOT OBSERVED":"DERIVED RADAR · NOT VALIDATED CAUSE"}</span>
       </div>
+      {expanded&&<div id="investigation-explanation" className="investigation-expanded">
       <div className="investigation-questions">
         <article className="investigation-question">
           <div className="investigation-question-label"><MapPin size={15} aria-hidden="true"/><span>01 / WHERE</span></div>
@@ -57,7 +63,13 @@ export function InvestigationGuide({
           <a href={siteHref("/map/?hotspot="+encodeURIComponent(hotspotId))} className="investigation-map-link">View geography <ArrowUpRight size={14} aria-hidden="true"/></a>
         </div>
       </div>
+      <div className="investigation-glossary">
+        <p><strong>Backscatter</strong> is radar energy returned to the sensor. A brighter or darker pixel reflects a different signal, not necessarily damage.</p>
+        <p><strong>HH / HV</strong> are different ways radar sends and receives waves. Comparing them can reveal different surface structures.</p>
+        <p><strong>Change overlay</strong> compares matching dates. Only a processed, date-matched difference is real evidence; causes still need validation.</p>
+      </div>
       {snapshot.warnings.length>0&&<p className="investigation-warning" role="status">Processing caution: {snapshot.warnings.length} warning(s) in source metadata. Open Evidence note.</p>}
+      </div>}
     </section>
     <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
       <DialogContent className="investigation-dialog" aria-describedby="investigation-dialog-description">

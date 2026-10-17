@@ -15,6 +15,7 @@ import { ObservationViewport } from "./observation-viewport";
 import { AnalysisRail } from "./analysis-rail";
 import { TimelinePanel } from "./timeline-panel";
 import {InvestigationGuide} from "./investigation-guide";
+import {ShrinkablePanel} from "./shrinkable-panel";
 import {buildInvestigationSnapshot} from "@/lib/investigation-report";
 import rawData from "@/data/sample-data.json";
 import type {
@@ -257,11 +258,14 @@ export function Dashboard() {
       <SidebarProvider
         className={`workspace min-h-0 ${collapsed ? "rail-collapsed" : ""}`}
       >
+        <ShrinkablePanel className="workspace-left-pane" minWidth={145} minHeight={280}>
         <ObservationRail
           {...railProps}
           collapsed={collapsed}
           onCollapse={() => setCollapsed((v) => !v)}
         />
+        </ShrinkablePanel>
+        <ShrinkablePanel className="workspace-center-pane" minWidth={440} minHeight={410}>
         <section
           className="viewport-column"
           id="observation-view"
@@ -322,7 +326,10 @@ export function Dashboard() {
             />
           </ObservationViewport>
         </section>
-        <AnalysisRail {...analysisProps} />
+        </ShrinkablePanel>
+        <ShrinkablePanel className="workspace-right-pane" minWidth={180} minHeight={290}>
+          <AnalysisRail {...analysisProps} />
+        </ShrinkablePanel>
       </SidebarProvider>
       <footer className="system-bar">
         <span>
