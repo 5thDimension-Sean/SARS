@@ -21,6 +21,7 @@ import type {
 } from "@/lib/sample-schema";
 import { displayDate, formatCoordinates } from "@/lib/dashboard-utils";
 import {clampMapPan} from "@/lib/interaction-geometry";
+import {ShrinkablePanel} from "./shrinkable-panel";
 /** Replace this component with a map engine; the dashboard only depends on this contract. */
 export interface ObservationViewportProps {
   phenomenon: Phenomenon;
@@ -326,7 +327,9 @@ export function ObservationViewport({
           {(5 / zoom).toFixed(1)} km <small>ILLUSTRATIVE</small>
         </div>
       )}
-      {children}
+      {children&&<ShrinkablePanel className="timeline-resizable" minWidth={350} minHeight={132} anchorLeft={22} anchorBottom={20}>
+        {children}
+      </ShrinkablePanel>}
     </div>
   );
   // The surface remains in the same DOM subtree even while fullscreen.
