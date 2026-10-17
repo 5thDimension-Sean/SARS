@@ -196,6 +196,7 @@ export function Dashboard() {
         return;
       }
       if (
+        event.defaultPrevented ||
         searchOpen ||
         mobilePanel ||
         event.altKey ||
@@ -206,7 +207,7 @@ export function Dashboard() {
       const target = event.target as HTMLElement;
       if (
         target.closest(
-          'input,textarea,select,[role="slider"],[role="tab"],[role="combobox"],[role="listbox"],[contenteditable="true"]',
+          'input,textarea,select,[role="slider"],[role="separator"],[role="tab"],[role="combobox"],[role="listbox"],[contenteditable="true"]',
         )
       )
         return;
