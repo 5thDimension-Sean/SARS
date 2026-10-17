@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState, useRef } from "react";
-import { Layers, ChartNoAxesCombined, Satellite } from "lucide-react";
+import { Layers, ChartNoAxesCombined, Satellite, ArrowLeftRight, CalendarDays, MapPin, BookOpen } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   Sheet,
@@ -14,6 +14,8 @@ import { ObservationRail } from "./observation-rail";
 import { ObservationViewport } from "./observation-viewport";
 import { AnalysisRail } from "./analysis-rail";
 import { TimelinePanel } from "./timeline-panel";
+import { siteHref } from "@/components/site-navigation";
+import { displayDate } from "@/lib/dashboard-utils";
 import rawData from "@/data/sample-data.json";
 import type {
   DashboardDataset,
@@ -149,6 +151,12 @@ export function Dashboard() {
     },
     selectLocation,
   );
+  const comparePreset = (preset: "first" | "previous") => {
+    const latest = location.acquisitions.length - 1;
+    setIndex(latest);
+    setBaseline(preset === "first" ? 0 : Math.max(0, latest - 1));
+    setPlaying(false);
+  };
   const changePlaying = (v: boolean) => {
     if (v && index === location.acquisitions.length - 1) {
       setIndex(0);
@@ -287,6 +295,27 @@ export function Dashboard() {
                 <ChartNoAxesCombined size={15} />
                 <span>Analysis</span>
               </button>
+            </div>
+          </div>
+          <div className="explore-guide" aria-label="How to use the observation workspace">
+            <div className="explore-guide-heading">
+              <strong>Compare two satellite passes</strong>
+              <span className={derived?"explore-guide-source derived":"explore-guide-source"}>{derived?"DERIVED GCOV":"ILLUSTRATIVE SAMPLE"}</span>
+            </div>
+            <div className="explore-guide-content">
+              <div className="explore-guide-steps">
+                <span><MapPin size={14} aria-hidden="true"/><b>1</b> Pick a place on the left</span>
+                <span><CalendarDays size={14} aria-hidden="true"/><b>2</b> Choose dates below</span>
+                <span><ArrowLeftRight size={14} aria-hidden="true"/><b>3</b> Drag to reveal differences</span>
+              </div>
+              <div className="explore-guide-presets" role="group" aria-label="Quick date comparisons">
+                <button type="button" disabled={location.acquisitions.length<2} onClick={()=>comparePreset("first")}>First → latest</button>
+                <button type="button" disabled={location.acquisitions.length<2} onClick={()=>comparePreset("previous")}>Previous → latest</button>
+              </div>
+            </div>
+            <div className="explore-guide-footnote">
+              <span>{location.label}: {displayDate(before.date)} vs {displayDate(after.date)} · {derived?"Processed radar backscatter, not a confirmed event":"Fictional demonstration measurements, not observed events"}</span>
+              <a href={siteHref("/learn/")}>How to read SAR <BookOpen size={13} aria-hidden="true"/></a>
             </div>
           </div>
           <ObservationViewport

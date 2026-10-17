@@ -47,7 +47,7 @@ export function ObservationRail({
   const content = (
     <>
       <div className="rail-heading">
-        <span className="expanded-content">OBSERVATION LAYERS</span>
+        <span className="expanded-content">CHOOSE WHAT TO EXPLORE</span>
         {onCollapse && (
           <button
             className="icon-button"
@@ -95,7 +95,7 @@ export function ObservationRail({
       </nav>
       <section className="rail-section expanded-content">
         <div className="eyebrow">
-          {p.id === "gcov" ? "PROCESSED FRAMES" : "HOTSPOTS"}{" "}
+          {p.id === "gcov" ? "PROCESSED FRAMES" : "PLACES"}{" "}
           <span>{String(p.locations.length).padStart(2, "0")}</span>
         </div>
         {p.locations.map((l, i) => (
@@ -119,13 +119,13 @@ export function ObservationRail({
       <section className="rail-section expanded-content">
         <div className="eyebrow">
           <Layers size={13} aria-hidden />
-          VIEWPORT LAYERS
+          SHOW ON THE MAP
         </div>
         {(
           [
-            ["change", "Change overlay"],
-            ["boundaries", "Area boundaries"],
-            ["grid", "Coordinate grid"],
+            ["change", "Highlight changes"],
+            ["boundaries", "Show area outlines"],
+            ["grid", "Show coordinate grid"],
           ] as const
         ).map(([id, label]) => (
           <div className="layer-row" key={id}>

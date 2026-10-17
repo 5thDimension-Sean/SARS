@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect,useRef,useState,type CSSProperties} from "react";
-import {ArrowUpRight,ChevronLeft,ChevronRight,Pause,Play,RotateCcw} from "lucide-react";
+import {ArrowUpRight,RotateCcw} from "lucide-react";
 import sampleData from "@/data/sample-data.json";
 import type {DashboardDataset} from "@/lib/sample-schema";
 import {mapTourSteps,TOUR_INTERVAL_MS} from "@/lib/sample-map-tour";
@@ -110,7 +110,6 @@ function WireframeLandscape({index}:{index:number}) {
 
 export function SampleMapTour(){
   const [index,setIndex]=useState(0);
-  const [paused,setPaused]=useState(false);
   const [reducedMotion,setReducedMotion]=useState(false);
   const [inView,setInView]=useState(true);
   const rootRef=useRef<HTMLElement>(null);
@@ -129,14 +128,13 @@ export function SampleMapTour(){
     return()=>observer.disconnect();
   },[]);
   useEffect(()=>{
-    if(paused||reducedMotion||!inView)return;
+    if(reducedMotion||!inView)return;
     const timeout=window.setTimeout(()=>setIndex(i=>(i+1)%mapTourSteps.length),TOUR_INTERVAL_MS);
     return()=>window.clearTimeout(timeout);
-  },[paused,reducedMotion,inView,index]);
+  },[reducedMotion,inView,index]);
 
   const step=mapTourSteps[index];
-  function select(next:number){setIndex((next+mapTourSteps.length)%mapTourSteps.length);}
-  const moving=!paused&&!reducedMotion&&inView;
+  const moving=!reducedMotion&&inView;
 
   return <section className="sample-map-tour" ref={rootRef} aria-label="Ten-step sample SAR map walkthrough">
     <div className="sample-map-tour-header">
@@ -152,12 +150,10 @@ export function SampleMapTour(){
       </div>
       <div className="sample-map-tour-list">
         <p>TOUR FEATURES</p>
-        <div className="sample-map-tour-list-scroll" role="group" aria-label="Select a map feature">
-          {mapTourSteps.map((item,i)=><button key={item.id} type="button"
-            className={i===index?"active":""} aria-pressed={i===index}
-            onClick={()=>select(i)} title={item.title}>
+        <div className="sample-map-tour-list-scroll" aria-label="Features shown automatically in sequence">
+          {mapTourSteps.map((item,i)=><div key={item.id} className={"sample-map-tour-option"+(i===index?" active":"")} aria-current={i===index?"step":undefined}>
             <span>{String(item.id).padStart(2,"0")}</span><span>{item.shortLabel}</span>
-          </button>)}
+          </div>)}
         </div>
       </div>
     </div>
@@ -172,20 +168,13 @@ export function SampleMapTour(){
       <div className="sample-map-tour-insight">{step.insight}</div>
     </div>
     <div className="sample-map-tour-bottom">
-      <div className="sample-map-tour-transport">
-        <button type="button" onClick={()=>select(index-1)} aria-label="Previous feature"><ChevronLeft size={17}/></button>
-        <button type="button" onClick={()=>setPaused(p=>!p)} aria-label={moving?"Pause tour":"Play tour"} aria-pressed={paused}>
-          {moving?<Pause size={14}/>:<Play size={14}/>}
-        </button>
-        <button type="button" onClick={()=>select(index+1)} aria-label="Next feature"><ChevronRight size={17}/></button>
-        <span>{moving?"15 SEC / FEATURE":reducedMotion?"REDUCED MOTION":"PAUSED"}</span>
-      </div>
+      <span className="sample-map-tour-quiet-label">{reducedMotion?"STATIC VIEW":"AUTOMATED FIELD WALKTHROUGH"}</span>
       <a href={siteHref("/explore/?hotspot=W-01")} title="Explore the original sample Everglades scenario">EXPLORE DATA <ArrowUpRight size={14}/></a>
     </div>
-    <div className="sample-map-progress" aria-label={"Tour step "+(index+1)+" of ten"}>
-      {mapTourSteps.map((s,i)=><button key={s.id} type="button" aria-label={"Jump to step "+s.id+": "+s.shortLabel} onClick={()=>select(i)} className={i===index?"active":""}>
-        <span key={i===index?index:"not-active"} className={i===index&&moving?"is-running":""}/>
-      </button>)}
+    <div className="sample-map-progress" aria-hidden="true">
+      {mapTourSteps.map((s,i)=><span key={s.id} className={"sample-map-progress-item"+(i===index?" active":"")}>
+        <span className={i===index&&moving?"is-running":""}/>
+      </span>)}
     </div>
     <div className="sample-map-tour-footnote">
       <RotateCcw size={12}/> Conceptual wireframe; fictional sample measurements, not satellite imagery.
