@@ -34,17 +34,31 @@ const stages=[
 export function RadarFeatureTour(){
   const [active,setActive]=useState(0);
   const steps=useRef<(HTMLDivElement|null)[]>([]);
+  // Choose the stage from a fixed reading line, not individual observer entries.
+  // IntersectionObserver callbacks can omit still-visible stages, causing bounce.
   useEffect(()=>{
-    if(!("IntersectionObserver" in window))return;
-    const observer=new IntersectionObserver(entries=>{
-      const candidates=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);
-      if(candidates.length){
-        const index=Number((candidates[0].target as HTMLElement).dataset.stepIndex);
-        if(Number.isInteger(index))setActive(index);
+    let frame=0;
+    const update=()=>{
+      frame=0;
+      const readingLine=window.innerHeight*0.38;
+      let next=0;
+      for(let i=0;i<steps.current.length;i++){
+        const element=steps.current[i];
+        if(element&&element.getBoundingClientRect().top<=readingLine)next=i;
       }
-    },{rootMargin:"-28% 0px -34% 0px",threshold:[0,.1,.4,.7]});
-    steps.current.forEach(el=>{if(el)observer.observe(el)});
-    return()=>observer.disconnect();
+      setActive(previous=>previous===next?previous:next);
+    };
+    const schedule=()=>{
+      if(!frame)frame=window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll",schedule,{passive:true});
+    window.addEventListener("resize",schedule);
+    return()=>{
+      window.removeEventListener("scroll",schedule);
+      window.removeEventListener("resize",schedule);
+      if(frame)window.cancelAnimationFrame(frame);
+    };
   },[]);
   const current=stages[active];
   const Icon=current.Icon;
@@ -61,7 +75,7 @@ export function RadarFeatureTour(){
           return <div key={stage.number} className={"feature-tour-step"+(active===i?" is-active":"")}
             data-step-index={i} ref={el=>{steps.current[i]=el}}>
             <button type="button" aria-pressed={active===i} className="feature-step-heading"
-              onClick={()=>{setActive(i);if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;steps.current[i]?.scrollIntoView({behavior:"smooth",block:"center"})}}>
+              onClick={()=>steps.current[i]?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})}>
               <span>{stage.number} / 04</span>
               <StageIcon size={19} aria-hidden="true"/>
               <strong>{stage.name}</strong>
