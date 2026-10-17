@@ -67,11 +67,12 @@ export function AnalysisRail({
   return (
     <div className={`analysis-rail ${overlay ? "overlay-rail" : ""}`}>
       <div className="rail-heading">
-        SURFACE ANALYSIS{" "}
+        SIGNAL ANALYSIS{" "}
         <span className={`tiny-badge ${derived ? "derived-badge" : ""}`}>
           {badge}
         </span>
       </div>
+      <div className="analysis-intro">Compare the radar signal, then check the dates and caveats. A change in the signal does not prove what caused it.</div>
       <section className="rail-section metric-section">
         <div className="eyebrow">{metric.label.toUpperCase()}</div>
         <div className="primary-metric">
@@ -174,8 +175,8 @@ export function AnalysisRail({
       </section>
       <Tabs defaultValue="signal" className="analysis-tabs">
         <TabsList variant="line" className="analysis-tab-list">
-          <TabsTrigger value="signal">Signal</TabsTrigger>
-          <TabsTrigger value="acquisition">Acquisition</TabsTrigger>
+          <TabsTrigger value="signal">Signal chart</TabsTrigger>
+          <TabsTrigger value="acquisition">Data details</TabsTrigger>
         </TabsList>
         <TabsContent value="signal">
           <section className="rail-section chart-section">
