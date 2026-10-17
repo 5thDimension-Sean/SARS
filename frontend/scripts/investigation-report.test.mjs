@@ -44,7 +44,7 @@ test("derived evidence requires an exact acquisition and polarization match",()=
   const selected=buildInvestigationSnapshot({phenomenon:p,location,before,after,polarization:"HV"});
   assert.equal(selected.provenance,"DERIVED GCOV");
   assert.equal(selected.changeOverlayAvailable,true);
-  assert.match(selected.howDetail,/difference overlay is available/);
+  assert.match(selected.howDetail,/dB overlay is available/);
   assert.match(selected.evidenceDetail,/does not by itself establish flooding/);
   assert.match(selected.report,/Processing warnings/);
   assert.match(selected.report,/CAUSE NOT VALIDATED/);
