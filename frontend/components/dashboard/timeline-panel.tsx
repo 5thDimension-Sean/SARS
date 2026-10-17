@@ -44,7 +44,7 @@ export function TimelinePanel({
     <section className="timeline-panel" aria-label="Time comparison">
       <div className="timeline-top">
         <div className="timeline-heading">
-          <span className="eyebrow">TIME COMPARISON</span>
+          <span className="eyebrow">CHOOSE BEFORE & AFTER</span>
           <span className="timeline-count">
             {String(index + 1).padStart(2, "0")} /{" "}
             {String(acquisitions.length).padStart(2, "0")} ACQUISITIONS
@@ -89,7 +89,7 @@ export function TimelinePanel({
       </div>
       <div className="comparison-dates">
         <div className="baseline-control">
-          <label id="baseline-label">BASELINE</label>
+          <label id="baseline-label">BEFORE · REFERENCE DATE</label>
           <Select
             value={String(baseline)}
             onValueChange={(v) => onBaseline(Number(v))}
@@ -111,7 +111,7 @@ export function TimelinePanel({
         </div>
         <span className="comparison-dash" />
         <div>
-          <span className="eyebrow">SELECTED PASS</span>
+          <span className="eyebrow">AFTER · COMPARISON DATE</span>
           <strong data-testid="selected-date">
             {displayDate(acquisitions[index].date, true)}
           </strong>
