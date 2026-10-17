@@ -46,6 +46,7 @@ export function GeospatialWorkspace(){
   const [message,setMessage]=useState("");
   const container=useRef<HTMLDivElement|null>(null);
   const mapRef=useRef<MapInstance|null>(null);
+  const manuallyChangedLocation=useRef(false);
   const modeRef=useRef<DrawTool>("pan");
   const onCommit=useRef<(kind:GeoAnnotation["kind"],pts:Position[])=>void>(()=>{});
   const all=useMemo<Entry[]>(()=>data.phenomena.flatMap(p=>p.locations.map(l=>({phenomenon:p.label,hotspot:l}))),[data]);
@@ -61,11 +62,11 @@ export function GeospatialWorkspace(){
     setMessage("Unsaved annotations");
   }
   useEffect(()=>{modeRef.current=mode;onCommit.current=commit;});
+  // Resolve links again after the manifest loads, including processed GCOV frame IDs.
   useEffect(()=>{
-    const params=new URLSearchParams(window.location.search);
-    const id=params.get("hotspot");
-    if(id && sampleData.phenomena.some(p=>p.locations.some(l=>l.id===id)))setSelectedId(id);
-  },[]);
+    const id=new URLSearchParams(window.location.search).get("hotspot");
+    if(id&&all.some(item=>item.hotspot.id===id))setSelectedId(id);
+  },[all]);
   useEffect(()=>{
     const controller=new AbortController();
     async function load(){
@@ -85,9 +86,13 @@ export function GeospatialWorkspace(){
   useEffect(()=>{
     setAnnotations(loadAnnotations(window.localStorage.getItem("sar-waltz-drawings-"+selectedId)));
     setDraft([]);setIndex(-1);setMessage("");
-    const url=new URL(window.location.href);
-    url.searchParams.set("hotspot",selectedId);
-    window.history.replaceState(null,"",url.pathname+url.search+url.hash);
+    // Preserve incoming deep links until loaded. Only rewrite the URL on a user selection.
+    if(manuallyChangedLocation.current){
+      const url=new URL(window.location.href);
+      url.searchParams.set("hotspot",selectedId);
+      window.history.replaceState(null,"",url.pathname+url.search+url.hash);
+      manuallyChangedLocation.current=false;
+    }
   },[selectedId]);
   useEffect(()=>{
     let closed=false;let current:MapInstance|null=null;
@@ -183,7 +188,7 @@ export function GeospatialWorkspace(){
     <div className="geo-grid">
       <aside className="geo-rail">
         <p className="geo-label"><MapPin size={15}/> STUDY AREA</p>
-        <select aria-label="Choose study location" value={selectedId} onChange={e=>setSelectedId(e.target.value)}>
+        <select aria-label="Choose study location" value={selectedId} onChange={e=>{manuallyChangedLocation.current=true;setSelectedId(e.target.value)}}>
           {all.map(x=><option key={x.hotspot.id} value={x.hotspot.id}>{x.hotspot.region} · {x.hotspot.label}</option>)}
         </select>
         <p className="geo-source">{loc.provenance==="derived"?"DERIVED GCOV":"SAMPLE SCENE"} · {loc.coordinates.latitude.toFixed(3)}°, {loc.coordinates.longitude.toFixed(3)}°</p>
