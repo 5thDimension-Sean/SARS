@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   Plus,
   Minus,
@@ -10,12 +10,6 @@ import {
   Layers,
 } from "lucide-react";
 import { AccessibleSlider } from "./accessible-slider";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { ProceduralSurface } from "./procedural-surface";
 import { RasterSurface } from "./raster-surface";
 import type {
@@ -26,6 +20,7 @@ import type {
   Polarization,
 } from "@/lib/sample-schema";
 import { displayDate, formatCoordinates } from "@/lib/dashboard-utils";
+import {clampMapPan} from "@/lib/interaction-geometry";
 /** Replace this component with a map engine; the dashboard only depends on this contract. */
 export interface ObservationViewportProps {
   phenomenon: Phenomenon;
@@ -51,6 +46,46 @@ export function ObservationViewport({
     [zoom, setZoom] = useState(1),
     [expanded, setExpanded] = useState(false);
   const root = useRef<HTMLDivElement>(null);
+  const fullscreenButton=useRef<HTMLButtonElement>(null);
+  const drag=useRef<{x:number;y:number;initialX:number;initialY:number}|null>(null);
+  const [pan,setPan]=useState({x:0,y:0});
+  const [isPanning,setIsPanning]=useState(false);
+  useEffect(()=>{
+    if(!expanded)return;
+    const onKey=(event:KeyboardEvent)=>{
+      if(event.key==="Escape"){event.preventDefault();setExpanded(false);}
+    };
+    window.addEventListener("keydown",onKey);
+    root.current?.focus();
+    return()=>{
+      window.removeEventListener("keydown",onKey);
+      window.requestAnimationFrame(()=>fullscreenButton.current?.focus());
+    };
+  },[expanded]);
+  function panDown(event:ReactPointerEvent<HTMLDivElement>){
+    if(event.button!==2||zoom<=1)return;
+    event.preventDefault();event.stopPropagation();
+    drag.current={x:event.clientX,y:event.clientY,initialX:pan.x,initialY:pan.y};
+    setIsPanning(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+  function panMove(event:ReactPointerEvent<HTMLDivElement>){
+    if(!drag.current)return;
+    event.preventDefault();
+    const {x,y,initialX,initialY}=drag.current;
+    const box=root.current?.getBoundingClientRect();
+    if(box)setPan(clampMapPan(initialX+event.clientX-x,initialY+event.clientY-y,zoom,box.width,box.height));
+  }
+  function panUp(event:ReactPointerEvent<HTMLDivElement>){
+    if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
+    drag.current=null;setIsPanning(false);
+  }
+  function changeZoom(delta:number){
+    const next=Math.max(1,Math.min(3,zoom+delta));
+    const box=root.current?.getBoundingClientRect();
+    setZoom(next);
+    setPan(current=>box?clampMapPan(current.x,current.y,next,box.width,box.height):current);
+  }
   const beforeStage = location.acquisitions.findIndex(
       (a) => a.date === before.date,
     ),
@@ -69,16 +104,20 @@ export function ObservationViewport({
   const changeRange = location.changeRangeDb ?? [-6, 6];
   const viewport = (
     <div
-      className={`map-viewport ${p.id} ${expanded ? "expanded-viewport" : ""}`}
+      className={`map-viewport ${p.id} ${expanded ? "expanded-viewport" : ""} ${isPanning ? "is-panning" : ""}`}
       ref={root}
+      tabIndex={expanded?-1:undefined}
+      role={expanded?"dialog":undefined}
+      aria-modal={expanded?true:undefined}
       aria-label={
         derived
           ? "Georeferenced static GCOV raster preview"
           : "Procedural observation viewport"
       }
     >
-      <div className="surface-scene">
-        <div className="surface-image" style={{ transform: `scale(${zoom})` }}>
+      <div className="surface-scene" onContextMenu={event=>event.preventDefault()}
+        onPointerDown={panDown} onPointerMove={panMove} onPointerUp={panUp} onPointerCancel={panUp}>
+        <div className="surface-image" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})` }}>
           {derived ? (
             <RasterSurface
               url={before.layerUrls[polarization]}
@@ -104,7 +143,7 @@ export function ObservationViewport({
         >
           <div
             className="surface-image"
-            style={{ transform: `scale(${zoom})` }}
+            style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})` }}
           >
             {derived ? (
               <RasterSurface
@@ -169,7 +208,7 @@ export function ObservationViewport({
           className="map-control"
           aria-label="Zoom in"
           disabled={zoom >= 3}
-          onClick={() => setZoom((z) => Math.min(3, z + 0.25))}
+          onClick={() => changeZoom(0.25)}
         >
           <Plus size={18} />
         </button>
@@ -177,7 +216,7 @@ export function ObservationViewport({
           className="map-control"
           aria-label="Zoom out"
           disabled={zoom <= 1}
-          onClick={() => setZoom((z) => Math.max(1, z - 0.25))}
+          onClick={() => changeZoom(-0.25)}
         >
           <Minus size={18} />
         </button>
@@ -187,6 +226,7 @@ export function ObservationViewport({
           aria-label="Recenter viewport"
           onClick={() => {
             setZoom(1);
+            setPan({x:0,y:0});
             setSwipe(50);
           }}
         >
@@ -194,12 +234,14 @@ export function ObservationViewport({
         </button>
         <button
           className="map-control"
+          ref={fullscreenButton}
           aria-label={expanded ? "Exit expanded viewport" : "Expand viewport"}
           onClick={() => setExpanded((v) => !v)}
         >
           {expanded ? <Minimize size={17} /> : <Maximize size={17} />}
         </button>
       </div>
+      <div className="pan-instruction">{zoom>1?"RIGHT-CLICK + DRAG TO PAN":"ZOOM IN TO PAN"}</div>
       <div className="north-marker">
         N<span>▲</span>
       </div>
@@ -287,33 +329,6 @@ export function ObservationViewport({
       {children}
     </div>
   );
-  return (
-    <Dialog open={expanded} onOpenChange={setExpanded}>
-      {expanded ? (
-        <DialogContent
-          className="expanded-dialog"
-          showCloseButton={false}
-          onCloseAutoFocus={(e) => {
-            e.preventDefault();
-            document
-              .querySelector<HTMLButtonElement>(
-                '[aria-label="Expand viewport"]',
-              )
-              ?.focus();
-          }}
-        >
-          <DialogTitle className="sr-only">
-            Expanded observation viewport
-          </DialogTitle>
-          <DialogDescription className="sr-only">
-            Acquisition comparison, viewport controls, and timeline. Escape
-            returns to the dashboard.
-          </DialogDescription>
-          {viewport}
-        </DialogContent>
-      ) : (
-        viewport
-      )}
-    </Dialog>
-  );
+  // The surface remains in the same DOM subtree even while fullscreen.
+  return viewport;
 }
