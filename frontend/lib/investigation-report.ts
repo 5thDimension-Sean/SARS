@@ -26,10 +26,10 @@ export function buildInvestigationSnapshot({
   const difference=derived&&twoDates&&location.changeLayers?.some(
     item=>item.type==="dbDiff"&&item.pol===polarization&&item.from===before.date&&item.to===after.date
   )===true;
-  const whereTitle=location.label;
+  const whereTitle=location.region;
   const whereDetail=derived
-    ?"Processed frame; coordinates mark the footprint midpoint, not a detected event."
-    :"Real location coordinates; map textures and event areas are fictional.";
+    ?"Footprint midpoint: "+coordinate(location.coordinates.latitude,location.coordinates.longitude)+". Not a detected event."
+    :"Reference point: "+coordinate(location.coordinates.latitude,location.coordinates.longitude)+". Map pixels are fictional.";
   const howTitle=twoDates
     ?fmt(before.date)+" → "+fmt(after.date)
     :"Choose two different dates";
