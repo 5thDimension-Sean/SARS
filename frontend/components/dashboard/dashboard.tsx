@@ -15,6 +15,8 @@ import { ObservationViewport } from "./observation-viewport";
 import { AnalysisRail } from "./analysis-rail";
 import { TimelinePanel } from "./timeline-panel";
 import {InvestigationGuide} from "./investigation-guide";
+import {DiscoveryLab} from "./discovery-lab";
+import type {SitePoint} from "@/lib/discovery-analysis";
 import {ShrinkablePanel} from "./shrinkable-panel";
 import {buildInvestigationSnapshot} from "@/lib/investigation-report";
 import rawData from "@/data/sample-data.json";
@@ -33,6 +35,9 @@ const sampleData = rawData as DashboardDataset;
 export function Dashboard() {
   const [data, setData] = useState<DashboardDataset>(sampleData);
   const [manifestError, setManifestError] = useState<string | null>(null);
+  const [selectedPoint,setSelectedPoint]=useState<SitePoint|null>(null);
+  const [showOptical,setShowOptical]=useState(false);
+  const [inspectionEnabled,setInspectionEnabled]=useState(false);
   const panelTrigger = useRef<HTMLButtonElement | null>(null);
   const [leftWidth,setLeftWidth]=useState<number|null>(null);
   const [rightWidth,setRightWidth]=useState<number|null>(null);
@@ -124,6 +129,7 @@ export function Dashboard() {
           : 0,
       );
       setPlaying(false);
+      setSelectedPoint(null);setShowOptical(false);
       setMobilePanel(null);
     },
     [data],
@@ -312,6 +318,12 @@ export function Dashboard() {
             </div>
           </div>
           <InvestigationGuide snapshot={findings} hotspotId={location.id} hasMultiple={location.acquisitions.length>1} comparePreset={comparePreset}/>
+          <DiscoveryLab phenomenon={p} location={location} before={before} after={after}
+            polarization={activePolarization} index={index} playing={playing}
+            onPlaying={changePlaying} onIndex={changeIndex}
+            selectedPoint={selectedPoint} onSelectPoint={setSelectedPoint}
+            showOptical={showOptical} onShowOptical={setShowOptical}
+            onInspectionMode={setInspectionEnabled} snapshot={findings}/>
           <ObservationViewport
             key={location.id}
             phenomenon={p}
@@ -321,6 +333,10 @@ export function Dashboard() {
             layers={layers}
             polarization={activePolarization}
             viewMode={viewMode}
+            inspectionEnabled={inspectionEnabled}
+            selectedPoint={selectedPoint}
+            onSelectPoint={setSelectedPoint}
+            showOptical={showOptical}
           >
             <TimelinePanel
               location={location}
