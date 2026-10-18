@@ -86,6 +86,51 @@ test.describe("SAR-Waltz Discovery Lab sample-mode browser journeys",()=>{
     await expect.poll(async()=>((await left.boundingBox())?.width??0)).toBeLessThan(startLeft.width-25);
     await expect.poll(async()=>((await middle.boundingBox())?.width??0)).toBeGreaterThan(startMap.width+25);
   });
+  test("map cannot be resized and always fills the central column",async({page})=>{
+    const middle=page.locator(".workspace-center-pane");
+    await expect(middle.locator(".panel-resize-edge")).toHaveCount(0);
+    await expect(middle.locator(".view-heading")).toBeVisible();
+    const map=page.locator(".map-viewport");
+    const parent=await middle.boundingBox(),child=await map.boundingBox();
+    if(!parent||!child)throw new Error("Central map is not available");
+    expect(Math.abs(child.x-parent.x)).toBeLessThan(3);
+    expect(Math.abs(child.x+child.width-parent.x-parent.width)).toBeLessThan(3);
+    expect(Math.abs(child.y+child.height-parent.y-parent.height)).toBeLessThan(3);
+    await expect(page.locator(".timeline-resizable .panel-resize-edge.edge-se")).toHaveCount(1);
+    await expect(page.locator(".workspace-left-pane .panel-resize-edge.edge-e")).toHaveCount(1);
+    await expect(page.locator(".workspace-right-pane .panel-resize-edge.edge-w")).toHaveCount(1);
+  });
+  test("mouse wheel zoom stays under the cursor and zooms out in reverse",async({page})=>{
+    const scene=page.locator(".surface-scene");
+    const image=page.locator(".surface-image").first();
+    const rect=await scene.boundingBox();
+    if(!rect)throw new Error("Map image is not visible");
+    const localX=rect.width*.32,localY=rect.height*.36;
+    const sample=async()=>{
+      return await image.evaluate(el=>{
+        const matrix=new DOMMatrixReadOnly(getComputedStyle(el).transform);
+        return {zoom:matrix.a,x:matrix.m41,y:matrix.m42};
+      });
+    };
+    const sourceAt=(state,x,y)=>({
+      x:(x-rect.width/2-state.x)/state.zoom,
+      y:(y-rect.height/2-state.y)/state.zoom
+    });
+    const start=await sample();
+    await page.mouse.move(rect.x+localX,rect.y+localY);
+    await page.mouse.wheel(0,-140);
+    await expect.poll(async()=> (await sample()).zoom).toBeGreaterThan(start.zoom+.1);
+    const zoomed=await sample();
+    const before=sourceAt(start,localX,localY),after=sourceAt(zoomed,localX,localY);
+    expect(Math.abs(before.x-after.x)).toBeLessThan(.2);
+    expect(Math.abs(before.y-after.y)).toBeLessThan(.2);
+    await page.mouse.wheel(0,140);
+    await expect.poll(async()=> (await sample()).zoom).toBeLessThan(zoomed.zoom-.1);
+    const restored=await sample();
+    expect(restored.zoom).toBeCloseTo(start.zoom,3);
+    expect(restored.x).toBeCloseTo(start.x,1);
+    expect(restored.y).toBeCloseTo(start.y,1);
+  });
   test("timeline can shrink, fullscreen keeps map visible, right-drag pans",async({page})=>{
     const timeline=page.locator(".timeline-resizable"),edge=timeline.locator(".panel-resize-edge.edge-se");
     const before=await timeline.boundingBox(),handle=await edge.boundingBox();
