@@ -1,6 +1,6 @@
 "use client";
 import {useState} from "react";
-import {ArrowRight,BookOpen,Check,ChevronDown,FlaskConical,HelpCircle,MapPin,ShieldAlert,ShieldCheck} from "lucide-react";
+import {ArrowRight,BookOpen,ChevronDown,FlaskConical,MapPin,ShieldAlert,ShieldCheck} from "lucide-react";
 import {CompetitionShell,siteHref} from "@/components/site-navigation";
 type Idea={label:string;signal:string;test:string;alternative:string};
 const scenarios=[
