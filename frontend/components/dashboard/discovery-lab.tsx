@@ -119,7 +119,7 @@ export function DiscoveryLab({
     const next=active===tab?null:tab;
     setActive(next);
     onInspectionMode(next==="detect");
-    if(tab!=="detect")onSelectPoint(null);
+    // Keep the point across tools so it remains in the Evidence and Report views.
     if(tab!=="optical")onShowOptical(false);
     if(tab==="detect"&&active!=="detect")onShowOptical(false);
   }
