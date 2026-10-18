@@ -20,7 +20,7 @@ import type {
   Polarization,
 } from "@/lib/sample-schema";
 import { displayDate, formatCoordinates } from "@/lib/dashboard-utils";
-import {clampMapPan} from "@/lib/interaction-geometry";
+import {clampMapPan,zoomMapAtPoint} from "@/lib/interaction-geometry";
 import type {SitePoint} from "@/lib/discovery-analysis";
 import {ShrinkablePanel} from "./shrinkable-panel";
 /** Replace this component with a map engine; the dashboard only depends on this contract. */
@@ -56,10 +56,37 @@ export function ObservationViewport({
     [zoom, setZoom] = useState(1),
     [expanded, setExpanded] = useState(false);
   const root = useRef<HTMLDivElement>(null);
+  const surface = useRef<HTMLDivElement>(null);
+  const mapTransform = useRef({zoom:1,pan:{x:0,y:0}});
   const fullscreenButton=useRef<HTMLButtonElement>(null);
   const drag=useRef<{x:number;y:number;initialX:number;initialY:number}|null>(null);
   const [pan,setPan]=useState({x:0,y:0});
   const [isPanning,setIsPanning]=useState(false);
+  // Attach a non-passive wheel listener to the actual map image, not the
+  // surrounding dashboard. This keeps map wheel zoom from scrolling the page
+  // while still allowing the timeline and side panels to scroll normally.
+  useEffect(()=>{
+    const element=surface.current;
+    if(!element)return;
+    const onWheel=(event:WheelEvent)=>{
+      if(event.ctrlKey||event.metaKey)return;
+      event.preventDefault();
+      const box=element.getBoundingClientRect();
+      if(!box.width||!box.height)return;
+      const wheelPixels=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?box.height:1);
+      const change=Math.max(-180,Math.min(180,wheelPixels));
+      const current=mapTransform.current;
+      const next=zoomMapAtPoint(current.zoom,
+        current.zoom*Math.exp(-change*0.0017),current.pan,
+        box.width,box.height,event.clientX-box.left,event.clientY-box.top);
+      if(next.zoom===current.zoom)return;
+      mapTransform.current=next;
+      setZoom(next.zoom);
+      setPan(next.pan);
+    };
+    element.addEventListener("wheel",onWheel,{passive:false});
+    return()=>element.removeEventListener("wheel",onWheel);
+  },[]);
   useEffect(()=>{
     if(!expanded)return;
     const onKey=(event:KeyboardEvent)=>{
@@ -73,9 +100,9 @@ export function ObservationViewport({
     };
   },[expanded]);
   function panDown(event:ReactPointerEvent<HTMLDivElement>){
-    if(event.button!==2||zoom<=1)return;
+    if(event.button!==2||mapTransform.current.zoom<=1)return;
     event.preventDefault();event.stopPropagation();
-    drag.current={x:event.clientX,y:event.clientY,initialX:pan.x,initialY:pan.y};
+    drag.current={x:event.clientX,y:event.clientY,initialX:mapTransform.current.pan.x,initialY:mapTransform.current.pan.y};
     setIsPanning(true);
     event.currentTarget.setPointerCapture(event.pointerId);
   }
@@ -84,7 +111,11 @@ export function ObservationViewport({
     event.preventDefault();
     const {x,y,initialX,initialY}=drag.current;
     const box=root.current?.getBoundingClientRect();
-    if(box)setPan(clampMapPan(initialX+event.clientX-x,initialY+event.clientY-y,zoom,box.width,box.height));
+    if(box){
+      const nextPan=clampMapPan(initialX+event.clientX-x,initialY+event.clientY-y,mapTransform.current.zoom,box.width,box.height);
+      mapTransform.current={...mapTransform.current,pan:nextPan};
+      setPan(nextPan);
+    }
   }
   function panUp(event:ReactPointerEvent<HTMLDivElement>){
     if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
@@ -96,16 +127,19 @@ export function ObservationViewport({
     if(!box||box.width===0||box.height===0)return;
     // Undo pan and scale to store normalized source coordinates, independent
     // of viewport resizing and fullscreen transitions.
-    const localX=(event.clientX-box.left-box.width/2-pan.x)/zoom+box.width/2;
-    const localY=(event.clientY-box.top-box.height/2-pan.y)/zoom+box.height/2;
+    const current=mapTransform.current;
+    const localX=(event.clientX-box.left-box.width/2-current.pan.x)/current.zoom+box.width/2;
+    const localY=(event.clientY-box.top-box.height/2-current.pan.y)/current.zoom+box.height/2;
     if(localX<0||localX>box.width||localY<0||localY>box.height)return;
     onSelectPoint({x:localX/box.width,y:localY/box.height});
   }
   function changeZoom(delta:number){
-    const next=Math.max(1,Math.min(3,zoom+delta));
-    const box=root.current?.getBoundingClientRect();
-    setZoom(next);
-    setPan(current=>box?clampMapPan(current.x,current.y,next,box.width,box.height):current);
+    const current=mapTransform.current;
+    const nextZoom=Math.max(1,Math.min(3,current.zoom+delta));
+    const box=surface.current?.getBoundingClientRect();
+    const nextPan=box?clampMapPan(current.pan.x,current.pan.y,nextZoom,box.width,box.height):current.pan;
+    mapTransform.current={zoom:nextZoom,pan:nextPan};
+    setZoom(nextZoom);setPan(nextPan);
   }
   const beforeStage = location.acquisitions.findIndex(
       (a) => a.date === before.date,
@@ -136,7 +170,7 @@ export function ObservationViewport({
           : "Procedural observation viewport"
       }
     >
-      <div className="surface-scene" onContextMenu={event=>event.preventDefault()}
+      <div className="surface-scene" ref={surface} onContextMenu={event=>event.preventDefault()}
         onPointerDown={panDown} onPointerMove={panMove} onPointerUp={panUp} onPointerCancel={panUp} onClick={selectRegion}>
         <div className="surface-image" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})` }}>
           {derived ? (
@@ -254,6 +288,7 @@ export function ObservationViewport({
           className="map-control"
           aria-label="Recenter viewport"
           onClick={() => {
+            mapTransform.current={zoom:1,pan:{x:0,y:0}};
             setZoom(1);
             setPan({x:0,y:0});
             setSwipe(50);
@@ -270,7 +305,7 @@ export function ObservationViewport({
           {expanded ? <Minimize size={17} /> : <Maximize size={17} />}
         </button>
       </div>
-      <div className="pan-instruction">{zoom>1?"RIGHT-CLICK + DRAG TO PAN":"ZOOM IN TO PAN"}</div>
+      <div className="pan-instruction">{zoom>1?"SCROLL TO ZOOM · RIGHT-CLICK + DRAG":"SCROLL TO ZOOM AT CURSOR"}</div>
       <div className="north-marker">
         N<span>▲</span>
       </div>
