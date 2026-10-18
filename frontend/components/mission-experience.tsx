@@ -4,8 +4,9 @@ import {ArrowRight,ArrowUpRight,BookOpen,ChevronLeft,ChevronRight,Compass,MapPin
 import {CompetitionShell,siteHref} from "@/components/site-navigation";
 import {studySites} from "@/lib/study-sites";
 import data from "@/data/sample-data.json";
+import type {DashboardDataset} from "@/lib/sample-schema";
 import {viewLink} from "@/lib/saved-investigations";
-const scenes=data.phenomena.flatMap(p=>p.locations);
+const scenes=(data as DashboardDataset).phenomena.flatMap(p=>p.locations);
 const steps=[
   {title:"Choose a question",subtitle:"Pick a landscape",body:"Every investigation starts with a real place and a question worth asking. The example imagery shown today is fictional."},
   {title:"Inspect the surface",subtitle:"Open the radar workspace",body:"Use the before/after divider, scroll at your cursor to zoom, and right-click to pan. Look for the illustrated changes and check the SAMPLE label."},
@@ -57,7 +58,7 @@ export function MissionExperience(){
             {step===0&&<div className="mission-question"><span>YOUR INVESTIGATION QUESTION</span><strong>{site.headline}</strong><p>{site.stakes}</p></div>}
             {step===1&&<div className="mission-question"><span>IN THE RADAR WORKSPACE</span><strong>Compare two acquisition dates</strong><p>Open Explore, use the date timeline, then drag the before/after divider. The existing zoom and inspection tools remain available.</p></div>}
             {step===2&&<div className="mission-question"><span>WHAT THE RADAR CAN AND CANNOT SHOW</span><strong>{site.radarCanShow}</strong><p>{site.caution}</p></div>}
-            {step===3&&<div className="mission-question"><span>RESEARCHER'S REFLECTION</span>
+            {step===3&&<div className="mission-question"><span>RESEARCHER&apos;S REFLECTION</span>
               <div className="mission-checks">{questions.map((q,i)=><label key={q}>
                 <input type="checkbox" checked={checks[i]} onChange={e=>setChecks(old=>old.map((v,k)=>k===i?e.target.checked:v))}/><span>{q}</span>
               </label>)}</div>
