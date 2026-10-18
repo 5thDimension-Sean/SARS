@@ -3143,3 +3143,17 @@ input:focus-visible,
 @media(prefers-reduced-motion:reduce){
   .page-hub *,.competition-nav-more *{scroll-behavior:auto!important;transition:none!important}
 }
+
+/* Home page acts as a clear route selector instead of one endless scroll. */
+.story-hubs{padding-top:60px;padding-bottom:65px}
+.story-hub-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin-top:28px}
+.story-hub-cards>a{background:linear-gradient(145deg,#152e39,#0e1f2a);border:1px solid #3c6470;border-radius:9px;padding:25px;min-height:257px;display:flex;flex-direction:column;gap:11px;text-decoration:none;color:#dcecef;transition:border-color .2s,transform .2s}
+.story-hub-cards>a>svg{color:#8ce2d6;margin-bottom:3px}
+.story-hub-cards>a>span{font:10px ui-monospace,monospace;letter-spacing:.8px;color:#8dcacc}
+.story-hub-cards>a>strong{font-size:22px;font-weight:650;color:#f3fcfa}
+.story-hub-cards>a>p{font-size:13px;line-height:1.65;color:#b4c9d1;flex:1}
+.story-hub-cards>a>b{display:flex;align-items:center;gap:7px;color:#98eee0;font-size:12px;margin-top:8px}
+.story-hub-cards>a:hover{border-color:#8bdacf;transform:translateY(-3px)}
+@media(max-width:920px){.story-hub-cards{grid-template-columns:1fr 1fr}.story-hub-cards>a{min-height:220px}}
+@media(max-width:580px){.story-hub-cards{grid-template-columns:1fr}.story-hub-cards>a{min-height:0}.story-hubs{padding-block:36px}}
+@media(prefers-reduced-motion:reduce){.story-hub-cards>a{transition:none}.story-hub-cards>a:hover{transform:none}}
