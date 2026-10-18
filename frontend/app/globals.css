@@ -2926,3 +2926,26 @@ input:focus-visible,
 @media(prefers-reduced-motion:reduce){
  .rail-disclosure-summary>svg,.analysis-disclosure-summary>svg,.discovery-tools-trigger svg{transition:none}
 }
+
+/* The central viewport is a fixed workspace track, not a resize surface.
+   Sidebar and date-timeline handles are intentionally preserved. */
+.workspace > .workspace-center-pane{
+  display:flex;
+  flex-direction:column;
+  align-self:stretch;
+  justify-self:stretch;
+  width:100%;
+  height:100%;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+}
+.workspace > .workspace-center-pane > .map-viewport{
+  flex:1 1 auto;
+  min-height:0;
+}
+/* Wheel zoom applies cursor-anchored transforms on each frame. Do not ease
+   intermediate frames away from the exact point beneath the pointer. */
+.map-viewport .surface-image{
+  transition:none;
+}
