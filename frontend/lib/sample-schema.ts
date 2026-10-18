@@ -44,6 +44,8 @@ export interface Acquisition {
   histogramDb?: Partial<Record<Polarization, HistogramDistribution>>;
   dbRanges?: Partial<Record<Polarization, [number, number]>>;
   cogUrls?: Partial<Record<Polarization, string>>;
+  roiGridUrls?: Partial<Record<Polarization,string>>;
+  optical?: {url:string;date:string;source:string;credit:string};
   date: string;
   referenceDate: string;
   backscatterNormalization: "gamma0";
