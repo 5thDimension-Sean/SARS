@@ -163,8 +163,8 @@ test.describe("Multi-page SAR-Waltz navigation and bookmark flows",()=>{
     await expect(page.getByRole("navigation",{name:"Main website navigation"}).getByRole("link",{name:"Mission"})).toBeVisible();
     await expect(page.getByRole("link",{name:"Start a guided mission"})).toBeVisible();
     await page.getByRole("navigation",{name:"Main website navigation"}).getByText("More").click();
-    await expect(page.getByRole("link",{name:"Map laboratory"})).toBeVisible();
-    await expect(page.getByRole("link",{name:"Disaster playbooks"})).toBeVisible();
+    await expect(page.getByRole("navigation",{name:"Main website navigation"}).getByRole("link",{name:"Map laboratory",exact:true})).toBeVisible();
+    await expect(page.getByRole("navigation",{name:"Main website navigation"}).getByRole("link",{name:"Disaster playbooks",exact:true})).toBeVisible();
   });
   test("Mission runs a guided four-step journey and hands off selected location to Explore",async({page})=>{
     await page.goto("http://127.0.0.1:4173/SARS/mission/");
