@@ -154,3 +154,60 @@ test.describe("SAR-Waltz Discovery Lab sample-mode browser journeys",()=>{
     await expect(page.locator(".expanded-viewport")).toHaveCount(0);
   });
 });
+
+
+test.describe("Multi-page SAR-Waltz navigation and bookmark flows",()=>{
+  test.beforeEach(async({page})=>{await page.setViewportSize({width:1440,height:900});});
+  test("home links directly to specialized pages and retains legacy destinations",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/");
+    await expect(page.getByRole("navigation",{name:"Main website navigation"}).getByRole("link",{name:"Mission"})).toBeVisible();
+    await expect(page.getByRole("link",{name:"Start a guided mission"})).toBeVisible();
+    await page.getByRole("navigation",{name:"Main website navigation"}).getByText("More").click();
+    await expect(page.getByRole("navigation",{name:"Main website navigation"}).getByRole("link",{name:"Map laboratory",exact:true})).toBeVisible();
+    await expect(page.getByRole("navigation",{name:"Main website navigation"}).getByRole("link",{name:"Disaster playbooks",exact:true})).toBeVisible();
+  });
+  test("Mission runs a guided four-step journey and hands off selected location to Explore",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/mission/");
+    await expect(page.getByRole("heading",{name:"Your first Earth investigation."})).toBeVisible();
+    await page.getByRole("button",{name:/Rondônia/}).click();
+    await expect(page.getByText("Can repeated radar observations",{exact:false})).toBeVisible();
+    await page.getByRole("button",{name:"Next step"}).click();
+    await expect(page.getByText("Open the radar workspace",{exact:false})).toBeVisible();
+    await page.getByRole("link",{name:/Open Rondônia in Explore/}).click();
+    await expect(page).toHaveURL(/\/SARS\/explore\/\?/);
+    await expect(page.getByText("Forest frontier A",{exact:false}).first()).toBeVisible();
+  });
+  test("Hypothesis Lab switches scientific scenarios without claiming confirmed detection",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/hypotheses/");
+    await page.getByRole("button",{name:"Forests and disturbance"}).click();
+    await page.getByRole("button",{name:/Possible clearing/}).click();
+    await expect(page.getByText("not a classified detection",{exact:false})).toBeVisible();
+    await page.getByRole("button",{name:"Faults and ground motion"}).click();
+    await expect(page.getByText("GCOV intensity images alone cannot establish displacement")).toBeVisible();
+    await expect(page.getByRole("link",{name:"Examine sample imagery"})).toHaveAttribute("href",/hotspot=E-01/);
+  });
+  test("saving a view persists in this browser, opens the right dates and can be removed",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/explore/?hotspot=F-01&before=2026-07-03&after=2026-09-25&pol=HH&x=0.3500&y=0.6800");
+    await expect(page.getByText("Forest frontier A",{exact:false}).first()).toBeVisible();
+    await page.getByRole("button",{name:"Save view"}).click();
+    await expect(page.getByRole("status").filter({hasText:"Saved to this browser"})).toBeVisible();
+    await page.goto("http://127.0.0.1:4173/SARS/discoveries/");
+    await page.getByRole("button",{name:/Saved views/}).click();
+    await expect(page.getByText("Forest frontier A · FORESTS")).toBeVisible();
+    await expect(page.getByText("2026-07-03 → 2026-09-25 · HH",{exact:false})).toBeVisible();
+    await page.getByRole("link",{name:"Open",exact:true}).click();
+    await expect(page).toHaveURL(/hotspot=F-01/);
+    await expect(page).toHaveURL(/pol=HH/);
+    await expect(page.locator(".discovery-map-pin")).toBeVisible();
+    await page.goto("http://127.0.0.1:4173/SARS/discoveries/");
+    await page.getByRole("button",{name:/Saved views/}).click();
+    await page.getByRole("button",{name:/Remove saved view/}).click();
+    await expect(page.getByText("No saved views yet")).toBeVisible();
+  });
+  test("Discoveries truthfully shows no processed radar data when manifest is a sample sentinel",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/discoveries/");
+    await page.getByRole("button",{name:/Processed data/}).click();
+    await expect(page.getByText("Ready when NASA data arrives")).toBeVisible();
+    await expect(page.getByText("No processed observations have been published yet.")).toBeVisible();
+  });
+});

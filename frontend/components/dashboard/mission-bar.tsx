@@ -1,5 +1,6 @@
 "use client";
-import { Orbit, Search, Satellite, MapPin } from "lucide-react";
+import { Orbit, Search, Satellite, MapPin, ChevronDown } from "lucide-react";
+import {siteHref} from "@/components/site-navigation";
 import {
   CommandDialog,
   CommandInput,
@@ -52,6 +53,20 @@ export function MissionBar({
           {provenance === "sample" && <span className="sample-pulse" />}
           {provenance === "sample" ? "SAMPLE DATA" : "DERIVED GCOV"}
         </span>
+        <nav className="mission-bar-pages" aria-label="Switch workspace page">
+          <a href={siteHref("/mission/")}>Mission</a>
+          <a href={siteHref("/discoveries/")}>Discoveries</a>
+          <details className="mission-bar-more">
+            <summary>More <ChevronDown size={13} aria-hidden="true"/></summary>
+            <div className="mission-bar-dropdown">
+              <a href={siteHref("/")}>Home</a>
+              <a href={siteHref("/hypotheses/")}>Hypothesis Lab</a>
+              <a href={siteHref("/learn/")}>Learn SAR</a>
+              <a href={siteHref("/map/")}>Geographic Map</a>
+              <a href={siteHref("/disasters/")}>Disaster Playbooks</a>
+            </div>
+          </details>
+        </nav>
         <div className="mission-context">
           <Satellite size={16} aria-hidden />
           <span>
