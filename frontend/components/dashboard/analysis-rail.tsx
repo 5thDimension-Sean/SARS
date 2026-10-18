@@ -77,7 +77,7 @@ export function AnalysisRail({
         <summary className="analysis-disclosure-summary">
           <span>CHANGE SUMMARY</span><ChevronDown size={15} aria-hidden="true"/>
         </summary>
-      <div className="analysis-intro">Compare the radar signal, then check the dates and caveats. A change in the signal does not prove what caused it.</div>
+      <div className="analysis-intro">Radar changes may have several causes. Review the evidence before interpreting them.</div>
       <section className="rail-section metric-section">
         <div className="eyebrow">{metric.label.toUpperCase()}</div>
         <div className="primary-metric">
