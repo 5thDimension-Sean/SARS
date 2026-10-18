@@ -12,6 +12,7 @@ import {
   Info,
   Satellite,
 } from "lucide-react";
+import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Sidebar } from "@/components/ui/sidebar";
 import type { Phenomenon, LayerState } from "@/lib/sample-schema";
@@ -44,6 +45,7 @@ export function ObservationRail({
   onCollapse?: () => void;
   overlay?: boolean;
 }) {
+  const [placesOpen,setPlacesOpen]=useState(true);
   const p = phenomena[selected];
   const content = (
     <>
@@ -94,7 +96,7 @@ export function ObservationRail({
           );
         })}
       </nav>
-      <details className="rail-disclosure expanded-content" defaultOpen>
+      <details className="rail-disclosure expanded-content" open={placesOpen} onToggle={event=>setPlacesOpen(event.currentTarget.open)}>
         <summary className="rail-disclosure-summary">
           <span>{p.id === "gcov" ? "PROCESSED FRAMES" : "PLACES"} <small>{String(p.locations.length).padStart(2, "0")}</small></span>
           <ChevronDown size={15} aria-hidden="true" />
