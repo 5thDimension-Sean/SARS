@@ -5,7 +5,7 @@ import {CompetitionShell,siteHref} from "@/components/site-navigation";
 import {studySites} from "@/lib/study-sites";
 import {adaptPipelineManifest,isSampleManifestSentinel} from "@/lib/manifest-adapter";
 import type {Hotspot} from "@/lib/sample-schema";
-import {readSavedViews,SAVED_VIEWS_KEY,viewLink,writeSavedViews,type SavedView} from "@/lib/saved-investigations";
+import {readSavedViews,viewLink,writeSavedViews,type SavedView} from "@/lib/saved-investigations";
 
 type FrameStatus={state:"loading"|"sample"|"processed"|"error";frames:Hotspot[];message:string};
 export function DiscoveriesExperience(){
