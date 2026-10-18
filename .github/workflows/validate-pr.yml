@@ -24,3 +24,18 @@ jobs:
       - run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /SARS
+
+  validate-python-gcov:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+      - name: Install pinned pipeline requirements
+        run: python -m pip install -r pipeline/requirements.txt
+      - name: Test numeric radar processing and manifest safety
+        run: python -m pytest pipeline/tests -q
