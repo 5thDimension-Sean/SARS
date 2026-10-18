@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
-import {AreaChart,ArrowDownToLine,BookOpen,CheckCircle2,ChevronLeft,ChevronRight,Cloud,Compass,Download,FileText,HelpCircle,Layers3,MapPin,Pause,Play,ScanSearch,ShieldAlert,ShieldCheck,TrendingUp,X} from "lucide-react";
+import {BookOpen,CheckCircle2,ChevronLeft,ChevronRight,Cloud,Compass,Download,FileText,HelpCircle,Layers3,MapPin,Pause,Play,ScanSearch,ShieldAlert,ShieldCheck,TrendingUp,X} from "lucide-react";
 import type {Acquisition,Hotspot,Phenomenon,Polarization} from "@/lib/sample-schema";
 import type {InvestigationSnapshot} from "@/lib/investigation-report";
 import {calculateRoiComparison,coordinatesAtPoint,evaluateEvidence,radarSeries,reportHtml,validateRoiGrid,type RoiComparison,type SitePoint} from "@/lib/discovery-analysis";
@@ -85,18 +85,8 @@ export function DiscoveryLab({
   const checklist=useMemo(()=>evaluateEvidence(location,before,after,polarization),[location,before,after,polarization]);
   const valid=checklist.filter(row=>row.passed).length;
   const region=selectedPoint?coordinatesAtPoint(location,selectedPoint):null;
-  useEffect(()=>{
-    if(!derived||!selectedPoint){
-      return;
-    }
-    return;
-  },[derived,selectedPoint]);
   const pickX=selectedPoint?.x,pickY=selectedPoint?.y;
   const firstUrl=before.roiGridUrls?.[polarization],secondUrl=after.roiGridUrls?.[polarization];
-  useEffect(()=>{
-    if(pickX===undefined||pickY===undefined){return;}
-    if(!derived||!firstUrl||!secondUrl){return;}
-  },[pickX,pickY,derived,firstUrl,secondUrl]);
   // A separate request is started only when an actual location is picked.
   useEffect(()=>{
     if(pickX===undefined||pickY===undefined){
@@ -106,6 +96,7 @@ export function DiscoveryLab({
       setRoi(null);setRoiState("missing");return;
     }
     const abort=new AbortController();
+    setRoi(null);setRoiError("");setRoiState("loading");
     Promise.all([fetch(firstUrl,{signal:abort.signal}),fetch(secondUrl,{signal:abort.signal})])
       .then(async response=>{
         if(response.some(x=>!x.ok))throw new Error("An observation grid is missing. Reprocess the acquisition pair.");
