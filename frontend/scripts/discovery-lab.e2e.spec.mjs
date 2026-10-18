@@ -1,0 +1,76 @@
+import {test,expect} from "@playwright/test";
+
+const url="http://127.0.0.1:4173/SARS/explore/";
+test.describe("SAR-Waltz Discovery Lab sample-mode browser journeys",()=>{
+  test.beforeEach(async({page})=>{
+    await page.setViewportSize({width:1440,height:900});
+    await page.goto(url);
+    await expect(page.getByRole("group",{name:"Choose a discovery tool"})).toBeVisible();
+  });
+  test("six tools remain navigable; sample mode never claims measured radar results",async({page})=>{
+    const tools=page.getByRole("group",{name:"Choose a discovery tool"});
+    for(const name of ["Investigate","Radar / Optical","Check Evidence","Earth's Waltz","Make a Report","1-Minute Tour"])
+      await expect(tools.getByRole("button",{name})).toBeVisible();
+    await tools.getByRole("button",{name:"Investigate"}).click();
+    await expect(page.getByText("Click the map",{exact:false})).toBeVisible();
+    const map=page.locator(".surface-scene");
+    const rect=await map.boundingBox();
+    if(!rect)throw new Error("Map is not visible");
+    await page.mouse.click(rect.x+rect.width*.25,rect.y+rect.height*.62);
+    await expect(page.locator(".discovery-map-pin")).toBeVisible();
+    await expect(page.getByText("No real change is being claimed.",{exact:false})).toBeVisible();
+
+    await tools.getByRole("button",{name:"Radar / Optical"}).click();
+    await expect(page.getByText("No verified co-registered optical image",{exact:false})).toBeVisible();
+    await tools.getByRole("button",{name:"Check Evidence"}).click();
+    await expect(page.getByText("Observed radar products")).toBeVisible();
+    await expect(page.getByText("Independent validation")).toBeVisible();
+    await tools.getByRole("button",{name:"Earth's Waltz"}).click();
+    await expect(page.getByRole("button",{name:"Play the animated sequence"})).toBeVisible();
+    await tools.getByRole("button",{name:"1-Minute Tour"}).click();
+    await expect(page.getByText("Choose the place")).toBeVisible();
+    await page.getByRole("button",{name:"Next step"}).click();
+    await expect(page.getByText("Pick your before and after")).toBeVisible();
+  });
+  test("downloaded sample report is accurately labeled",async({page})=>{
+    await page.getByRole("button",{name:"Make a Report"}).click();
+    const promise=page.waitForEvent("download");
+    await page.getByRole("button",{name:"Download printable visual report"}).click();
+    const file=await promise;
+    expect(file.suggestedFilename()).toMatch(/^sar-waltz-.*\.html$/);
+    await expect(page.getByText("SAMPLE · NOT AN OBSERVED CHANGE",{exact:false})).toBeVisible();
+  });
+  test("shrinking a sidebar gives its width to the central map",async({page})=>{
+    const left=page.locator(".workspace-left-pane"),middle=page.locator(".workspace-center-pane");
+    const resize=left.locator(".panel-resize-edge.edge-e");
+    const startLeft=await left.boundingBox(),startMap=await middle.boundingBox(),handle=await resize.boundingBox();
+    if(!startLeft||!startMap||!handle)throw new Error("Missing resize handles");
+    const x=handle.x+handle.width/2,y=handle.y+handle.height/2;
+    await page.mouse.move(x,y);await page.mouse.down();
+    await page.mouse.move(x-55,y,{steps:6});await page.mouse.up();
+    await expect.poll(async()=>((await left.boundingBox())?.width??0)).toBeLessThan(startLeft.width-25);
+    await expect.poll(async()=>((await middle.boundingBox())?.width??0)).toBeGreaterThan(startMap.width+25);
+  });
+  test("timeline can shrink, fullscreen keeps map visible, right-drag pans",async({page})=>{
+    const timeline=page.locator(".timeline-resizable"),edge=timeline.locator(".panel-resize-edge.edge-se");
+    const before=await timeline.boundingBox(),handle=await edge.boundingBox();
+    if(!before||!handle)throw new Error("Date panel not displayed");
+    await page.mouse.move(handle.x+handle.width/2,handle.y+handle.height/2);
+    await page.mouse.down();await page.mouse.move(handle.x+handle.width/2-50,handle.y+handle.height/2-25,{steps:5});await page.mouse.up();
+    await expect.poll(async()=>((await timeline.boundingBox())?.width??0)).toBeLessThan(before.width-20);
+    await page.getByRole("button",{name:"Expand viewport"}).click();
+    await expect(page.locator(".expanded-viewport")).toBeVisible();
+    await page.getByRole("button",{name:"Zoom in"}).click();
+    await page.getByRole("button",{name:"Zoom in"}).click();
+    const root=await page.locator(".surface-scene").boundingBox();
+    if(!root)throw new Error("No map surface");
+    await page.mouse.move(root.x+root.width*.5,root.y+root.height*.6);
+    await page.mouse.down({button:"right"});
+    await page.mouse.move(root.x+root.width*.6,root.y+root.height*.6,{steps:5});
+    await page.mouse.up({button:"right"});
+    const transform=await page.locator(".surface-image").first().evaluate(el=>getComputedStyle(el).transform);
+    expect(transform).not.toBe("none");
+    await page.getByRole("button",{name:"Exit expanded viewport"}).click();
+    await expect(page.locator(".expanded-viewport")).toHaveCount(0);
+  });
+});
