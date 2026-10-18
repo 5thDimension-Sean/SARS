@@ -427,3 +427,24 @@ def test_invalid_size_rejected_before_processing(gcov_factory, tmp_path, max_siz
     path = gcov_factory()
     with pytest.raises(PipelineError, match="(?i)(size|8192)"):
         process_directory(path.parent, tmp_path / "output", max_size=max_size)
+
+
+
+def test_discovery_roi_grid_exports_numeric_values_and_transparent_nodata(gcov_factory, tmp_path) -> None:
+    """Discovery Lab must ingest actual average dB values, never RGB pixel colors."""
+    mask = np.ones((66, 66), dtype=np.uint8)
+    mask[:18, :18] = 255
+    path = gcov_factory(hh=np.full(mask.shape, 0.1, dtype=np.float32), mask=mask)
+    manifest, output = process_fixture(path, tmp_path)
+    a = acquisition(manifest)
+    assert set(a["roiGrid"]) >= {"HH", "HV"}
+    grid = json.loads((output / a["roiGrid"]["HH"]).read_text(encoding="utf-8"))
+    assert grid["schemaVersion"] == "1.0"
+    assert grid["type"] == "gamma0-db"
+    assert grid["date"] == a["date"]
+    assert grid["pol"] == "HH"
+    assert grid["width"] == 96 and grid["height"] == 96
+    assert len(grid["values"]) == 96 * 96
+    finite = [v for v in grid["values"] if v is not None]
+    assert finite and all(abs(v - (-10.0)) < 0.15 for v in finite)
+    assert any(v is None for v in grid["values"]), "Masked pixels must remain transparent."

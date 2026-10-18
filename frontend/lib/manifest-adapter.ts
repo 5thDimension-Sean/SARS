@@ -273,11 +273,13 @@ export function adaptPipelineManifest(value: unknown): {
             a.statisticsDb === undefined
               ? {}
               : object(a.statisticsDb, "acquisition.statisticsDb"),
-          cog = a.cog === undefined ? {} : object(a.cog, "acquisition.cog");
+          cog = a.cog === undefined ? {} : object(a.cog, "acquisition.cog"),
+          grids = a.roiGrid === undefined ? {} : object(a.roiGrid, "acquisition.roiGrid");
         const histogramDb: Partial<
             Record<Polarization, HistogramDistribution>
           > = {},
           cogUrls: Partial<Record<Polarization, string>> = {},
+          roiGridUrls: Partial<Record<Polarization, string>> = {},
           layerUrls = {
             HH: null as string | null,
             HV: null as string | null,
@@ -308,6 +310,8 @@ export function adaptPipelineManifest(value: unknown): {
           });
           if (cog[pol] !== undefined)
             cogUrls[pol] = pipelineAssetUrl(cog[pol], `cog.${pol}`, "tif");
+          if (grids[pol] !== undefined)
+            roiGridUrls[pol] = pipelineAssetUrl(grids[pol], `roiGrid.${pol}`, "json");
         }
         return {
           date: acquisitionDate,
@@ -317,6 +321,17 @@ export function adaptPipelineManifest(value: unknown): {
           dbRanges,
           histogramDb,
           cogUrls,
+          roiGridUrls,
+          optical: a.optical===undefined?undefined:(()=>{
+            const o=object(a.optical,"acquisition.optical");
+            const path=string(o.url,"optical.url");
+            const extension=path.toLowerCase().split(".").at(-1);
+            if(!extension||!["png","jpg","webp"].includes(extension))fail("optical.url","expected local png, jpg or webp");
+            return {url:pipelineAssetUrl(path,"optical.url",extension),
+              date:date(o.date,"optical.date"),
+              source:string(o.source,"optical.source"),
+              credit:string(o.credit,"optical.credit")};
+          })(),
           backscatterNormalization: "gamma0",
           histogramOrdinateUnit: "%",
           areaUnit: "km²",

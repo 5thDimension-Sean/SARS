@@ -21,6 +21,7 @@ import type {
 } from "@/lib/sample-schema";
 import { displayDate, formatCoordinates } from "@/lib/dashboard-utils";
 import {clampMapPan} from "@/lib/interaction-geometry";
+import type {SitePoint} from "@/lib/discovery-analysis";
 import {ShrinkablePanel} from "./shrinkable-panel";
 /** Replace this component with a map engine; the dashboard only depends on this contract. */
 export interface ObservationViewportProps {
@@ -31,6 +32,10 @@ export interface ObservationViewportProps {
   layers: LayerState;
   polarization: Polarization;
   viewMode: "displacement" | "phase";
+  inspectionEnabled?:boolean;
+  selectedPoint?:SitePoint|null;
+  onSelectPoint?:(point:SitePoint|null)=>void;
+  showOptical?:boolean;
   children?: React.ReactNode;
 }
 export function ObservationViewport({
@@ -41,6 +46,10 @@ export function ObservationViewport({
   layers,
   polarization,
   viewMode,
+  inspectionEnabled=false,
+  selectedPoint=null,
+  onSelectPoint,
+  showOptical=false,
   children,
 }: ObservationViewportProps) {
   const [swipe, setSwipe] = useState(50),
@@ -81,6 +90,17 @@ export function ObservationViewport({
     if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
     drag.current=null;setIsPanning(false);
   }
+  function selectRegion(event:React.MouseEvent<HTMLDivElement>){
+    if(!inspectionEnabled||!onSelectPoint||event.button!==0)return;
+    const box=root.current?.getBoundingClientRect();
+    if(!box||box.width===0||box.height===0)return;
+    // Undo pan and scale to store normalized source coordinates, independent
+    // of viewport resizing and fullscreen transitions.
+    const localX=(event.clientX-box.left-box.width/2-pan.x)/zoom+box.width/2;
+    const localY=(event.clientY-box.top-box.height/2-pan.y)/zoom+box.height/2;
+    if(localX<0||localX>box.width||localY<0||localY>box.height)return;
+    onSelectPoint({x:localX/box.width,y:localY/box.height});
+  }
   function changeZoom(delta:number){
     const next=Math.max(1,Math.min(3,zoom+delta));
     const box=root.current?.getBoundingClientRect();
@@ -105,7 +125,7 @@ export function ObservationViewport({
   const changeRange = location.changeRangeDb ?? [-6, 6];
   const viewport = (
     <div
-      className={`map-viewport ${p.id} ${expanded ? "expanded-viewport" : ""} ${isPanning ? "is-panning" : ""}`}
+      className={`map-viewport ${p.id} ${expanded ? "expanded-viewport" : ""} ${isPanning ? "is-panning" : ""} ${inspectionEnabled?"inspection-active":""}`}
       ref={root}
       tabIndex={expanded?-1:undefined}
       role={expanded?"dialog":undefined}
@@ -117,7 +137,7 @@ export function ObservationViewport({
       }
     >
       <div className="surface-scene" onContextMenu={event=>event.preventDefault()}
-        onPointerDown={panDown} onPointerMove={panMove} onPointerUp={panUp} onPointerCancel={panUp}>
+        onPointerDown={panDown} onPointerMove={panMove} onPointerUp={panUp} onPointerCancel={panUp} onClick={selectRegion}>
         <div className="surface-image" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})` }}>
           {derived ? (
             <RasterSurface
@@ -146,7 +166,11 @@ export function ObservationViewport({
             className="surface-image"
             style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})` }}
           >
-            {derived ? (
+            {derived && showOptical && after.optical?.url ? (
+              <div className="optical-reference" role="img"
+                aria-label={"Co-registered optical image from "+after.optical.source+", "+after.optical.date}
+                style={{backgroundImage:`url("${after.optical.url}")`}}/>
+            ) : derived ? (
               <RasterSurface
                 url={after.layerUrls[polarization]}
                 changeUrl={showDerivedChange ? changeLayer?.url : undefined}
@@ -167,6 +191,10 @@ export function ObservationViewport({
             )}
           </div>
         </div>
+        {selectedPoint&&<div className="discovery-map-pin-layer" aria-hidden="true"
+           style={{transform:`translate(${pan.x}px,${pan.y}px) scale(${zoom})`}}>
+          <div className="discovery-map-pin" style={{left:(selectedPoint.x*100)+"%",top:(selectedPoint.y*100)+"%"}}/>
+        </div>}
       </div>
       <div className="map-shading" />
       {layers.grid && <div className="map-grid" />}
@@ -185,7 +213,7 @@ export function ObservationViewport({
         BEFORE <b>{displayDate(before.date, true)}</b>
       </div>
       <div className="comparison-tag after">
-        AFTER <b>{displayDate(after.date, true)}</b>
+        {derived&&showOptical&&after.optical?"OPTICAL":"AFTER"} <b>{displayDate(derived&&showOptical&&after.optical?after.optical.date:after.date, true)}</b>
       </div>
       <div className="swipe-line" style={{ left: `${swipe}%` }} />
       <div className="swipe-control">
