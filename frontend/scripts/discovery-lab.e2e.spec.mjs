@@ -20,10 +20,19 @@ test.describe("SAR-Waltz Discovery Lab sample-mode browser journeys",()=>{
     await tools.getByRole("button",{name:"Investigate"}).click();
     await expect(page.getByText("Click the map",{exact:false})).toBeVisible();
     const map=page.locator(".surface-scene");
-    const rect=await map.boundingBox();
-    if(!rect)throw new Error("Map is not visible");
-    // The floating date timeline intentionally covers the lower-left map. Click a clear investigation area.
-    await page.mouse.click(rect.x+rect.width*.70,rect.y+rect.height*.34);
+    // Find a genuinely exposed map pixel: the floating Discovery Lab drawer
+    // covers part of the top-right, while the date timeline covers the bottom-left.
+    const point=await map.evaluate(scene=>{
+      const rect=scene.getBoundingClientRect();
+      for(const [rx,ry] of [[.18,.34],[.32,.28],[.18,.48],[.42,.31],[.75,.72]]){
+        const x=rect.left+rect.width*rx,y=rect.top+rect.height*ry;
+        const target=document.elementFromPoint(x,y);
+        if(target&&scene.contains(target))return {x,y};
+      }
+      return null;
+    });
+    if(!point)throw new Error("No unobstructed map area available for investigation");
+    await page.mouse.click(point.x,point.y);
     await expect(page.locator(".discovery-map-pin")).toBeVisible();
     await expect(page.getByText("No real change is being claimed.",{exact:false})).toBeVisible();
 
