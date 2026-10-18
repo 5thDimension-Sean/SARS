@@ -1,6 +1,6 @@
 "use client";
 import {useState} from "react";
-import {ArrowRight,ArrowUpRight,BookOpen,Check,ChevronLeft,ChevronRight,Compass,MapPin,ScanSearch,ShieldCheck} from "lucide-react";
+import {ArrowRight,ArrowUpRight,BookOpen,ChevronLeft,ChevronRight,Compass,MapPin,ScanSearch,ShieldCheck} from "lucide-react";
 import {CompetitionShell,siteHref} from "@/components/site-navigation";
 import {studySites} from "@/lib/study-sites";
 import data from "@/data/sample-data.json";
