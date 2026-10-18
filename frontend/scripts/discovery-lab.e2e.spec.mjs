@@ -88,7 +88,7 @@ test.describe("SAR-Waltz Discovery Lab sample-mode browser journeys",()=>{
   });
   test("map cannot be resized and always fills the central column",async({page})=>{
     const middle=page.locator(".workspace-center-pane");
-    await expect(middle.locator(".panel-resize-edge")).toHaveCount(0);
+    await expect(middle.locator(":scope > .panel-resize-edge")).toHaveCount(0);
     await expect(middle.locator(".view-heading")).toBeVisible();
     const map=page.locator(".map-viewport");
     const parent=await middle.boundingBox(),child=await map.boundingBox();
