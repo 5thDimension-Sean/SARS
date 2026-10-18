@@ -15,7 +15,7 @@ import h5py
 import numpy as np
 from rasterio.crs import CRS
 from rasterio.transform import Affine, array_bounds
-from rasterio.warp import transform_bounds
+from rasterio.warp import transform_bounds, reproject, Resampling
 from rasterio.windows import from_bounds
 
 try:
@@ -271,7 +271,7 @@ def process_directory(input_dir: Path, out_dir: Path, *, pols: tuple[str, ...] =
                     "productVersion": product.version, "compositeReleaseId": product.release,
                     "dataMaturity": product.maturity, "productSpecificationVersion": product.specification,
                     "productType": "GCOV", "sourceFile": product.path.name, "pols": [POL_NAMES[p] for p in pols],
-                    "overlays": {}, "cog": {}, "histogramDb": {}, "statisticsDb": {},
+                    "overlays": {}, "cog": {}, "roiGrid": {}, "histogramDb": {}, "statisticsDb": {},
                     "nativeCrs": str(product.crs), "analysisSize": [shape[1], shape[0]],
                     "analysisBounds": list(array_bounds(*shape, transform)), "analysisTransform": list(transform)[:6]}
                 frame["acquisitions"].append(acquisition)
@@ -287,6 +287,22 @@ def process_directory(input_dir: Path, out_dir: Path, *, pols: tuple[str, ...] =
                         current[label] = values
                         acquisition["histogramDb"][label] = histogram_db(values, ranges[label])
                         acquisition["statisticsDb"][label] = statistics_db(values)
+                        # Lightweight, geographically aligned dB grid for approximate
+                        # client-side point/region inspection. Never treat this overview
+                        # sampling as a full-resolution scientific area estimate.
+                        grid_size = 96
+                        roi = np.full((grid_size,grid_size), np.nan, dtype=np.float32)
+                        roi_transform = target_transform * Affine.scale(target_width/grid_size,target_height/grid_size)
+                        reproject(source=values, destination=roi,
+                                  src_transform=transform,src_crs=product.crs,src_nodata=np.nan,
+                                  dst_transform=roi_transform,dst_crs=CRS.from_epsg(3857),dst_nodata=np.nan,
+                                  resampling=Resampling.average)
+                        grid_path = name+"_roi.json"
+                        acquisition["roiGrid"][label] = grid_path
+                        grid_values = [round(float(v), 3) if math.isfinite(float(v)) else None for v in roi.flat]
+                        (stage/grid_path).write_text(json.dumps({"schemaVersion":"1.0","type":"gamma0-db",
+                            "width":grid_size,"height":grid_size,"pol":label,
+                            "date":product.date,"values":grid_values},allow_nan=False),encoding="utf-8")
                         write_cog(stage/(name+".tif"), values, product.crs, transform)
                         write_png(stage/(name+".png"), values, product.crs, transform, target, ranges[label], quantize=png_quantize)
                 if previous_product:
