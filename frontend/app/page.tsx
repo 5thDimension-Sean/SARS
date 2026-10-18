@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowUpRight, Orbit, Satellite, ScanLine, HeartHandshake, ShieldCheck, ArrowRight } from "lucide-react";
+import { ArrowUpRight, Orbit, ScanLine, ShieldCheck, ArrowRight, Compass, Bookmark, FlaskConical } from "lucide-react";
 import { CompetitionShell, siteHref } from "@/components/site-navigation";
 import { studySites } from "@/lib/study-sites";
 import { SampleMapTour } from "@/components/sample-map-tour";
@@ -19,12 +19,21 @@ export default function Home() {
         <h1>Every place has a story.<br /><em>Radar helps us listen.</em></h1>
         <p className="story-intro">The Earth is always changing. Water shifts, forests evolve, and the ground moves. SAR-Waltz turns the radar signals behind those changes into investigations anyone can explore.</p>
         <div className="story-actions">
-          <a className="story-btn story-btn-primary" href={siteHref("/studies/everglades/")}>Begin the journey <ArrowRight size={17}/></a>
+          <a className="story-btn story-btn-primary" href={siteHref("/mission/")}>Start a guided mission <ArrowRight size={17}/></a>
           <a className="story-btn story-btn-ghost" href={siteHref("/explore/")}>Launch SAR workspace <ArrowUpRight size={16}/></a>
         </div>
         <p className="story-data-note"><ShieldCheck size={15}/> Fictional demo measurements are explicitly marked SAMPLE. Verified processed observations are labeled DERIVED.</p>
       </div>
       <SampleMapTour />
+    </section>
+
+    <section className="story-section story-hubs" aria-label="Choose how to explore" data-reveal>
+      <div className="story-section-head"><div><p className="story-eyebrow">CHOOSE YOUR EXPERIENCE</p><h2>One project. Three ways to explore.</h2></div><p>Begin with a guided mission, return to a discovery, or examine the evidence behind a radar signal.</p></div>
+      <div className="story-hub-cards">
+        <a href={siteHref("/mission/")}><Compass size={26}/><span>01 / BEGIN HERE</span><strong>Mission Mode</strong><p>Follow four short steps to investigate a place, even if you've never used radar before.</p><b>Start a mission <ArrowRight size={16}/></b></a>
+        <a href={siteHref("/discoveries/")}><Bookmark size={26}/><span>02 / REVISIT</span><strong>Discoveries</strong><p>Browse five example locations, reopen your saved views, and later inspect real processed data.</p><b>Browse discoveries <ArrowRight size={16}/></b></a>
+        <a href={siteHref("/hypotheses/")}><FlaskConical size={26}/><span>03 / THINK LIKE A SCIENTIST</span><strong>Hypothesis Lab</strong><p>Explore multiple explanations for radar differences and the evidence needed to distinguish them.</p><b>Try Hypothesis Lab <ArrowRight size={16}/></b></a>
+      </div>
     </section>
 
     <section className="story-section story-why" data-reveal>
