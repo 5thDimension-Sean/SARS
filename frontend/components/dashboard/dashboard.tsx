@@ -41,7 +41,6 @@ export function Dashboard() {
   const panelTrigger = useRef<HTMLButtonElement | null>(null);
   const [leftWidth,setLeftWidth]=useState<number|null>(null);
   const [rightWidth,setRightWidth]=useState<number|null>(null);
-  const [layoutVersion,setLayoutVersion]=useState(0);
   const layoutStyle={
     "--left-pane-width":leftWidth===null?undefined:leftWidth+"px",
     "--right-pane-width":rightWidth===null?undefined:rightWidth+"px",
@@ -273,16 +272,15 @@ export function Dashboard() {
         className={`workspace min-h-0 ${collapsed ? "rail-collapsed" : ""}`}
         style={layoutStyle}
       >
-        <ShrinkablePanel className="workspace-left-pane" minWidth={145} minHeight={280} dockToGrid onWidthChange={width=>{setLeftWidth(width);setLayoutVersion(v=>v+1);}}>
+        <ShrinkablePanel className="workspace-left-pane" minWidth={145} minHeight={280} dockToGrid onWidthChange={setLeftWidth}>
         <ObservationRail
           {...railProps}
           collapsed={collapsed}
           onCollapse={() => setCollapsed((v) => !v)}
         />
         </ShrinkablePanel>
-        <ShrinkablePanel className="workspace-center-pane" minWidth={440} minHeight={410} fillAvailableWidth fillVersion={layoutVersion}>
         <section
-          className="viewport-column"
+          className="viewport-column workspace-center-pane"
           id="observation-view"
           tabIndex={-1}
         >
@@ -351,8 +349,7 @@ export function Dashboard() {
             />
           </ObservationViewport>
         </section>
-        </ShrinkablePanel>
-        <ShrinkablePanel className="workspace-right-pane" minWidth={180} minHeight={290} dockToGrid onWidthChange={width=>{setRightWidth(width);setLayoutVersion(v=>v+1);}}>
+        <ShrinkablePanel className="workspace-right-pane" minWidth={180} minHeight={290} dockToGrid onWidthChange={setRightWidth}>
           <AnalysisRail {...analysisProps} />
         </ShrinkablePanel>
       </SidebarProvider>

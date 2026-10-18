@@ -23,3 +23,23 @@ export function clampMapPan(x:number,y:number,zoom:number,width:number,height:nu
   const limitY=Math.max(0,(zoom-1)*height/2);
   return {x:clampNumber(x,-limitX,limitX),y:clampNumber(y,-limitY,limitY)};
 }
+
+/** Keep the source pixel below the pointer stationary while scaling.
+ * x/y are relative to the top-left of the untransformed viewport.
+ * Pan is clamped to avoid exposing empty space outside the image.
+ */
+export function zoomMapAtPoint(
+  currentZoom:number,nextZoom:number,pan:{x:number;y:number},
+  width:number,height:number,x:number,y:number
+){
+  const zoom=clampNumber(nextZoom,1,3);
+  if(width<=0||height<=0||!Number.isFinite(currentZoom)||currentZoom<=0)
+    return {zoom:currentZoom,pan};
+  const factor=zoom/currentZoom;
+  const nextPan=clampMapPan(
+    (x-width/2)*(1-factor)+pan.x*factor,
+    (y-height/2)*(1-factor)+pan.y*factor,
+    zoom,width,height
+  );
+  return {zoom,pan:nextPan};
+}
