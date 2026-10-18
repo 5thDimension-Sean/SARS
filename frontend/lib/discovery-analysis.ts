@@ -71,9 +71,22 @@ export function coordinatesAtPoint(location:Hotspot,p:SitePoint):string{
   return lat.toFixed(5)+"°, "+lon.toFixed(5)+"°";
 }
 export function safeHtml(text:string):string{return text.replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]!));}
-export function reportHtml(text:string,subject:string):string{
+export function reportHtml(text:string,subject:string,series?:{date:string;value:number|null}[],derived=false):string{
+  const points=(derived?series??[]:[]).filter((p):p is {date:string;value:number}=>p.value!==null);
+  const min=Math.min(...points.map(p=>p.value),0)-1,max=Math.max(...points.map(p=>p.value),0)+1;
+  const polyline=points.map((p,i)=>(24+i*500/Math.max(points.length-1,1)).toFixed(1)+","+
+    (110-(p.value-min)*86/(max-min)).toFixed(1)).join(" ");
+  const chart=points.length>=2?
+    '<figure><figcaption>Measured frame-wide radar backscatter (dB) — not a pixel-level time series</figcaption>'+
+    '<svg viewBox="0 0 560 145" role="img" aria-label="Measured frame wide radar backscatter across acquisitions">'+
+    '<path d="M24 116H530" stroke="#516c76" fill="none"/><polyline points="'+polyline+
+    '" fill="none" stroke="#157f7d" stroke-width="3" stroke-linejoin="round"/>'+
+    '<text x="24" y="136" font-size="11">'+safeHtml(points[0].date.slice(0,10))+'</text>'+
+    '<text x="530" y="136" font-size="11" text-anchor="end">'+safeHtml(points.at(-1)!.date.slice(0,10))+'</text></svg></figure>'
+    :'<p class="empty">Measured chart unavailable; demonstration dates and fabricated values are not plotted as evidence.</p>';
   return '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>SAR-Waltz Report</title>'+
-    '<style>body{max-width:760px;margin:48px auto;padding:0 20px;font:15px/1.65 Arial;color:#142b35}h1{border-bottom:2px solid #276c76;padding-bottom:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 monospace}small{color:#48626c}@media print{body{margin:20px auto}}</style></head><body>'+
-    '<h1>SAR-Waltz · Discovery report</h1><small>'+safeHtml(subject)+'</small><pre>'+safeHtml(text)+'</pre>'+
-    '<p><strong>Interpretation warning:</strong> Radar changes are not proof of a physical cause. Verify with external observations.</p></body></html>';
+    '<style>body{max-width:800px;margin:35px auto;padding:0 24px;font:14px/1.6 Arial;color:#142b35}h1{border-bottom:3px solid #276c76;padding-bottom:10px}small{color:#48626c}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 monospace;border:1px solid #a5bbc1;border-radius:8px;padding:16px}figure{margin:18px 0;padding:12px;border:1px solid #b6cfd0;border-radius:8px}svg{width:100%;height:auto}.empty{border:1px dashed #aaa;padding:12px;color:#666}footer{font-size:12px;border-top:1px solid #ddd;padding-top:12px}@media print{body{margin:8px auto;font-size:12px}pre{font-size:10px}}</style></head><body>'+
+    '<h1>SAR-Waltz · Discovery report</h1><small>Selected investigation: '+safeHtml(subject)+'</small>'+
+    chart+'<h2>Data, analysis and limitations</h2><pre>'+safeHtml(text)+'</pre>'+
+    '<footer><strong>Interpretation warning:</strong> Radar differences are not proof of a physical cause or an affected land area. Independent validation required.</footer></body></html>';
 }
