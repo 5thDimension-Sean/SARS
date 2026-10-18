@@ -67,13 +67,13 @@ function SignalTimeline({location,polarization,index}:{
 
 export function DiscoveryLab({
   phenomenon,location,before,after,polarization,index,playing,onPlaying,onIndex,
-  selectedPoint,onSelectPoint,showOptical,onShowOptical,snapshot
+  selectedPoint,onSelectPoint,showOptical,onShowOptical,onInspectionMode,snapshot
 }:{
   phenomenon:Phenomenon;
   location:Hotspot;before:Acquisition;after:Acquisition;polarization:Polarization;
   index:number;playing:boolean;onPlaying:(v:boolean)=>void;onIndex:(n:number)=>void;
   selectedPoint:SitePoint|null;onSelectPoint:(p:SitePoint|null)=>void;
-  showOptical:boolean;onShowOptical:(v:boolean)=>void;snapshot:InvestigationSnapshot;
+  showOptical:boolean;onShowOptical:(v:boolean)=>void;onInspectionMode:(v:boolean)=>void;snapshot:InvestigationSnapshot;
 }){
   const [active,setActive]=useState<Mode|null>(null);
   const [tourStep,setTourStep]=useState(0);
@@ -116,7 +116,9 @@ export function DiscoveryLab({
     return()=>abort.abort();
   },[before,after,polarization,pickX,pickY,firstUrl,secondUrl,derived]);
   function switchTab(tab:Mode){
-    setActive(current=>current===tab?null:tab);
+    const next=active===tab?null:tab;
+    setActive(next);
+    onInspectionMode(next==="detect");
     if(tab!=="detect")onSelectPoint(null);
     if(tab!=="optical")onShowOptical(false);
     if(tab==="detect"&&active!=="detect")onShowOptical(false);
@@ -151,7 +153,7 @@ export function DiscoveryLab({
     {active!==null&&<div className="discovery-lab-drawer" role="region" aria-label={sections.find(s=>s.id===active)?.label}>
       <div className="discovery-drawer-header">
         <div><span className="discovery-eyebrow">SAR-WALTZ / {active.toUpperCase()}</span><h3>{sections.find(s=>s.id===active)?.label}</h3></div>
-        <button type="button" onClick={()=>{setActive(null);onShowOptical(false)}} aria-label="Close Discovery Lab panel"><X size={18}/></button>
+        <button type="button" onClick={()=>{setActive(null);onShowOptical(false);onInspectionMode(false)}} aria-label="Close Discovery Lab panel"><X size={18}/></button>
       </div>
       {sampleNote&&<p className="discovery-notice"><ShieldAlert size={14}/>{sampleNote}</p>}
       {active==="detect"&&<div className="discovery-pane">
@@ -214,7 +216,7 @@ export function DiscoveryLab({
         <h4>{tour[tourStep].title}</h4><p>{tour[tourStep].body}</p>
         <div className="discovery-playback">
           <button type="button" disabled={tourStep===0} onClick={()=>setTourStep(v=>Math.max(0,v-1))}><ChevronLeft size={16}/> Back</button>
-          <button type="button" onClick={()=>{if(tourStep===tour.length-1){setActive("detect");setTourStep(0);}else setTourStep(v=>v+1)}}>
+          <button type="button" onClick={()=>{if(tourStep===tour.length-1){setActive("detect");onInspectionMode(true);setTourStep(0);}else setTourStep(v=>v+1)}}>
             {tourStep===tour.length-1?"Start investigating":"Next step"} <ChevronRight size={16}/>
           </button>
         </div>
