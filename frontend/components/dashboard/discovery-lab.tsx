@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
-import {BookOpen,CheckCircle2,ChevronLeft,ChevronRight,Cloud,Compass,Download,FileText,HelpCircle,Layers3,MapPin,Pause,Play,ScanSearch,ShieldAlert,ShieldCheck,TrendingUp,X} from "lucide-react";
+import {BookOpen,CheckCircle2,ChevronDown,ChevronLeft,ChevronRight,Cloud,Compass,Download,FileText,HelpCircle,Layers3,MapPin,Pause,Play,ScanSearch,ShieldAlert,ShieldCheck,TrendingUp,X} from "lucide-react";
 import type {Acquisition,Hotspot,Phenomenon,Polarization} from "@/lib/sample-schema";
 import type {InvestigationSnapshot} from "@/lib/investigation-report";
 import {calculateRoiComparison,coordinatesAtPoint,evaluateEvidence,radarSeries,reportHtml,validateRoiGrid,type RoiComparison,type SitePoint} from "@/lib/discovery-analysis";
@@ -76,6 +76,7 @@ export function DiscoveryLab({
   showOptical:boolean;onShowOptical:(v:boolean)=>void;onInspectionMode:(v:boolean)=>void;snapshot:InvestigationSnapshot;
 }){
   const [active,setActive]=useState<Mode|null>(null);
+  const [menuOpen,setMenuOpen]=useState(false);
   const [tourStep,setTourStep]=useState(0);
   const [roi,setRoi]=useState<RoiComparison|null>(null);
   const [roiState,setRoiState]=useState<"idle"|"loading"|"missing"|"ready"|"error">("idle");
@@ -118,6 +119,7 @@ export function DiscoveryLab({
   function switchTab(tab:Mode){
     const next=active===tab?null:tab;
     setActive(next);
+    setMenuOpen(false);
     onInspectionMode(next==="detect");
     // Keep the point across tools so it remains in the Evidence and Report views.
     if(tab!=="optical")onShowOptical(false);
@@ -142,14 +144,22 @@ export function DiscoveryLab({
   return <section className="discovery-lab" aria-label="Discovery Lab tools">
     <div className="discovery-lab-top">
       <div className="discovery-lab-intro"><Layers3 size={16} aria-hidden="true"/><span>DISCOVERY LAB</span></div>
+      <button type="button" className="discovery-tools-trigger"
+        aria-label={menuOpen?"Hide Discovery Lab tools":"Show Discovery Lab tools"}
+        aria-expanded={menuOpen} aria-controls="discovery-tool-menu"
+        onClick={()=>{setMenuOpen(value=>!value);setActive(null);onShowOptical(false);onInspectionMode(false)}}>
+        {menuOpen?"Hide tools":"Explore tools"} <span>6</span><ChevronDown size={15} aria-hidden="true"/>
+      </button>
+      <span className="discovery-lab-status">{derived?"GCOV DATA":"DEMO ONLY"}</span>
+    </div>
+    {menuOpen&&<div id="discovery-tool-menu" className="discovery-lab-tool-menu">
       <div className="discovery-lab-tabs" role="group" aria-label="Choose a discovery tool">
         {sections.map(({id,label,icon:Icon})=><button type="button" key={id} className={active===id?"active":""}
-          aria-expanded={active===id} aria-label={label} onClick={()=>switchTab(id)}>
+          aria-pressed={active===id} aria-label={label} onClick={()=>switchTab(id)}>
           <Icon size={15} aria-hidden="true"/><span>{label}</span>
         </button>)}
       </div>
-      <span className="discovery-lab-status">{derived?"GCOV DATA":"DEMO ONLY"}</span>
-    </div>
+    </div>}
     {active!==null&&<div className="discovery-lab-drawer" role="region" aria-label={sections.find(s=>s.id===active)?.label}>
       <div className="discovery-drawer-header">
         <div><span className="discovery-eyebrow">SAR-WALTZ / {active.toUpperCase()}</span><h3>{sections.find(s=>s.id===active)?.label}</h3></div>

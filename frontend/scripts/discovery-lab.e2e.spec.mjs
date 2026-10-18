@@ -1,44 +1,79 @@
 import {test,expect} from "@playwright/test";
 
 const url="http://127.0.0.1:4173/SARS/explore/";
+async function openTool(page,name){
+  await page.getByRole("button",{name:"Show Discovery Lab tools"}).click();
+  await page.getByRole("group",{name:"Choose a discovery tool"}).getByRole("button",{name,exact:true}).click();
+}
 test.describe("SAR-Waltz Discovery Lab sample-mode browser journeys",()=>{
   test.beforeEach(async({page})=>{
     await page.setViewportSize({width:1440,height:900});
     await page.goto(url);
-    await expect(page.getByRole("group",{name:"Choose a discovery tool"})).toBeVisible();
+    await expect(page.getByRole("button",{name:"Show Discovery Lab tools"})).toBeVisible();
+    await expect(page.getByRole("group",{name:"Choose a discovery tool"})).toHaveCount(0);
   });
   test("six tools remain navigable; sample mode never claims measured radar results",async({page})=>{
+    await page.getByRole("button",{name:"Show Discovery Lab tools"}).click();
     const tools=page.getByRole("group",{name:"Choose a discovery tool"});
     for(const name of ["Investigate","Radar / Optical","Check Evidence","Earth's Waltz","Make a Report","1-Minute Tour"])
       await expect(tools.getByRole("button",{name})).toBeVisible();
     await tools.getByRole("button",{name:"Investigate"}).click();
     await expect(page.getByText("Click the map",{exact:false})).toBeVisible();
     const map=page.locator(".surface-scene");
-    const rect=await map.boundingBox();
-    if(!rect)throw new Error("Map is not visible");
-    await page.mouse.click(rect.x+rect.width*.25,rect.y+rect.height*.62);
+    // Find a genuinely exposed map pixel: the floating Discovery Lab drawer
+    // covers part of the top-right, while the date timeline covers the bottom-left.
+    const point=await map.evaluate(scene=>{
+      const rect=scene.getBoundingClientRect();
+      for(const [rx,ry] of [[.18,.34],[.32,.28],[.18,.48],[.42,.31],[.75,.72]]){
+        const x=rect.left+rect.width*rx,y=rect.top+rect.height*ry;
+        const target=document.elementFromPoint(x,y);
+        if(target&&scene.contains(target))return {x,y};
+      }
+      return null;
+    });
+    if(!point)throw new Error("No unobstructed map area available for investigation");
+    await page.mouse.click(point.x,point.y);
     await expect(page.locator(".discovery-map-pin")).toBeVisible();
     await expect(page.getByText("No real change is being claimed.",{exact:false})).toBeVisible();
 
-    await tools.getByRole("button",{name:"Radar / Optical"}).click();
+    await openTool(page,"Radar / Optical");
     await expect(page.getByText("No verified co-registered optical image",{exact:false})).toBeVisible();
-    await tools.getByRole("button",{name:"Check Evidence"}).click();
+    await openTool(page,"Check Evidence");
     await expect(page.getByText("Observed radar products")).toBeVisible();
     await expect(page.getByText("Independent validation")).toBeVisible();
-    await tools.getByRole("button",{name:"Earth's Waltz"}).click();
+    await openTool(page,"Earth's Waltz");
     await expect(page.getByRole("button",{name:"Play the animated sequence"})).toBeVisible();
-    await tools.getByRole("button",{name:"1-Minute Tour"}).click();
+    await openTool(page,"1-Minute Tour");
     await expect(page.getByText("Choose the place")).toBeVisible();
     await page.getByRole("button",{name:"Next step"}).click();
     await expect(page.getByText("Pick your before and after")).toBeVisible();
   });
   test("downloaded sample report is accurately labeled",async({page})=>{
-    await page.getByRole("button",{name:"Make a Report"}).click();
+    await openTool(page,"Make a Report");
     const promise=page.waitForEvent("download");
     await page.getByRole("button",{name:"Download printable visual report"}).click();
     const file=await promise;
     expect(file.suggestedFilename()).toMatch(/^sar-waltz-.*\.html$/);
     await expect(page.getByText("SAMPLE · NOT AN OBSERVED CHANGE",{exact:false})).toBeVisible();
+  });
+  test("declutter defaults preserve map controls, chart access and observation data",async({page})=>{
+    await expect(page.locator(".system-bar")).toHaveCount(0);
+    const left=page.locator(".workspace-left-pane");
+    await expect(left.locator("details").filter({hasText:"PLACES"})).toHaveAttribute("open","");
+    const options=left.locator("details").filter({hasText:"MAP OPTIONS"});
+    await expect(options).not.toHaveAttribute("open","");
+    await options.locator("summary").click();
+    await expect(page.getByRole("switch",{name:"Show coordinate grid"}).first()).not.toBeChecked();
+    await page.getByRole("switch",{name:"Show coordinate grid"}).first().click();
+    await expect(page.getByRole("switch",{name:"Show coordinate grid"}).first()).toBeChecked();
+    await options.locator("summary").click();
+    const analysis=page.locator(".workspace-right-pane");
+    const charts=analysis.locator("details").filter({hasText:"CHARTS & DATA DETAILS"});
+    await expect(charts).not.toHaveAttribute("open","");
+    await charts.locator("summary").click();
+    await expect(analysis.getByRole("tab",{name:"Signal chart"})).toBeVisible();
+    await analysis.getByRole("tab",{name:"Data details"}).click();
+    await expect(analysis.getByText("SELECTED ACQUISITION")).toBeVisible();
   });
   test("shrinking a sidebar gives its width to the central map",async({page})=>{
     const left=page.locator(".workspace-left-pane"),middle=page.locator(".workspace-center-pane");

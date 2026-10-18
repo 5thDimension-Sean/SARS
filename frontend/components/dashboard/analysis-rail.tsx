@@ -5,7 +5,9 @@ import {
   TriangleAlert,
   CheckCircle2,
   Activity,
+  ChevronDown,
 } from "lucide-react";
+import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
@@ -43,6 +45,7 @@ export function AnalysisRail({
   onViewMode: (v: "displacement" | "phase") => void;
   overlay?: boolean;
 }) {
+  const [groups,setGroups]=useState({summary:true,settings:true});
   const seismic = p.analysis === "displacement";
   const derived = after.provenance === "derived";
   const badge = derived ? "DERIVED" : "SAMPLE";
@@ -72,7 +75,11 @@ export function AnalysisRail({
           {badge}
         </span>
       </div>
-      <div className="analysis-intro">Compare the radar signal, then check the dates and caveats. A change in the signal does not prove what caused it.</div>
+      <details className="analysis-disclosure" open={groups.summary} onToggle={event=>{const open=event.currentTarget.open;setGroups(current=>({...current,summary:open}));}}>
+        <summary className="analysis-disclosure-summary">
+          <span>CHANGE SUMMARY</span><ChevronDown size={15} aria-hidden="true"/>
+        </summary>
+      <div className="analysis-intro">Radar changes may have several causes. Review the evidence before interpreting them.</div>
       <section className="rail-section metric-section">
         <div className="eyebrow">{metric.label.toUpperCase()}</div>
         <div className="primary-metric">
@@ -131,6 +138,11 @@ export function AnalysisRail({
           ))}
         </div>
       </section>
+      </details>
+      <details className="analysis-disclosure" open={groups.settings} onToggle={event=>{const open=event.currentTarget.open;setGroups(current=>({...current,settings:open}));}}>
+        <summary className="analysis-disclosure-summary">
+          <span>RADAR SETTINGS</span><ChevronDown size={15} aria-hidden="true"/>
+        </summary>
       <section className="rail-section analysis-controls">
         <div className="eyebrow">ANALYSIS SETTINGS</div>
         {seismic ? (
@@ -173,6 +185,11 @@ export function AnalysisRail({
           </Select>
         )}
       </section>
+      </details>
+      <details className="analysis-disclosure">
+        <summary className="analysis-disclosure-summary">
+          <span>CHARTS & DATA DETAILS</span><ChevronDown size={15} aria-hidden="true"/>
+        </summary>
       <Tabs defaultValue="signal" className="analysis-tabs">
         <TabsList variant="line" className="analysis-tab-list">
           <TabsTrigger value="signal">Signal chart</TabsTrigger>
@@ -294,6 +311,11 @@ export function AnalysisRail({
           </section>
         </TabsContent>
       </Tabs>
+      </details>
+      <details className="analysis-disclosure">
+        <summary className="analysis-disclosure-summary">
+          <span>WHAT AM I SEEING?</span><ChevronDown size={15} aria-hidden="true"/>
+        </summary>
       <section className="rail-section explanation-section">
         <div className="eyebrow">
           <Info size={14} />
@@ -302,6 +324,7 @@ export function AnalysisRail({
         <p className="explanation">{p.explanation}</p>
         <p className="limitation">{p.limitation}</p>
       </section>
+      </details>
     </div>
   );
 }
