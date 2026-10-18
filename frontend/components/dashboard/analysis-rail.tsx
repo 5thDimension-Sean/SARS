@@ -7,6 +7,7 @@ import {
   Activity,
   ChevronDown,
 } from "lucide-react";
+import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
@@ -44,6 +45,7 @@ export function AnalysisRail({
   onViewMode: (v: "displacement" | "phase") => void;
   overlay?: boolean;
 }) {
+  const [groups,setGroups]=useState({summary:true,settings:true});
   const seismic = p.analysis === "displacement";
   const derived = after.provenance === "derived";
   const badge = derived ? "DERIVED" : "SAMPLE";
@@ -73,7 +75,7 @@ export function AnalysisRail({
           {badge}
         </span>
       </div>
-      <details className="analysis-disclosure" defaultOpen>
+      <details className="analysis-disclosure" open={groups.summary} onToggle={event=>setGroups(current=>({...current,summary:event.currentTarget.open}))}>
         <summary className="analysis-disclosure-summary">
           <span>CHANGE SUMMARY</span><ChevronDown size={15} aria-hidden="true"/>
         </summary>
@@ -137,7 +139,7 @@ export function AnalysisRail({
         </div>
       </section>
       </details>
-      <details className="analysis-disclosure" defaultOpen>
+      <details className="analysis-disclosure" open={groups.settings} onToggle={event=>setGroups(current=>({...current,settings:event.currentTarget.open}))}>
         <summary className="analysis-disclosure-summary">
           <span>RADAR SETTINGS</span><ChevronDown size={15} aria-hidden="true"/>
         </summary>
