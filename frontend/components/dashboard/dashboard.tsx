@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState, useRef, type CSSProperties } from "react";
-import { Layers, ChartNoAxesCombined, Satellite } from "lucide-react";
+import { Layers, ChartNoAxesCombined } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   Sheet,
@@ -53,7 +53,7 @@ export function Dashboard() {
     [layers, setLayers] = useState<LayerState>({
       change: true,
       boundaries: true,
-      grid: true,
+      grid: false,
     }),
     [polarization, setPolarization] = useState<Polarization>("HV"),
     [viewMode, setViewMode] = useState<"displacement" | "phase">(
@@ -356,26 +356,6 @@ export function Dashboard() {
           <AnalysisRail {...analysisProps} />
         </ShrinkablePanel>
       </SidebarProvider>
-      <footer className="system-bar">
-        <span>
-          <span className="text-cyan">◇</span>{" "}
-          {derived ? "DERIVED DATA" : "SAMPLE MODE"}{" "}
-          <span className="footer-detail">
-            / {derived ? "OFFLINE GCOV" : "NO LIVE DATA"}
-          </span>
-        </span>
-        <span
-          title={manifestError ?? undefined}
-          className={manifestError ? "text-amber" : ""}
-        >
-          {manifestError
-            ? "WARN · MANIFEST INVALID / USING SAMPLES"
-            : "NASA SPACE APPS 2026 · SAR-WALTZ"}
-        </span>
-        <span>
-          <Satellite size={11} /> {after.productType} / L-BAND
-        </span>
-      </footer>
       {manifestError && (
         <div className="manifest-error" role="status">
           <strong>WARN · Pipeline data was not loaded.</strong> {manifestError}{" "}
