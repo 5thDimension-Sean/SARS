@@ -75,7 +75,7 @@ export function AnalysisRail({
           {badge}
         </span>
       </div>
-      <details className="analysis-disclosure" open={groups.summary} onToggle={event=>setGroups(current=>({...current,summary:event.currentTarget.open}))}>
+      <details className="analysis-disclosure" open={groups.summary} onToggle={event=>{const open=event.currentTarget.open;setGroups(current=>({...current,summary:open}));}}>
         <summary className="analysis-disclosure-summary">
           <span>CHANGE SUMMARY</span><ChevronDown size={15} aria-hidden="true"/>
         </summary>
@@ -139,7 +139,7 @@ export function AnalysisRail({
         </div>
       </section>
       </details>
-      <details className="analysis-disclosure" open={groups.settings} onToggle={event=>setGroups(current=>({...current,settings:event.currentTarget.open}))}>
+      <details className="analysis-disclosure" open={groups.settings} onToggle={event=>{const open=event.currentTarget.open;setGroups(current=>({...current,settings:open}));}}>
         <summary className="analysis-disclosure-summary">
           <span>RADAR SETTINGS</span><ChevronDown size={15} aria-hidden="true"/>
         </summary>
