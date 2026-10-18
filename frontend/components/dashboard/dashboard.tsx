@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState, useRef, type CSSProperties } from "react";
-import { Layers, ChartNoAxesCombined } from "lucide-react";
+import { Layers, ChartNoAxesCombined, BookmarkPlus, Share2, Check, LibraryBig } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   Sheet,
@@ -19,6 +19,8 @@ import {DiscoveryLab} from "./discovery-lab";
 import type {SitePoint} from "@/lib/discovery-analysis";
 import {ShrinkablePanel} from "./shrinkable-panel";
 import {buildInvestigationSnapshot} from "@/lib/investigation-report";
+import {addSavedView,parseViewParams,viewLink,type ViewParams} from "@/lib/saved-investigations";
+import {siteHref} from "@/components/site-navigation";
 import rawData from "@/data/sample-data.json";
 import type {
   DashboardDataset,
@@ -38,6 +40,7 @@ export function Dashboard() {
   const [selectedPoint,setSelectedPoint]=useState<SitePoint|null>(null);
   const [showOptical,setShowOptical]=useState(false);
   const [inspectionEnabled,setInspectionEnabled]=useState(false);
+  const [saveNotice,setSaveNotice]=useState("");
   const panelTrigger = useRef<HTMLButtonElement | null>(null);
   const [leftWidth,setLeftWidth]=useState<number|null>(null);
   const [rightWidth,setRightWidth]=useState<number|null>(null);
@@ -143,8 +146,23 @@ export function Dashboard() {
       const chosen = data.phenomena[pi].locations[li];
       setPhenomenon(pi);
       setLocation(li);
-      setIndex(chosen.acquisitions.length - 1);
-      setBaseline(chosen.provenance === "derived" ? Math.max(0, chosen.acquisitions.length - 2) : 0);
+      const requestedView=parseViewParams(window.location.search);
+      const latest=chosen.acquisitions.length-1;
+      const selectedAfter=requestedView?.hotspot===chosen.id
+        ?chosen.acquisitions.findIndex(a=>a.date===requestedView.after):-1;
+      const selectedBefore=requestedView?.hotspot===chosen.id
+        ?chosen.acquisitions.findIndex(a=>a.date===requestedView.before):-1;
+      if(selectedAfter>=0 && selectedBefore>=0 && selectedBefore<=selectedAfter){
+        setIndex(selectedAfter);
+        setBaseline(selectedBefore);
+        const pol=requestedView!.pol;
+        if(chosen.acquisitions[selectedAfter].polarization.includes(pol))setPolarization(pol);
+        setSelectedPoint(requestedView!.point??null);
+      }else{
+        setIndex(latest);
+        setBaseline(chosen.provenance==="derived"?Math.max(0,latest-1):0);
+        setSelectedPoint(null);
+      }
       setPlaying(false);
       break;
     }
@@ -165,6 +183,28 @@ export function Dashboard() {
     },
     selectLocation,
   );
+  function currentView():ViewParams{
+    return {hotspot:location.id,before:before.date,after:after.date,pol:activePolarization,
+      point:selectedPoint??undefined,provenance:derived?"derived":"sample"};
+  }
+  function saveCurrent(){
+    try{
+      addSavedView(window.localStorage,currentView(),location.label+" · "+p.shortLabel);
+      setSaveNotice("Saved to this browser. Open Discoveries to revisit.");
+    }catch{
+      setSaveNotice("Browser storage is unavailable. Use Share to copy a link instead.");
+    }
+  }
+  async function shareCurrent(){
+    const url=window.location.origin+siteHref(viewLink(currentView()));
+    try{
+      await navigator.clipboard.writeText(url);
+      setSaveNotice("Shareable link copied. It contains only the public view settings.");
+    }catch{
+      window.prompt("Copy your investigation link:",url);
+      setSaveNotice("Share this URL to reopen the selected view.");
+    }
+  }
   const comparePreset = (preset: "first" | "previous") => {
     const latest = location.acquisitions.length - 1;
     setIndex(latest);
@@ -289,6 +329,17 @@ export function Dashboard() {
               <span className="view-slash">/</span> EARTH OBSERVATION{" "}
               <span className="view-slash">/</span> {p.shortLabel}
             </div>
+            <div className="explore-view-actions" role="group" aria-label="Save and navigate investigations">
+              <button type="button" onClick={saveCurrent} title="Save this view in this browser">
+                <BookmarkPlus size={14}/><span>Save view</span>
+              </button>
+              <button type="button" onClick={()=>void shareCurrent()} title="Copy a direct link to this exact view">
+                <Share2 size={14}/><span>Share</span>
+              </button>
+              <a href={siteHref("/discoveries/")} title="Go to saved views">
+                <LibraryBig size={14}/><span>Discoveries</span>
+              </a>
+            </div>
             <div className="comparison-mode">
               <span className="cross-dot">◈</span> COMPARISON VIEW
             </div>
@@ -353,6 +404,7 @@ export function Dashboard() {
           <AnalysisRail {...analysisProps} />
         </ShrinkablePanel>
       </SidebarProvider>
+      {saveNotice&&<div className="explore-save-notice" role="status"><Check size={14}/>{saveNotice}<button type="button" aria-label="Dismiss save message" onClick={()=>setSaveNotice("")}>×</button></div>}
       {manifestError && (
         <div className="manifest-error" role="status">
           <strong>WARN · Pipeline data was not loaded.</strong> {manifestError}{" "}
