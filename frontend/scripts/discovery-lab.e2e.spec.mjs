@@ -22,7 +22,8 @@ test.describe("SAR-Waltz Discovery Lab sample-mode browser journeys",()=>{
     const map=page.locator(".surface-scene");
     const rect=await map.boundingBox();
     if(!rect)throw new Error("Map is not visible");
-    await page.mouse.click(rect.x+rect.width*.25,rect.y+rect.height*.62);
+    // The floating date timeline intentionally covers the lower-left map. Click a clear investigation area.
+    await page.mouse.click(rect.x+rect.width*.70,rect.y+rect.height*.34);
     await expect(page.locator(".discovery-map-pin")).toBeVisible();
     await expect(page.getByText("No real change is being claimed.",{exact:false})).toBeVisible();
 
