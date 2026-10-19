@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import {GlobalCommandCenter} from "@/components/global-command-center";
 
 export const metadata: Metadata = {
   title: "SAR-Waltz",
@@ -20,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">{children}<GlobalCommandCenter/></body>
     </html>
   );
 }
