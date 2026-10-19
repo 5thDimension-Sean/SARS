@@ -211,3 +211,60 @@ test.describe("Multi-page SAR-Waltz navigation and bookmark flows",()=>{
     await expect(page.getByText("No processed observations have been published yet.")).toBeVisible();
   });
 });
+
+test.describe("Minimal navigation, global search, and educational Playground",()=>{
+  test("homepage keeps details accessible without crowding the initial page",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/");
+    const details=page.locator(".minimal-home-extras");
+    await expect(details).not.toHaveAttribute("open","");
+    await expect(page.getByRole("link",{name:/Start a guided mission/i}).first()).toBeVisible();
+    await expect(page.getByRole("link",{name:"Explore",exact:true}).first()).toBeVisible();
+    await details.locator("summary").click();
+    await expect(details).toHaveAttribute("open","");
+    await expect(page.getByRole("heading",{name:"Built by two curious problem-solvers."})).toBeVisible();
+  });
+  test("Ctrl+K searches locations across pages and opens radar at selected study",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/mission/");
+    await page.keyboard.press("Control+k");
+    const command=page.getByRole("dialog",{name:"Search SAR-Waltz"});
+    await expect(command).toBeVisible();
+    await command.getByPlaceholder(/Search pages, places, tools/).fill("Rondônia");
+    await command.getByRole("option",{name:/Rondônia/}).click();
+    await expect(page).toHaveURL(/\/SARS\/explore\/\?hotspot=F-01/);
+    await expect(page.getByText("Forest frontier A",{exact:false}).first()).toBeVisible();
+  });
+  test("Radar Playground is a stand-alone conceptual experience",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/");
+    await page.getByRole("button",{name:"Search pages, places and tools"}).click();
+    const command=page.getByRole("dialog",{name:"Search SAR-Waltz"});
+    await command.getByPlaceholder(/Search pages, places, tools/).fill("Radar Playground");
+    await command.getByRole("option",{name:/Radar Playground/}).click();
+    await expect(page).toHaveURL(/\/SARS\/playground\//);
+    await expect(page.getByRole("heading",{name:"Radar Playground"})).toBeVisible();
+    await expect(page.getByText("These controls change an educational surface drawing",{exact:false})).toBeVisible();
+    await page.getByRole("button",{name:"Open water"}).click();
+    await expect(page.getByRole("heading",{name:"A smoother open-water example"})).toBeVisible();
+    await page.getByLabel("Vegetation density").fill("85");
+    await expect(page.getByRole("heading",{name:"Water beneath vegetation can be complex"})).toBeVisible();
+  });
+  test("command search directly reveals a chosen advanced tool without cluttering the default Explore map",async({page})=>{
+    await page.goto("http://127.0.0.1:4173/SARS/explore/");
+    await expect(page.getByRole("button",{name:"Show Discovery Lab tools"})).toBeVisible();
+    await expect(page.getByRole("region",{name:"Check Evidence"})).toHaveCount(0);
+    await page.keyboard.press("Control+k");
+    const command=page.getByRole("dialog",{name:"Search SAR-Waltz"});
+    await command.getByPlaceholder(/Search pages, places, tools/).fill("Check evidence");
+    await command.getByRole("option",{name:/Check evidence/i}).click();
+    await expect(page).toHaveURL(/tool=evidence/);
+    await expect(page.getByRole("region",{name:"Check Evidence"})).toBeVisible();
+    await expect(page.getByText("Independent validation")).toBeVisible();
+  });
+  test("mobile header keeps the main pages and search reachable",async({page})=>{
+    await page.setViewportSize({width:390,height:844});
+    await page.goto("http://127.0.0.1:4173/SARS/");
+    const nav=page.getByRole("navigation",{name:"Main website navigation"});
+    await expect(nav.getByRole("link",{name:"Explore",exact:true})).toBeVisible();
+    await expect(nav.getByRole("link",{name:"Mission",exact:true})).toBeVisible();
+    await expect(page.getByRole("button",{name:"Search pages, places and tools"})).toBeVisible();
+  });
+});
