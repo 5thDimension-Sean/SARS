@@ -3280,3 +3280,11 @@ input:focus-visible,
 @media(prefers-reduced-motion:reduce){
   .minimal-home-extras>summary svg{transition:none}
 }
+
+.learn-playground-link{max-width:1180px;margin:0 auto 28px;padding:20px 25px;border:1px solid #3e676e;border-radius:8px;background:#132c36;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.learn-playground-link>div{display:grid;gap:5px}
+.learn-playground-link strong{font-size:17px;color:#ecf8f7}
+.learn-playground-link span{font-size:12px;color:#bbd2d5}
+.learn-playground-link a{display:inline-flex;align-items:center;color:#a0f0e7;text-decoration:none;white-space:nowrap;font-size:12px;font-weight:650}
+.learn-playground-link a:hover{text-decoration:underline}
+@media(max-width:750px){.learn-playground-link{margin-inline:17px;flex-direction:column;align-items:start;padding:17px}}
