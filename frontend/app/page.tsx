@@ -5,6 +5,7 @@ import { CompetitionShell, siteHref } from "@/components/site-navigation";
 import { studySites } from "@/lib/study-sites";
 import { SampleMapTour } from "@/components/sample-map-tour";
 import { RadarFeatureTour } from "@/components/radar-feature-tour";
+import {HomeExtras} from "@/components/home-extras";
 
 export const metadata: Metadata = {
   title: "SAR-Waltz | Earth's stories, revealed by radar",
@@ -28,7 +29,7 @@ export default function Home() {
     </section>
 
     <section className="story-section story-hubs" aria-label="Choose how to explore" data-reveal>
-      <div className="story-section-head"><div><p className="story-eyebrow">CHOOSE YOUR EXPERIENCE</p><h2>One project. Three ways to explore.</h2></div><p>Begin with a guided mission, return to a discovery, or examine the evidence behind a radar signal.</p></div>
+      <div className="story-section-head"><div><p className="story-eyebrow">CHOOSE YOUR EXPERIENCE</p><h2>Choose your next step.</h2></div><p>One focus per page. Everything else is a click away.</p></div>
       <div className="story-hub-cards">
         <a href={siteHref("/mission/")}><Compass size={26}/><span>01 / BEGIN HERE</span><strong>Mission Mode</strong><p>Follow four short steps to investigate a place, even if you've never used radar before.</p><b>Start a mission <ArrowRight size={16}/></b></a>
         <a href={siteHref("/discoveries/")}><Bookmark size={26}/><span>02 / REVISIT</span><strong>Discoveries</strong><p>Browse five example locations, reopen your saved views, and later inspect real processed data.</p><b>Browse discoveries <ArrowRight size={16}/></b></a>
@@ -36,6 +37,7 @@ export default function Home() {
       </div>
     </section>
 
+    <HomeExtras>
     <section className="story-section story-why" data-reveal>
       <div><p className="story-eyebrow">01 / WHY WE BUILT THIS</p><h2>Invisible signals.<br />Human consequences.</h2></div>
       <div className="story-prose"><p>When a wetland floods, a forest is disturbed, or the ground shifts, the impact is bigger than a change in an image. These environments touch wildlife, communities, and the places we call home.</p><p>Radar can revisit locations even when cloud cover makes optical observation difficult. But a radar change is a clue, not automatically a conclusion. We built SAR-Waltz to make that distinction visible.</p></div>
@@ -70,5 +72,6 @@ export default function Home() {
     </section>
 
     <section className="story-finale" data-reveal><p className="story-eyebrow">THE NEXT QUESTION IS YOURS</p><h2>Don't just view the Earth.<br />Investigate it.</h2><a className="story-btn story-btn-primary" href={siteHref("/studies/everglades/")}>Explore the first story <ArrowRight size={17}/></a></section>
+    </HomeExtras>
   </CompetitionShell>;
 }
