@@ -1,6 +1,7 @@
 "use client";
 import { Orbit, Search, Satellite, MapPin, ChevronDown } from "lucide-react";
 import {siteHref} from "@/components/site-navigation";
+import {openSiteSearch} from "@/components/global-command-center";
 import {
   CommandDialog,
   CommandInput,
@@ -31,7 +32,7 @@ export function MissionBar({
   useEffect(() => {
     if (wasOpen.current && !searchOpen)
       document
-        .querySelector<HTMLButtonElement>('[aria-label="Search locations"]')
+        .querySelector<HTMLButtonElement>('[aria-label="Search pages, places and tools"]')
         ?.focus();
     wasOpen.current = searchOpen;
   }, [searchOpen]);
@@ -61,6 +62,7 @@ export function MissionBar({
             <div className="mission-bar-dropdown">
               <a href={siteHref("/")}>Home</a>
               <a href={siteHref("/hypotheses/")}>Hypothesis Lab</a>
+          <a href={siteHref("/playground/")}>Radar Playground</a>
               <a href={siteHref("/learn/")}>Learn SAR</a>
               <a href={siteHref("/map/")}>Geographic Map</a>
               <a href={siteHref("/disasters/")}>Disaster Playbooks</a>
@@ -79,11 +81,11 @@ export function MissionBar({
         </div>
         <button
           className="search-shell"
-          onClick={() => onSearchOpen(true)}
+          onClick={openSiteSearch}
           aria-label="Search locations"
         >
           <Search size={16} aria-hidden />
-          <span className="search-label">Search a location</span>
+          <span className="search-label">Search everything</span>
           <kbd>Ctrl K</kbd>
         </button>
       </header>

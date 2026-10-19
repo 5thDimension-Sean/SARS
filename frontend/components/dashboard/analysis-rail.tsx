@@ -45,7 +45,7 @@ export function AnalysisRail({
   onViewMode: (v: "displacement" | "phase") => void;
   overlay?: boolean;
 }) {
-  const [groups,setGroups]=useState({summary:true,settings:true});
+  const [groups,setGroups]=useState({summary:true,settings:false});
   const seismic = p.analysis === "displacement";
   const derived = after.provenance === "derived";
   const badge = derived ? "DERIVED" : "SAMPLE";

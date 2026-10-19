@@ -76,6 +76,12 @@ export function DiscoveryLab({
   showOptical:boolean;onShowOptical:(v:boolean)=>void;onInspectionMode:(v:boolean)=>void;snapshot:InvestigationSnapshot;
 }){
   const [active,setActive]=useState<Mode|null>(null);
+  useEffect(()=>{
+    const requested=new URLSearchParams(window.location.search).get("tool");
+    if(!requested||!sections.some(item=>item.id===requested))return;
+    setActive(requested as Mode);
+    onInspectionMode(requested==="detect");
+  },[onInspectionMode]);
   const [menuOpen,setMenuOpen]=useState(false);
   const [tourStep,setTourStep]=useState(0);
   const [roi,setRoi]=useState<RoiComparison|null>(null);

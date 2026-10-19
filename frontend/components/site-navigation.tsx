@@ -1,25 +1,26 @@
 import { RadarBrand } from "@/components/radar-brand";
 import { MotionReveal } from "@/components/motion-reveal";
 import {ChevronDown} from "lucide-react";
+import {SearchLauncher} from "@/components/global-command-center";
+import {siteHref} from "@/lib/site-path";
+export {siteHref} from "@/lib/site-path";
 
 const pages = [
-  { label: "Home", path: "/" },
-  { label: "Mission", path: "/mission/" },
-  { label: "Explore", path: "/explore/" },
-  { label: "Discoveries", path: "/discoveries/" },
-  { label: "Hypotheses", path: "/hypotheses/" },
-  { label: "Learn", path: "/learn/" },
+  {label:"Explore",path:"/explore/"},
+  {label:"Mission",path:"/mission/"},
+  {label:"Discoveries",path:"/discoveries/"},
+  {label:"Learn",path:"/learn/"}
 ];
 const morePages = [
+  {label:"Home",path:"/"},
+  {label:"Radar Playground",path:"/playground/"},
+  {label:"Hypothesis Lab",path:"/hypotheses/"},
   {label:"Five field studies",path:"/#locations"},
   {label:"Map laboratory",path:"/map/"},
   {label:"Disaster playbooks",path:"/disasters/"},
   {label:"Our team",path:"/#team"},
 ];
 
-export function siteHref(path: string) {
-  return (process.env.NEXT_PUBLIC_BASE_PATH ?? "") + path;
-}
 
 export function SiteNavigation({ compact = false }: { compact?: boolean }) {
   return (
@@ -33,6 +34,7 @@ export function SiteNavigation({ compact = false }: { compact?: boolean }) {
           {morePages.map(page=><a key={page.path} href={siteHref(page.path)}>{page.label}</a>)}
         </div>
       </details>
+      <SearchLauncher/>
     </nav>
   );
 }
