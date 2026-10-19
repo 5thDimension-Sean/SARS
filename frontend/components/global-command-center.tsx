@@ -2,7 +2,7 @@
 import {useEffect,useState} from "react";
 import {BookOpen,Compass,FlaskConical,History,MapPin,Search,Satellite,ScanSearch,ShieldCheck,SlidersHorizontal} from "lucide-react";
 import {CommandDialog,CommandInput,CommandList,CommandEmpty,CommandGroup,CommandItem} from "@/components/ui/command";
-import {siteHref} from "@/components/site-navigation";
+import {siteHref} from "@/lib/site-path";
 import {studySites} from "@/lib/study-sites";
 import {readSavedViews,type SavedView,viewLink} from "@/lib/saved-investigations";
 const destinations=[
