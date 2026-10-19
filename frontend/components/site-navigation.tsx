@@ -2,6 +2,8 @@ import { RadarBrand } from "@/components/radar-brand";
 import { MotionReveal } from "@/components/motion-reveal";
 import {ChevronDown} from "lucide-react";
 import {SearchLauncher} from "@/components/global-command-center";
+import {siteHref} from "@/lib/site-path";
+export {siteHref} from "@/lib/site-path";
 
 const pages = [
   {label:"Explore",path:"/explore/"},
@@ -19,9 +21,6 @@ const morePages = [
   {label:"Our team",path:"/#team"},
 ];
 
-export function siteHref(path: string) {
-  return (process.env.NEXT_PUBLIC_BASE_PATH ?? "") + path;
-}
 
 export function SiteNavigation({ compact = false }: { compact?: boolean }) {
   return (
