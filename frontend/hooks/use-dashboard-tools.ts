@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import type { SampleDataset } from "@/lib/sample-schema";
 interface DashboardState {
@@ -28,7 +28,9 @@ export function useDashboardTools(
   selectLocation: (p: number, l: number) => void,
 ) {
   const current = useRef(state);
-  current.current = state;
+  useLayoutEffect(() => {
+    current.current = state;
+  }, [state]);
   useEffect(() => {
     const registry = (document as Document & { modelContext?: Registry })
       .modelContext;

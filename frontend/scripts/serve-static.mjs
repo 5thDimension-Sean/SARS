@@ -24,6 +24,12 @@ const server = createServer(async (req, res) => {
       res.writeHead(403).end();
       return;
     }
+    // Next's static export emits /route.html while links use /route.
+    if (path !== root && !extname(path)) {
+      try {
+        if ((await stat(path + ".html")).isFile()) path += ".html";
+      } catch { /* Fall through to directory/index resolution or the normal 404. */ }
+    }
     if ((await stat(path)).isDirectory()) path = resolve(path, "index.html");
     const body = await readFile(path);
     res.writeHead(200, {

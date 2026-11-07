@@ -23,6 +23,8 @@ The build writes `out/`. `npm start` serves that directory at http://127.0.0.1:5
 
 ## Explore
 
+The limited real-data prototype is at `/nisar-prototype`; `/` remains the educational demo. It uses MapLibre and NASA GIBS for the verified Everglades dates September 30 and October 12, 2026. See [prototype scope, safeguards, and preview instructions](docs/nisar-prototype.md). No scientific measurements are computed from browse imagery.
+
 - Select Wetland loss, Earthquakes, or Deforestation, then either hotspot.
 - Search aliases such as Everglades, Sundarbans, Parkfield, Hayward, Amazon, or Tapajós. Ctrl/Cmd K opens search; arrows and Enter select a result.
 - Drag the viewport comparison handle, or focus it and use arrow keys.
@@ -37,7 +39,7 @@ The build writes `out/`. `npm start` serves that directory at http://127.0.0.1:5
 
 All dates, acquisition identifiers, areas, events, values, and rendered textures are fictional illustrations. Geographic coordinates are real, but the samples make no claim about changes at those locations and depict no named real earthquake. Backscatter histograms normalize to pixel frequency (%) using gamma-0 dB bins; displacement profiles share the first acquisition as their reference and use positive motion toward the sensor. Canopy and wetland loss require independent validation.
 
-`components/dashboard/observation-viewport.tsx` exposes `ObservationViewportProps`. Replace its procedural renderer with a chosen map engine while keeping dashboard components and their state contract intact. No CesiumJS, MapLibre, or deck.gl is installed. The procedural raster cache is bounded to 24 entries; sample surfaces update by acquisition and geographic seed.
+`components/dashboard/observation-viewport.tsx` exposes `ObservationViewportProps` for the educational demo. Its procedural renderer is preserved. The independent `/nisar-prototype` route uses MapLibre; CesiumJS and deck.gl are not installed. The procedural raster cache is bounded to 24 entries; sample surfaces update by acquisition and geographic seed.
 
 The future pipeline should emit or adapt its manifest to `SampleDataset` and populate the nullable URLs. The sample JSON module then becomes replaceable without changing the dashboard. Real overlays are intentionally deferred with the backend.
 

@@ -41,14 +41,15 @@ export function Dashboard() {
     [speed, setSpeed] = useState("1"),
     [collapsed, setCollapsed] = useState(false),
     [searchOpen, setSearchOpen] = useState(false),
-    [mobilePanel, setMobilePanel] = useState<"layers" | "analysis" | null>(
-      null,
-    );
-  const lastMobilePanel = useRef<"layers" | "analysis">("layers");
-  useEffect(() => {
-    if (mobilePanel) lastMobilePanel.current = mobilePanel;
-  }, [mobilePanel]);
-  const renderedPanel = mobilePanel ?? lastMobilePanel.current;
+    [panelState, setPanelState] = useState<{
+      active: "layers" | "analysis" | null;
+      last: "layers" | "analysis";
+    }>({ active: null, last: "layers" });
+  const setMobilePanel = useCallback((active: "layers" | "analysis" | null) => {
+    setPanelState((previous) => ({ active, last: active ?? previous.last }));
+  }, []);
+  const mobilePanel = panelState.active;
+  const renderedPanel = mobilePanel ?? panelState.last;
   const p = data.phenomena[phenomenonIndex],
     location = p.locations[locationIndex],
     after = location.acquisitions[index],
@@ -60,7 +61,7 @@ export function Dashboard() {
     setBaseline(0);
     setPlaying(false);
     setMobilePanel(null);
-  }, []);
+  }, [setMobilePanel]);
   const changeIndex = useCallback((i: number) => {
     setIndex(i);
     setBaseline((b) => Math.min(b, i));

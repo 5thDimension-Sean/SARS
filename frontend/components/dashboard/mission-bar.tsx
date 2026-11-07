@@ -11,6 +11,7 @@ import {
 import type { Acquisition, SampleDataset } from "@/lib/sample-schema";
 import { displayDate } from "@/lib/dashboard-utils";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 export function MissionBar({
   acquisition,
   data,
@@ -35,7 +36,7 @@ export function MissionBar({
   return (
     <>
       <header className="mission-bar">
-        <a className="brand" href="/" aria-label="SAR-Waltz home">
+        <Link className="brand" href="/" aria-label="SAR-Waltz home">
           <Orbit size={31} aria-hidden />
           <div>
             <strong>
@@ -43,7 +44,7 @@ export function MissionBar({
             </strong>
             <small>EARTH OBSERVATION CONSOLE</small>
           </div>
-        </a>
+        </Link>
         <span className="sample-badge">
           <span className="sample-pulse" />
           SAMPLE DATA
