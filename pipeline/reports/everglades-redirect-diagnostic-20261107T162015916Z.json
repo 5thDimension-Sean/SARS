@@ -1,0 +1,526 @@
+{
+  "schemaVersion": "1.0",
+  "generatedUtc": "2026-11-07T16:20:17.469840+00:00",
+  "config": {
+    "schemaVersion": "1.0",
+    "purpose": "Compatibility inspection only; no environmental change analysis",
+    "roiWgs84": [
+      -80.82,
+      25.48,
+      -80.78,
+      25.52
+    ],
+    "maxRoiPixels": 250000,
+    "granules": [
+      "G4342506513-ASF",
+      "G4373929961-ASF"
+    ],
+    "expectedDates": [
+      "2026-09-30",
+      "2026-10-12"
+    ],
+    "restoredFrom": "ae93dfb2be0f71f9b7197b323c8918d0d281579b"
+  },
+  "products": [
+    {
+      "conceptId": "G4342506513-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4342506513-ASF.umm_json",
+      "revision": null,
+      "catalogSha256": "4fd68e932e8fb06f52750b2388042844ba9b853bdfb3330f30f8c7d9c89090b3",
+      "catalogBodyBytes": 29703,
+      "file": {
+        "Name": "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.h5",
+        "SizeInBytes": 4643094528,
+        "Format": "HDF5",
+        "Checksum": {
+          "Value": "efcea03dd0ee8a5ec164a7174ad33f29",
+          "Algorithm": "MD5"
+        }
+      },
+      "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001/NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.h5",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "times": {
+        "BeginningDateTime": "2026-09-30T00:05:12.000000Z",
+        "EndingDateTime": "2026-09-30T00:05:47.999342Z"
+      },
+      "attributes": {
+        "ASCENDING_DESCENDING": [
+          "DESCENDING"
+        ],
+        "FRAME_NUMBER": [
+          "76"
+        ],
+        "FREQUENCIES": [
+          "A",
+          "B"
+        ],
+        "FREQUENCY_A_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_A_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_A_RANGE_BANDWIDTH": [
+          "40"
+        ],
+        "FREQUENCY_B_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_B_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_B_RANGE_BANDWIDTH": [
+          "5"
+        ],
+        "FULL_FRAME": [
+          "TRUE"
+        ],
+        "JOINT_OBSERVATION": [
+          "TRUE"
+        ],
+        "ORBIT_TYPE": [
+          "MOE"
+        ],
+        "PROCESSING_CENTER": [
+          "JPL"
+        ],
+        "PROCESSING_LEVEL": [
+          "L2"
+        ],
+        "PRODUCTION_PIPELINE": [
+          "PR"
+        ],
+        "PRODUCT_TYPE": [
+          "GCOV"
+        ],
+        "PRODUCT_TYPE_DESC": [
+          "Geocoded Polarimetric Covariance"
+        ],
+        "PRODUCT_VERSION": [
+          "1.0.11"
+        ],
+        "RANGE_BANDWIDTH_CONCAT": [
+          "40+5"
+        ],
+        "STACK_ID": [
+          "170_D_076"
+        ],
+        "TRACK_NUMBER": [
+          "170"
+        ]
+      },
+      "identifiers": [
+        {
+          "IdentifierType": "ProducerGranuleId",
+          "Identifier": "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "ISCE3 0.25.16",
+          "IdentifierName": "SASVersionId"
+        },
+        {
+          "IdentifierType": "CRID",
+          "Identifier": "P05023"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "1",
+          "IdentifierName": "ProductCounter"
+        }
+      ],
+      "pge": {
+        "PGEName": "GCOV_L_PGE",
+        "PGEVersion": "R05.02.3"
+      },
+      "footprints": [
+        [
+          [
+            -82.33853,
+            26.18429
+          ],
+          [
+            -82.94786,
+            24.05106
+          ],
+          [
+            -80.55278,
+            23.46008
+          ],
+          [
+            -79.9046,
+            25.58061
+          ],
+          [
+            -82.33853,
+            26.18429
+          ]
+        ]
+      ],
+      "catalogRoiCovered": true,
+      "inspectionStage": "opening HDF5",
+      "transfer": {
+        "bodyBytesConsumed": 0,
+        "requests": 1,
+        "cachePeakBytes": 0,
+        "cacheLimitBytes": 8388608,
+        "transferLimitBytes": 67108864,
+        "lastHttpStatus": 303,
+        "redirects": [
+          {
+            "status": 303,
+            "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+            "allowed": false,
+            "validation": {
+              "parseable": true,
+              "https": true,
+              "hostAllowlisted": true,
+              "portAllowed": true,
+              "noUserinfo": true,
+              "noFragment": true,
+              "noControlCharacters": true,
+              "strictProductPathMatches": false,
+              "productKeySuffixMatches": true,
+              "decodedProductKeySuffixMatches": true,
+              "mappedOriginPrefixMatches": true,
+              "canonicalPathMatches": false
+            }
+          }
+        ],
+        "verified206Responses": 0,
+        "firstContentRange": null,
+        "lastContentRange": null,
+        "safeError": "Redirect destination rejected: host, HTTPS or product path not allowlisted.",
+        "fullFileChecksumVerified": false
+      }
+    },
+    {
+      "conceptId": "G4373929961-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4373929961-ASF.umm_json",
+      "revision": null,
+      "catalogSha256": "6eb9d4fdc1485d8c0f9917695fb578e03cebf67ba5dc6159dc7845cce41a5525",
+      "catalogBodyBytes": 29703,
+      "file": {
+        "Name": "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.h5",
+        "SizeInBytes": 4504682496,
+        "Format": "HDF5",
+        "Checksum": {
+          "Value": "4e7e27b5ee381b7bed471f56077fddbb",
+          "Algorithm": "MD5"
+        }
+      },
+      "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.h5",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "times": {
+        "BeginningDateTime": "2026-10-12T00:05:13.000000Z",
+        "EndingDateTime": "2026-10-12T00:05:47.999342Z"
+      },
+      "attributes": {
+        "ASCENDING_DESCENDING": [
+          "DESCENDING"
+        ],
+        "FRAME_NUMBER": [
+          "76"
+        ],
+        "FREQUENCIES": [
+          "A",
+          "B"
+        ],
+        "FREQUENCY_A_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_A_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_A_RANGE_BANDWIDTH": [
+          "40"
+        ],
+        "FREQUENCY_B_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_B_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_B_RANGE_BANDWIDTH": [
+          "5"
+        ],
+        "FULL_FRAME": [
+          "TRUE"
+        ],
+        "JOINT_OBSERVATION": [
+          "TRUE"
+        ],
+        "ORBIT_TYPE": [
+          "MOE"
+        ],
+        "PROCESSING_CENTER": [
+          "JPL"
+        ],
+        "PROCESSING_LEVEL": [
+          "L2"
+        ],
+        "PRODUCTION_PIPELINE": [
+          "PR"
+        ],
+        "PRODUCT_TYPE": [
+          "GCOV"
+        ],
+        "PRODUCT_TYPE_DESC": [
+          "Geocoded Polarimetric Covariance"
+        ],
+        "PRODUCT_VERSION": [
+          "1.0.11"
+        ],
+        "RANGE_BANDWIDTH_CONCAT": [
+          "40+5"
+        ],
+        "STACK_ID": [
+          "170_D_076"
+        ],
+        "TRACK_NUMBER": [
+          "170"
+        ]
+      },
+      "identifiers": [
+        {
+          "IdentifierType": "ProducerGranuleId",
+          "Identifier": "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "ISCE3 0.25.16",
+          "IdentifierName": "SASVersionId"
+        },
+        {
+          "IdentifierType": "CRID",
+          "Identifier": "P05023"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "1",
+          "IdentifierName": "ProductCounter"
+        }
+      ],
+      "pge": {
+        "PGEName": "GCOV_L_PGE",
+        "PGEVersion": "R05.02.3"
+      },
+      "footprints": [
+        [
+          [
+            -82.35383,
+            26.13096
+          ],
+          [
+            -82.94598,
+            24.05695
+          ],
+          [
+            -80.55077,
+            23.46593
+          ],
+          [
+            -79.92089,
+            25.5276
+          ],
+          [
+            -82.35383,
+            26.13096
+          ]
+        ]
+      ],
+      "catalogRoiCovered": true,
+      "inspectionStage": "opening HDF5",
+      "transfer": {
+        "bodyBytesConsumed": 0,
+        "requests": 1,
+        "cachePeakBytes": 0,
+        "cacheLimitBytes": 8388608,
+        "transferLimitBytes": 67108864,
+        "lastHttpStatus": 303,
+        "redirects": [
+          {
+            "status": 303,
+            "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+            "allowed": false,
+            "validation": {
+              "parseable": true,
+              "https": true,
+              "hostAllowlisted": true,
+              "portAllowed": true,
+              "noUserinfo": true,
+              "noFragment": true,
+              "noControlCharacters": true,
+              "strictProductPathMatches": false,
+              "productKeySuffixMatches": true,
+              "decodedProductKeySuffixMatches": true,
+              "mappedOriginPrefixMatches": true,
+              "canonicalPathMatches": false
+            }
+          }
+        ],
+        "verified206Responses": 0,
+        "firstContentRange": null,
+        "lastContentRange": null,
+        "safeError": "Redirect destination rejected: host, HTTPS or product path not allowlisted.",
+        "fullFileChecksumVerified": false
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "G4342506513-ASF catalog date",
+      "status": "PASS",
+      "detail": "CMR acquisition start UTC"
+    },
+    {
+      "name": "G4342506513-ASF catalog ROI coverage",
+      "status": "PASS",
+      "detail": "Catalog polygon only; does not establish raster validity."
+    },
+    {
+      "name": "G4342506513-ASF HDF5/ROI access",
+      "status": "UNVERIFIED",
+      "detail": "Read incomplete: authentication, range support, transfer cap, or product structure. See safe transfer audit."
+    },
+    {
+      "name": "G4342506513-ASF HTTP byte-range support",
+      "status": "UNVERIFIED",
+      "detail": "Redirect destination rejected: host, HTTPS or product path not allowlisted."
+    },
+    {
+      "name": "G4373929961-ASF catalog date",
+      "status": "PASS",
+      "detail": "CMR acquisition start UTC"
+    },
+    {
+      "name": "G4373929961-ASF catalog ROI coverage",
+      "status": "PASS",
+      "detail": "Catalog polygon only; does not establish raster validity."
+    },
+    {
+      "name": "G4373929961-ASF HDF5/ROI access",
+      "status": "UNVERIFIED",
+      "detail": "Read incomplete: authentication, range support, transfer cap, or product structure. See safe transfer audit."
+    },
+    {
+      "name": "G4373929961-ASF HTTP byte-range support",
+      "status": "UNVERIFIED",
+      "detail": "Redirect destination rejected: host, HTTPS or product path not allowlisted."
+    },
+    {
+      "name": "G4342506513-ASF Actual HDF5 identity, datasets and ROI coverage",
+      "status": "UNVERIFIED",
+      "detail": "HDF5 metadata unavailable."
+    },
+    {
+      "name": "G4373929961-ASF Actual HDF5 identity, datasets and ROI coverage",
+      "status": "UNVERIFIED",
+      "detail": "HDF5 metadata unavailable."
+    },
+    {
+      "name": "Catalog TRACK_NUMBER",
+      "status": "PASS",
+      "detail": "[['170'], ['170']]"
+    },
+    {
+      "name": "Catalog FRAME_NUMBER",
+      "status": "PASS",
+      "detail": "[['76'], ['76']]"
+    },
+    {
+      "name": "Catalog ASCENDING_DESCENDING",
+      "status": "PASS",
+      "detail": "[['DESCENDING'], ['DESCENDING']]"
+    },
+    {
+      "name": "Catalog PRODUCT_VERSION",
+      "status": "PASS",
+      "detail": "[['1.0.11'], ['1.0.11']]"
+    },
+    {
+      "name": "Catalog FREQUENCY_A_POLARIZATION",
+      "status": "PASS",
+      "detail": "[['HH', 'HV'], ['HH', 'HV']]"
+    },
+    {
+      "name": "Catalog FREQUENCY_B_POLARIZATION",
+      "status": "PASS",
+      "detail": "[['HH', 'HV'], ['HH', 'HV']]"
+    },
+    {
+      "name": "Catalog RANGE_BANDWIDTH_CONCAT",
+      "status": "PASS",
+      "detail": "[['40+5'], ['40+5']]"
+    },
+    {
+      "name": "Catalog JOINT_OBSERVATION",
+      "status": "PASS",
+      "detail": "[['TRUE'], ['TRUE']]"
+    },
+    {
+      "name": "frequencyA grid and paired pixels",
+      "status": "UNVERIFIED",
+      "detail": "Both HDF5 grids must be read."
+    },
+    {
+      "name": "frequencyB grid and paired pixels",
+      "status": "UNVERIFIED",
+      "detail": "Both HDF5 grids must be read."
+    },
+    {
+      "name": "Actual HDF5 units and calibration semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Official QA and quality-mask interpretation",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Radiometric artifact review (banding, RFI, seams, noise floor)",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Defensible paired analysis",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    }
+  ],
+  "verdict": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "runtime": {
+    "python": "3.14.8",
+    "h5py": "3.16.0",
+    "numpy": "2.5.3",
+    "requests": "2.34.2",
+    "asf_search": "14.0.3",
+    "rasterio": "1.5.2"
+  },
+  "codeSha256": {
+    "check_compatibility.py": "696384415af0899cdd3460379101b5fa27223ed3d132289ffd2eb17462dc2575",
+    "sources.py": "73b64c5823ebad84f97c979e36124819d3bb4e494b47bc9ea46844a8c77f0521",
+    "fetch_nisar.py": "011f54049ccb98624eaa4815b85105cfe8169354bbaf5d13d32f1e85fc70e926",
+    "nisar_to_overlays.py": "e20dc1f0c99cbe80e16b372233d7cd9b952bf00232f258f98319092d9de2696b"
+  },
+  "transferAccounting": "Response body bytes consumed by catalog/range reader only; excludes HTTP/TLS overhead, auth exchanges and earlier exploratory requests.",
+  "limitations": [
+    "No temporal differences or environmental interpretation calculated.",
+    "ROI is a bounding window enclosing a proposed 0.04-degree study box, not a final ecological sampling design.",
+    "Full file checksum cannot be verified from partial ranges.",
+    "Quality layers, official QA and radiometric artifacts require review before scientific clearance.",
+    "Identical processing versions do not prove absence of calibration bias."
+  ],
+  "authentication": "Earthdata authenticated session established"
+}

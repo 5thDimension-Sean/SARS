@@ -1,0 +1,13 @@
+# Local science environments and data; publish only reviewed, small reports.
+/pipeline/.venv/
+**/__pycache__/
+/.pytest_cache/
+/pipeline/downloads/
+/pipeline/cache/
+/pipeline/output/
+*.h5
+*.hdf5
+*.netrc
+_netrc
+.env
+.env.*

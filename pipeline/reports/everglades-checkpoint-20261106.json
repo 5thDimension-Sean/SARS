@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "generatedUtc": "2026-11-07T01:17:55.310406+00:00",
+  "config": {
+    "schemaVersion": "1.0",
+    "purpose": "Compatibility inspection only; no environmental change analysis",
+    "roiWgs84": [
+      -80.82,
+      25.48,
+      -80.78,
+      25.52
+    ],
+    "maxRoiPixels": 250000,
+    "granules": [
+      "G4342506513-ASF",
+      "G4373929961-ASF"
+    ],
+    "expectedDates": [
+      "2026-09-30",
+      "2026-10-12"
+    ],
+    "restoredFrom": "ae93dfb2be0f71f9b7197b323c8918d0d281579b"
+  },
+  "products": [
+    {
+      "conceptId": "G4342506513-ASF"
+    },
+    {
+      "conceptId": "G4373929961-ASF"
+    }
+  ],
+  "checks": [
+    {
+      "name": "G4342506513-ASF catalog",
+      "status": "UNVERIFIED",
+      "detail": "Public metadata unavailable or malformed; diagnostics withheld."
+    },
+    {
+      "name": "G4373929961-ASF catalog",
+      "status": "UNVERIFIED",
+      "detail": "Public metadata unavailable or malformed; diagnostics withheld."
+    },
+    {
+      "name": "Catalog TRACK_NUMBER",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "Catalog FRAME_NUMBER",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "Catalog ASCENDING_DESCENDING",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "Catalog PRODUCT_VERSION",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "Catalog FREQUENCY_A_POLARIZATION",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "Catalog FREQUENCY_B_POLARIZATION",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "Catalog RANGE_BANDWIDTH_CONCAT",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "Catalog JOINT_OBSERVATION",
+      "status": "UNVERIFIED",
+      "detail": "[None, None]"
+    },
+    {
+      "name": "frequencyA grid and paired pixels",
+      "status": "UNVERIFIED",
+      "detail": "Both HDF5 grids must be read."
+    },
+    {
+      "name": "frequencyB grid and paired pixels",
+      "status": "UNVERIFIED",
+      "detail": "Both HDF5 grids must be read."
+    },
+    {
+      "name": "Actual HDF5 units and calibration semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Official QA and quality-mask interpretation",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Radiometric artifact review (banding, RFI, seams, noise floor)",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Defensible paired analysis",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    }
+  ],
+  "verdict": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "transferAccounting": "Response body bytes consumed by catalog/range reader only; excludes HTTP/TLS overhead, auth exchanges and earlier exploratory requests.",
+  "limitations": [
+    "No temporal differences or environmental interpretation calculated.",
+    "ROI is a bounding window enclosing a proposed 0.04-degree study box, not a final ecological sampling design.",
+    "Full file checksum cannot be verified from partial ranges.",
+    "Quality layers, official QA and radiometric artifacts require review before scientific clearance.",
+    "Identical processing versions do not prove absence of calibration bias."
+  ],
+  "authentication": "Not authenticated; credentials missing, invalid, or authentication unavailable. Anonymous range probe only."
+}

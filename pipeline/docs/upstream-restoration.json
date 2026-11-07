@@ -1,0 +1,59 @@
+{
+  "upstreamRepository": "5thDimension-Sean/SARS",
+  "upstreamCommit": "ae93dfb2be0f71f9b7197b323c8918d0d281579b",
+  "localCommit": "b4370f792847e5d9afbf13ed816fff34fedb8d22",
+  "branch": "redesign-v2",
+  "reason": "Local branch and stale origin/main predate upstream additions; GitHub main is 18 commits ahead. No GitHub redesign-v2 branch found at inspection.",
+  "restoredFiles": [
+    {
+      "path": "AGENTS.md",
+      "blob": "9e6971c7024de6270f76f915d2df594851029749"
+    },
+    {
+      "path": "pipeline/__init__.py",
+      "blob": "daf6c5f601674b84c141f3125f735215ea1d5a3c"
+    },
+    {
+      "path": "pipeline/.python-version",
+      "blob": "a128d5c0d975a5b333e78950665709c8e2d88597"
+    },
+    {
+      "path": "pipeline/README.md",
+      "blob": "7bcbd609d13015645b2018785b45d6d5a6168282"
+    },
+    {
+      "path": "pipeline/requirements.txt",
+      "blob": "abaa55c6febd151257ac3eca0f29ef20878a5b3d"
+    },
+    {
+      "path": "pipeline/common.py",
+      "blob": "e2091ded5238b56de0080eb3bf5bf00433556f8f"
+    },
+    {
+      "path": "pipeline/fetch_nisar.py",
+      "blob": "2cf1abb9e80f3def59a4c9796b1da9a6ed935d9a"
+    },
+    {
+      "path": "pipeline/inspect_h5.py",
+      "blob": "b07fb4e4ffcf13705cef5f198969d9d1933fcaf8"
+    },
+    {
+      "path": "pipeline/nisar_to_overlays.py",
+      "blob": "251351c65e2aeb1f3694fe691d7463f1ea8ad8d1"
+    },
+    {
+      "path": "pipeline/tests/conftest.py",
+      "blob": "683497b34be8d3aea5fdd2a9212c684e087f199d"
+    },
+    {
+      "path": "pipeline/tests/test_fetch_inspect.py",
+      "blob": "b04c8d209d3f3fb7d9c8ffd9432aa3355c63cbbe"
+    },
+    {
+      "path": "pipeline/tests/test_processing.py",
+      "blob": "e9957bd2e6780a6aeee629d14cf697a4e6de5840"
+    }
+  ],
+  "method": "Added only absent files from pinned GitHub commit. No fetch, reset, merge, pull, checkout, deletion or overwrite.",
+  "frontendDigestBefore": "fdce28a57279a73f144e2c46cb37491254753001100402fead908c43e3091949"
+}

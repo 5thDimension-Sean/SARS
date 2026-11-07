@@ -1,0 +1,1732 @@
+{
+  "schemaVersion": "1.0",
+  "generatedUtc": "2026-11-07T16:24:35.679729+00:00",
+  "config": {
+    "schemaVersion": "1.0",
+    "purpose": "Compatibility inspection only; no environmental change analysis",
+    "roiWgs84": [
+      -80.82,
+      25.48,
+      -80.78,
+      25.52
+    ],
+    "maxRoiPixels": 250000,
+    "granules": [
+      "G4342506513-ASF",
+      "G4373929961-ASF"
+    ],
+    "expectedDates": [
+      "2026-09-30",
+      "2026-10-12"
+    ],
+    "restoredFrom": "ae93dfb2be0f71f9b7197b323c8918d0d281579b"
+  },
+  "products": [
+    {
+      "conceptId": "G4342506513-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4342506513-ASF.umm_json",
+      "revision": null,
+      "catalogSha256": "4fd68e932e8fb06f52750b2388042844ba9b853bdfb3330f30f8c7d9c89090b3",
+      "catalogBodyBytes": 29703,
+      "file": {
+        "Name": "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.h5",
+        "SizeInBytes": 4643094528,
+        "Format": "HDF5",
+        "Checksum": {
+          "Value": "efcea03dd0ee8a5ec164a7174ad33f29",
+          "Algorithm": "MD5"
+        }
+      },
+      "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001/NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.h5",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "times": {
+        "BeginningDateTime": "2026-09-30T00:05:12.000000Z",
+        "EndingDateTime": "2026-09-30T00:05:47.999342Z"
+      },
+      "attributes": {
+        "ASCENDING_DESCENDING": [
+          "DESCENDING"
+        ],
+        "FRAME_NUMBER": [
+          "76"
+        ],
+        "FREQUENCIES": [
+          "A",
+          "B"
+        ],
+        "FREQUENCY_A_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_A_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_A_RANGE_BANDWIDTH": [
+          "40"
+        ],
+        "FREQUENCY_B_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_B_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_B_RANGE_BANDWIDTH": [
+          "5"
+        ],
+        "FULL_FRAME": [
+          "TRUE"
+        ],
+        "JOINT_OBSERVATION": [
+          "TRUE"
+        ],
+        "ORBIT_TYPE": [
+          "MOE"
+        ],
+        "PROCESSING_CENTER": [
+          "JPL"
+        ],
+        "PROCESSING_LEVEL": [
+          "L2"
+        ],
+        "PRODUCTION_PIPELINE": [
+          "PR"
+        ],
+        "PRODUCT_TYPE": [
+          "GCOV"
+        ],
+        "PRODUCT_TYPE_DESC": [
+          "Geocoded Polarimetric Covariance"
+        ],
+        "PRODUCT_VERSION": [
+          "1.0.11"
+        ],
+        "RANGE_BANDWIDTH_CONCAT": [
+          "40+5"
+        ],
+        "STACK_ID": [
+          "170_D_076"
+        ],
+        "TRACK_NUMBER": [
+          "170"
+        ]
+      },
+      "identifiers": [
+        {
+          "IdentifierType": "ProducerGranuleId",
+          "Identifier": "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "ISCE3 0.25.16",
+          "IdentifierName": "SASVersionId"
+        },
+        {
+          "IdentifierType": "CRID",
+          "Identifier": "P05023"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "1",
+          "IdentifierName": "ProductCounter"
+        }
+      ],
+      "pge": {
+        "PGEName": "GCOV_L_PGE",
+        "PGEVersion": "R05.02.3"
+      },
+      "footprints": [
+        [
+          [
+            -82.33853,
+            26.18429
+          ],
+          [
+            -82.94786,
+            24.05106
+          ],
+          [
+            -80.55278,
+            23.46008
+          ],
+          [
+            -79.9046,
+            25.58061
+          ],
+          [
+            -82.33853,
+            26.18429
+          ]
+        ]
+      ],
+      "catalogRoiCovered": true,
+      "inspectionStage": "complete",
+      "hdf5": {
+        "identification": {
+          "productType": "GCOV",
+          "radarBand": "L",
+          "trackNumber": 170,
+          "frameNumber": 76,
+          "orbitPassDirection": "Descending",
+          "zeroDopplerStartTime": "2026-09-30T00:05:12.000000000",
+          "zeroDopplerEndTime": "2026-09-30T00:05:47.999342105",
+          "productVersion": "1.0.11",
+          "compositeReleaseId": "P05023",
+          "productSpecificationVersion": "1.5.0",
+          "dataMaturity": null
+        },
+        "frequencies": {
+          "frequencyA": {
+            "datasets": {
+              "HHHH": {
+                "shape": [
+                  33912,
+                  34560
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HHHH",
+                  "description": "Covariance between HH and HH",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "HVHV": {
+                "shape": [
+                  33912,
+                  34560
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HVHV",
+                  "description": "Covariance between HV and HV",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "mask": {
+                "shape": [
+                  33912,
+                  34560
+                ],
+                "dtype": "uint8",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "long_name": "Valid samples subswath mask",
+                  "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+                  "_FillValue": "255",
+                  "valid_min": "0"
+                }
+              }
+            },
+            "crs": "EPSG:32617",
+            "shape": [
+              33912,
+              34560
+            ],
+            "spacing": [
+              10.0,
+              -10.0
+            ],
+            "firstCenter": [
+              287285.0,
+              2907355.0
+            ],
+            "roiFirstCenter": [
+              518085.0,
+              2822545.0
+            ],
+            "window": [
+              8481,
+              8925,
+              23080,
+              23484
+            ],
+            "roiShape": [
+              444,
+              404
+            ],
+            "roiPixels": 179376,
+            "gridCoversRoi": true,
+            "maskCounts": {
+              "1": 179376
+            },
+            "screenedPixels": {
+              "HHHH": 179376,
+              "HVHV": 179376
+            },
+            "screeningCaveat": "Finite positive power, declared fill excluded, mask 0/255 excluded. Not a complete quality certification."
+          },
+          "frequencyB": {
+            "datasets": {
+              "HHHH": {
+                "shape": [
+                  4239,
+                  4320
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HHHH",
+                  "description": "Covariance between HH and HH",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "HVHV": {
+                "shape": [
+                  4239,
+                  4320
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HVHV",
+                  "description": "Covariance between HV and HV",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "mask": {
+                "shape": [
+                  4239,
+                  4320
+                ],
+                "dtype": "uint8",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "long_name": "Valid samples subswath mask",
+                  "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+                  "_FillValue": "255",
+                  "valid_min": "0"
+                }
+              }
+            },
+            "crs": "EPSG:32617",
+            "shape": [
+              4239,
+              4320
+            ],
+            "spacing": [
+              80.0,
+              -80.0
+            ],
+            "firstCenter": [
+              287320.0,
+              2907320.0
+            ],
+            "roiFirstCenter": [
+              518120.0,
+              2822520.0
+            ],
+            "window": [
+              1060,
+              1116,
+              2885,
+              2936
+            ],
+            "roiShape": [
+              56,
+              51
+            ],
+            "roiPixels": 2856,
+            "gridCoversRoi": true,
+            "maskCounts": {
+              "1": 2856
+            },
+            "screenedPixels": {
+              "HHHH": 2856,
+              "HVHV": 2856
+            },
+            "screeningCaveat": "Finite positive power, declared fill excluded, mask 0/255 excluded. Not a complete quality certification."
+          }
+        },
+        "qualityDatasetInventory": [
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/inputDataExceptionMask",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "description": "Bitwise OR of input data exception codes for each image pixel (0: no anomaly, 2: NISAR LSAR qFSP-H1 sample slip)",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/mask",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "long_name": "Valid samples subswath mask",
+              "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+              "_FillValue": "255",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/numberOfLooks",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Number of radar looks",
+              "description": "Number of averaged radar-grid pixels for covariance estimation",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/rtcGammaToSigmaFactor",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Radiometric terrain correction area normalization factor gamma0 to sigma0",
+              "description": "Radiometric terrain correction (RTC) scaling factor to normalize backscatter coefficients from gamma0 to sigma0, accounting for local terrain",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/inputDataExceptionMask",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "description": "Bitwise OR of input data exception codes for each image pixel (0: no anomaly, 2: NISAR LSAR qFSP-H1 sample slip)",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/mask",
+            "shape": [
+              4239,
+              4320
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "long_name": "Valid samples subswath mask",
+              "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+              "_FillValue": "255",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/numberOfLooks",
+            "shape": [
+              4239,
+              4320
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Number of radar looks",
+              "description": "Number of averaged radar-grid pixels for covariance estimation",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/rtcGammaToSigmaFactor",
+            "shape": [
+              4239,
+              4320
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Radiometric terrain correction area normalization factor gamma0 to sigma0",
+              "description": "Radiometric terrain correction (RTC) scaling factor to normalize backscatter coefficients from gamma0 to sigma0, accounting for local terrain",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyA/HH/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyA/HV/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyB/HH/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyB/HV/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rfiMitigationApplied",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Flag to indicate if radio frequency interference (RFI) mitigation was applied during the generation of the input RSLC"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/geogridUpsampling",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Radiometric terrain correction (RTC) geogrid upsampling"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/inputBackscatterNormalizationConvention",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Backscatter normalization convention of the source data"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/memoryMode",
+            "shape": [],
+            "dtype": "|S4",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Radiometric terrain correction (RTC) memory mode"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/minRtcAreaNormalizationFactorInDB",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Radiometric terrain correction (RTC) minimum area normalization factor value in dB computed as `10 * log10(area_out / area_in)` where `area_in` and `area_out` are the reference surfaces associated with the source data (input) and GCOV terms (output) backscatter conventions, respectively"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/outputBackscatterExpressionConvention",
+            "shape": [],
+            "dtype": "|S12",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Backscatter expression convention"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/outputBackscatterNormalizationConvention",
+            "shape": [],
+            "dtype": "|S6",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Backscatter normalization convention of the primary data associated with this product"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/shadowMaskingApplied",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Flag to indicate if the shadow masking has been applied"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/validSamplesSubSwathMaskingApplied",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Flag to indicate if the valid samples subswath masking has been applied"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/sourceData/processingInformation/algorithms/rfiDetection",
+            "shape": [],
+            "dtype": "|S9",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Algorithm used for radio frequency interference (RFI) detection corresponding to the source data processing information records"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/sourceData/processingInformation/algorithms/rfiMitigation",
+            "shape": [],
+            "dtype": "|S9",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Algorithm used for radio frequency interference (RFI) mitigation corresponding to the source data processing information records, either \"ST-EVD\" or \"FDNF\" (or \"disabled\" if no RFI mitigation was applied)"
+            }
+          }
+        ]
+      },
+      "metadataBodyBytes": 7340032,
+      "roiBodyBytes": 11534336,
+      "transfer": {
+        "bodyBytesConsumed": 18874368,
+        "requests": 19,
+        "cachePeakBytes": 8388608,
+        "cacheLimitBytes": 8388608,
+        "transferLimitBytes": 67108864,
+        "lastHttpStatus": 206,
+        "redirects": [
+          {
+            "status": 303,
+            "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+            "allowed": true,
+            "validation": {
+              "parseable": true,
+              "https": true,
+              "hostAllowlisted": true,
+              "portAllowed": true,
+              "noUserinfo": true,
+              "noFragment": true,
+              "noControlCharacters": true,
+              "strictProductPathMatches": true,
+              "productKeySuffixMatches": true,
+              "decodedProductKeySuffixMatches": true,
+              "mappedOriginPrefixMatches": true,
+              "canonicalPathMatches": false
+            }
+          }
+        ],
+        "verified206Responses": 18,
+        "firstContentRange": "bytes 0-1048575/4643094528",
+        "lastContentRange": "bytes 4583325696-4584374271/4643094528",
+        "safeError": null,
+        "fullFileChecksumVerified": false
+      }
+    },
+    {
+      "conceptId": "G4373929961-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4373929961-ASF.umm_json",
+      "revision": null,
+      "catalogSha256": "6eb9d4fdc1485d8c0f9917695fb578e03cebf67ba5dc6159dc7845cce41a5525",
+      "catalogBodyBytes": 29703,
+      "file": {
+        "Name": "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.h5",
+        "SizeInBytes": 4504682496,
+        "Format": "HDF5",
+        "Checksum": {
+          "Value": "4e7e27b5ee381b7bed471f56077fddbb",
+          "Algorithm": "MD5"
+        }
+      },
+      "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.h5",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "times": {
+        "BeginningDateTime": "2026-10-12T00:05:13.000000Z",
+        "EndingDateTime": "2026-10-12T00:05:47.999342Z"
+      },
+      "attributes": {
+        "ASCENDING_DESCENDING": [
+          "DESCENDING"
+        ],
+        "FRAME_NUMBER": [
+          "76"
+        ],
+        "FREQUENCIES": [
+          "A",
+          "B"
+        ],
+        "FREQUENCY_A_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_A_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_A_RANGE_BANDWIDTH": [
+          "40"
+        ],
+        "FREQUENCY_B_POLARIZATION": [
+          "HH",
+          "HV"
+        ],
+        "FREQUENCY_B_POLARIZATION_CONCAT": [
+          "HH+HV"
+        ],
+        "FREQUENCY_B_RANGE_BANDWIDTH": [
+          "5"
+        ],
+        "FULL_FRAME": [
+          "TRUE"
+        ],
+        "JOINT_OBSERVATION": [
+          "TRUE"
+        ],
+        "ORBIT_TYPE": [
+          "MOE"
+        ],
+        "PROCESSING_CENTER": [
+          "JPL"
+        ],
+        "PROCESSING_LEVEL": [
+          "L2"
+        ],
+        "PRODUCTION_PIPELINE": [
+          "PR"
+        ],
+        "PRODUCT_TYPE": [
+          "GCOV"
+        ],
+        "PRODUCT_TYPE_DESC": [
+          "Geocoded Polarimetric Covariance"
+        ],
+        "PRODUCT_VERSION": [
+          "1.0.11"
+        ],
+        "RANGE_BANDWIDTH_CONCAT": [
+          "40+5"
+        ],
+        "STACK_ID": [
+          "170_D_076"
+        ],
+        "TRACK_NUMBER": [
+          "170"
+        ]
+      },
+      "identifiers": [
+        {
+          "IdentifierType": "ProducerGranuleId",
+          "Identifier": "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "ISCE3 0.25.16",
+          "IdentifierName": "SASVersionId"
+        },
+        {
+          "IdentifierType": "CRID",
+          "Identifier": "P05023"
+        },
+        {
+          "IdentifierType": "Other",
+          "Identifier": "1",
+          "IdentifierName": "ProductCounter"
+        }
+      ],
+      "pge": {
+        "PGEName": "GCOV_L_PGE",
+        "PGEVersion": "R05.02.3"
+      },
+      "footprints": [
+        [
+          [
+            -82.35383,
+            26.13096
+          ],
+          [
+            -82.94598,
+            24.05695
+          ],
+          [
+            -80.55077,
+            23.46593
+          ],
+          [
+            -79.92089,
+            25.5276
+          ],
+          [
+            -82.35383,
+            26.13096
+          ]
+        ]
+      ],
+      "catalogRoiCovered": true,
+      "inspectionStage": "complete",
+      "hdf5": {
+        "identification": {
+          "productType": "GCOV",
+          "radarBand": "L",
+          "trackNumber": 170,
+          "frameNumber": 76,
+          "orbitPassDirection": "Descending",
+          "zeroDopplerStartTime": "2026-10-12T00:05:13.000000000",
+          "zeroDopplerEndTime": "2026-10-12T00:05:47.999342105",
+          "productVersion": "1.0.11",
+          "compositeReleaseId": "P05023",
+          "productSpecificationVersion": "1.5.0",
+          "dataMaturity": null
+        },
+        "frequencies": {
+          "frequencyA": {
+            "datasets": {
+              "HHHH": {
+                "shape": [
+                  33912,
+                  34560
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HHHH",
+                  "description": "Covariance between HH and HH",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "HVHV": {
+                "shape": [
+                  33912,
+                  34560
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HVHV",
+                  "description": "Covariance between HV and HV",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "mask": {
+                "shape": [
+                  33912,
+                  34560
+                ],
+                "dtype": "uint8",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "long_name": "Valid samples subswath mask",
+                  "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+                  "_FillValue": "255",
+                  "valid_min": "0"
+                }
+              }
+            },
+            "crs": "EPSG:32617",
+            "shape": [
+              33912,
+              34560
+            ],
+            "spacing": [
+              10.0,
+              -10.0
+            ],
+            "firstCenter": [
+              287285.0,
+              2907355.0
+            ],
+            "roiFirstCenter": [
+              518085.0,
+              2822545.0
+            ],
+            "window": [
+              8481,
+              8925,
+              23080,
+              23484
+            ],
+            "roiShape": [
+              444,
+              404
+            ],
+            "roiPixels": 179376,
+            "gridCoversRoi": true,
+            "maskCounts": {
+              "1": 179376
+            },
+            "screenedPixels": {
+              "HHHH": 179376,
+              "HVHV": 179376
+            },
+            "screeningCaveat": "Finite positive power, declared fill excluded, mask 0/255 excluded. Not a complete quality certification."
+          },
+          "frequencyB": {
+            "datasets": {
+              "HHHH": {
+                "shape": [
+                  4239,
+                  4320
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HHHH",
+                  "description": "Covariance between HH and HH",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "HVHV": {
+                "shape": [
+                  4239,
+                  4320
+                ],
+                "dtype": "float32",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "units": "1",
+                  "long_name": "Geocoded polarimetric covariance term HVHV",
+                  "description": "Covariance between HV and HV",
+                  "_FillValue": "nan",
+                  "valid_min": "0.0"
+                }
+              },
+              "mask": {
+                "shape": [
+                  4239,
+                  4320
+                ],
+                "dtype": "uint8",
+                "chunks": [
+                  512,
+                  512
+                ],
+                "compression": "gzip",
+                "attributes": {
+                  "long_name": "Valid samples subswath mask",
+                  "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+                  "_FillValue": "255",
+                  "valid_min": "0"
+                }
+              }
+            },
+            "crs": "EPSG:32617",
+            "shape": [
+              4239,
+              4320
+            ],
+            "spacing": [
+              80.0,
+              -80.0
+            ],
+            "firstCenter": [
+              287320.0,
+              2907320.0
+            ],
+            "roiFirstCenter": [
+              518120.0,
+              2822520.0
+            ],
+            "window": [
+              1060,
+              1116,
+              2885,
+              2936
+            ],
+            "roiShape": [
+              56,
+              51
+            ],
+            "roiPixels": 2856,
+            "gridCoversRoi": true,
+            "maskCounts": {
+              "1": 2856
+            },
+            "screenedPixels": {
+              "HHHH": 2856,
+              "HVHV": 2856
+            },
+            "screeningCaveat": "Finite positive power, declared fill excluded, mask 0/255 excluded. Not a complete quality certification."
+          }
+        },
+        "qualityDatasetInventory": [
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/inputDataExceptionMask",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "description": "Bitwise OR of input data exception codes for each image pixel (0: no anomaly, 2: NISAR LSAR qFSP-H1 sample slip)",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/mask",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "long_name": "Valid samples subswath mask",
+              "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+              "_FillValue": "255",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/numberOfLooks",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Number of radar looks",
+              "description": "Number of averaged radar-grid pixels for covariance estimation",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyA/rtcGammaToSigmaFactor",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Radiometric terrain correction area normalization factor gamma0 to sigma0",
+              "description": "Radiometric terrain correction (RTC) scaling factor to normalize backscatter coefficients from gamma0 to sigma0, accounting for local terrain",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/inputDataExceptionMask",
+            "shape": [
+              33912,
+              34560
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "description": "Bitwise OR of input data exception codes for each image pixel (0: no anomaly, 2: NISAR LSAR qFSP-H1 sample slip)",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/mask",
+            "shape": [
+              4239,
+              4320
+            ],
+            "dtype": "uint8",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "long_name": "Valid samples subswath mask",
+              "description": "Mask indicating the subswath number associated with valid GCOV samples. A GCOV sample is only considered valid if it is generated from fully-focused radar samples. If at least one radar sample in the averaging set is partially focused or invalid, the corresponding mask pixel will contain the value 0. GCOV pixels outside of the radar acquisition extent are filled with the value 255",
+              "_FillValue": "255",
+              "valid_min": "0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/numberOfLooks",
+            "shape": [
+              4239,
+              4320
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Number of radar looks",
+              "description": "Number of averaged radar-grid pixels for covariance estimation",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/grids/frequencyB/rtcGammaToSigmaFactor",
+            "shape": [
+              4239,
+              4320
+            ],
+            "dtype": "float32",
+            "chunks": [
+              512,
+              512
+            ],
+            "compression": "gzip",
+            "attributes": {
+              "units": "1",
+              "long_name": "Radiometric terrain correction area normalization factor gamma0 to sigma0",
+              "description": "Radiometric terrain correction (RTC) scaling factor to normalize backscatter coefficients from gamma0 to sigma0, accounting for local terrain",
+              "_FillValue": "nan",
+              "valid_min": "0.0"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyA/HH/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyA/HV/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyB/HH/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/calibrationInformation/frequencyB/HV/rfiLikelihood",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Severity of radio frequency interference (RFI) contamination in the data. Value is in the interval [0,1], where 0: lowest severity, and 1: highest severity (or NaN if RFI detection was skipped)"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rfiMitigationApplied",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Flag to indicate if radio frequency interference (RFI) mitigation was applied during the generation of the input RSLC"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/geogridUpsampling",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Radiometric terrain correction (RTC) geogrid upsampling"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/inputBackscatterNormalizationConvention",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Backscatter normalization convention of the source data"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/memoryMode",
+            "shape": [],
+            "dtype": "|S4",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Radiometric terrain correction (RTC) memory mode"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/minRtcAreaNormalizationFactorInDB",
+            "shape": [],
+            "dtype": "float64",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "units": "1",
+              "description": "Radiometric terrain correction (RTC) minimum area normalization factor value in dB computed as `10 * log10(area_out / area_in)` where `area_in` and `area_out` are the reference surfaces associated with the source data (input) and GCOV terms (output) backscatter conventions, respectively"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/outputBackscatterExpressionConvention",
+            "shape": [],
+            "dtype": "|S12",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Backscatter expression convention"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/rtc/outputBackscatterNormalizationConvention",
+            "shape": [],
+            "dtype": "|S6",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Backscatter normalization convention of the primary data associated with this product"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/shadowMaskingApplied",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Flag to indicate if the shadow masking has been applied"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/processingInformation/parameters/validSamplesSubSwathMaskingApplied",
+            "shape": [],
+            "dtype": "|S5",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Flag to indicate if the valid samples subswath masking has been applied"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/sourceData/processingInformation/algorithms/rfiDetection",
+            "shape": [],
+            "dtype": "|S9",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Algorithm used for radio frequency interference (RFI) detection corresponding to the source data processing information records"
+            }
+          },
+          {
+            "path": "/science/LSAR/GCOV/metadata/sourceData/processingInformation/algorithms/rfiMitigation",
+            "shape": [],
+            "dtype": "|S9",
+            "chunks": null,
+            "compression": null,
+            "attributes": {
+              "description": "Algorithm used for radio frequency interference (RFI) mitigation corresponding to the source data processing information records, either \"ST-EVD\" or \"FDNF\" (or \"disabled\" if no RFI mitigation was applied)"
+            }
+          }
+        ]
+      },
+      "metadataBodyBytes": 7340032,
+      "roiBodyBytes": 13631488,
+      "transfer": {
+        "bodyBytesConsumed": 20971520,
+        "requests": 21,
+        "cachePeakBytes": 8388608,
+        "cacheLimitBytes": 8388608,
+        "transferLimitBytes": 67108864,
+        "lastHttpStatus": 206,
+        "redirects": [
+          {
+            "status": 303,
+            "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+            "allowed": true,
+            "validation": {
+              "parseable": true,
+              "https": true,
+              "hostAllowlisted": true,
+              "portAllowed": true,
+              "noUserinfo": true,
+              "noFragment": true,
+              "noControlCharacters": true,
+              "strictProductPathMatches": true,
+              "productKeySuffixMatches": true,
+              "decodedProductKeySuffixMatches": true,
+              "mappedOriginPrefixMatches": true,
+              "canonicalPathMatches": false
+            }
+          }
+        ],
+        "verified206Responses": 20,
+        "firstContentRange": "bytes 0-1048575/4504682496",
+        "lastContentRange": "bytes 4443865088-4444913663/4504682496",
+        "safeError": null,
+        "fullFileChecksumVerified": false
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "G4342506513-ASF catalog date",
+      "status": "PASS",
+      "detail": "CMR acquisition start UTC"
+    },
+    {
+      "name": "G4342506513-ASF catalog ROI coverage",
+      "status": "PASS",
+      "detail": "Catalog polygon only; does not establish raster validity."
+    },
+    {
+      "name": "G4342506513-ASF HDF5/ROI access",
+      "status": "PASS",
+      "detail": "Metadata then bounded ROI read completed."
+    },
+    {
+      "name": "G4342506513-ASF HTTP byte-range support",
+      "status": "PASS",
+      "detail": "Exact 206/Content-Range verified; see transfer evidence."
+    },
+    {
+      "name": "G4373929961-ASF catalog date",
+      "status": "PASS",
+      "detail": "CMR acquisition start UTC"
+    },
+    {
+      "name": "G4373929961-ASF catalog ROI coverage",
+      "status": "PASS",
+      "detail": "Catalog polygon only; does not establish raster validity."
+    },
+    {
+      "name": "G4373929961-ASF HDF5/ROI access",
+      "status": "PASS",
+      "detail": "Metadata then bounded ROI read completed."
+    },
+    {
+      "name": "G4373929961-ASF HTTP byte-range support",
+      "status": "PASS",
+      "detail": "Exact 206/Content-Range verified; see transfer evidence."
+    },
+    {
+      "name": "G4342506513-ASF HDF5 productType",
+      "status": "PASS",
+      "detail": "HDF5=GCOV; catalog/required=GCOV"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 radarBand",
+      "status": "PASS",
+      "detail": "HDF5=L; catalog/required=L"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 zeroDopplerStartTime",
+      "status": "FAIL",
+      "detail": "HDF5=2026-09-30T00:05:12.000000000; catalog/required=2026-09-30T00:05:12.000000Z"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 trackNumber",
+      "status": "PASS",
+      "detail": "HDF5=170; catalog/required=170"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 frameNumber",
+      "status": "PASS",
+      "detail": "HDF5=76; catalog/required=76"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 orbitPassDirection",
+      "status": "FAIL",
+      "detail": "HDF5=Descending; catalog/required=DESCENDING"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 productVersion",
+      "status": "PASS",
+      "detail": "HDF5=1.0.11; catalog/required=1.0.11"
+    },
+    {
+      "name": "G4342506513-ASF frequencyA required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required."
+    },
+    {
+      "name": "G4342506513-ASF frequencyA grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate."
+    },
+    {
+      "name": "G4342506513-ASF frequencyA HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "G4342506513-ASF frequencyA HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "G4342506513-ASF frequencyB required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required."
+    },
+    {
+      "name": "G4342506513-ASF frequencyB grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate."
+    },
+    {
+      "name": "G4342506513-ASF frequencyB HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "G4342506513-ASF frequencyB HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "G4373929961-ASF HDF5 productType",
+      "status": "PASS",
+      "detail": "HDF5=GCOV; catalog/required=GCOV"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 radarBand",
+      "status": "PASS",
+      "detail": "HDF5=L; catalog/required=L"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 zeroDopplerStartTime",
+      "status": "FAIL",
+      "detail": "HDF5=2026-10-12T00:05:13.000000000; catalog/required=2026-10-12T00:05:13.000000Z"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 trackNumber",
+      "status": "PASS",
+      "detail": "HDF5=170; catalog/required=170"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 frameNumber",
+      "status": "PASS",
+      "detail": "HDF5=76; catalog/required=76"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 orbitPassDirection",
+      "status": "FAIL",
+      "detail": "HDF5=Descending; catalog/required=DESCENDING"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 productVersion",
+      "status": "PASS",
+      "detail": "HDF5=1.0.11; catalog/required=1.0.11"
+    },
+    {
+      "name": "G4373929961-ASF frequencyA required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required."
+    },
+    {
+      "name": "G4373929961-ASF frequencyA grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate."
+    },
+    {
+      "name": "G4373929961-ASF frequencyA HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "G4373929961-ASF frequencyA HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "G4373929961-ASF frequencyB required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required."
+    },
+    {
+      "name": "G4373929961-ASF frequencyB grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate."
+    },
+    {
+      "name": "G4373929961-ASF frequencyB HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "G4373929961-ASF frequencyB HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review."
+    },
+    {
+      "name": "Catalog TRACK_NUMBER",
+      "status": "PASS",
+      "detail": "[['170'], ['170']]"
+    },
+    {
+      "name": "Catalog FRAME_NUMBER",
+      "status": "PASS",
+      "detail": "[['76'], ['76']]"
+    },
+    {
+      "name": "Catalog ASCENDING_DESCENDING",
+      "status": "PASS",
+      "detail": "[['DESCENDING'], ['DESCENDING']]"
+    },
+    {
+      "name": "Catalog PRODUCT_VERSION",
+      "status": "PASS",
+      "detail": "[['1.0.11'], ['1.0.11']]"
+    },
+    {
+      "name": "Catalog FREQUENCY_A_POLARIZATION",
+      "status": "PASS",
+      "detail": "[['HH', 'HV'], ['HH', 'HV']]"
+    },
+    {
+      "name": "Catalog FREQUENCY_B_POLARIZATION",
+      "status": "PASS",
+      "detail": "[['HH', 'HV'], ['HH', 'HV']]"
+    },
+    {
+      "name": "Catalog RANGE_BANDWIDTH_CONCAT",
+      "status": "PASS",
+      "detail": "[['40+5'], ['40+5']]"
+    },
+    {
+      "name": "Catalog JOINT_OBSERVATION",
+      "status": "PASS",
+      "detail": "[['TRUE'], ['TRUE']]"
+    },
+    {
+      "name": "frequencyA ROI pixel alignment",
+      "status": "PASS",
+      "detail": "CRS, pixel spacing, ROI shape and centers compared; no resampling."
+    },
+    {
+      "name": "frequencyA HHHH common screened pixels",
+      "status": "PASS",
+      "detail": "179376"
+    },
+    {
+      "name": "frequencyA HVHV common screened pixels",
+      "status": "PASS",
+      "detail": "179376"
+    },
+    {
+      "name": "frequencyB ROI pixel alignment",
+      "status": "PASS",
+      "detail": "CRS, pixel spacing, ROI shape and centers compared; no resampling."
+    },
+    {
+      "name": "frequencyB HHHH common screened pixels",
+      "status": "PASS",
+      "detail": "2856"
+    },
+    {
+      "name": "frequencyB HVHV common screened pixels",
+      "status": "PASS",
+      "detail": "2856"
+    },
+    {
+      "name": "Actual HDF5 units and calibration semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Official QA and quality-mask interpretation",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Radiometric artifact review (banding, RFI, seams, noise floor)",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    },
+    {
+      "name": "Defensible paired analysis",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement."
+    }
+  ],
+  "verdict": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "runtime": {
+    "python": "3.14.8",
+    "h5py": "3.16.0",
+    "numpy": "2.5.3",
+    "requests": "2.34.2",
+    "asf_search": "14.0.3",
+    "rasterio": "1.5.2"
+  },
+  "codeSha256": {
+    "check_compatibility.py": "696384415af0899cdd3460379101b5fa27223ed3d132289ffd2eb17462dc2575",
+    "sources.py": "933e2ff3ed8c3f41c50cad2a528927c0810e83dfc582efa91e55a2adcafe425e",
+    "fetch_nisar.py": "011f54049ccb98624eaa4815b85105cfe8169354bbaf5d13d32f1e85fc70e926",
+    "nisar_to_overlays.py": "e20dc1f0c99cbe80e16b372233d7cd9b952bf00232f258f98319092d9de2696b"
+  },
+  "transferAccounting": "Response body bytes consumed by catalog/range reader only; excludes HTTP/TLS overhead, auth exchanges and earlier exploratory requests.",
+  "limitations": [
+    "No temporal differences or environmental interpretation calculated.",
+    "ROI is a bounding window enclosing a proposed 0.04-degree study box, not a final ecological sampling design.",
+    "Full file checksum cannot be verified from partial ranges.",
+    "Quality layers, official QA and radiometric artifacts require review before scientific clearance.",
+    "Identical processing versions do not prove absence of calibration bias."
+  ],
+  "authentication": "Earthdata authenticated session established"
+}

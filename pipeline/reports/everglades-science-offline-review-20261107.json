@@ -1,0 +1,324 @@
+{
+  "schemaVersion": "1.1",
+  "generatedUtc": "2026-11-07T16:35:49.783117+00:00",
+  "verdict": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "newScientificReadsPerformed": false,
+  "purpose": "Offline revalidation of previously captured identity metadata only; not an authenticated quality run",
+  "sourceReport": "pipeline\\reports\\everglades-pathfix-20261107T162434494Z.json",
+  "sourceReportSha256": "731d36b007c4f1c971a8674659808f280619d0552c59948ea215c3fef17a221c",
+  "checks": [
+    {
+      "name": "G4342506513-ASF HDF5 productType",
+      "status": "PASS",
+      "detail": "HDF5=GCOV; catalog/required=GCOV",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 radarBand",
+      "status": "PASS",
+      "detail": "HDF5=L; catalog/required=L",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 zeroDopplerStartTime",
+      "status": "PASS",
+      "detail": "HDF5=2026-09-30T00:05:12.000000000; catalog/required=2026-09-30T00:05:12.000000Z",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 trackNumber",
+      "status": "PASS",
+      "detail": "HDF5=170; catalog/required=170",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 frameNumber",
+      "status": "PASS",
+      "detail": "HDF5=76; catalog/required=76",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 orbitPassDirection",
+      "status": "PASS",
+      "detail": "HDF5=Descending; catalog/required=DESCENDING",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF HDF5 productVersion",
+      "status": "PASS",
+      "detail": "HDF5=1.0.11; catalog/required=1.0.11",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyA required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyA grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyA HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyA HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyB required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyB grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyB HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyB HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF Frequency A declared gamma0 linear-power convention",
+      "status": "UNVERIFIED",
+      "detail": "Required output normalization/expression scalar values have not been read.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyA subswath-mask grid and semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires attached native coordinate scales and explicit mask 0/255 semantics; otherwise common counts are withheld.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyA exception-mask screening",
+      "status": "UNVERIFIED",
+      "detail": "Only confirmed native-grid, integer zero-no-anomaly masks are applied.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyB subswath-mask grid and semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires attached native coordinate scales and explicit mask 0/255 semantics; otherwise common counts are withheld.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4342506513-ASF frequencyB exception-mask screening",
+      "status": "UNVERIFIED",
+      "detail": "Only confirmed native-grid, integer zero-no-anomaly masks are applied.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 productType",
+      "status": "PASS",
+      "detail": "HDF5=GCOV; catalog/required=GCOV",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 radarBand",
+      "status": "PASS",
+      "detail": "HDF5=L; catalog/required=L",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 zeroDopplerStartTime",
+      "status": "PASS",
+      "detail": "HDF5=2026-10-12T00:05:13.000000000; catalog/required=2026-10-12T00:05:13.000000Z",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 trackNumber",
+      "status": "PASS",
+      "detail": "HDF5=170; catalog/required=170",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 frameNumber",
+      "status": "PASS",
+      "detail": "HDF5=76; catalog/required=76",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 orbitPassDirection",
+      "status": "PASS",
+      "detail": "HDF5=Descending; catalog/required=DESCENDING",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF HDF5 productVersion",
+      "status": "PASS",
+      "detail": "HDF5=1.0.11; catalog/required=1.0.11",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyA required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyA grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyA HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyA HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyB required real covariance datasets",
+      "status": "PASS",
+      "detail": "HHHH, HVHV and integer mask on matching grids required.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyB grid ROI coverage",
+      "status": "PASS",
+      "detail": "Native grid coverage; quality screening remains separate.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyB HHHH declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyB HVHV declared units",
+      "status": "PASS",
+      "detail": "1; presence only, calibration semantics require review.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF Frequency A declared gamma0 linear-power convention",
+      "status": "UNVERIFIED",
+      "detail": "Required output normalization/expression scalar values have not been read.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyA subswath-mask grid and semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires attached native coordinate scales and explicit mask 0/255 semantics; otherwise common counts are withheld.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyA exception-mask screening",
+      "status": "UNVERIFIED",
+      "detail": "Only confirmed native-grid, integer zero-no-anomaly masks are applied.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyB subswath-mask grid and semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires attached native coordinate scales and explicit mask 0/255 semantics; otherwise common counts are withheld.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "G4373929961-ASF frequencyB exception-mask screening",
+      "status": "UNVERIFIED",
+      "detail": "Only confirmed native-grid, integer zero-no-anomaly masks are applied.",
+      "scope": "automated",
+      "evidence": "Previously captured HDF5 metadata; no new reads"
+    },
+    {
+      "name": "Actual HDF5 units and calibration semantics",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement.",
+      "scope": "manual",
+      "evidence": "Still pending new quality reads and explicit review"
+    },
+    {
+      "name": "Official QA and quality-mask interpretation",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement.",
+      "scope": "manual",
+      "evidence": "Still pending new quality reads and explicit review"
+    },
+    {
+      "name": "Radiometric artifact review (banding, RFI, seams, noise floor)",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement.",
+      "scope": "manual",
+      "evidence": "Still pending new quality reads and explicit review"
+    },
+    {
+      "name": "Defensible paired analysis",
+      "status": "UNVERIFIED",
+      "detail": "Requires file-level evidence and scientific review; not inferred from catalog agreement.",
+      "scope": "manual",
+      "evidence": "Still pending new quality reads and explicit review"
+    }
+  ],
+  "nextAction": "Run the updated inspector with --require-auth from the token-bearing terminal.",
+  "limitations": [
+    "No new QA, exception masks, calibration scalar values or artifact profiles have been read.",
+    "Prior common screened counts do not establish exception-screened or final scientifically valid counts."
+  ]
+}

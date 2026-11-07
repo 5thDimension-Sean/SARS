@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Compatibility inspection only; no environmental change analysis",
+  "roiWgs84": [-80.82, 25.48, -80.78, 25.52],
+  "maxRoiPixels": 250000,
+  "granules": ["G4342506513-ASF", "G4373929961-ASF"],
+  "expectedDates": ["2026-09-30", "2026-10-12"],
+  "restoredFrom": "ae93dfb2be0f71f9b7197b323c8918d0d281579b"
+}
