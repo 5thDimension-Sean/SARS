@@ -1294,6 +1294,7 @@ input:focus-visible,
 .latest-mobile {
   display: none;
 }
+
 .date-step-track {
   position: relative;
 }
@@ -2152,4 +2153,58 @@ input:focus-visible,
     top: 66px !important;
     height: calc(100dvh - 94px);
   }
+}
+
+/* Local integration: retain the console design and add truthful offline tools. */
+.data-notice { padding: 6px 14px; font-size: 11px; color: #b7cbd6; border-bottom: 1px solid #344c57; }
+.data-notice a, .data-workspace a { color: #7be2df; text-decoration: underline; }
+.viewport-column { position: relative; }
+.discovery-lab { flex-shrink: 0; background: #101b23; border: 1px solid #344c57; margin: 4px 10px; z-index: 12; }
+.discovery-lab summary, .rail-section summary { cursor: pointer; padding: 8px 5px; font-weight: 600; }
+.discovery-lab small { margin-left: 12px; color: #b7cbd6; font-size: 10px; }
+.lab-tools { display: flex; flex-wrap: wrap; gap: 5px; padding: 5px 10px; }
+.lab-tools button, .lab-content button, .data-workspace button { border: 1px solid #45616f; border-radius: 4px; padding: 6px 10px; background: #142731; color: #e4eff4; cursor: pointer; }
+.lab-tools button[aria-pressed="true"] { background: #235b60; border-color: #7be2df; }
+.lab-content { max-height: 28dvh; overflow: auto; padding: 10px 14px; font-size: 13px; line-height: 1.5; }
+.lab-content h2 { font-size: 16px; margin-bottom: 6px; }
+.lab-content ul { padding-left: 20px; list-style: disc; }
+.lab-content li { margin: 7px 0; }
+button:disabled { opacity: .5; cursor: default; }
+.data-workspace { max-width: 1200px; padding: 24px; margin: auto; line-height: 1.65; }
+.data-workspace h1 { font-size: 30px; margin: 18px 0; }
+.data-workspace h2 { font-size: 20px; margin-top: 16px; }
+.data-workspace p, .data-workspace details { margin: 12px 0; }
+.data-workspace select { background: #142731; border: 1px solid #45616f; padding: 6px; max-width: 100%; }
+.data-workspace label { display: inline-flex; gap: 8px; align-items: center; max-width: 100%; }
+.processed-controls { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0; }
+.processed-comparison { position: relative; width: 100%; max-height: 65dvh; background: #15232b; overflow: hidden; }
+.processed-comparison img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+.data-workspace table { display: block; overflow: auto; border-collapse: collapse; max-width: 100%; }
+.data-workspace td, .data-workspace th { border: 1px solid #344c57; padding: 5px 10px; text-align: left; }
+.data-workspace dd { overflow-wrap: anywhere; }
+.data-workspace summary { cursor: pointer; font-weight: 600; }
+.rail-section summary:focus-visible, .discovery-lab summary:focus-visible, .lab-tools button:focus-visible, .data-workspace :focus-visible { outline: 2px solid #7be2df; outline-offset: 2px; }
+.timeline-panel { resize: vertical; overflow: auto; min-height: 180px; max-height: 40%; }
+.timeline-size { display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-size: 9px; color: #b7cbd6; }
+.timeline-size input { width: 70px; }
+.workspace { position: relative; grid-template-columns: minmax(180px, var(--left-width, 252px)) minmax(0, 1fr) minmax(260px, var(--right-width, 330px)); }
+.workspace.rail-collapsed { grid-template-columns: 62px minmax(0, 1fr) minmax(260px, var(--right-width, 330px)); }
+.rail-width { position: absolute; bottom: 5px; display: flex; gap: 6px; padding: 5px; background: #101b23; font-size: 9px; z-index: 15; }
+.rail-width input { width: 65px; }
+.left-width { left: 5px; }
+.right-width { right: 5px; }
+.rail-footer { padding-bottom: 40px; }
+.analysis-rail { padding-bottom: 40px; }
+.surface-image { transition: none; }
+@media (max-width: 1250px) { .workspace { grid-template-columns: 210px minmax(0, 1fr) 295px; } .rail-width { display: none; } }
+@media (max-width: 1050px) { .workspace, .workspace.rail-collapsed { grid-template-columns: 210px minmax(0, 1fr); } }
+@media (max-width: 767px) { .workspace, .workspace.rail-collapsed { grid-template-columns: minmax(0, 1fr); } .browse-link { display: none; } }
+.map-shading { opacity: .35; pointer-events: none; }
+.scan-texture { opacity: .12; pointer-events: none; }
+@media (max-width: 640px) {
+  .data-workspace { padding: 14px; }
+  .data-workspace label { flex-wrap: wrap; }
+  .discovery-lab small { display: block; margin-left: 0; }
+  .data-notice { font-size: 10px; }
+  .console { min-height: 760px; }
 }

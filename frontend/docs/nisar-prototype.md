@@ -1,5 +1,7 @@
 # Limited NISAR map prototype
 
+The repository-reconciliation statements below are historical. See [current integration status](integration-status.md). The prototype remains a separate browse-only route; it does not clear scientific analysis.
+
 ## Repository reconciliation
 
 On November 6, 2026, local `redesign-v2` pointed at `b4370f792847e5d9afbf13ed816fff34fedb8d22` with no tracked changes. GitHub `main` was 18 commits ahead. Its comparison explicitly lists `AGENTS.md` as added; no local history contains that path. The local `origin/main` reference is stale. `redesign-v2` was not listed among remote branches.

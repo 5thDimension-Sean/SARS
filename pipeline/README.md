@@ -1,5 +1,7 @@
 # SAR-Waltz offline NISAR pipeline
 
+Current frontend integration and scientific limits are recorded in [the integration status](../frontend/docs/integration-status.md). The local frontend loads processed assets at `/processed`; quantitative ROI and temporal change layers remain withheld pending common-support masking and scientific QA. The current Everglades pair is NOT CLEARED. Older checkpoint docs retain their original run-specific provenance and machine paths.
+
 Search, inspect, then precompute NISAR **L-band frequency-A GCOV** products into fixed-scale PNG overlays, reduced-resolution float32 Cloud Optimized GeoTIFFs, and JSON for the static dashboard. Python runs only during preparation. The exported website reads files; it needs no Python service, database, Electron, or map package.
 
 ## Install
@@ -111,6 +113,6 @@ The CLI reports output size and warns above 50 MB (50,000,000 bytes). Reduce `--
 
 Tests use explicitly synthetic HDF5 fixtures and temporary outputs, never fabricated NASA observations committed to the dashboard. They cover arithmetic/masks, windowed reads, fixed scales, transparency, histograms, COG layout/nodata/CRS, projected bounds, timeline gaps, ratios/difference sign, AOI cropping, release/maturity checks, and malformed layouts. Fetch tests use local fakes for authentication/download behavior. A separate public ASF dry-run verifies live catalog integration without credentials. An authenticated multi-gigabyte product download and science validation remain dependent on your Earthdata access and selected products.
 
-See [verification results](docs/verification.md) for the Python 3.13/3.14 tests and the running dashboard integration checks.
+See [current verification results](../frontend/docs/integration-status.md) for the Python 3.13/3.14 tests and the running dashboard integration checks.
 
 Primary references: [ASF search manual](https://docs.asf.alaska.edu/asf_search/searching/), [NISAR ASF search guide](https://nisar-docs.asf.alaska.edu/asf-search/), [GCOV guide and product specification](https://nisar-docs.asf.alaska.edu/gcov/), [official GCOV XML](https://github.com/isce-framework/isce3/blob/develop/python/packages/nisar/products/XML/L2/nisar_L2_GCOV.xml), [PROVISIONAL known issues](https://nisar-docs.asf.alaska.edu/provisional-known-issues/), [Rasterio installation](https://rasterio.readthedocs.io/en/stable/installation.html).

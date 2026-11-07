@@ -3,6 +3,7 @@ import { readFile, stat } from "node:fs/promises";
 import { resolve, extname, sep } from "node:path";
 const root = resolve("out"),
   port = Number(process.env.PORT || 5173);
+const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || "").replace(/\/$/, "");
 const mime = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
@@ -16,9 +17,16 @@ const mime = {
 };
 const server = createServer(async (req, res) => {
   try {
-    const pathname = decodeURIComponent(
+    let pathname = decodeURIComponent(
       new URL(req.url, "http://localhost").pathname,
     );
+    if (basePath) {
+      if (pathname !== basePath && !pathname.startsWith(basePath + "/")) {
+        res.writeHead(404).end("Not found");
+        return;
+      }
+      pathname = pathname.slice(basePath.length) || "/";
+    }
     let path = resolve(root, "." + pathname);
     if (path !== root && !path.startsWith(root + sep)) {
       res.writeHead(403).end();
@@ -42,5 +50,5 @@ const server = createServer(async (req, res) => {
   }
 });
 server.listen(port, "127.0.0.1", () =>
-  console.log(`SAR-Waltz static preview: http://127.0.0.1:${port}/`),
+  console.log(`SAR-Waltz static preview: http://127.0.0.1:${port}${basePath}/`),
 );

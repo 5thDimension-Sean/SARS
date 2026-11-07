@@ -4,6 +4,8 @@ Frontend checkpoint for the 2026 NASA Space Apps Challenge. React 19, Next.js st
 
 ## Run
 
+Current status and requirement disposition: [local integration](docs/integration-status.md). Earlier approval-checkpoint statements below describe historical work and are superseded by that document. The offline Python pipeline now exists; scientific QA remains unresolved.
+
 Requires Node.js 22.13 or newer. From this directory:
 
 ```sh
@@ -23,6 +25,8 @@ The build writes `out/`. `npm start` serves that directory at http://127.0.0.1:5
 
 ## Explore
 
+The console includes a collapsed **Explore tools** launcher for six Discovery Lab tools. `/processed` loads locally prepared GCOV manifests and assets with runtime validation and explicit unavailable states. No real processed assets or quantitative change detections are supplied in this checkout. `/explore` and `/map` retain access to the local console; the existing public education and study URLs remain available.
+
 The limited real-data prototype is at `/nisar-prototype`; `/` remains the educational demo. It uses MapLibre and NASA GIBS for the verified Everglades dates September 30 and October 12, 2026. See [prototype scope, safeguards, and preview instructions](docs/nisar-prototype.md). No scientific measurements are computed from browse imagery.
 
 - Select Wetland loss, Earthquakes, or Deforestation, then either hotspot.
@@ -41,7 +45,7 @@ All dates, acquisition identifiers, areas, events, values, and rendered textures
 
 `components/dashboard/observation-viewport.tsx` exposes `ObservationViewportProps` for the educational demo. Its procedural renderer is preserved. The independent `/nisar-prototype` route uses MapLibre; CesiumJS and deck.gl are not installed. The procedural raster cache is bounded to 24 entries; sample surfaces update by acquisition and geographic seed.
 
-The future pipeline should emit or adapt its manifest to `SampleDataset` and populate the nullable URLs. The sample JSON module then becomes replaceable without changing the dashboard. Real overlays are intentionally deferred with the backend.
+The offline pipeline emits a separate processed manifest. `/processed` validates and renders those assets without coercing measured data into the fictional `SampleDataset`. The sample console remains a labeled educational mode.
 
 ## Scientific and geographic references
 
@@ -53,4 +57,4 @@ The future pipeline should emit or adapt its manifest to `SampleDataset` and pop
 
 ## Approval checkpoint
 
-The Python download/inspect/process pipeline is deferred until the frontend has been tested and approved. No backend pipeline is implemented in this checkpoint. See `docs/verification.md` for frontend checks and preview limits.
+The offline download/inspect/process pipeline is implemented and its synthetic software tests pass. Real Everglades suitability remains NOT CLEARED pending official QA, artifact review and common-support masking. See `docs/integration-status.md` for current checks and remaining browser/data dependencies.

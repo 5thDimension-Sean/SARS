@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import {
   Play,
   Pause,
@@ -38,8 +39,10 @@ export function TimelinePanel({
   onSpeed: (v: string) => void;
 }) {
   const acquisitions = location.acquisitions;
+  const [height, setHeight] = useState(200);
   return (
-    <section className="timeline-panel" aria-label="Time comparison">
+    <section className="timeline-panel" aria-label="Time comparison" style={{ height }}>
+      <label className="timeline-size">Timeline height <input aria-label="Timeline panel height" type="range" min="180" max="320" value={height} onChange={(e) => setHeight(Number(e.target.value))} /></label>
       <div className="timeline-top">
         <div className="timeline-heading">
           <span className="eyebrow">TIME COMPARISON</span>

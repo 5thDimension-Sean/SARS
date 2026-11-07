@@ -1,5 +1,7 @@
 # Frontend verification
 
+Historical checkpoint. See [current validation and limitations](integration-status.md) for the November 7 local integration; the pipeline is now implemented and its scientific QA remains unresolved.
+
 Frontend only; Python pipeline work requires user approval after this checkpoint.
 
 ## Automated checks

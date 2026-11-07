@@ -49,6 +49,7 @@ export function MissionBar({
           <span className="sample-pulse" />
           SAMPLE DATA
         </span>
+        <Link className="browse-link" href="/nisar-prototype">NASA browse</Link>
         <div className="mission-context">
           <Satellite size={16} aria-hidden />
           <span>
