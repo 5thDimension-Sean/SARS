@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "preview-1.0",
+  "provenance": "NASA NISAR GCOV via ASF DAAC",
+  "sourceCollection": "NISAR L2 GCOV provisional",
+  "studyRoiWgs84": [
+    -80.82,
+    25.48,
+    -80.78,
+    25.52
+  ],
+  "bounds": [
+    -80.82012502329387,
+    25.47990591302608,
+    -80.77990379971325,
+    25.520082528394134
+  ],
+  "nativeCrs": "EPSG:32617",
+  "nativeShape": [
+    444,
+    404
+  ],
+  "pixelSpacingMeters": [
+    10.0,
+    -10.0
+  ],
+  "measurement": "dimensionless gamma0 linear power converted to dB using 10 log10",
+  "purpose": "Single-date visualization only; no temporal differences or environmental conclusion",
+  "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "knownConcerns": [
+    "official QA identification failures require review",
+    "RFI/noise and radiometric artifacts require review"
+  ],
+  "acquisitions": [
+    {
+      "date": "2026-09-30",
+      "conceptId": "G4342506513-ASF",
+      "track": 170,
+      "frame": 76,
+      "gamma0Status": "PASS",
+      "exceptionScreenAvailable": true,
+      "images": {
+        "HH": {
+          "filename": "20260930_HH.png",
+          "screenedPixels": 179376,
+          "screenCounts": {
+            "nonfinitePower": 0,
+            "declaredFill": 0,
+            "nonpositivePower": 0,
+            "partiallyFocusedOrInvalidEnsemble": 0,
+            "outsideAcquisition": 0,
+            "inputDataException": 0,
+            "retained": 179376,
+            "total": 179376
+          },
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "sha256": "4107da95035580dd824431683f173e0177a4cf652bec4469761a64d8b65515b9"
+        },
+        "HV": {
+          "filename": "20260930_HV.png",
+          "screenedPixels": 179376,
+          "screenCounts": {
+            "nonfinitePower": 0,
+            "declaredFill": 0,
+            "nonpositivePower": 0,
+            "partiallyFocusedOrInvalidEnsemble": 0,
+            "outsideAcquisition": 0,
+            "inputDataException": 0,
+            "retained": 179376,
+            "total": 179376
+          },
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "sha256": "212d0654fc479f514365255c396d7ae13ddea8136e4e842b809881a0462e956c"
+        }
+      }
+    },
+    {
+      "date": "2026-10-12",
+      "conceptId": "G4373929961-ASF",
+      "track": 170,
+      "frame": 76,
+      "gamma0Status": "PASS",
+      "exceptionScreenAvailable": true,
+      "images": {
+        "HH": {
+          "filename": "20261012_HH.png",
+          "screenedPixels": 179376,
+          "screenCounts": {
+            "nonfinitePower": 0,
+            "declaredFill": 0,
+            "nonpositivePower": 0,
+            "partiallyFocusedOrInvalidEnsemble": 0,
+            "outsideAcquisition": 0,
+            "inputDataException": 0,
+            "retained": 179376,
+            "total": 179376
+          },
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "sha256": "a330a2164a1a5237ee9b68e85ae0e16a4d8ef9ed04ce44edb65511c0df10f4b2"
+        },
+        "HV": {
+          "filename": "20261012_HV.png",
+          "screenedPixels": 179376,
+          "screenCounts": {
+            "nonfinitePower": 0,
+            "declaredFill": 0,
+            "nonpositivePower": 0,
+            "partiallyFocusedOrInvalidEnsemble": 0,
+            "outsideAcquisition": 0,
+            "inputDataException": 0,
+            "retained": 179376,
+            "total": 179376
+          },
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "sha256": "1a3dbdd51116b17e085549f3de122983328668b3e9da2e37074d5c1a59a42804"
+        }
+      }
+    }
+  ]
+}

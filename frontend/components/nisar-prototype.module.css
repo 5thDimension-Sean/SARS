@@ -1,4 +1,4 @@
-.workspace { min-height: 100dvh; padding: clamp(16px, 3vw, 36px); color: #e3eff0; background: #101b20; font-size: 16px; line-height: 1.55; }
+.workspace { min-height: 100dvh; padding: clamp(12px, 2vw, 24px); color: #e3eff0; background: #101b20; font-size: 16px; line-height: 1.55; }
 .workspace a { color: #8ce4d5; text-decoration: underline; text-underline-offset: 3px; }
 .workspace p { margin: 12px 0; max-width: 1100px; }
 .header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -8,7 +8,7 @@
 .toolbar button { background: #20343c; color: #e3eff0; border-color: #537078; min-height: 44px; }
 .toolbar button[aria-pressed="true"] { background: #235e58; border-color: #8ce4d5; }
 .status { min-height: 25px; color: #c4d6da; }
-.mapFrame { position: relative; height: clamp(360px, 63dvh, 800px); border: 1px solid #537078; border-radius: 8px; overflow: hidden; }
+.mapFrame { position: relative; height: clamp(380px, 66dvh, 900px); border: 1px solid #537078; border-radius: 8px; overflow: hidden; }
 .map { width: 100%; height: 100%; }
 .date { pointer-events: none; position: absolute; top: 12px; left: 12px; max-width: calc(100% - 68px); background: #101b20ed; padding: 8px 12px; border-radius: 5px; font-size: 14px; }
 .caption { color: #a4bfc5; font-size: 14px; }
@@ -18,3 +18,15 @@
 .workspace :focus-visible { outline: 3px solid #8ce4d5; outline-offset: 3px; }
 .map :global(.maplibregl-ctrl-attrib) { font-size: 12px; }
 .map :global(.maplibregl-ctrl-attrib a) { color: #123b46; }
+.products { margin-top: 20px; padding: 16px; border-left: 3px solid #537078; background: #17262b; overflow-wrap: anywhere; }
+.products h2 { font-weight: 600; }
+.products select { max-width: 100%; min-height: 44px; padding: 8px; background: #20343c; color: #e3eff0; border: 1px solid #537078; border-radius: 4px; }
+@media (max-width: 600px) {
+  .header { gap: 8px; }
+  .header a, .eyebrow, .status { font-size: 14px; }
+  .toolbar { gap: 8px; margin-top: 10px; }
+  .toolbar button { flex: 1 1 auto; }
+  .date { font-size: 12px; padding: 6px 8px; }
+  .mapFrame { height: 58dvh; min-height: 360px; }
+  .map :global(.maplibregl-ctrl-attrib) { max-width: 240px; font-size: 10px; }
+}

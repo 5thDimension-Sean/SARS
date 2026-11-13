@@ -5,18 +5,23 @@ import { useEffect, useRef, useState } from "react";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Button } from "@/components/ui/button";
+import { ProcessedOverlayPanel } from "./processed-overlay-panel";
 import { ATTRIBUTION, DATES, GRANULES, STUDY_BOUNDS, tileUrl, verifyBrowsePair, type BrowseDate } from "@/lib/nisar-browse";
+import { EvergladesPreviewLayer } from "./everglades-preview-layer";
 import styles from "./nisar-prototype.module.css";
 
 export function NisarPrototype() {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
+  const [previewMap, setPreviewMap] = useState<MapLibreMap | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [date, setDate] = useState<BrowseDate>(DATES[1]);
   const [verified, setVerified] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [message, setMessage] = useState("Checking both NASA imagery dates…");
   const [error, setError] = useState("");
+  const [processedDisplay, setProcessedDisplay] = useState("");
+  const [readyMap, setReadyMap] = useState<MapLibreMap | null>(null);
   const [position, setPosition] = useState("25.5000° N, 80.6500° W");
 
   useEffect(() => {
@@ -45,6 +50,8 @@ export function NisarPrototype() {
     void import("maplibre-gl").then((lib) => {
       if (controller.signal.aborted || !container.current) return;
       try {
+        // MapLibre 6 needs an explicit bundled worker URL before creating a map.
+        lib.setWorkerUrl(new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).toString());
         instance = new lib.Map({
           container: container.current,
           center: [-80.65, 25.5], zoom: 10,
@@ -65,6 +72,8 @@ export function NisarPrototype() {
           },
         });
         map.current = instance;
+        instance.on("load", () => { if (!controller.signal.aborted) setPreviewMap(instance ?? null); });
+        instance.on("load", () => setReadyMap(instance!));
         instance.touchZoomRotate.disableRotation();
         instance.addControl(new lib.NavigationControl({ showCompass: false }), "top-right");
         instance.addControl(new lib.ScaleControl({ unit: "metric" }), "bottom-left");
@@ -97,7 +106,7 @@ export function NisarPrototype() {
     };
   }, [attempt]);
 
-  const canCompare = verified && loaded && !error;
+  const canCompare = verified && loaded && !error && !processedDisplay;
   const selectDate = (next: BrowseDate) => {
     if (!canCompare || !map.current) return;
     // One camera and one tile matrix: switching dates cannot alter geographic alignment.
@@ -105,28 +114,31 @@ export function NisarPrototype() {
     setDate(next);
   };
   const retry = () => {
+    setReadyMap(null); setProcessedDisplay("");
     setVerified(false); setLoaded(false); setError(""); setDate(DATES[1]);
     setMessage("Checking both NASA imagery dates…"); setAttempt((value) => value + 1);
   };
 
   return <main className={styles.workspace}>
     <header className={styles.header}>
-      <div><p className={styles.eyebrow}>SAR-Waltz · Limited prototype</p><h1>Everglades radar imagery</h1></div>
+      <div><p className={styles.eyebrow}>SAR-Waltz · Observation explorer</p><h1>Everglades radar imagery</h1></div>
       <Link href="/">Return to educational demo</Link>
     </header>
     <p><strong>Real NASA imagery · Provisional GCOV · False-color browse visualization</strong></p>
     <div className={styles.toolbar} role="group" aria-label="Compare imagery dates">
       <Button variant="outline" disabled={!canCompare} aria-pressed={date === DATES[0]} onClick={() => selectDate(DATES[0])}>Before · Sep 30, 2026</Button>
       <Button variant="outline" disabled={!canCompare} aria-pressed={date === DATES[1]} onClick={() => selectDate(DATES[1])}>After · Oct 12, 2026</Button>
-      <Button variant="outline" onClick={retry}>Retry imagery</Button>
+      {(error || !verified) && <Button variant="outline" onClick={retry}>Retry imagery</Button>}
     </div>
     <p className={styles.status} role="status">{error || `${message}${!loaded ? " Loading map…" : ""}`}</p>
     <section className={styles.mapFrame} aria-label="NASA NISAR geographic viewport">
       <div ref={container} className={styles.map} />
-      <div className={styles.date}>Displayed mosaic date: <strong>{date} UTC</strong></div>
+      <div className={styles.date}>{processedDisplay || <>NASA GIBS mosaic · <strong>{date} UTC</strong></>}</div>
     </section>
+    <EvergladesPreviewLayer map={previewMap} />
     <p className={styles.caption}>Map center: {position}. Drag or use arrow keys to pan; scroll, pinch, or use +/− to zoom. Navigation is limited to the verified South Florida study tile. This prototype uses fixed zoom-9 browse tiles; zooming enlarges those pixels.</p>
-    <p>Switch dates to compare the same view. Dark or transparent areas may lack coverage. Colors describe radar scattering, not measured wetland loss, flooding, or ground displacement.</p>
+    <p>Switch dates to compare the same view. This false-color radar browse mosaic is not an optical photograph. It provides no pixel-level granule lineage or quantitative backscatter measurements. Colors do not establish flooding, vegetation loss, or ground displacement.</p>
+    <div className={styles.products}><ProcessedOverlayPanel map={readyMap} onDisplay={setProcessedDisplay} /></div>
     <details className={styles.details}>
       <summary>Sources, acquisition dates, and limitations</summary>
       <p>NASA GIBS daily GCOV mosaics may combine products. The source acquisitions below intersect the Everglades verification point (25.5° N, 80.8° W); they are not pixel-level lineage for the whole mosaic.</p>
