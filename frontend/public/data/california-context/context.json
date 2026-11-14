@@ -1,0 +1,43 @@
+{
+  "study": "2026 Plaskett Fire, Big Sur, California",
+  "sectionTitle": "Real-world location context",
+  "notice": "Photographs document the actual Plaskett Fire incident. They are not NISAR measurements or matched before/after ground truth.",
+  "photos": [
+    {
+      "title": "Smoke over the Plaskett Fire",
+      "date": "2026-08-30",
+      "photoId": "9902290",
+      "sourceUrl": "https://www.dvidshub.net/image/9902290/plaskett-fire",
+      "caption": "Smoke rising from a hillside near Pacific Valley Fire Station.",
+      "photographer": "Andrew Avitt",
+      "credit": "U.S. Forest Service / Andrew Avitt",
+      "rights": "Public domain per DVIDS listing; review source notice",
+      "imageFile": null,
+      "usage": "Incident context only; not geographically matched to radar pixels"
+    },
+    {
+      "title": "Structure protection near the fire",
+      "date": "2026-08-30",
+      "photoId": "9902256",
+      "sourceUrl": "https://www.dvidshub.net/image/9902256/plaskett-fire",
+      "caption": "A wrapped building near Pacific Valley Fire Station with smoke behind it.",
+      "photographer": "Andrew Avitt",
+      "credit": "U.S. Forest Service / Andrew Avitt",
+      "rights": "Public domain per DVIDS listing; review source notice",
+      "imageFile": null,
+      "usage": "Incident context only; not geographically matched to radar pixels"
+    },
+    {
+      "title": "Firefighters on a fuel break",
+      "date": "2026-08-31",
+      "photoId": "9902245",
+      "sourceUrl": "https://www.dvidshub.net/image/9902245/plaskett-fire",
+      "caption": "Firefighters carrying hose near Highway 1.",
+      "photographer": "Andrew Avitt",
+      "credit": "U.S. Forest Service / Andrew Avitt",
+      "rights": "Public domain per DVIDS listing; review source notice",
+      "imageFile": null,
+      "usage": "Incident context only; not geographically matched to radar pixels"
+    }
+  ]
+}

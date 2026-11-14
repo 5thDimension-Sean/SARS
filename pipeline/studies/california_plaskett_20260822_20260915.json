@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "California Plaskett Fire candidate GCOV verification; exploratory only",
+  "roiWgs84": [
+    -121.44,
+    35.88,
+    -121.4,
+    35.92
+  ],
+  "maxRoiPixels": 250000,
+  "granules": [
+    "G4288641488-ASF",
+    "G4314277037-ASF"
+  ],
+  "expectedDates": [
+    "2026-08-22",
+    "2026-09-15"
+  ]
+}

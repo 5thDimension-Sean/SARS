@@ -1,0 +1,676 @@
+{
+  "schemaVersion": "sar-waltz-evidence-1.0",
+  "title": "California Plaskett Fire NISAR backscatter evidence",
+  "studyArea": "California Plaskett Fire study area",
+  "provenance": "NASA NISAR Level-2 GCOV via ASF DAAC; local scientific export",
+  "measurement": "gamma0 backscatter (dB); 10 log10 of screened linear power",
+  "measurementType": "per-acquisition descriptive statistics",
+  "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "quality": {
+    "identificationGroup": "FAIL on both official NASA QA summaries; specific identification failure unexplained",
+    "frequencyAHHAndHVValidity": "PASS on both official NASA QA summaries for Frequency A HH/HV invalid-pixel threshold checks; decimated rasters only",
+    "gridAlignment": "PASS for selected Frequency A ROI: EPSG:32610, 10 m, 450 by 369",
+    "radiometricArtifactsAndNoise": "UNVERIFIED; RFI, noise and possible banding need review"
+  },
+  "limitations": [
+    "This is exploratory visualization of real NASA observations; not a validated wildfire damage finding.",
+    "Differences between regional means or medians are not paired-pixel changes.",
+    "Per-date masks may not select exactly the same pixels even when counts are equal.",
+    "Displayed histogram bins exclude values outside their fixed display ranges.",
+    "Official identification-group checks failed for both California products; radiometric artifact review remains incomplete."
+  ],
+  "dates": [
+    "2026-08-22",
+    "2026-09-15"
+  ],
+  "polarizations": {
+    "HH": {
+      "observations": [
+        {
+          "date": "2026-08-22",
+          "granuleId": "G4288641488-ASF",
+          "count": 166050,
+          "meanDb": -6.902237741392548,
+          "medianDb": -6.69919753074646,
+          "stdDb": 3.288617643423072,
+          "p05Db": -12.764294910430909,
+          "p95Db": -1.8598442077636754,
+          "outsideDisplayRange": 1822
+        },
+        {
+          "date": "2026-09-15",
+          "granuleId": "G4314277037-ASF",
+          "count": 166050,
+          "meanDb": -6.89757583086773,
+          "medianDb": -6.739575386047363,
+          "stdDb": 3.3038210121002587,
+          "p05Db": -12.611625671386719,
+          "p95Db": -1.7577445328235637,
+          "outsideDisplayRange": 2336
+        }
+      ],
+      "differenceOfRegionalMeansDb": 0.00466,
+      "differenceOfRegionalMediansDb": -0.04038,
+      "differenceInterpretation": "Difference of separate regional summary statistics; not paired per-pixel change",
+      "histogramBinCountFieldByDate": {
+        "2026-08-22": "firstDateCount",
+        "2026-09-15": "secondDateCount"
+      },
+      "histogramBins": [
+        {
+          "lowDb": -25.0,
+          "highDb": -24.479166666666668,
+          "firstDateCount": 0,
+          "secondDateCount": 0
+        },
+        {
+          "lowDb": -24.479166666666668,
+          "highDb": -23.958333333333332,
+          "firstDateCount": 0,
+          "secondDateCount": 0
+        },
+        {
+          "lowDb": -23.958333333333332,
+          "highDb": -23.4375,
+          "firstDateCount": 0,
+          "secondDateCount": 1
+        },
+        {
+          "lowDb": -23.4375,
+          "highDb": -22.916666666666668,
+          "firstDateCount": 0,
+          "secondDateCount": 0
+        },
+        {
+          "lowDb": -22.916666666666668,
+          "highDb": -22.395833333333332,
+          "firstDateCount": 2,
+          "secondDateCount": 2
+        },
+        {
+          "lowDb": -22.395833333333332,
+          "highDb": -21.875,
+          "firstDateCount": 0,
+          "secondDateCount": 2
+        },
+        {
+          "lowDb": -21.875,
+          "highDb": -21.354166666666668,
+          "firstDateCount": 2,
+          "secondDateCount": 1
+        },
+        {
+          "lowDb": -21.354166666666668,
+          "highDb": -20.833333333333332,
+          "firstDateCount": 8,
+          "secondDateCount": 3
+        },
+        {
+          "lowDb": -20.833333333333332,
+          "highDb": -20.3125,
+          "firstDateCount": 10,
+          "secondDateCount": 8
+        },
+        {
+          "lowDb": -20.3125,
+          "highDb": -19.791666666666664,
+          "firstDateCount": 13,
+          "secondDateCount": 13
+        },
+        {
+          "lowDb": -19.791666666666664,
+          "highDb": -19.270833333333332,
+          "firstDateCount": 23,
+          "secondDateCount": 18
+        },
+        {
+          "lowDb": -19.270833333333332,
+          "highDb": -18.75,
+          "firstDateCount": 43,
+          "secondDateCount": 19
+        },
+        {
+          "lowDb": -18.75,
+          "highDb": -18.229166666666664,
+          "firstDateCount": 75,
+          "secondDateCount": 35
+        },
+        {
+          "lowDb": -18.229166666666664,
+          "highDb": -17.708333333333332,
+          "firstDateCount": 124,
+          "secondDateCount": 51
+        },
+        {
+          "lowDb": -17.708333333333332,
+          "highDb": -17.1875,
+          "firstDateCount": 162,
+          "secondDateCount": 106
+        },
+        {
+          "lowDb": -17.1875,
+          "highDb": -16.666666666666664,
+          "firstDateCount": 265,
+          "secondDateCount": 154
+        },
+        {
+          "lowDb": -16.666666666666664,
+          "highDb": -16.145833333333332,
+          "firstDateCount": 371,
+          "secondDateCount": 259
+        },
+        {
+          "lowDb": -16.145833333333332,
+          "highDb": -15.625,
+          "firstDateCount": 493,
+          "secondDateCount": 363
+        },
+        {
+          "lowDb": -15.625,
+          "highDb": -15.104166666666666,
+          "firstDateCount": 627,
+          "secondDateCount": 529
+        },
+        {
+          "lowDb": -15.104166666666666,
+          "highDb": -14.583333333333332,
+          "firstDateCount": 891,
+          "secondDateCount": 774
+        },
+        {
+          "lowDb": -14.583333333333332,
+          "highDb": -14.0625,
+          "firstDateCount": 1103,
+          "secondDateCount": 1036
+        },
+        {
+          "lowDb": -14.0625,
+          "highDb": -13.541666666666666,
+          "firstDateCount": 1405,
+          "secondDateCount": 1407
+        },
+        {
+          "lowDb": -13.541666666666666,
+          "highDb": -13.020833333333332,
+          "firstDateCount": 1715,
+          "secondDateCount": 1860
+        },
+        {
+          "lowDb": -13.020833333333332,
+          "highDb": -12.5,
+          "firstDateCount": 2069,
+          "secondDateCount": 2193
+        },
+        {
+          "lowDb": -12.5,
+          "highDb": -11.979166666666666,
+          "firstDateCount": 2512,
+          "secondDateCount": 2879
+        },
+        {
+          "lowDb": -11.979166666666666,
+          "highDb": -11.458333333333332,
+          "firstDateCount": 3092,
+          "secondDateCount": 3431
+        },
+        {
+          "lowDb": -11.458333333333332,
+          "highDb": -10.937499999999998,
+          "firstDateCount": 3738,
+          "secondDateCount": 4114
+        },
+        {
+          "lowDb": -10.937499999999998,
+          "highDb": -10.416666666666666,
+          "firstDateCount": 4356,
+          "secondDateCount": 4762
+        },
+        {
+          "lowDb": -10.416666666666666,
+          "highDb": -9.895833333333332,
+          "firstDateCount": 5302,
+          "secondDateCount": 5682
+        },
+        {
+          "lowDb": -9.895833333333332,
+          "highDb": -9.374999999999998,
+          "firstDateCount": 6339,
+          "secondDateCount": 6605
+        },
+        {
+          "lowDb": -9.374999999999998,
+          "highDb": -8.854166666666664,
+          "firstDateCount": 7508,
+          "secondDateCount": 7539
+        },
+        {
+          "lowDb": -8.854166666666664,
+          "highDb": -8.333333333333332,
+          "firstDateCount": 8489,
+          "secondDateCount": 8580
+        },
+        {
+          "lowDb": -8.333333333333332,
+          "highDb": -7.8125,
+          "firstDateCount": 9481,
+          "secondDateCount": 9231
+        },
+        {
+          "lowDb": -7.8125,
+          "highDb": -7.291666666666664,
+          "firstDateCount": 10272,
+          "secondDateCount": 10098
+        },
+        {
+          "lowDb": -7.291666666666664,
+          "highDb": -6.770833333333332,
+          "firstDateCount": 10990,
+          "secondDateCount": 10608
+        },
+        {
+          "lowDb": -6.770833333333332,
+          "highDb": -6.25,
+          "firstDateCount": 11294,
+          "secondDateCount": 10874
+        },
+        {
+          "lowDb": -6.25,
+          "highDb": -5.729166666666664,
+          "firstDateCount": 11033,
+          "secondDateCount": 10840
+        },
+        {
+          "lowDb": -5.729166666666664,
+          "highDb": -5.208333333333332,
+          "firstDateCount": 10424,
+          "secondDateCount": 10288
+        },
+        {
+          "lowDb": -5.208333333333332,
+          "highDb": -4.6875,
+          "firstDateCount": 9933,
+          "secondDateCount": 9528
+        },
+        {
+          "lowDb": -4.6875,
+          "highDb": -4.166666666666664,
+          "firstDateCount": 8898,
+          "secondDateCount": 8802
+        },
+        {
+          "lowDb": -4.166666666666664,
+          "highDb": -3.645833333333332,
+          "firstDateCount": 7751,
+          "secondDateCount": 7611
+        },
+        {
+          "lowDb": -3.645833333333332,
+          "highDb": -3.125,
+          "firstDateCount": 6372,
+          "secondDateCount": 6273
+        },
+        {
+          "lowDb": -3.125,
+          "highDb": -2.6041666666666643,
+          "firstDateCount": 5182,
+          "secondDateCount": 5114
+        },
+        {
+          "lowDb": -2.6041666666666643,
+          "highDb": -2.083333333333332,
+          "firstDateCount": 3953,
+          "secondDateCount": 4019
+        },
+        {
+          "lowDb": -2.083333333333332,
+          "highDb": -1.5625,
+          "firstDateCount": 3097,
+          "secondDateCount": 3098
+        },
+        {
+          "lowDb": -1.5625,
+          "highDb": -1.0416666666666643,
+          "firstDateCount": 2155,
+          "secondDateCount": 2240
+        },
+        {
+          "lowDb": -1.0416666666666643,
+          "highDb": -0.5208333333333321,
+          "firstDateCount": 1595,
+          "secondDateCount": 1611
+        },
+        {
+          "lowDb": -0.5208333333333321,
+          "highDb": 0.0,
+          "firstDateCount": 1061,
+          "secondDateCount": 1053
+        }
+      ],
+      "histogramImage": "HH_histogram_comparison.png"
+    },
+    "HV": {
+      "observations": [
+        {
+          "date": "2026-08-22",
+          "granuleId": "G4288641488-ASF",
+          "count": 166050,
+          "meanDb": -11.778075456550702,
+          "medianDb": -11.429694175720215,
+          "stdDb": 3.4501917962545976,
+          "p05Db": -18.189439010620116,
+          "p95Db": -6.8156705856323265,
+          "outsideDisplayRange": 1708
+        },
+        {
+          "date": "2026-09-15",
+          "granuleId": "G4314277037-ASF",
+          "count": 166050,
+          "meanDb": -12.066902556402647,
+          "medianDb": -11.725092887878418,
+          "stdDb": 3.4851683916586036,
+          "p05Db": -18.43885021209717,
+          "p95Db": -6.946134328842166,
+          "outsideDisplayRange": 1522
+        }
+      ],
+      "differenceOfRegionalMeansDb": -0.28883,
+      "differenceOfRegionalMediansDb": -0.2954,
+      "differenceInterpretation": "Difference of separate regional summary statistics; not paired per-pixel change",
+      "histogramBinCountFieldByDate": {
+        "2026-08-22": "firstDateCount",
+        "2026-09-15": "secondDateCount"
+      },
+      "histogramBins": [
+        {
+          "lowDb": -30.0,
+          "highDb": -29.479166666666668,
+          "firstDateCount": 0,
+          "secondDateCount": 2
+        },
+        {
+          "lowDb": -29.479166666666668,
+          "highDb": -28.958333333333332,
+          "firstDateCount": 3,
+          "secondDateCount": 1
+        },
+        {
+          "lowDb": -28.958333333333332,
+          "highDb": -28.4375,
+          "firstDateCount": 8,
+          "secondDateCount": 2
+        },
+        {
+          "lowDb": -28.4375,
+          "highDb": -27.916666666666668,
+          "firstDateCount": 13,
+          "secondDateCount": 6
+        },
+        {
+          "lowDb": -27.916666666666668,
+          "highDb": -27.395833333333332,
+          "firstDateCount": 9,
+          "secondDateCount": 4
+        },
+        {
+          "lowDb": -27.395833333333332,
+          "highDb": -26.875,
+          "firstDateCount": 18,
+          "secondDateCount": 21
+        },
+        {
+          "lowDb": -26.875,
+          "highDb": -26.354166666666668,
+          "firstDateCount": 28,
+          "secondDateCount": 24
+        },
+        {
+          "lowDb": -26.354166666666668,
+          "highDb": -25.833333333333332,
+          "firstDateCount": 44,
+          "secondDateCount": 29
+        },
+        {
+          "lowDb": -25.833333333333332,
+          "highDb": -25.3125,
+          "firstDateCount": 65,
+          "secondDateCount": 54
+        },
+        {
+          "lowDb": -25.3125,
+          "highDb": -24.791666666666664,
+          "firstDateCount": 94,
+          "secondDateCount": 66
+        },
+        {
+          "lowDb": -24.791666666666664,
+          "highDb": -24.270833333333332,
+          "firstDateCount": 133,
+          "secondDateCount": 69
+        },
+        {
+          "lowDb": -24.270833333333332,
+          "highDb": -23.75,
+          "firstDateCount": 166,
+          "secondDateCount": 130
+        },
+        {
+          "lowDb": -23.75,
+          "highDb": -23.229166666666664,
+          "firstDateCount": 251,
+          "secondDateCount": 157
+        },
+        {
+          "lowDb": -23.229166666666664,
+          "highDb": -22.708333333333332,
+          "firstDateCount": 275,
+          "secondDateCount": 255
+        },
+        {
+          "lowDb": -22.708333333333332,
+          "highDb": -22.1875,
+          "firstDateCount": 384,
+          "secondDateCount": 356
+        },
+        {
+          "lowDb": -22.1875,
+          "highDb": -21.666666666666664,
+          "firstDateCount": 450,
+          "secondDateCount": 425
+        },
+        {
+          "lowDb": -21.666666666666664,
+          "highDb": -21.145833333333332,
+          "firstDateCount": 557,
+          "secondDateCount": 544
+        },
+        {
+          "lowDb": -21.145833333333332,
+          "highDb": -20.625,
+          "firstDateCount": 666,
+          "secondDateCount": 745
+        },
+        {
+          "lowDb": -20.625,
+          "highDb": -20.104166666666664,
+          "firstDateCount": 785,
+          "secondDateCount": 831
+        },
+        {
+          "lowDb": -20.104166666666664,
+          "highDb": -19.583333333333332,
+          "firstDateCount": 987,
+          "secondDateCount": 1144
+        },
+        {
+          "lowDb": -19.583333333333332,
+          "highDb": -19.0625,
+          "firstDateCount": 1094,
+          "secondDateCount": 1433
+        },
+        {
+          "lowDb": -19.0625,
+          "highDb": -18.541666666666664,
+          "firstDateCount": 1260,
+          "secondDateCount": 1656
+        },
+        {
+          "lowDb": -18.541666666666664,
+          "highDb": -18.020833333333332,
+          "firstDateCount": 1529,
+          "secondDateCount": 2008
+        },
+        {
+          "lowDb": -18.020833333333332,
+          "highDb": -17.5,
+          "firstDateCount": 1714,
+          "secondDateCount": 2418
+        },
+        {
+          "lowDb": -17.5,
+          "highDb": -16.979166666666664,
+          "firstDateCount": 2105,
+          "secondDateCount": 2722
+        },
+        {
+          "lowDb": -16.979166666666664,
+          "highDb": -16.458333333333332,
+          "firstDateCount": 2620,
+          "secondDateCount": 3255
+        },
+        {
+          "lowDb": -16.458333333333332,
+          "highDb": -15.937499999999998,
+          "firstDateCount": 3037,
+          "secondDateCount": 3906
+        },
+        {
+          "lowDb": -15.937499999999998,
+          "highDb": -15.416666666666666,
+          "firstDateCount": 3761,
+          "secondDateCount": 4365
+        },
+        {
+          "lowDb": -15.416666666666666,
+          "highDb": -14.895833333333332,
+          "firstDateCount": 4514,
+          "secondDateCount": 5283
+        },
+        {
+          "lowDb": -14.895833333333332,
+          "highDb": -14.374999999999998,
+          "firstDateCount": 5683,
+          "secondDateCount": 6305
+        },
+        {
+          "lowDb": -14.374999999999998,
+          "highDb": -13.854166666666664,
+          "firstDateCount": 6591,
+          "secondDateCount": 6956
+        },
+        {
+          "lowDb": -13.854166666666664,
+          "highDb": -13.333333333333332,
+          "firstDateCount": 7676,
+          "secondDateCount": 8011
+        },
+        {
+          "lowDb": -13.333333333333332,
+          "highDb": -12.8125,
+          "firstDateCount": 8718,
+          "secondDateCount": 8993
+        },
+        {
+          "lowDb": -12.8125,
+          "highDb": -12.291666666666664,
+          "firstDateCount": 9805,
+          "secondDateCount": 9638
+        },
+        {
+          "lowDb": -12.291666666666664,
+          "highDb": -11.770833333333332,
+          "firstDateCount": 10663,
+          "secondDateCount": 10276
+        },
+        {
+          "lowDb": -11.770833333333332,
+          "highDb": -11.25,
+          "firstDateCount": 11196,
+          "secondDateCount": 10812
+        },
+        {
+          "lowDb": -11.25,
+          "highDb": -10.729166666666664,
+          "firstDateCount": 11213,
+          "secondDateCount": 10710
+        },
+        {
+          "lowDb": -10.729166666666664,
+          "highDb": -10.208333333333332,
+          "firstDateCount": 11234,
+          "secondDateCount": 10514
+        },
+        {
+          "lowDb": -10.208333333333332,
+          "highDb": -9.6875,
+          "firstDateCount": 10595,
+          "secondDateCount": 9819
+        },
+        {
+          "lowDb": -9.6875,
+          "highDb": -9.166666666666664,
+          "firstDateCount": 9730,
+          "secondDateCount": 9025
+        },
+        {
+          "lowDb": -9.166666666666664,
+          "highDb": -8.645833333333332,
+          "firstDateCount": 8620,
+          "secondDateCount": 7860
+        },
+        {
+          "lowDb": -8.645833333333332,
+          "highDb": -8.125,
+          "firstDateCount": 7181,
+          "secondDateCount": 6591
+        },
+        {
+          "lowDb": -8.125,
+          "highDb": -7.604166666666664,
+          "firstDateCount": 5812,
+          "secondDateCount": 5315
+        },
+        {
+          "lowDb": -7.604166666666664,
+          "highDb": -7.083333333333332,
+          "firstDateCount": 4530,
+          "secondDateCount": 4112
+        },
+        {
+          "lowDb": -7.083333333333332,
+          "highDb": -6.5625,
+          "firstDateCount": 3444,
+          "secondDateCount": 3046
+        },
+        {
+          "lowDb": -6.5625,
+          "highDb": -6.041666666666664,
+          "firstDateCount": 2376,
+          "secondDateCount": 2196
+        },
+        {
+          "lowDb": -6.041666666666664,
+          "highDb": -5.520833333333332,
+          "firstDateCount": 1643,
+          "secondDateCount": 1479
+        },
+        {
+          "lowDb": -5.520833333333332,
+          "highDb": -5.0,
+          "firstDateCount": 1062,
+          "secondDateCount": 959
+        }
+      ],
+      "histogramImage": "HV_histogram_comparison.png"
+    }
+  }
+}

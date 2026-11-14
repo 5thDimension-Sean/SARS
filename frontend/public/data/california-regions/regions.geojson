@@ -1,0 +1,227 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -121.4402021,
+              35.91333537
+            ],
+            [
+              -121.4313388,
+              35.91321988
+            ],
+            [
+              -121.43148115,
+              35.90600973
+            ],
+            [
+              -121.44034364,
+              35.90612519
+            ],
+            [
+              -121.4402021,
+              35.91333537
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "A",
+        "title": "Relatively increasing HH radar return",
+        "selectionMethod": "80x80 native-pixel window; nonoverlapping 20-pixel separation; exploratory score",
+        "rowRange": [
+          80,
+          160
+        ],
+        "columnRange": [
+          0,
+          80
+        ],
+        "pixelSpacingMeters": [
+          10.0,
+          -10.0
+        ],
+        "stats": {
+          "HH": {
+            "beforeMedianDb": -11.305,
+            "afterMedianDb": -10.577,
+            "pairedDifference": {
+              "pixels": 6400,
+              "medianDifferenceDb": 0.738,
+              "meanDifferenceDb": 0.618,
+              "p05DifferenceDb": -4.197,
+              "p95DifferenceDb": 5.196
+            }
+          },
+          "HV": {
+            "beforeMedianDb": -18.181,
+            "afterMedianDb": -17.346,
+            "pairedDifference": {
+              "pixels": 6400,
+              "medianDifferenceDb": 0.603,
+              "meanDifferenceDb": 0.512,
+              "p05DifferenceDb": -4.661,
+              "p95DifferenceDb": 5.348
+            }
+          }
+        },
+        "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+        "environmentalConclusion": null,
+        "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both California acquisitions; the cause remains unresolved. Radiometric artifacts, RFI, noise and banding are not cleared. Radar differences cannot establish wildfire damage or burned area without independent validation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -121.41346837,
+              35.92019702
+            ],
+            [
+              -121.40460443,
+              35.92007954
+            ],
+            [
+              -121.40474924,
+              35.91286949
+            ],
+            [
+              -121.41361237,
+              35.91298694
+            ],
+            [
+              -121.41346837,
+              35.92019702
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "B",
+        "title": "Relatively decreasing HH radar return",
+        "selectionMethod": "80x80 native-pixel window; nonoverlapping 20-pixel separation; exploratory score",
+        "rowRange": [
+          0,
+          80
+        ],
+        "columnRange": [
+          240,
+          320
+        ],
+        "pixelSpacingMeters": [
+          10.0,
+          -10.0
+        ],
+        "stats": {
+          "HH": {
+            "beforeMedianDb": -6.96,
+            "afterMedianDb": -8.119,
+            "pairedDifference": {
+              "pixels": 6400,
+              "medianDifferenceDb": -1.011,
+              "meanDifferenceDb": -1.027,
+              "p05DifferenceDb": -6.755,
+              "p95DifferenceDb": 4.625
+            }
+          },
+          "HV": {
+            "beforeMedianDb": -11.489,
+            "afterMedianDb": -13.575,
+            "pairedDifference": {
+              "pixels": 6400,
+              "medianDifferenceDb": -1.997,
+              "meanDifferenceDb": -2.04,
+              "p05DifferenceDb": -7.944,
+              "p95DifferenceDb": 3.682
+            }
+          }
+        },
+        "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+        "environmentalConclusion": null,
+        "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both California acquisitions; the cause remains unresolved. Radiometric artifacts, RFI, noise and banding are not cleared. Radar differences cannot establish wildfire damage or burned area without independent validation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -121.40939731,
+              35.90211317
+            ],
+            [
+              -121.4005354,
+              35.90199544
+            ],
+            [
+              -121.40068048,
+              35.89478538
+            ],
+            [
+              -121.40954159,
+              35.89490308
+            ],
+            [
+              -121.40939731,
+              35.90211317
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "C",
+        "title": "Lower-magnitude paired HH/HV differences",
+        "selectionMethod": "80x80 native-pixel window; nonoverlapping 20-pixel separation; exploratory score",
+        "rowRange": [
+          200,
+          280
+        ],
+        "columnRange": [
+          280,
+          360
+        ],
+        "pixelSpacingMeters": [
+          10.0,
+          -10.0
+        ],
+        "stats": {
+          "HH": {
+            "beforeMedianDb": -5.811,
+            "afterMedianDb": -5.71,
+            "pairedDifference": {
+              "pixels": 6400,
+              "medianDifferenceDb": 0.064,
+              "meanDifferenceDb": 0.05,
+              "p05DifferenceDb": -4.651,
+              "p95DifferenceDb": 4.649
+            }
+          },
+          "HV": {
+            "beforeMedianDb": -10.387,
+            "afterMedianDb": -10.363,
+            "pairedDifference": {
+              "pixels": 6400,
+              "medianDifferenceDb": 0.001,
+              "meanDifferenceDb": -0.07,
+              "p05DifferenceDb": -4.795,
+              "p95DifferenceDb": 4.47
+            }
+          }
+        },
+        "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+        "environmentalConclusion": null,
+        "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both California acquisitions; the cause remains unresolved. Radiometric artifacts, RFI, noise and banding are not cleared. Radar differences cannot establish wildfire damage or burned area without independent validation."
+      }
+    }
+  ]
+}
