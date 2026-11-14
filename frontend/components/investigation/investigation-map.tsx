@@ -25,6 +25,8 @@ interface Props {
   gibsReady: boolean; gibsVisible: boolean; onGibsFail: () => void;
   onProblem: (message: string) => void; onAfterMap: (map: MapLibreMap | null) => void;
   resetSignal: number;
+  /** Show the colour-coded difference map in black and white (luminance only). */
+  bw?: boolean;
 }
 
 /**
@@ -32,7 +34,7 @@ interface Props {
  * geographic grid. Layout (swipe curtain, side by side, or single difference map) is pure CSS, so toggling
  * modes never reloads or resamples data. The raster layers use nearest-neighbour sampling: no smoothing.
  */
-export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal }: Props) {
+export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal, bw = false }: Props) {
   const beforeEl = useRef<HTMLDivElement>(null);
   const afterEl = useRef<HTMLDivElement>(null);
   const [handles, setHandles] = useState<Handles | null>(null);
@@ -47,6 +49,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     return () => document.removeEventListener("fullscreenchange", change);
   }, []);
   const frame = useRef<HTMLDivElement>(null);
+  const handleEl = useRef<HTMLDivElement>(null);
   const callbacks = useRef({ onSelect, onGibsFail, onProblem });
   useEffect(() => { callbacks.current = { onSelect, onGibsFail, onProblem }; });
 
@@ -64,7 +67,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
         lib.setWorkerUrl(new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).toString());
         const style = (): StyleSpecification => ({ version: 8, sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#0b0b0c" } }] });
         const make = (container: HTMLElement) => new lib.Map({
-          container, style: style(), bounds: sceneBounds, fitBoundsOptions: { padding: 8 }, maxBounds, minZoom: 5, maxZoom: 17, cooperativeGestures: true,
+          container, style: style(), bounds: sceneBounds, fitBoundsOptions: { padding: 8 }, maxBounds, minZoom: 5, maxZoom: 17, cooperativeGestures: window.matchMedia("(pointer: coarse)").matches, // wheel zooms inside the box on desktop; touch keeps page scrolling usable
           dragRotate: false, pitchWithRotate: false, attributionControl: false,
         }).addControl(new lib.AttributionControl({ compact: true, customAttribution: "Radar: NASA NISAR L2 GCOV (provisional) via ASF DAAC · exploratory" }))
           .addControl(new lib.ScaleControl({ unit: "metric" }), "bottom-left");
@@ -180,6 +183,11 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     });
   }, [eachMap, pol, mode]);
 
+  // ---- optional black-and-white rendering of the colour-coded difference map
+  useEffect(() => {
+    eachMap((m) => { for (const p of POLS) if (m.getLayer(`diff-${p}`)) m.setPaintProperty(`diff-${p}`, "raster-saturation", bw ? -1 : 0); });
+  }, [eachMap, bw]);
+
   // ---- NASA GIBS browse mosaic: context only, below the measured rasters, added only after the pair was verified
   useEffect(() => {
     if (!handles || !gibsReady) return;
@@ -227,6 +235,15 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     if (handles) for (const list of handles.markers.values()) for (const marker of list) marker.getElement().hidden = !regionsVisible;
   }, [handles, eachMap, regionsVisible]);
 
+  // ---- the divider sits on top of the map; wheel events over it must still zoom the map, not scroll the page
+  useEffect(() => {
+    const el = handleEl.current, target = handles?.after.getCanvasContainer();
+    if (!el || !target) return;
+    const forward = (e: WheelEvent) => { e.preventDefault(); target.dispatchEvent(new WheelEvent("wheel", e)); };
+    el.addEventListener("wheel", forward, { passive: false });
+    return () => el.removeEventListener("wheel", forward);
+  }, [handles, mode]);
+
   // ---- horizontal divider, vertical motion, before above / after below
   const move = (clientY: number) => {
     const box = frame.current?.getBoundingClientRect();
@@ -257,7 +274,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     {twoUp && tag(`Before · ${fmtDate(study.dates[0])}`, "l")}
     {twoUp && tag(`After · ${fmtDate(study.dates[1])}`, "r")}
     {!twoUp && tag(`Exploratory difference · ${fmtDate(study.dates[1])} minus ${fmtDate(study.dates[0])}`, "l")}
-    {mode === "swipe" && twoUp && <div className={styles.handle} style={{ top: `${swipe}%` }} role="slider" tabIndex={0} aria-label="Before and after divider"
+    {mode === "swipe" && twoUp && <div ref={handleEl} className={styles.handle} style={{ top: `${swipe}%` }} role="slider" tabIndex={0} aria-label="Before and after divider"
       aria-orientation="vertical" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(swipe)} aria-valuetext={`Before above: ${Math.round(swipe)} percent. After below: ${100 - Math.round(swipe)} percent.`}
       onPointerDown={onPointerDown} onPointerMove={onPointerMove} onKeyDown={onKey}><span aria-hidden="true">↕</span></div>}
     <span className={styles.mapQa}>EXPLORATORY_NOT_CLEARED</span>
@@ -269,7 +286,6 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
       <button type="button" aria-label="Show investigation regions" aria-pressed={regionsVisible} onClick={() => setRegionsVisible(v => !v)}>A/B/C</button>
     </div>
     <output className={styles.coordinates} aria-label="Cursor coordinates">{position}</output>
-    <span className={styles.gestureHint}>Ctrl / ⌘ + scroll to zoom · Two fingers on touch</span>
     {!handles && <div className={styles.mapLoading} role="status">Loading radar map…</div>}
   </div>;
 }

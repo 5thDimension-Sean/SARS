@@ -36,11 +36,11 @@ export function MissionBar({
   return (
     <>
       <header className="mission-bar">
-        <Link className="brand" href="/" aria-label="SAR-Waltz home">
+        <Link className="brand" href="/" aria-label="Dancing with SARs home">
           <Orbit size={31} aria-hidden />
           <div>
             <strong>
-              SAR<span>-Waltz</span>
+              Dancing with <span>SARs</span>
             </strong>
             <small>EARTH OBSERVATION CONSOLE</small>
           </div>

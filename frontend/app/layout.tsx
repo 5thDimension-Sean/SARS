@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./radar-tokens.css";
+import { SiteNav } from "@/components/site-nav";
 
 export const metadata: Metadata = {
-  title: "SAR-Waltz",
+  title: "Dancing with SARs",
   description: "Explore Earth surface change through SAR sample data.",
   other: {
     "codex-preview": "development",
@@ -22,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased"><SiteNav />{children}</body>
     </html>
   );
 }

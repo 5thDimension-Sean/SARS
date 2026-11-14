@@ -51,14 +51,11 @@ export function RadarHero({ study, pol, educational = false }: { study: StudyCon
   return <section ref={root} className={styles.hero} aria-labelledby="radar-hero-title">
     <div className={styles.heroInner}>
       <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>SAR-WALTZ / {educational ? "A FIELD GUIDE TO RADAR" : "THE NISAR INVESTIGATION"}</p>
         <h1 id="radar-hero-title">A different way<br />to see Earth<span>.</span></h1>
         <p className={styles.heroLead}>NISAR records the microwave energy returned by Earth’s surface. Two dates invite a closer look.</p>
-        {educational && <p className={styles.fictional}>The lab below is fictional. The captioned NASA previews here are real, exploratory data.</p>}
         {educational ? <Link className={styles.primary} href="/nisar-prototype">Begin the investigation <span aria-hidden="true">↗</span></Link> : <a className={styles.primary} href="#step-look">Begin the investigation <span aria-hidden="true">↓</span></a>}
-        <p className={styles.heroFoot}>Real observations. Open questions.</p>
       </div>
-      {preview ? <figure className={styles.heroFigure}>
+      {preview ? <figure key={study.id} className={`${styles.heroFigure} ${styles.enter}`}>
         <div className={styles.heroRaster}>
           {/* eslint-disable-next-line @next/next/no-img-element -- untouched measured raster, static export */}
           <img src={dataUrl(`${study.previewDir}/${preview.acquisitions[0].images[pol].filename}`)} alt={`${study.label}, ${fmtDate(study.dates[0])}, ${pol} radar backscatter; not an optical photograph.`} width="404" height="444" fetchPriority="high" />

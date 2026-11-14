@@ -5,6 +5,7 @@ import {
   STUDIES, parseContext, parseEvidence, parseRegions, parsePreview, utmToLonLat, rasterCorners, ringBounds,
   fmtSignedDb, fmtDb, dataUrl, describeRegion, describeStudyShift, histogramShares, histogramOverlap, qaState,
 } from "../lib/investigation.ts";
+import { studyFromHash } from "../lib/view-store.ts";
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../public/data/${p}`, import.meta.url), "utf8"));
 const load = (s) => ({
@@ -185,4 +186,12 @@ test("wildfire context never leaks into radar wording", () => {
     const texts = [describeStudyShift(pol, evidence.pols[pol], s.dates), ...regions.regions.map((r) => describeRegion(pol, r, s.dates))];
     for (const t of texts) assert.doesNotMatch(t, /fire|burn|wildfire|damage|vegetation|flood|plaskett/i);
   }
+});
+
+test("location fragments map to known studies and unknown input falls back safely", () => {
+  assert.equal(studyFromHash("#california"), "california");
+  assert.equal(studyFromHash("louisiana"), "louisiana");
+  assert.equal(studyFromHash(""), "everglades");
+  assert.equal(studyFromHash("#<script>alert(1)</script>"), "everglades");
+  assert.equal(studyFromHash("#__proto__"), "everglades");
 });
