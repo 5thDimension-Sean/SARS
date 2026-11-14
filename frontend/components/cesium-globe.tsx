@@ -6,7 +6,7 @@ import everglades from "@/public/data/everglades-preview/preview-manifest.json";
 import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
 import california from "@/public/data/california-preview/preview-manifest.json";
 import { STUDIES, type Bounds, type StudyConfig } from "@/lib/investigation";
-import { FLIGHT_CEILING, OVERVIEW, centerOf, focusTarget } from "@/lib/globe-camera";
+import { FLIGHT_CEILING, FLIGHT_SECONDS, HERO_SPIN_DEG_PER_S, HERO_VIEW, OVERVIEW, centerOf, focusTarget } from "@/lib/globe-camera";
 import { prefersReducedMotion } from "@/lib/prefs";
 import styles from "./story-map.module.css";
 
@@ -45,14 +45,15 @@ function loadCesium(): Promise<Cesium> {
  * widgets, and uses the Natural Earth II color imagery that ships with CesiumJS (public domain). The camera flies
  * up and over to each scene footprint as the story scrolls.
  */
-export function CesiumGlobe({ active, onPick, onUnavailable }: { active: StepId; onPick: (id: StepId) => void; onUnavailable: () => void }) {
+export function CesiumGlobe({ active, onPick, onUnavailable, hero = false }: { active: StepId; onPick: (id: StepId) => void; onUnavailable: () => void; hero?: boolean }) {
   const box = useRef<HTMLDivElement>(null);
   const [viewer, setViewer] = useState<CesiumNS.Viewer | null>(null);
   const cb = useRef({ onPick, onUnavailable });
+  const spinPaused = useRef(false);
   useEffect(() => { cb.current = { onPick, onUnavailable }; });
 
   useEffect(() => {
-    let cancelled = false, created: CesiumNS.Viewer | undefined, handler: CesiumNS.ScreenSpaceEventHandler | undefined;
+    let cancelled = false, created: CesiumNS.Viewer | undefined, handler: CesiumNS.ScreenSpaceEventHandler | undefined, stopSpin: (() => void) | undefined;
     void loadCesium().then(async (C) => {
       if (cancelled || !box.current) return;
       try {
@@ -60,11 +61,21 @@ export function CesiumGlobe({ active, onPick, onUnavailable }: { active: StepId;
           baseLayer: false, baseLayerPicker: false, geocoder: false, homeButton: false, sceneModePicker: false, navigationHelpButton: false,
           animation: false, timeline: false, fullscreenButton: false, infoBox: false, selectionIndicator: false, scene3DOnly: true, shouldAnimate: false,
           skyBox: false, requestRenderMode: true, maximumRenderTimeChange: Infinity,
+          // Quality: render at the screen's real pixel density (the default is capped for speed) and smooth edges.
+          useBrowserRecommendedResolution: false, msaaSamples: 4,
         }));
+        v.resolutionScale = Math.min(window.devicePixelRatio || 1, 2);
+        v.scene.postProcessStages.fxaa.enabled = true;
         const scene = v.scene;
         scene.backgroundColor = C.Color.BLACK;
         scene.globe.baseColor = C.Color.fromCssColorString("#1d4f86");
         scene.globe.enableLighting = false; scene.globe.showGroundAtmosphere = true;
+        // Sharper tiles: refine the imagery earlier and keep more of it cached.
+        scene.globe.maximumScreenSpaceError = 1; scene.globe.tileCacheSize = 200;
+        scene.globe.atmosphereLightIntensity = 14; scene.globe.atmosphereBrightnessShift = 0.05;
+        // Stars: the sky box that ships with CesiumJS, served from this site.
+        const sky = (f: string) => `${baseUrl()}Assets/Textures/SkyBox/tycho2t3_80_${f}.jpg`;
+        scene.skyBox = new C.SkyBox({ sources: { positiveX: sky("px"), negativeX: sky("mx"), positiveY: sky("py"), negativeY: sky("my"), positiveZ: sky("pz"), negativeZ: sky("mz") } });
         if (scene.skyAtmosphere) scene.skyAtmosphere.show = true;
         if (scene.sun) scene.sun.show = false;
         if (scene.moon) scene.moon.show = false;
@@ -94,6 +105,7 @@ export function CesiumGlobe({ active, onPick, onUnavailable }: { active: StepId;
             rectangle: { coordinates: C.Rectangle.fromDegrees(b[0], b[1], b[2], b[3]), fill: false, outline: true, outlineColor: C.Color.WHITE, height: 0 },
           });
         }
+        if (hero) for (const s of STUDIES) { const e = v.entities.getById(s.id); if (e?.label) e.label.show = new C.ConstantProperty(false); }
         // Keyboard and touch users pick a stop with the buttons beside the globe; mouse users can also click a marker.
         handler = new C.ScreenSpaceEventHandler(v.canvas);
         if (!coarse) handler.setInputAction((m: { position: CesiumNS.Cartesian2 }) => { const hit = scene.pick(m.position) as { id?: { id?: string } } | undefined; const id = hit?.id?.id; if (id) cb.current.onPick(id as StepId); }, C.ScreenSpaceEventType.LEFT_CLICK);
@@ -103,31 +115,49 @@ export function CesiumGlobe({ active, onPick, onUnavailable }: { active: StepId;
           const p = C.Cartographic.fromCartesian(v.camera.positionWC);
           box.current.dataset.view = `${C.Math.toDegrees(p.longitude).toFixed(1)},${C.Math.toDegrees(p.latitude).toFixed(1)},${(p.height / 1000).toFixed(0)}`;
         });
-        v.camera.setView({ destination: C.Cartesian3.fromDegrees(OVERVIEW.lon, OVERVIEW.lat, OVERVIEW.height), orientation: { heading: 0, pitch: -C.Math.PI_OVER_TWO, roll: 0 } });
+        const start = hero ? HERO_VIEW : OVERVIEW;
+        v.camera.setView({ destination: C.Cartesian3.fromDegrees(start.lon, start.lat, start.height), orientation: { heading: 0, pitch: -C.Math.PI_OVER_TWO, roll: 0 } });
         v.scene.requestRender();
         setViewer(v);
+        // Hero only: a slow spin while the globe is on screen and the visitor has not asked for less motion.
+        if (hero) {
+          let visible = true, last = 0, dragging = false, raf = 0;
+          const io = "IntersectionObserver" in window ? new IntersectionObserver(([e]) => { visible = e.isIntersecting; }) : null;
+          io?.observe(host);
+          const down = () => { dragging = true; }, up = () => { dragging = false; };
+          host.addEventListener("pointerdown", down); window.addEventListener("pointerup", up);
+          const tick = (t: number) => {
+            raf = requestAnimationFrame(tick);
+            const dt = Math.min((t - last) / 1000, 0.1); last = t;
+            if (!visible || dragging || document.hidden || v.isDestroyed() || prefersReducedMotion() || spinPaused.current) return;
+            v.camera.rotate(C.Cartesian3.UNIT_Z, -C.Math.toRadians(HERO_SPIN_DEG_PER_S) * dt);
+            v.scene.requestRender();
+          };
+          raf = requestAnimationFrame(tick);
+          stopSpin = () => { cancelAnimationFrame(raf); io?.disconnect(); host.removeEventListener("pointerdown", down); window.removeEventListener("pointerup", up); };
+        }
       } catch { cb.current.onUnavailable(); }
     }).catch(() => cb.current.onUnavailable());
-    return () => { cancelled = true; handler?.destroy(); if (created && !created.isDestroyed()) created.destroy(); };
-  }, []);
+    return () => { cancelled = true; stopSpin?.(); handler?.destroy(); if (created && !created.isDestroyed()) created.destroy(); };
+  }, [hero]);
 
   // The camera follows the story: up and over to each stop (flyTo arcs on its own), or an instant move when motion is reduced.
   useEffect(() => {
     const C = window.Cesium;
-    if (!viewer || !C || viewer.isDestroyed()) return;
+    if (!viewer || !C || viewer.isDestroyed() || hero) return;
     const t = active === "overview" ? OVERVIEW : focusTarget(BOUNDS[active]);
     const destination = C.Cartesian3.fromDegrees(t.lon, t.lat, t.height);
     const orientation = { heading: 0, pitch: -C.Math.PI_OVER_TWO, roll: 0 };
     viewer.camera.cancelFlight();
     if (prefersReducedMotion()) { viewer.camera.setView({ destination, orientation }); viewer.scene.requestRender(); }
-    else viewer.camera.flyTo({ destination, orientation, duration: active === "overview" ? 2.6 : 3.8, maximumHeight: FLIGHT_CEILING });
+    else viewer.camera.flyTo({ destination, orientation, duration: active === "overview" ? FLIGHT_SECONDS.overview : FLIGHT_SECONDS.stop, maximumHeight: FLIGHT_CEILING });
     for (const s of STUDIES) {
       const e = viewer.entities.getById(s.id);
       if (e?.point) e.point.pixelSize = new C.ConstantProperty(s.id === active ? 14 : 9);
-      if (e?.label) e.label.show = new C.ConstantProperty(active === "overview" || s.id === active);
+      if (e?.label) e.label.show = new C.ConstantProperty(!hero && (active === "overview" || s.id === active));
     }
     viewer.scene.requestRender();
-  }, [viewer, active]);
+  }, [viewer, active, hero]);
 
-  return <div ref={box} className={styles.globe} data-ready={!!viewer}>{!viewer && <span className={styles.loading} role="status">Loading globe…</span>}</div>;
+  return <div ref={box} className={`${styles.globe} ${hero ? styles.heroGlobe : ""}`} data-ready={!!viewer}>{!viewer && <span className={styles.loading} role="status">Loading globe…</span>}</div>;
 }

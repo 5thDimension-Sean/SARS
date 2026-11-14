@@ -16,3 +16,10 @@ export function focusTarget(bounds: Bounds): CameraTarget {
   if (!(Math.abs(lon) <= 180 && Math.abs(lat) <= 90)) throw new Error("Invalid scene bounds");
   return { lon, lat, height: FOCUS_HEIGHT };
 }
+
+/** Flight length in seconds. Short hops between stops feel immediate; the trip back to orbit is a touch quicker still. */
+export const FLIGHT_SECONDS = { stop: 1.6, overview: 1.2 } as const;
+/** Hero globe: the whole Earth with a little margin, so the sphere never touches the panel edge. */
+export const HERO_VIEW: CameraTarget = { lon: -98, lat: 24, height: 11_500_000 };
+/** Hero auto-rotation, degrees of longitude per second. Slow enough to read as calm. */
+export const HERO_SPIN_DEG_PER_S = 3.5;

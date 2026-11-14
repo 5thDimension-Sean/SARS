@@ -13,7 +13,7 @@ const project = ([lon, lat]: [number, number]) => ({ x: ((lon - LON0) / (LON1 - 
 function FlatMap({ active, onPick }: { active: StepId; onPick: (id: StepId) => void }) {
   const study = STUDIES.find((s) => s.id === active), focus = study ? project(study.center) : null, zoom = focus ? ZOOM : 1;
   const tx = focus ? W / 2 - focus.x * ZOOM : 0, ty = focus ? H / 2 - focus.y * ZOOM : 0;
-  return <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Map of the three study locations in the United States" className={styles.svg} data-overview={active === "overview"}>
+  return <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Map of the study locations in the United States" className={styles.svg} data-overview={active === "overview"}>
     <g className={styles.camera} style={{ transform: `translate(${tx}px, ${ty}px) scale(${zoom})` }}>
       {[-120, -112, -104, -96, -88, -80].map((l) => <line key={`lo${l}`} className={styles.grid} x1={project([l, LAT0]).x} x2={project([l, LAT1]).x} y1={0} y2={H} />)}
       {[25, 31, 37, 43].map((l) => <line key={`la${l}`} className={styles.grid} y1={project([LON0, l]).y} y2={project([LON0, l]).y} x1={0} x2={W} />)}
@@ -41,8 +41,8 @@ export function StoryMap() {
 
   return <section className={styles.story} aria-labelledby="story-title">
     <div className={styles.head}>
-      <h2 id="story-title">Three places, two dates each.</h2>
-      <p>This story is a placeholder. The text for each stop is a draft slot; the locations and dates are real.</p>
+      <h2 id="story-title">Five places, two dates each.</h2>
+      <p>Scroll to fly the globe to each place we have real NISAR radar for. The story text is a draft; the locations and dates are real.</p>
     </div>
     <div className={styles.layout}>
       <div className={styles.stage}>{flat ? <FlatMap active={active} onPick={go} /> : <CesiumGlobe active={active} onPick={go} onUnavailable={() => setFlat(true)} />}
@@ -56,8 +56,12 @@ export function StoryMap() {
         </li>
         {STUDIES.map((s) => <li key={s.id} ref={(el) => { steps.current[s.id] = el; }} data-id={s.id} data-active={s.id === active} className={styles.step}>
           <h3>{s.label}</h3>
-          <p>Two NISAR acquisitions, {fmtDate(s.dates[0])} and {fmtDate(s.dates[1])}. HH and HV backscatter, with three candidate regions to inspect.</p>
-          <Link href={`/nisar-prototype#${s.id}`}>Open this investigation</Link>
+          <div className={styles.card}>
+            <p className={styles.cardDates}><time dateTime={s.dates[0]}>{fmtDate(s.dates[0])}</time><span aria-hidden="true"> → </span><time dateTime={s.dates[1]}>{fmtDate(s.dates[1])}</time></p>
+            <p>Two NISAR acquisitions. HH and HV backscatter, with candidate regions to inspect. Radar differences alone do not name a cause.</p>
+            <ul className={styles.chips} aria-label="Included in this investigation"><li>HH</li><li>HV</li><li>Before / after slider</li><li>Evidence report</li></ul>
+            <Link className={styles.open} href={`/nisar-prototype#${s.id}`}>Open this investigation <span aria-hidden="true">↗</span></Link>
+          </div>
         </li>)}
         <li className={styles.runway} aria-hidden="true" />
       </ol>
