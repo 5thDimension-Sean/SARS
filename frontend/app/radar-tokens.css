@@ -1,5 +1,5 @@
 :root {
-  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --font:var(--font-geist),-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,sans-serif;
   --bg:#000000; --bg-elev-1:#0b0b0c; --bg-elev-2:#161618;
   --label:#f5f5f7; --label-2:#a1a1a6; --label-3:#86868b; --separator:#ffffff1f;
   --tint:#f5f5f7; --caution:#d1d1d6;
@@ -8,11 +8,37 @@
   --ease-standard:cubic-bezier(.2,.8,.2,1); --dur-fast:150ms; --dur-base:300ms; --dur-slow:600ms;
   --background:#000000; --foreground:#f5f5f7; --card:#0b0b0c; --primary:#f5f5f7; --signal:#f5f5f7; --warning:#d1d1d6;
 }
-body { font-family:var(--font); font-size:1.0625rem; }
+body { font-family:var(--font); font-size:1.0625rem; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; font-feature-settings:"ss01","cv11"; }
+
+/* ---- Display preferences (set on <html> by lib/prefs.ts before first paint) ---- */
+:root {
+  --page-bg:#000; --page-elev1:#0b0b0c; --page-elev2:#161618; --page-line:#ffffff1f; --page-line-strong:#ffffff40;
+  --page-label:#f5f5f7; --page-label2:#a1a1a6; --page-label3:#86868b; --page-fill:#f5f5f7; --page-on-fill:#000;
+  --nav-bg:#000000b8; --nav-bg-scrolled:#000000e6; --nav-line:#ffffff1f; --nav-text:#f5f5f7; --nav-dim:#f5f5f7cc;
+  --nav-pill:#ffffff26; --nav-ring:#ffffff1a; --nav-ghost:#ffffff12; --panel-bg:#1c1c1ee8; --panel-tile:#ffffff10;
+  color-scheme:dark;
+}
+html[data-theme="light"] {
+  --background:#fbfbfd; --foreground:#1d1d1f; --label:#1d1d1f; --label-2:#515154; --label-3:#6e6e73; --separator:#0000001a;
+  --page-bg:#fbfbfd; --page-elev1:#ffffff; --page-elev2:#f2f2f4; --page-line:#0000001a; --page-line-strong:#00000033;
+  --page-label:#1d1d1f; --page-label2:#515154; --page-label3:#6e6e73; --page-fill:#1d1d1f; --page-on-fill:#ffffff;
+  --nav-bg:#fbfbfdb8; --nav-bg-scrolled:#fbfbfde6; --nav-line:#0000001a; --nav-text:#1d1d1f; --nav-dim:#1d1d1fb3;
+  --nav-pill:#0000001a; --nav-ring:#00000014; --nav-ghost:#0000000d; --panel-bg:#ffffffee; --panel-tile:#0000000a;
+  color-scheme:light;
+}
+/* Black & white mode: a single filter on the root, so charts, maps, photographs and the lab all follow it. */
+html[data-bw="true"] { filter:grayscale(1); }
+/* In-app reduced motion (the OS setting is honoured separately by each @media block). */
+html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-motion="reduced"] *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+/* The instrument lab is an intentionally dark surface in every theme. */
+.sample-lab { --background:#000000; --foreground:#f5f5f7; --card:#0b0b0c; --card-foreground:#f5f5f7; --popover:#161618; --popover-foreground:#f5f5f7;
+  --primary:#f5f5f7; --primary-foreground:#000000; --secondary:#161618; --secondary-foreground:#f5f5f7; --muted:#161618; --muted-foreground:#a1a1a6;
+  --accent:#1c1c1e; --accent-foreground:#f5f5f7; --destructive:#f5f5f7; --border:#2c2c2e; --input:#3a3a3c; --ring:#f5f5f7;
+  --sidebar:#0b0b0c; --sidebar-foreground:#f5f5f7; --sidebar-primary:#f5f5f7; --sidebar-primary-foreground:#000000; --sidebar-accent:#1c1c1e; --sidebar-accent-foreground:#f5f5f7; --sidebar-border:#2c2c2e; --sidebar-ring:#f5f5f7; --signal:#f5f5f7; --warning:#d1d1d6; --alert:#f5f5f7;
+  --label:#f5f5f7; --label-2:#a1a1a6; --label-3:#86868b; --separator:#ffffff1f; }
 button,a,input,select,summary,[role="slider"] { -webkit-tap-highlight-color:transparent; }
-:focus-visible { outline:3px solid #f5f5f7; outline-offset:4px; }
-/* The fictional lab is rendered in grayscale so no sample texture reads as a colour-coded measurement. */
-.sample-lab { background:#000000; padding:80px 0 0; filter:grayscale(1); }
+:focus-visible { outline:3px solid var(--label); outline-offset:4px; }
+.sample-lab { background:#000000; padding:80px 0 0; color:#f5f5f7; color-scheme:dark; }
 .sample-lab-heading { max-width:1440px; margin:0 auto 40px; padding:0 clamp(20px,5vw,80px); }
 .sample-lab-heading p { color:#a1a1a6; font-size:1rem; max-width:65ch; }
 .sample-lab-heading h2 { color:#f5f5f7; font-size:clamp(2rem,4vw,3.5rem); line-height:1.08; letter-spacing:-.04em; margin-bottom:24px; }

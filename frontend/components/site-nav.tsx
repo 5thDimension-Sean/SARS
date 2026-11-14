@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
 import { POLS, STUDIES } from "@/lib/investigation";
+import { SettingsMenu } from "./settings-menu";
 import { chooseStudy, setPolarization, usePolarization, useStudyId } from "@/lib/view-store";
 import styles from "./site-nav.module.css";
 
@@ -81,6 +82,7 @@ export function SiteNav() {
         {onInvestigation && <div className={styles.pol} role="group" aria-label="Polarization">
           {POLS.map((p) => <button key={p} type="button" aria-pressed={pol === p} onClick={() => setPolarization(p)}>{p}</button>)}
         </div>}
+        <SettingsMenu />
       </div>
     </nav>
   </header>;

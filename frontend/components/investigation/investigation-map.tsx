@@ -7,6 +7,8 @@ import {
   cornersBounds, dataUrl, fmtDate, padBounds, rasterCorners, ringBounds,
   type Bounds, type LonLat, type Pol, type PreviewSet, type RegionSet, type StudyConfig, POLS,
 } from "@/lib/investigation";
+import { containView, viewBounds } from "@/lib/map-limits";
+import { prefersReducedMotion } from "@/lib/prefs";
 import { ATTRIBUTION, STUDY_BOUNDS, tileUrl, type BrowseDate } from "@/lib/nisar-browse";
 import styles from "./investigation.module.css";
 
@@ -16,7 +18,7 @@ const centroid = (ring: LonLat[]): LonLat => {
   const pts = ring.slice(0, -1);
   return [pts.reduce((s, p) => s + p[0], 0) / pts.length, pts.reduce((s, p) => s + p[1], 0) / pts.length];
 };
-const reduceMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = prefersReducedMotion;
 
 interface Handles { before: MapLibreMap | null; after: MapLibreMap; markers: Map<string, Marker[]> }
 interface Props {
@@ -25,8 +27,6 @@ interface Props {
   gibsReady: boolean; gibsVisible: boolean; onGibsFail: () => void;
   onProblem: (message: string) => void; onAfterMap: (map: MapLibreMap | null) => void;
   resetSignal: number;
-  /** Show the colour-coded difference map in black and white (luminance only). */
-  bw?: boolean;
 }
 
 /**
@@ -34,7 +34,7 @@ interface Props {
  * geographic grid. Layout (swipe curtain, side by side, or single difference map) is pure CSS, so toggling
  * modes never reloads or resamples data. The raster layers use nearest-neighbour sampling: no smoothing.
  */
-export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal, bw = false }: Props) {
+export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal }: Props) {
   const beforeEl = useRef<HTMLDivElement>(null);
   const afterEl = useRef<HTMLDivElement>(null);
   const [handles, setHandles] = useState<Handles | null>(null);
@@ -54,8 +54,20 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
   useEffect(() => { callbacks.current = { onSelect, onGibsFail, onProblem }; });
 
   const sceneBounds: Bounds = preview ? preview.bounds : cornersBounds(rasterCorners(regions, study.utmZone));
-  const maxBounds: Bounds = padBounds(sceneBounds, 4);
   const sceneKey = sceneBounds.join();
+
+  // ---- zoom-out and pan limits: the view can never leave the published scene (or, when the user opts in, the GIBS tile)
+  const relaxed = study.gibsContext && gibsReady && gibsVisible;
+  const limits = useRef({ relaxed, sceneBounds });
+  useEffect(() => { limits.current = { relaxed, sceneBounds }; });
+  const constrain = useCallback((m: MapLibreMap) => {
+    const el = m.getContainer(), w = el.clientWidth, h = el.clientHeight;
+    if (!w || !h) return; // hidden pane
+    if (limits.current.relaxed) { m.setMinZoom(9); m.setMaxBounds(STUDY_BOUNDS); return; }
+    const fit = containView(limits.current.sceneBounds, w, h, 8);
+    m.setMinZoom(Math.max(0, fit.zoom - 0.02));
+    m.setMaxBounds(padBounds(viewBounds(fit.center, fit.zoom, w, h), 0.01));
+  }, []);
 
   // ---- create maps, static layers and camera sync (once per study)
   useEffect(() => {
@@ -67,7 +79,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
         lib.setWorkerUrl(new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).toString());
         const style = (): StyleSpecification => ({ version: 8, sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#0b0b0c" } }] });
         const make = (container: HTMLElement) => new lib.Map({
-          container, style: style(), bounds: sceneBounds, fitBoundsOptions: { padding: 8 }, maxBounds, minZoom: 5, maxZoom: 17, cooperativeGestures: window.matchMedia("(pointer: coarse)").matches, // wheel zooms inside the box on desktop; touch keeps page scrolling usable
+          container, style: style(), bounds: sceneBounds, fitBoundsOptions: { padding: 8 }, minZoom: 2, maxZoom: 17, cooperativeGestures: window.matchMedia("(pointer: coarse)").matches, // wheel zooms inside the box on desktop; touch keeps page scrolling usable
           dragRotate: false, pitchWithRotate: false, attributionControl: false,
         }).addControl(new lib.AttributionControl({ compact: true, customAttribution: "Radar: NASA NISAR L2 GCOV (provisional) via ASF DAAC · exploratory" }))
           .addControl(new lib.ScaleControl({ unit: "metric" }), "bottom-left");
@@ -104,7 +116,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
           before.on("move", a); after.on("move", b);
         }
         const observers = [before, after].filter((m): m is MapLibreMap => !!m).map((m) => {
-          const ro = new ResizeObserver(() => m.resize());
+          const ro = new ResizeObserver(() => { m.resize(); constrain(m); });
           ro.observe(m.getContainer());
           return ro;
         });
@@ -147,6 +159,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
               return new lib.Marker({ element: el }).setLngLat(centroid(r.ring)).addTo(m);
             }));
           }
+          [before, after].forEach((m) => { if (m) constrain(m); });
           setHandles({ before, after, markers });
           onAfterMap(after);
         };
@@ -159,7 +172,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     }).catch(() => callbacks.current.onProblem("The map library could not load. Check your connection and reload."));
     return () => { cancelled = true; cleanups.forEach((c) => c()); setHandles(null); };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one map pair per study; the component is keyed by study id
-  }, [study.id, sceneKey]);
+  }, [study.id, sceneKey, constrain]);
 
   const eachMap = useCallback((fn: (m: MapLibreMap, which: 0 | 1) => void) => {
     if (!handles) return;
@@ -183,10 +196,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     });
   }, [eachMap, pol, mode]);
 
-  // ---- optional black-and-white rendering of the colour-coded difference map
-  useEffect(() => {
-    eachMap((m) => { for (const p of POLS) if (m.getLayer(`diff-${p}`)) m.setPaintProperty(`diff-${p}`, "raster-saturation", bw ? -1 : 0); });
-  }, [eachMap, bw]);
+  useEffect(() => { eachMap(constrain); }, [eachMap, constrain, relaxed]);
 
   // ---- NASA GIBS browse mosaic: context only, below the measured rasters, added only after the pair was verified
   useEffect(() => {
@@ -277,7 +287,6 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     {mode === "swipe" && twoUp && <div ref={handleEl} className={styles.handle} style={{ top: `${swipe}%` }} role="slider" tabIndex={0} aria-label="Before and after divider"
       aria-orientation="vertical" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(swipe)} aria-valuetext={`Before above: ${Math.round(swipe)} percent. After below: ${100 - Math.round(swipe)} percent.`}
       onPointerDown={onPointerDown} onPointerMove={onPointerMove} onKeyDown={onKey}><span aria-hidden="true">↕</span></div>}
-    <span className={styles.mapQa}>EXPLORATORY_NOT_CLEARED</span>
     <div className={styles.mapControls} role="group" aria-label="Map navigation">
       <button type="button" aria-label="Zoom in" disabled={!handles} onClick={() => zoom(1)}>+</button>
       <button type="button" aria-label="Zoom out" disabled={!handles} onClick={() => zoom(-1)}>−</button>

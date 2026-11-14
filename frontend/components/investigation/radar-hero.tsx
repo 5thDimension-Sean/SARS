@@ -7,6 +7,7 @@ import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
 import california from "@/public/data/california-preview/preview-manifest.json";
 const MANIFESTS = { everglades, louisiana, california } as const;
 import { dataUrl, fmtDate, parsePreview, type Pol, type StudyConfig } from "@/lib/investigation";
+import { prefersReducedMotion } from "@/lib/prefs";
 import styles from "./investigation.module.css";
 
 const subscribeConnection = (notify: () => void) => {
@@ -22,7 +23,7 @@ export function Reveal({ children, className = "" }: { children: ReactNode; clas
   const node = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = node.current;
-    if (!el || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!el || !('IntersectionObserver' in window) || prefersReducedMotion()) return;
     el.dataset.reveal = "waiting";
     const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { el.dataset.reveal = "visible"; observer.disconnect(); } }, { threshold: .08 });
     observer.observe(el);
@@ -42,7 +43,7 @@ export function RadarHero({ study, pol, educational = false }: { study: StudyCon
     const update = () => {
       if (!root.current || !later.current) return;
       const rect = root.current.getBoundingClientRect();
-      later.current.style.opacity = mq.matches ? "0" : String(Math.max(0, Math.min(1, -rect.top / (rect.height * .65))));
+      later.current.style.opacity = prefersReducedMotion() ? "0" : String(Math.max(0, Math.min(1, -rect.top / (rect.height * .65))));
     };
     const scroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); };
     update(); window.addEventListener('scroll', scroll, { passive: true }); mq.addEventListener('change', update);
@@ -51,7 +52,7 @@ export function RadarHero({ study, pol, educational = false }: { study: StudyCon
   return <section ref={root} className={styles.hero} aria-labelledby="radar-hero-title">
     <div className={styles.heroInner}>
       <div className={styles.heroCopy}>
-        <h1 id="radar-hero-title">A different way<br />to see Earth<span>.</span></h1>
+        <h1 id="radar-hero-title">A different way<br />to see Earth.</h1>
         <p className={styles.heroLead}>NISAR records the microwave energy returned by Earth’s surface. Two dates invite a closer look.</p>
         {educational ? <Link className={styles.primary} href="/nisar-prototype">Begin the investigation <span aria-hidden="true">↗</span></Link> : <a className={styles.primary} href="#step-look">Begin the investigation <span aria-hidden="true">↓</span></a>}
       </div>

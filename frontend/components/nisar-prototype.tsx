@@ -22,8 +22,9 @@ import { Histogram } from "./investigation/histogram";
 import styles from "./investigation/investigation.module.css";
 import { verifyBrowsePair } from "@/lib/nisar-browse";
 import { usePolarization, useStudyId } from "@/lib/view-store";
+import { usePrefs } from "@/lib/prefs";
 import {
-  NO_CAUSE_NOTICE, POLS, QA_LABEL, STUDIES, dataUrl, describeRegion, describeStudyShift, fmtDate, fmtDb, fmtInt, fmtSignedDb,
+  POLS, QA_LABEL, STUDIES, dataUrl, describeRegion, describeStudyShift, fmtDate, fmtDb, fmtInt, fmtSignedDb,
   parseContext, parseEvidence, parsePreview, parseRegions, qaLabel, qaState,
   type ContextSet, type Evidence, type Pol, type PreviewSet, type Region, type RegionSet, type StudyConfig,
 } from "@/lib/investigation";
@@ -59,7 +60,7 @@ export function NisarPrototype() {
 
 function Primer() {
   return <Reveal><section className={styles.primer} aria-labelledby="primer-title">
-    <p className={styles.eyebrow}>New to radar? Start here</p><h2 id="primer-title">Read the return.</h2>
+    <h2 id="primer-title">Read the return.</h2>
     <div className={styles.cards}>
       <div className={styles.card}><h3>Backscatter</h3><p>NISAR sends microwave pulses down and records how much returns. It sees through cloud and at night. Bright means a strong return, dark a weak one. It is not a photograph.</p></div>
       <div className={styles.card}><h3>Decibels</h3><p>Backscatter is measured on a log scale. Every −10 dB is ten times less power; about 3 dB is a doubling or halving. A number alone does not establish significance.</p></div>
@@ -74,12 +75,11 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   const [mode, setMode] = useState<ViewMode>("swipe");
   const [selected, setSelected] = useState("all");
   const [resetSignal] = useState(0);
-  const [bw, setBw] = useState(false);
   const [problem, setProblem] = useState("");
   const [afterMap, setAfterMap] = useState<MapLibreMap | null>(null);
   const [processedLabel, setProcessedLabel] = useState("");
   const [gibsReady, setGibsReady] = useState(false);
-  const [gibsVisible, setGibsVisible] = useState(true);
+  const [gibsVisible, setGibsVisible] = useState(false);
   const [gibsNote, setGibsNote] = useState(study.gibsContext ? "Checking NASA GIBS context imagery…" : "");
 
   useEffect(() => {
@@ -114,7 +114,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
     void verifyBrowsePair(ac.signal).then((ok) => {
       if (ac.signal.aborted) return;
       setGibsReady(ok);
-      setGibsNote(ok ? "NASA GIBS browse mosaic is shown faintly as coarse context." : "NASA GIBS coverage for both dates could not be confirmed, so the context layer is off.");
+      setGibsNote(ok ? "Turn on wider context to see the coarse NASA GIBS browse mosaic around the radar scene." : "NASA GIBS coverage for both dates could not be confirmed, so the context layer is off.");
     }).catch(() => { if (!ac.signal.aborted) setGibsNote("NASA GIBS context is unreachable right now. The radar does not depend on it."); });
     return () => ac.abort();
   }, [study]);
@@ -127,27 +127,23 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   const effectiveMode: ViewMode = preview ? mode : "difference";
   const region = regions.regions.find((r) => r.id === selected) ?? null;
   const pe = evidence.pols[pol];
-  const n = (k: number) => String(k).padStart(2, "0");
-  let step = 0;
 
   return <>
     <section className={styles.section} id="look" aria-labelledby="h-look">
-      <header><p className={styles.eyebrow}>{n(++step)} / Look</p><h2 id="h-look">{study.label}</h2>
+      <header><h2 id="h-look">{study.label}</h2>
         <p className={styles.lead}>{fmtDate(study.dates[0])} and {fmtDate(study.dates[1])}, polarization {pol}. {preview ? "Drag the divider to compare dates. Pick a region to zoom in." : "Pick a region to zoom in."}</p></header>
-      <p className={styles.qaLine} role="note"><strong>{QA_LABEL}</strong><span>{NO_CAUSE_NOTICE} Official quality checks are not cleared (see Verify).</span></p>
       {previewNote && <p className={styles.notice} role="note" style={{ marginBottom: 16 }}>{previewNote}</p>}
       <div className={styles.viewer} data-workbench>
         <div>
           <div className={styles.viewTools}>
             <Seg label="View" value={effectiveMode} onChange={setMode} options={[
               { id: "swipe", text: "Swipe", disabled: !preview }, { id: "side", text: "Side by side", disabled: !preview }, { id: "difference", text: "Difference" }]} />
-            {effectiveMode === "difference" && <Seg label="Image color" value={bw ? "bw" : "color"} onChange={(v) => setBw(v === "bw")} options={[{ id: "color", text: "Color" }, { id: "bw", text: "Black & white" }]} />}
-            {study.gibsContext && <label className={styles.check}><input type="checkbox" checked={gibsReady && gibsVisible} disabled={!gibsReady} onChange={(e) => setGibsVisible(e.target.checked)} /> NASA GIBS context</label>}
+            {study.gibsContext && <label className={styles.check}><input type="checkbox" checked={gibsReady && gibsVisible} disabled={!gibsReady} onChange={(e) => setGibsVisible(e.target.checked)} /> Wider NASA GIBS context</label>}
           </div>
           {problem && <p role="alert" className={`${styles.notice} ${styles.error}`} style={{ marginBottom: 12 }}>{problem}</p>}
           <MapGate study={study} regions={regions} preview={preview} pol={pol} mode={effectiveMode} selectedId={selected} onSelect={setSelected}
-            gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} bw={bw} />
-          <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} bw={bw} />
+            gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} />
+          <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} />
           <p className={`${styles.small} ${styles.muted}`} style={{ marginTop: 10 }}>Pixels are drawn as published (nearest-neighbour; no smoothing, sharpening or enhancement); one pixel is about 10 m. {gibsNote}</p>
         </div>
         <aside className={styles.inspector} aria-labelledby="h-region">
@@ -156,7 +152,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
             <button type="button" className={styles.chip} aria-pressed={selected === "all"} onClick={() => setSelected("all")}>All</button>
             {regions.regions.map((r) => <button key={r.id} type="button" className={styles.chip} aria-pressed={selected === r.id} onClick={() => setSelected(r.id)}>Region {r.id}</button>)}
           </div>
-          {region ? <RegionDetail region={region} pol={pol} dates={study.dates} regions={regions} /> :
+          {region ? <RegionDetail region={region} pol={pol} dates={study.dates} /> :
             <div className={styles.detail}><p>{describeStudyShift(pol, pe, study.dates)}</p>
               <p>Regions A, B and C come from an exploratory search for pixel-level differences, so they illustrate variation rather than typical conditions.</p></div>}
         </aside>
@@ -164,7 +160,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
     </section>
 
     <section className={styles.section} id="compare" aria-labelledby="h-scene">
-      <header><p className={styles.eyebrow}>{n(++step)} / Compare</p><h2 id="h-scene">The whole scene, {pol}</h2>
+      <header><h2 id="h-scene">The whole scene, {pol}</h2>
         <p className={styles.lead}>How many pixels fall at each backscatter level, on each date.</p></header>
       <div className={styles.twoCol}>
         <div>
@@ -196,9 +192,9 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
       </div>
     </section>
 
-    {context && <ContextPhotos study={study} context={context} index={n(++step)} bw={bw} onBw={setBw} />}
+    {context && <ContextPhotos study={study} context={context} />}
 
-    <TrustSection study={study} evidence={evidence} regions={regions} preview={preview} index={n(++step)} />
+    <TrustSection study={study} evidence={evidence} regions={regions} preview={preview} />
 
     <details className={styles.more} style={{ marginTop: 48 }}>
       <summary>Processed GCOV products (advanced)</summary>
@@ -207,12 +203,13 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   </>;
 }
 
-function Legend({ mode, pol, preview, regions, bw }: { mode: ViewMode; pol: Pol; preview: PreviewSet | null; regions: RegionSet; bw: boolean }) {
+function Legend({ mode, pol, preview, regions }: { mode: ViewMode; pol: Pol; preview: PreviewSet | null; regions: RegionSet }) {
+  const bw = usePrefs().color === "bw";
   if (mode === "difference") {
     const [lo, hi] = regions.limitsDb;
     // This ramp reproduces the colours encoded in the published difference PNGs, so it is data, not decoration.
-    return <div className={styles.legend}><div>{pol} difference, later minus earlier, per pixel, clipped at ±{hi} dB. Colors are not a flood or damage map.{bw && " In black & white only the brightness of each color is kept, so the sign of a difference can no longer be told apart; switch back to Color to read it."}</div>
-      <div className={styles.ramp} style={{ background: "linear-gradient(90deg,#1010ff,#f4f0ff 50%,#ff1010)", filter: bw ? "grayscale(1)" : undefined }} role="img" aria-label={bw ? `Black and white rendering; near-white is zero difference, clipped at ${lo} and ${hi} dB` : `Blue is negative, near-white is zero, red is positive, clipped at ${lo} and ${hi} dB`} />
+    return <div className={styles.legend}><div>{pol} difference, later minus earlier, per pixel, clipped at ±{hi} dB. Colors are not a flood or damage map.{bw && " Black & white mode is on, so the sign of a difference can no longer be told apart; switch back to Color in display settings to read it."}</div>
+      <div className={styles.ramp} style={{ background: "linear-gradient(90deg,#1010ff,#f4f0ff 50%,#ff1010)", }} role="img" aria-label={`Blue is negative, near-white is zero, red is positive, clipped at ${lo} and ${hi} dB`} />
       <div className={styles.rampLabels}><span>{fmtSignedDb(lo, 0)} (lower later)</span><span>0</span><span>{fmtSignedDb(hi, 0)} (higher later)</span></div></div>;
   }
   const range = preview?.acquisitions[0].images[pol].displayRangeDb;
@@ -222,12 +219,11 @@ function Legend({ mode, pol, preview, regions, bw }: { mode: ViewMode; pol: Pol;
     <div className={styles.rampLabels}><span>{fmtDb(range[0], 0)} · weak return</span><span>{fmtDb(range[1], 0)} · strong return</span></div></div>;
 }
 
-function RegionDetail({ region, pol, dates, regions }: { region: Region; pol: Pol; dates: StudyConfig["dates"]; regions: RegionSet }) {
+function RegionDetail({ region, pol, dates }: { region: Region; pol: Pol; dates: StudyConfig["dates"] }) {
   const s = region.stats[pol];
   const other = POLS.find((p) => p !== pol)!;
   return <div className={styles.detail}>
     <div><h3 style={{ fontSize: "1.0625rem" }}>Region {region.id}: {region.title}</h3></div>
-    <span className={styles.status}>{regions.scientificStatus}</span>
     <div className={styles.big}>{fmtSignedDb(s.paired.medianDifferenceDb, 3)}<small>median {pol} per-pixel difference · {other} {fmtSignedDb(region.stats[other].paired.medianDifferenceDb, 3)}</small></div>
     <p>{describeRegion(pol, region, dates)}</p>
     <div className={styles.tableScroll}><table className={styles.table}>
@@ -245,20 +241,19 @@ function RegionDetail({ region, pol, dates, regions }: { region: Region; pol: Po
   </div>;
 }
 
-function ContextPhotos({ study, context, index, bw, onBw }: { study: StudyConfig; context: ContextSet; index: string; bw: boolean; onBw: (v: boolean) => void }) {
+function ContextPhotos({ study, context }: { study: StudyConfig; context: ContextSet }) {
   return <section className={styles.section} id="context" aria-labelledby="h-context">
-    <header><p className={styles.eyebrow}>{index} / Context</p><h2 id="h-context">{context.sectionTitle}</h2><p className={styles.lead}>{context.notice}</p>
-      <Seg label="Photograph color" value={bw ? "bw" : "color"} onChange={(v) => onBw(v === "bw")} options={[{ id: "color", text: "Color" }, { id: "bw", text: "Black & white" }]} /></header>
-    <ul className={styles.photos} data-bw={bw}>{context.photos.map((p) => <li key={p.imageFile}><figure>
+    <header><h2 id="h-context">{context.sectionTitle}</h2><p className={styles.lead}>{context.notice}</p></header>
+    <ul className={styles.photos}>{context.photos.map((p) => <li key={p.imageFile}><figure>
       {/* eslint-disable-next-line @next/next/no-img-element -- static export; sourced photograph */}
       <img src={dataUrl(`${study.contextDir}/${p.imageFile}`)} alt={`${p.title}. ${p.caption} Photograph, not a radar image.`} loading="lazy" />
       <figcaption><strong>{p.title}</strong>{fmtDate(p.date)} · {p.caption}<br />{p.credit} · <a href={p.sourceUrl} rel="noopener noreferrer">Source</a><br />{p.rights}. {p.usage}.</figcaption></figure></li>)}</ul>
   </section>;
 }
 
-function TrustSection({ study, evidence, regions, preview, index }: { study: StudyConfig; evidence: Evidence; regions: RegionSet; preview: PreviewSet | null; index: string }) {
+function TrustSection({ study, evidence, regions, preview }: { study: StudyConfig; evidence: Evidence; regions: RegionSet; preview: PreviewSet | null }) {
   return <section className={styles.section} id="verify" aria-labelledby="h-trust">
-    <header><p className={styles.eyebrow}>{index} / Verify</p><h2 id="h-trust">What we can say.<br />And cannot.</h2>
+    <header><h2 id="h-trust">What we can say.<br />And cannot.</h2>
       <p className={styles.lead}>The observations are real; their interpretation is open. Failed and unverified checks stay visible. This is a status report, not a confidence score.</p></header>
     <div className={styles.twoCol}>
       <div className={styles.stack}>

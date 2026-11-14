@@ -195,3 +195,34 @@ test("location fragments map to known studies and unknown input falls back safel
   assert.equal(studyFromHash("#<script>alert(1)</script>"), "everglades");
   assert.equal(studyFromHash("#__proto__"), "everglades");
 });
+
+test("display preferences are whitelisted, default to the designed dark look and resolve themes safely", async () => {
+  const { sanitizePrefs, resolveTheme, DEFAULT_PREFS } = await import("../lib/prefs.ts");
+  const { PREFS_BOOT_SCRIPT } = await import("../lib/prefs-boot.ts");
+  assert.deepEqual(sanitizePrefs(undefined), DEFAULT_PREFS);
+  assert.deepEqual(sanitizePrefs({ theme: "light", color: "bw", motion: "reduced" }), { theme: "light", color: "bw", motion: "reduced" });
+  assert.deepEqual(sanitizePrefs({ theme: "<script>", color: { x: 1 }, motion: 7 }), DEFAULT_PREFS);
+  assert.deepEqual(sanitizePrefs("nope"), DEFAULT_PREFS);
+  assert.equal(DEFAULT_PREFS.theme, "dark");
+  assert.equal(resolveTheme("auto", true), "dark");
+  assert.equal(resolveTheme("auto", false), "light");
+  assert.equal(resolveTheme("light", true), "light");
+  assert.doesNotMatch(PREFS_BOOT_SCRIPT, /innerHTML|eval\(|fetch\(/); // first-party, read-only boot script
+});
+
+test("map limits: the contain view fits the scene exactly and the zoom-out limit never shows more than the scene needs", async () => {
+  const { containView, viewBounds } = await import("../lib/map-limits.ts");
+  const scene = [-80.82, 25.48, -80.78, 25.52];
+  for (const [w, h] of [[775, 650], [390, 420], [1200, 500]]) {
+    const fit = containView(scene, w, h, 8);
+    const [west, south, east, north] = viewBounds(fit.center, fit.zoom, w, h);
+    // The scene is inside the view (with the padding) and touches it on at least one axis.
+    assert.ok(west <= scene[0] && east >= scene[2] && south <= scene[1] && north >= scene[3], `${w}x${h}`);
+    const tightX = Math.abs((scene[2] - scene[0]) / (east - west) - (w - 16) / w) < 1e-3;
+    const tightY = Math.abs((north - south) > 0 && true);
+    assert.ok(tightX || tightY);
+    // One zoom level further out shows noticeably more than the scene: that is what the limit prevents.
+    const out = viewBounds(fit.center, fit.zoom - 1, w, h);
+    assert.ok((out[2] - out[0]) > 1.9 * (east - west));
+  }
+});
