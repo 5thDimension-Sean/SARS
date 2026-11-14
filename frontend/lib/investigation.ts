@@ -28,7 +28,7 @@ export const STUDIES: readonly StudyConfig[] = [
     regionsDir: "everglades-regions", previewDir: "everglades-preview", gibsContext: true,
     dates: ["2026-09-30", "2026-10-12"], granules: ["G4342506513-ASF", "G4373929961-ASF"], utmZone: 17 },
   { id: "louisiana", label: "Louisiana Delta", place: "Louisiana Mississippi River Delta", evidenceDir: "louisiana-evidence",
-    regionsDir: "louisiana-regions", previewDir: null, gibsContext: false,
+    regionsDir: "louisiana-regions", previewDir: "louisiana-preview", gibsContext: false,
     dates: ["2026-09-29", "2026-10-11"], granules: ["G4330259432-ASF", "G4361359332-ASF"], utmZone: 15 },
 ];
 
