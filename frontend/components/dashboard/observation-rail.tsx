@@ -87,10 +87,7 @@ export function ObservationRail({
           );
         })}
       </nav>
-      <section className="rail-section expanded-content">
-        <div className="eyebrow">
-          HOTSPOTS <span>02</span>
-        </div>
+      <details open className="rail-section expanded-content"><summary>Places</summary>
         {p.locations.map((l, i) => (
           <button
             aria-pressed={i === locationIndex}
@@ -106,8 +103,8 @@ export function ObservationRail({
             <Crosshair size={15} aria-hidden />
           </button>
         ))}
-      </section>
-      <section className="rail-section expanded-content">
+      </details>
+      <details className="rail-section expanded-content"><summary>Map Options</summary>
         <div className="eyebrow">
           <Layers size={13} aria-hidden />
           VIEWPORT LAYERS
@@ -131,7 +128,7 @@ export function ObservationRail({
             />
           </div>
         ))}
-      </section>
+      </details>
       <div className="rail-note expanded-content">
         <Info size={16} aria-hidden />
         <p>

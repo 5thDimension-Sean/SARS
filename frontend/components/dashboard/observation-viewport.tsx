@@ -17,6 +17,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { ProceduralSurface } from "./procedural-surface";
+import { zoomAt } from "@/lib/viewport-geometry";
 import type {
   Acquisition,
   Hotspot,
@@ -47,9 +48,13 @@ export function ObservationViewport({
   children,
 }: ObservationViewportProps) {
   const [swipe, setSwipe] = useState(50),
-    [zoom, setZoom] = useState(1),
+    [camera, setCamera] = useState({ zoom: 1, x: 0, y: 0 }),
     [expanded, setExpanded] = useState(false);
   const root = useRef<HTMLDivElement>(null);
+  const drag = useRef<{ x: number; y: number } | null>(null);
+  const zoom = camera.zoom;
+  const setZoom = (update: (v: number) => number) => setCamera((c) => zoomAt(c, update(c.zoom), 0, 0));
+  const transform = `translate(${camera.x}px, ${camera.y}px) scale(${zoom})`;
   const beforeStage = location.acquisitions.findIndex(
       (a) => a.date === before.date,
     ),
@@ -60,9 +65,15 @@ export function ObservationViewport({
       className={`map-viewport ${p.id} ${expanded ? "expanded-viewport" : ""}`}
       ref={root}
       aria-label="Procedural observation viewport"
+      onContextMenu={(event) => event.preventDefault()}
+      onPointerDown={(event) => { if (event.button !== 2) return; drag.current = { x: event.clientX, y: event.clientY }; event.currentTarget.setPointerCapture(event.pointerId); }}
+      onPointerMove={(event) => { if (!drag.current) return; const dx = event.clientX - drag.current.x, dy = event.clientY - drag.current.y; drag.current = { x: event.clientX, y: event.clientY }; setCamera((c) => ({ ...c, x: c.x + dx, y: c.y + dy })); }}
+      onPointerUp={() => { drag.current = null; }}
+      onPointerCancel={() => { drag.current = null; }}
+      onWheel={(event) => { if ((event.target as HTMLElement).closest("input,button,[role=slider],.timeline-panel")) return; const rect = event.currentTarget.getBoundingClientRect(); setCamera((c) => zoomAt(c, c.zoom * Math.exp(-event.deltaY * .001), event.clientX - rect.left - rect.width / 2, event.clientY - rect.top - rect.height * .45)); }}
     >
       <div className="surface-scene">
-        <div className="surface-image" style={{ transform: `scale(${zoom})` }}>
+        <div className="surface-image" style={{ transform }}>
           <ProceduralSurface
             phenomenon={p.id}
             seed={location.textureSeed}
@@ -79,7 +90,7 @@ export function ObservationViewport({
         >
           <div
             className="surface-image"
-            style={{ transform: `scale(${zoom})` }}
+            style={{ transform }}
           >
             <ProceduralSurface
               phenomenon={p.id}
@@ -149,7 +160,7 @@ export function ObservationViewport({
           className="map-control"
           aria-label="Recenter viewport"
           onClick={() => {
-            setZoom(1);
+            setCamera({ zoom: 1, x: 0, y: 0 });
             setSwipe(50);
           }}
         >

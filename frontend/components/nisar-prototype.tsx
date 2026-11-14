@@ -1,10 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import { ProcessedOverlayPanel } from "./processed-overlay-panel";
-import { InvestigationMap, type ViewMode } from "./investigation/investigation-map";
+import dynamic from "next/dynamic";
+import type { InvestigationMap, ViewMode } from "./investigation/investigation-map";
+import { RadarHero, Reveal, ConnectionStatus } from "./investigation/radar-hero";
+const LazyMap = dynamic(() => import("./investigation/investigation-map").then(m => m.InvestigationMap), { ssr: false });
+function MapGate(props: React.ComponentProps<typeof InvestigationMap>) {
+  const root = useRef<HTMLDivElement>(null);
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    if (!root.current) return;
+    if (!("IntersectionObserver" in window)) { const id = requestAnimationFrame(() => setNear(true)); return () => cancelAnimationFrame(id); }
+    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { setNear(true); observer.disconnect(); } }, { rootMargin: "400px" });
+    observer.observe(root.current); return () => observer.disconnect();
+  }, []);
+  return <div ref={root}>{near ? <LazyMap {...props} /> : <div className={styles.mapSkeleton} role="status">Preparing the radar workbench…</div>}</div>;
+}
 import { Histogram } from "./investigation/histogram";
 import styles from "./investigation/investigation.module.css";
 import { verifyBrowsePair } from "@/lib/nisar-browse";
@@ -36,47 +50,57 @@ export function NisarPrototype() {
   const [studyId, setStudyId] = useState<StudyConfig["id"]>("everglades");
   const [pol, setPol] = useState<Pol>("HH");
   const study = STUDIES.find((s) => s.id === studyId)!;
-  return <main className={styles.page}>
-    <div className={styles.wrap}>
-      <header className={styles.header}>
-        <div><p className={styles.eyebrow}>SAR-Waltz · NISAR Scientific Evidence</p><h1>What does NISAR radar show — and what can&apos;t it tell us yet?</h1></div>
-        <Link href="/">Return to educational demo</Link>
-      </header>
-      <p className={styles.lead}>A guided look at two real NASA NISAR radar acquisitions per location: see the images, inspect three candidate regions, read the measured numbers, then check the quality evidence. Everything here is <strong>exploratory</strong>.</p>
-    </div>
-    <div className={styles.sticky}>
+  const [controls, setControls] = useState(false);
+  const controlsButton = useRef<HTMLButtonElement>(null);
+  const [active, setActive] = useState("step-look");
+  const pageRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(entries => { for (const e of entries) if (e.isIntersecting) setActive(e.target.id); }, { rootMargin: "-15% 0px -55%" });
+    const seen = new Set<Element>();
+    const observe = () => pageRef.current?.querySelectorAll('[data-investigation-step]').forEach(el => { if (!seen.has(el)) { seen.add(el); observer.observe(el); } });
+    const mutation = new MutationObserver(observe);
+    if (pageRef.current) mutation.observe(pageRef.current, { childList: true, subtree: true });
+    observe();
+    return () => { mutation.disconnect(); observer.disconnect(); };
+  }, [studyId]);
+  return <main ref={pageRef} className={styles.page}>
+    <a className="skip-link" href="#step-look">Skip to radar workbench</a>
+    <header className={styles.topbar}><Link className={styles.brand} href="/">SAR—Waltz</Link><span className={styles.qaChip}><code>{QA_LABEL}</code></span><Link className={styles.demoLink} href="/">Educational lab ↗</Link></header>
+    <div className={styles.wrap}><ConnectionStatus /><RadarHero study={study} pol={pol} /></div>
+    <div id="mobile-study-controls" className={styles.sticky} data-open={controls}>
       <div className={`${styles.wrap} ${styles.stickyRow}`}>
         <Seg label="Location" value={studyId} options={STUDIES.map((s) => ({ id: s.id, text: s.label }))} onChange={setStudyId} />
         <Seg label="Polarization" value={pol} options={POLS.map((p) => ({ id: p, text: p }))} onChange={setPol} />
-        <span className={styles.qaChip} role="note"><code>{QA_LABEL}</code><span>Not cleared for quantitative analysis</span></span>
+        <button className={styles.mobileClose} onClick={() => { setControls(false); controlsButton.current?.focus(); }}>Close controls</button>
       </div>
-      <nav className={`${styles.wrap}`} aria-label="Investigation steps">
-        <ol className={styles.stepNav}>
-          <li><a href="#step-look">1 · Look at the radar</a></li><li><a href="#step-region">2 · Inspect a region</a></li>
-          <li><a href="#step-scene">3 · Compare the whole scene</a></li><li><a href="#step-trust">4 · Check the evidence</a></li>
-        </ol>
-      </nav>
+      <nav className={styles.wrap} aria-label="Investigation steps"><ol className={styles.stepNav}>
+        {[["step-look", "01", "Look"], ["step-region", "02", "Inspect"], ["step-scene", "03", "Compare"], ["step-trust", "04", "Verify"]].map(([id, n, label]) => <li key={id}><a href={`#${id}`} aria-current={active === id ? "step" : undefined}><span>{n}</span> {label}</a></li>)}
+      </ol></nav>
     </div>
-    <div className={styles.wrap}>
-      <Primer />
-      <Workbench key={study.id} study={study} pol={pol} onPol={setPol} />
-    </div>
+    <button ref={controlsButton} className={styles.mobileControls} aria-expanded={controls} aria-controls="mobile-study-controls" onClick={() => setControls(v => !v)}>Controls · {pol}</button>
+    <div className={styles.wrap}><Primer /><Workbench key={study.id} study={study} pol={pol} onPol={setPol} /></div>
+    <footer className={styles.footer}><span>SAR—Waltz / NASA Space Apps</span><span>Observe carefully. Interpret cautiously.</span><p>AI assistance was used for interface design and code. The published radar measurements were preserved.</p></footer>
   </main>;
 }
 
 function Primer() {
-  return <details className={styles.more}>
-    <summary>New to radar? Read this first: SAR in one minute</summary>
+  return <Reveal><section className={styles.primer} aria-labelledby="primer-title">
+    <p className={styles.eyebrow}>A 30-SECOND FIELD GUIDE</p><h2 id="primer-title">Read the return.</h2>
+    <p className={styles.lead}>Radar imagery can be difficult to interpret and easy to overread. This field guide helps students and first-time radar readers move from two NASA observations to the numbers, sources and quality checks behind them.</p>
     <div className={styles.cards}>
       <div className={styles.card}><h3>Backscatter</h3><p>NISAR sends microwave pulses to the ground and records how much comes back. It works through cloud and at night. Bright pixel = strong return; dark pixel = weak return. It is <em>not</em> a photograph.</p></div>
-      <div className={styles.card}><h3>Decibels (dB)</h3><p>Backscatter is shown on a log scale. Every −10 dB is ten times less returned power; about 3 dB is a doubling or halving. Differences below about 1 dB are small.</p></div>
+      <div className={styles.card}><h3>Decibels (dB)</h3><p>Backscatter is shown on a log scale. A decrease of 10 dB means ten times less returned power; about 3 dB is a doubling or halving. A numerical difference alone does not establish significance.</p></div>
       <div className={styles.card}><h3>HH and HV</h3><p>Two ways of sending and receiving the radar wave. HH is the stronger channel; HV is much weaker and responds differently to the surface. Compare each with itself across dates, never HH with HV.</p></div>
       <div className={styles.card}><h3>Why a change isn&apos;t a cause</h3><p>Surface roughness, moisture, vegetation structure, instrument noise and processing all alter backscatter. A difference between two dates does not by itself say which of these happened.</p></div>
     </div>
-  </details>;
+  </section></Reveal>;
 }
 
 function Workbench({ study, pol, onPol }: { study: StudyConfig; pol: Pol; onPol: (p: Pol) => void }) {
+  const inspectorButton = useRef<HTMLButtonElement>(null);
+  const [inspectorOpen, setInspectorOpen] = useState(false);
+  const [sheet, setSheet] = useState("half");
   const [data, setData] = useState<Loaded>({ status: "loading" });
   const [mode, setMode] = useState<ViewMode>("swipe");
   const [selected, setSelected] = useState("all");
@@ -125,7 +149,7 @@ function Workbench({ study, pol, onPol }: { study: StudyConfig; pol: Pol; onPol:
 
   const onGibsFail = useCallback(() => { setGibsReady(false); setGibsNote("NASA GIBS tiles failed to load; context layer disabled. Radar previews are unaffected."); }, []);
 
-  if (data.status === "loading") return <p role="status" className={styles.notice}>Loading published evidence for {study.label}…</p>;
+  if (data.status === "loading") return <div className={styles.mapSkeleton} role="status">Loading published evidence for {study.label}…</div>;
   if (data.status === "error") return <p role="alert" className={`${styles.notice} ${styles.error}`}>{data.message}</p>;
   const { evidence, regions, preview, previewNote } = data;
   const effectiveMode: ViewMode = preview ? mode : "difference";
@@ -133,14 +157,14 @@ function Workbench({ study, pol, onPol }: { study: StudyConfig; pol: Pol; onPol:
   const pe = evidence.pols[pol];
 
   return <>
-    <section className={styles.section} id="step-look" aria-labelledby="h-look">
+    <section data-investigation-step className={styles.section} id="step-look" aria-labelledby="h-look">
       <h2 id="h-look"><span className={styles.stepNo}>1</span>Look at the radar: {study.label}</h2>
       <p className={styles.muted}>{fmtDate(study.dates[0])} and {fmtDate(study.dates[1])} · NISAR L2 GCOV (provisional) · polarization {pol}. {preview ? "Drag the divider to compare the dates, or switch to side-by-side." : ""}</p>
       {previewNote && <p className={styles.notice} role="note">{previewNote}</p>}
       <div className={styles.banner} role="note">
         <strong>{QA_LABEL}.</strong> <span>{NO_CAUSE_NOTICE} Official quality checks are not cleared (see step 4), so none of the numbers here are validated measurements of change.</span>
       </div>
-      <div className={styles.viewer}>
+      <div className={styles.viewer} data-workbench onKeyDown={event => { if (event.key === "Escape" && inspectorOpen) { setInspectorOpen(false); inspectorButton.current?.focus(); } }}>
         <div>
           <div className={styles.viewTools}>
             <Seg label="View" value={effectiveMode} onChange={setMode} options={[
@@ -149,12 +173,15 @@ function Workbench({ study, pol, onPol }: { study: StudyConfig; pol: Pol; onPol:
             {study.gibsContext && <label className={styles.small}><input type="checkbox" checked={gibsReady && gibsVisible} disabled={!gibsReady} onChange={(e) => setGibsVisible(e.target.checked)} /> NASA GIBS context</label>}
           </div>
           {problem && <p role="alert" className={`${styles.notice} ${styles.error}`}>{problem}</p>}
-          <InvestigationMap study={study} regions={regions} preview={preview} pol={pol} mode={effectiveMode} selectedId={selected} onSelect={setSelected}
+          <MapGate study={study} regions={regions} preview={preview} pol={pol} mode={effectiveMode} selectedId={selected} onSelect={setSelected}
             gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} />
           <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} />
           <p className={`${styles.small} ${styles.muted}`}>Pixels are drawn exactly as published (nearest-neighbour; no smoothing, sharpening or enhancement); one pixel is about 10 m. {gibsNote}</p>
         </div>
-        <aside id="step-region" className={styles.inspector} aria-labelledby="h-region">
+        <button ref={inspectorButton} type="button" className={styles.seg} aria-expanded={inspectorOpen} aria-controls="step-region" onClick={() => setInspectorOpen(v => !v)}>{inspectorOpen ? "Close" : "Open"} region inspector</button>
+        <aside data-investigation-step id="step-region" className={styles.inspector} data-open={inspectorOpen} data-detent={sheet} aria-labelledby="h-region" hidden={!inspectorOpen}>
+          <button type="button" className={styles.seg} onClick={() => { setInspectorOpen(false); inspectorButton.current?.focus(); }}>Close inspector</button>
+          <div className={styles.sheetGrabber} role="slider" tabIndex={0} aria-label="Inspector sheet height" aria-valuemin={0} aria-valuemax={2} aria-valuenow={["peek","half","full"].indexOf(sheet)} aria-valuetext={sheet} onKeyDown={e => { if (["ArrowUp","ArrowDown","Home","End"].includes(e.key)) { e.preventDefault(); setSheet(e.key === "Home" ? "peek" : e.key === "End" ? "full" : e.key === "ArrowUp" ? "full" : "peek"); } }} onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); e.currentTarget.dataset.start = String(e.clientY); }} onPointerUp={e => { const delta=e.clientY-Number(e.currentTarget.dataset.start); setSheet(delta < -30 ? "full" : delta > 30 ? "peek" : "half"); }}><span /></div>
           <h2 id="h-region" style={{ fontSize: 20, fontWeight: 650 }}><span className={styles.stepNo}>2</span>Inspect a region</h2>
           <div className={styles.chips} role="group" aria-label="Investigation region">
             <button type="button" className={styles.chip} aria-pressed={selected === "all"} onClick={() => setSelected("all")}><b>Whole scene</b><small>All pixels</small></button>
@@ -167,7 +194,7 @@ function Workbench({ study, pol, onPol }: { study: StudyConfig; pol: Pol; onPol:
       </div>
     </section>
 
-    <section className={styles.section} id="step-scene" aria-labelledby="h-scene">
+    <section data-investigation-step className={styles.section} id="step-scene" aria-labelledby="h-scene">
       <h2 id="h-scene"><span className={styles.stepNo}>3</span>Compare the whole scene ({pol})</h2>
       <div className={styles.twoCol}>
         <div className={styles.card}>
@@ -250,14 +277,14 @@ function RegionDetail({ region, pol, onPol, dates, regions }: { region: Region; 
 }
 
 function TrustSection({ study, evidence, regions, preview }: { study: StudyConfig; evidence: Evidence; regions: RegionSet; preview: PreviewSet | null }) {
-  return <section className={styles.section} id="step-trust" aria-labelledby="h-trust">
-    <h2 id="h-trust"><span className={styles.stepNo}>4</span>Check the evidence: quality and provenance</h2>
+  return <section data-investigation-step className={styles.section} id="step-trust" aria-labelledby="h-trust">
+    <p className={styles.eyebrow}>04 / VERIFY</p><h2 id="h-trust">What we can.<br />And cannot say.</h2><p className={styles.lead}>The observations are real. Their interpretation remains open. Start with the quality evidence.</p>
     <div className={styles.banner} role="note"><strong>{evidence.scientificClearance}.</strong> <span>{QA_LABEL}: failed or unverified checks stay visible below. This is a status report, not a confidence score.</span></div>
     <div className={styles.twoCol}>
       <div>
         <h3>Quality checks for {study.label}</h3>
-        <ul className={styles.qaList}>{evidence.quality.map(([key, text]) => { const state = qaState(text);
-          return <li key={key}><span className={`${styles.qaIcon} ${styles[`qa_${state}`]}`}>{state === "pass" ? "PASS" : state === "fail" ? "FAIL" : "UNVERIFIED"}</span><span><strong>{qaLabel(key)}</strong><br />{text}</span></li>; })}</ul>
+        <div className={styles.tableScroll}><table className={`${styles.table} ${styles.qaTable}`}><caption>Quality checks from evidence.json; no confidence score</caption><thead><tr><th scope="col">Check</th><th scope="col">Status and evidence</th></tr></thead><tbody>{evidence.quality.map(([key, text]) => { const state = qaState(text);
+          return <tr key={key}><th scope="row">{qaLabel(key)}</th><td><span className={`${styles.qaIcon} ${styles[`qa_${state}`]}`}>{state.toUpperCase()}</span><p>{text}</p></td></tr>; })}</tbody></table></div>
         <h3 style={{ marginTop: 16 }}>Known limitations</h3>
         <ul className={styles.more} style={{ listStyle: "disc", paddingLeft: 22 }}>{evidence.limitations.map((l) => <li key={l}>{l}</li>)}</ul>
         <div className={styles.yesno}>

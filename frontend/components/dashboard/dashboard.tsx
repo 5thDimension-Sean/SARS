@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState, useRef } from "react";
-import { Layers, ChartNoAxesCombined, Satellite } from "lucide-react";
+import { Layers, ChartNoAxesCombined } from "lucide-react";
+import { DiscoveryLab } from "./discovery-lab";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   Sheet,
@@ -31,7 +32,7 @@ export function Dashboard() {
     [layers, setLayers] = useState<LayerState>({
       change: true,
       boundaries: true,
-      grid: true,
+      grid: false,
     }),
     [polarization, setPolarization] = useState<Polarization>("HV"),
     [viewMode, setViewMode] = useState<"displacement" | "phase">(
@@ -49,6 +50,7 @@ export function Dashboard() {
     setPanelState((previous) => ({ active, last: active ?? previous.last }));
   }, []);
   const mobilePanel = panelState.active;
+  const [leftWidth, setLeftWidth] = useState(252), [rightWidth, setRightWidth] = useState(330);
   const renderedPanel = mobilePanel ?? panelState.last;
   const p = data.phenomena[phenomenonIndex],
     location = p.locations[locationIndex],
@@ -175,6 +177,7 @@ export function Dashboard() {
       />
       <SidebarProvider
         className={`workspace min-h-0 ${collapsed ? "rail-collapsed" : ""}`}
+        style={{ "--left-width": `${leftWidth}px`, "--right-width": `${rightWidth}px` } as React.CSSProperties}
       >
         <ObservationRail
           {...railProps}
@@ -217,6 +220,7 @@ export function Dashboard() {
               </button>
             </div>
           </div>
+          <DiscoveryLab investigation={{ label: location.label, mode: "sample", before: before.date, after: after.date, polarization, source: "Fictional educational sample", versionsMatch: false, numericAvailable: false, notes: [p.limitation, "All sample dates, radar textures, measurements and events are fictional. Geographic coordinates are real."] }} playing={playing} onPlay={() => changePlaying(!playing)} />
           <ObservationViewport
             key={location.id}
             phenomenon={p}
@@ -241,17 +245,9 @@ export function Dashboard() {
           </ObservationViewport>
         </section>
         <AnalysisRail {...analysisProps} />
+        <label className="rail-width left-width">Layers width <input aria-label="Layers panel width" type="range" min="180" max="320" value={leftWidth} onChange={(e) => setLeftWidth(Number(e.target.value))} /></label>
+        <label className="rail-width right-width">Analysis width <input aria-label="Analysis panel width" type="range" min="260" max="420" value={rightWidth} onChange={(e) => setRightWidth(Number(e.target.value))} /></label>
       </SidebarProvider>
-      <footer className="system-bar">
-        <span>
-          <span className="text-cyan">◇</span> SAMPLE MODE{" "}
-          <span className="footer-detail">/ NO LIVE DATA</span>
-        </span>
-        <span>NASA SPACE APPS 2026 · SAR-WALTZ</span>
-        <span>
-          <Satellite size={11} /> {after.productType} / L-BAND
-        </span>
-      </footer>
       <output className="sr-only" aria-live="polite" aria-atomic="true">
         {p.label}, {location.label}, selected acquisition {after.date}, sample
         data.

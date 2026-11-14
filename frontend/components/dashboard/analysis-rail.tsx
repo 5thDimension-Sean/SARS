@@ -52,7 +52,7 @@ export function AnalysisRail({
       <div className="rail-heading">
         SURFACE ANALYSIS <span className="tiny-badge">SAMPLE</span>
       </div>
-      <section className="rail-section metric-section">
+      <details open className="rail-section metric-section"><summary>Change Summary</summary>
         <div className="eyebrow">{metric.label.toUpperCase()}</div>
         <div className="primary-metric">
           {Math.abs(delta).toFixed(1)}
@@ -79,8 +79,8 @@ export function AnalysisRail({
             </div>
           ))}
         </div>
-      </section>
-      <section className="rail-section analysis-controls">
+      </details>
+      <details open className="rail-section analysis-controls"><summary>Radar Settings</summary>
         <div className="eyebrow">ANALYSIS SETTINGS</div>
         {seismic ? (
           <Select
@@ -117,8 +117,8 @@ export function AnalysisRail({
             </SelectContent>
           </Select>
         )}
-      </section>
-      <Tabs defaultValue="signal" className="analysis-tabs">
+      </details>
+      <details className="rail-section"><summary>Charts &amp; Data Details</summary><Tabs defaultValue="signal" className="analysis-tabs">
         <TabsList variant="line" className="analysis-tab-list">
           <TabsTrigger value="signal">Signal</TabsTrigger>
           <TabsTrigger value="acquisition">Acquisition</TabsTrigger>
@@ -200,15 +200,15 @@ export function AnalysisRail({
             </p>
           </section>
         </TabsContent>
-      </Tabs>
-      <section className="rail-section explanation-section">
+      </Tabs></details>
+      <details className="rail-section explanation-section"><summary>What Am I Seeing?</summary>
         <div className="eyebrow">
           <Info size={14} />
           WHAT AM I SEEING?
         </div>
         <p className="explanation">{p.explanation}</p>
         <p className="limitation">{p.limitation}</p>
-      </section>
+      </details>
     </div>
   );
 }

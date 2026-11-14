@@ -81,9 +81,26 @@ test("malformed, mismatched and over-claiming inputs are rejected", () => {
   assert.throws(() => parseRegions(meta, geo, STUDIES[1]), /dates/);
 });
 
-test("Louisiana has no previews, so the preview parser must not accept Everglades images for it", () => {
-  assert.equal(STUDIES[1].previewDir, null);
+test("Louisiana real previews validate and reject the Everglades pair", () => {
+  assert.equal(STUDIES[1].previewDir, "louisiana-preview");
+  assert.equal(STUDIES[1].gibsContext, false);
+  const preview = parsePreview(read("louisiana-preview/preview-manifest.json"), STUDIES[1]);
+  assert.deepEqual(preview.acquisitions.map(a => a.date), [...STUDIES[1].dates]);
+  for (const acquisition of preview.acquisitions) for (const pol of ["HH", "HV"]) {
+    assert.equal(acquisition.images[pol].filename, `${acquisition.date.replaceAll("-", "")}_${pol}.png`);
+    assert.ok(readFileSync(new URL(`../public/data/louisiana-preview/${acquisition.images[pol].filename}`, import.meta.url)).length > 1000);
+  }
   assert.throws(() => parsePreview(read("everglades-preview/preview-manifest.json"), STUDIES[1]), /does not match/);
+});
+
+test("region warnings never claim official QA failed when evidence says UNVERIFIED", () => {
+  for (const s of STUDIES) {
+    const ev = read(`${s.evidenceDir}/evidence.json`);
+    const region = read(`${s.regionsDir}/regions.json`);
+    if (qaState(ev.quality.identificationGroup) === "unverified") {
+      assert.doesNotMatch(JSON.stringify(region), /official QA[^.]*fail|identification[^.]*fail/i, s.id);
+    }
+  }
 });
 
 test("formatting uses signed, unit-bearing numbers and avoids negative zero", () => {

@@ -1,7 +1,7 @@
 import { fmtDate, fmtDb, fmtInt, type Pair, type Pol, type PolEvidence } from "@/lib/investigation";
 
 const W = 760, H = 400, M = { l: 64, r: 16, t: 44, b: 52 };
-const COLORS = ["#6cb4ff", "#ffb454"] as const; // blue solid / orange dashed: distinguishable without colour
+const COLORS = ["#8ce4d5", "#f2f7f8"] as const; // teal solid / white dashed: distinguishable without colour
 
 function niceMax(v: number) {
   const step = 10 ** Math.floor(Math.log10(v));
@@ -21,7 +21,7 @@ export function Histogram({ pol, ev, dates }: { pol: Pol; ev: PolEvidence; dates
   const yTicks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * yMax);
   const medians = ev.observations.map((o) => o.medianDb);
   const label = `${pol} backscatter histogram, ${fmtDate(dates[0])} versus ${fmtDate(dates[1])}. Medians ${fmtDb(medians[0])} and ${fmtDb(medians[1])}.`;
-  return <div style={{ overflowX: "auto" }}><svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label} style={{ width: "100%", minWidth: 560, height: "auto", display: "block" }}>
+  return <div style={{ overflowX: "auto" }}><svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label} style={{ width: "100%", minWidth: 300, height: "auto", display: "block" }}>
     <title>{label}</title>
     {yTicks.map((t) => <g key={t}>
       <line x1={M.l} x2={W - M.r} y1={y(t)} y2={y(t)} stroke="#ffffff22" />
@@ -35,12 +35,12 @@ export function Histogram({ pol, ev, dates }: { pol: Pol; ev: PolEvidence; dates
     <line x1={M.l} x2={M.l} y1={M.t} y2={H - M.b} stroke="#c4d6da" />
     <text x={(M.l + W - M.r) / 2} y={H - 10} textAnchor="middle" fontSize="13" fill="#e3eff0">{pol} backscatter, gamma-0 (dB)  — darker ← → brighter in the radar images</text>
     <text transform={`translate(16 ${(M.t + H - M.b) / 2}) rotate(-90)`} textAnchor="middle" fontSize="13" fill="#e3eff0">Pixels per 0.52 dB bin</text>
-    {[0, 1].map((i) => <polyline key={i} fill="none" stroke={COLORS[i]} strokeWidth="2.5" strokeDasharray={i ? "7 5" : undefined} strokeLinejoin="round"
+    {[0, 1].map((i) => <polyline key={i} fill="none" stroke={COLORS[i]} strokeWidth="1.5" strokeDasharray={i ? "7 5" : undefined} strokeLinejoin="round"
       points={bins.map((b) => `${x(centre(b)).toFixed(1)},${y(b.counts[i]).toFixed(1)}`).join(" ")} />)}
     {medians.map((m, i) => <line key={i} x1={x(m)} x2={x(m)} y1={M.t} y2={H - M.b} stroke={COLORS[i]} strokeWidth="1.5" strokeDasharray="2 4" />)}
     <g transform={`translate(${M.l} 18)`}>
       {[0, 1].map((i) => <g key={i} transform={`translate(${i * 190} 0)`}>
-        <line x2="30" stroke={COLORS[i]} strokeWidth="2.5" strokeDasharray={i ? "7 5" : undefined} />
+        <line x2="30" stroke={COLORS[i]} strokeWidth="1.5" strokeDasharray={i ? "7 5" : undefined} />
         <text x="38" y="4" fontSize="12.5" fill="#e3eff0">{fmtDate(dates[i])}</text>
       </g>)}
       <text x="390" y="4" fontSize="11.5" fill="#a4bfc5">Dotted vertical lines = medians</text>
