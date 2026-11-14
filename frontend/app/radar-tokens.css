@@ -26,8 +26,6 @@ html[data-theme="light"] {
   --nav-pill:#0000001a; --nav-ring:#00000014; --nav-ghost:#0000000d; --panel-bg:#ffffffee; --panel-tile:#0000000a;
   color-scheme:light;
 }
-/* Black & white mode: a single filter on the root, so charts, maps, photographs and the lab all follow it. */
-html[data-bw="true"] { filter:grayscale(1); }
 /* In-app reduced motion (the OS setting is honoured separately by each @media block). */
 html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-motion="reduced"] *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
 /* The instrument lab is an intentionally dark surface in every theme. */
@@ -68,7 +66,7 @@ button,a,input,select,summary,[role="slider"] { -webkit-tap-highlight-color:tran
 @media(prefers-contrast:more) { :root { --border:#a1a1a6; --muted-foreground:#d7e6e8; } }
 @media print { .sample-lab .console { height:auto; max-height:none; } .timeline-panel,.rail-width,.timeline-size { display:none; } }
 
-/* Skip link: hidden until focused. Positioned absolutely so the lab's grayscale filter cannot reveal it. */
+/* Skip link: hidden until focused. Positioned absolutely so no ancestor transform or filter can reveal it. */
 .skip-link { position:absolute; top:8px; left:8px; z-index:100; transform:none; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 .skip-link:focus { width:auto; height:auto; padding:10px 15px; clip-path:none; color:#000; background:#f5f5f7; border-radius:8px; }
 .sample-lab-heading h2 { font-weight:650; letter-spacing:-.04em; }

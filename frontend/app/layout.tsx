@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" data-bw="false" data-motion="full" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable}`}>
+    <html lang="en" data-theme="dark" data-motion="full" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable}`}>
       <head><script dangerouslySetInnerHTML={{ __html: PREFS_BOOT_SCRIPT }} /></head>
       <body className="antialiased"><SiteNav />{children}</body>
     </html>

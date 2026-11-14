@@ -7,7 +7,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import everglades from "@/public/data/everglades-preview/preview-manifest.json";
 import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
 import california from "@/public/data/california-preview/preview-manifest.json";
-import { STUDIES, fmtDate, type Bounds, type StudyConfig } from "@/lib/investigation";
+import { STUDIES, dataUrl, fmtDate, type Bounds, type StudyConfig } from "@/lib/investigation";
 import { footprints, graticule } from "@/lib/globe-data";
 import { prefersReducedMotion } from "@/lib/prefs";
 import styles from "./story-map.module.css";
@@ -15,8 +15,8 @@ import styles from "./story-map.module.css";
 const BOUNDS: Record<StudyConfig["id"], Bounds> = { everglades: everglades.bounds as Bounds, louisiana: louisiana.bounds as Bounds, california: california.bounds as Bounds };
 const centerOf = (b: Bounds): [number, number] => [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]; // the footprint centre, so dot, box and flight agree
 const OVERVIEW = { center: [-98, 28] as [number, number], zoom: 1.45 };
-const FOCUS_ZOOM = 7.4;
-// NASA Blue Marble (a real NASA product) served by GIBS, shown in grayscale. If it cannot load, the globe still works.
+const FOCUS_ZOOM = 5.4; // close enough to read the region; the offline outline is coarse, the NASA photo (when it loads) is not
+// NASA Blue Marble (a real NASA product) served by GIBS in natural color. If it cannot load, the Natural Earth land outline underneath still makes the globe read as Earth.
 const BLUE_MARBLE = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg";
 
 type StepId = "overview" | StudyConfig["id"];
@@ -38,18 +38,23 @@ function Globe({ active, onPick, onUnavailable }: { active: StepId; onPick: (id:
         instance = new lib.Map({
           container: box.current, center: OVERVIEW.center, zoom: OVERVIEW.zoom, minZoom: 1, maxZoom: 9, pitch: 0, dragRotate: false, pitchWithRotate: false,
           scrollZoom: false, doubleClickZoom: false, cooperativeGestures: window.matchMedia("(pointer: coarse)").matches, // wheel always scrolls the page
-          attributionControl: { compact: true, customAttribution: "Globe imagery: NASA GIBS (Blue Marble)" },
+          attributionControl: { compact: true, customAttribution: "Globe: NASA GIBS (Blue Marble) · Natural Earth (public domain)" },
           style: {
             version: 8, projection: { type: "globe" },
+            // A thin blue atmosphere that fades out as the camera comes down to the scene.
+            sky: { "sky-color": "#2f78c4", "horizon-color": "#9fd0ff", "sky-horizon-blend": 0.6, "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 1, 4, 0.9, 7, 0] },
             sources: {
               bluemarble: { type: "raster", tiles: [BLUE_MARBLE], tileSize: 256, maxzoom: 8 },
+              land: { type: "geojson", data: new URL(dataUrl("globe-land.geojson"), window.location.href).href },
               graticule: { type: "geojson", data: graticule(15) },
               footprints: { type: "geojson", data: footprints(Object.values(BOUNDS)) },
             },
             layers: [
-              { id: "sphere", type: "background", paint: { "background-color": "#17171a" } },
-              { id: "bluemarble", type: "raster", source: "bluemarble", paint: { "raster-saturation": -1, "raster-brightness-max": 0.62, "raster-contrast": 0.1, "raster-fade-duration": 400 } },
-              { id: "graticule", type: "line", source: "graticule", paint: { "line-color": "#ffffff", "line-opacity": 0.14, "line-width": 0.6 } },
+              { id: "sphere", type: "background", paint: { "background-color": "#1d4f86" } },
+              { id: "land", type: "fill", source: "land", filter: ["!=", ["get", "ice"], true], paint: { "fill-color": "#5f8450", "fill-antialias": true } },
+              { id: "ice", type: "fill", source: "land", filter: ["==", ["get", "ice"], true], paint: { "fill-color": "#e8eef2" } },
+              { id: "bluemarble", type: "raster", source: "bluemarble", paint: { "raster-fade-duration": 600 } },
+              { id: "graticule", type: "line", source: "graticule", paint: { "line-color": "#ffffff", "line-opacity": 0.1, "line-width": 0.6 } },
               { id: "footprints", type: "line", source: "footprints", paint: { "line-color": "#ffffff", "line-width": 1.5 } },
             ],
           },

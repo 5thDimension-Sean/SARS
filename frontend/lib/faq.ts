@@ -20,8 +20,8 @@ export const FAQ: readonly FaqItem[] = [
     answer: "NASA NISAR Level-2 GCOV products (provisional) from the ASF DAAC. Each location's granule IDs link to NASA's catalog in the Verify section." },
   { id: "upload", question: "Can I upload my own data?", keywords: ["upload", "own", "hdf5", "h5", "file", "process"],
     answer: "No. Products are processed offline and published as small validated files; this site is static and never receives raw data." },
-  { id: "display", question: "What do the display settings do?", keywords: ["settings", "light", "dark", "black", "white", "motion", "theme", "accessibility"],
-    answer: "Appearance switches between dark, light or your system setting. Black & white removes all color, including the difference map's blue and red. Reduced motion turns off animation. Choices are saved on this device only." },
+  { id: "display", question: "What do the display settings do?", keywords: ["settings", "light", "dark", "motion", "theme", "accessibility", "appearance"],
+    answer: "Appearance switches between dark, light or your system setting. Reduced motion turns off animation. Choices are saved on this device only." },
 ];
 
 const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(Boolean);

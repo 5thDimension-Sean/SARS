@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ComponentType } from "react";
-import { Contrast, Monitor, Moon, Palette, SlidersHorizontal, Sparkles, Sun, ZapOff } from "lucide-react";
+import { Monitor, Moon, SlidersHorizontal, Sparkles, Sun, ZapOff } from "lucide-react";
 import { setPref, usePrefs, type Prefs } from "@/lib/prefs";
 import styles from "./site-nav.module.css";
 
 type Icon = ComponentType<{ size?: number; strokeWidth?: number; "aria-hidden"?: boolean }>;
 interface Group<K extends keyof Prefs> { key: K; title: string; options: { value: Prefs[K]; label: string; Icon: Icon }[] }
 
-const GROUPS: [Group<"theme">, Group<"color">, Group<"motion">] = [
+const GROUPS: [Group<"theme">, Group<"motion">] = [
   { key: "theme", title: "Appearance", options: [{ value: "auto", label: "Auto", Icon: Monitor }, { value: "light", label: "Light", Icon: Sun }, { value: "dark", label: "Dark", Icon: Moon }] },
-  { key: "color", title: "Color", options: [{ value: "color", label: "Color", Icon: Palette }, { value: "bw", label: "Black & white", Icon: Contrast }] },
   { key: "motion", title: "Motion", options: [{ value: "full", label: "Full", Icon: Sparkles }, { value: "reduced", label: "Reduced", Icon: ZapOff }] },
 ];
 

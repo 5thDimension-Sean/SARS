@@ -200,8 +200,10 @@ test("display preferences are whitelisted, default to the designed dark look and
   const { sanitizePrefs, resolveTheme, DEFAULT_PREFS } = await import("../lib/prefs.ts");
   const { PREFS_BOOT_SCRIPT } = await import("../lib/prefs-boot.ts");
   assert.deepEqual(sanitizePrefs(undefined), DEFAULT_PREFS);
-  assert.deepEqual(sanitizePrefs({ theme: "light", color: "bw", motion: "reduced" }), { theme: "light", color: "bw", motion: "reduced" });
-  assert.deepEqual(sanitizePrefs({ theme: "<script>", color: { x: 1 }, motion: 7 }), DEFAULT_PREFS);
+  assert.deepEqual(sanitizePrefs({ theme: "light", motion: "reduced" }), { theme: "light", motion: "reduced" });
+  // Retired settings (the old black & white mode) are dropped, never applied.
+  assert.deepEqual(sanitizePrefs({ theme: "dark", color: "bw", motion: "full" }), { theme: "dark", motion: "full" });
+  assert.deepEqual(sanitizePrefs({ theme: "<script>", motion: 7 }), DEFAULT_PREFS);
   assert.deepEqual(sanitizePrefs("nope"), DEFAULT_PREFS);
   assert.equal(DEFAULT_PREFS.theme, "dark");
   assert.equal(resolveTheme("auto", true), "dark");
@@ -269,4 +271,16 @@ test("globe geometry is valid, closed and needs no network", async () => {
   const f = footprints(boxes);
   assert.equal(f.features.length, 3);
   for (const ft of f.features) { const c = ft.geometry.coordinates; assert.deepEqual(c[0], c[c.length - 1]); assert.equal(c.length, 5); }
+});
+
+test("globe land outline is valid, closed, in range and small enough to ship", () => {
+  const raw = readFileSync(new URL("../public/data/globe-land.geojson", import.meta.url), "utf8");
+  assert.ok(raw.length < 250 * 1024);
+  const g = JSON.parse(raw);
+  assert.ok(g.features.length > 150);
+  for (const f of g.features) for (const poly of f.geometry.coordinates) for (const ring of poly) {
+    assert.deepEqual(ring[0], ring[ring.length - 1]);
+    for (const [lon, lat] of ring) assert.ok(lon >= -180 && lon <= 180 && lat >= -85 && lat <= 85);
+  }
+  assert.equal(g.features.filter((f) => f.properties.ice).length, 2); // Antarctica and Greenland
 });

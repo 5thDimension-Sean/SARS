@@ -22,7 +22,6 @@ import { Histogram } from "./investigation/histogram";
 import styles from "./investigation/investigation.module.css";
 import { verifyBrowsePair } from "@/lib/nisar-browse";
 import { usePolarization, useStudyId } from "@/lib/view-store";
-import { usePrefs } from "@/lib/prefs";
 import { FAQ, searchFaq } from "@/lib/faq";
 import {
   POLS, QA_LABEL, STUDIES, dataUrl, describeRegion, describeStudyShift, fmtDate, fmtDb, fmtInt, fmtSignedDb,
@@ -211,11 +210,10 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
 }
 
 function Legend({ mode, pol, preview, regions, changedOnly }: { mode: ViewMode; pol: Pol; preview: PreviewSet | null; regions: RegionSet; changedOnly: boolean }) {
-  const bw = usePrefs().color === "bw";
   if (mode === "difference") {
     const [lo, hi] = regions.limitsDb;
     // This ramp reproduces the colours encoded in the published difference PNGs, so it is data, not decoration.
-    return <div className={styles.legend}><div>{pol} difference, later minus earlier, per pixel, clipped at ±{hi} dB. Colors are not a flood or damage map.{changedOnly && " Only pixels with a stronger color are shown. This is a display filter on the published image, set by color strength rather than dB, and it is not a measurement."}{bw && " Black & white mode is on, so the sign of a difference can no longer be told apart; switch back to Color in display settings to read it."}</div>
+    return <div className={styles.legend}><div>{pol} difference, later minus earlier, per pixel, clipped at ±{hi} dB. Colors are not a flood or damage map.{changedOnly && " Only pixels with a stronger color are shown. This is a display filter on the published image, set by color strength rather than dB, and it is not a measurement."}</div>
       <div className={styles.ramp} style={{ background: "linear-gradient(90deg,#1010ff,#f4f0ff 50%,#ff1010)", }} role="img" aria-label={`Blue is negative, near-white is zero, red is positive, clipped at ${lo} and ${hi} dB`} />
       <div className={styles.rampLabels}><span>{fmtSignedDb(lo, 0)} (lower later)</span><span>0</span><span>{fmtSignedDb(hi, 0)} (higher later)</span></div></div>;
   }

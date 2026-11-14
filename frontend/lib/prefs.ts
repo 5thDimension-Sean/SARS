@@ -3,20 +3,18 @@ import { useSyncExternalStore } from "react";
 import { PREFS_KEY } from "./prefs-boot.ts";
 
 export type ThemePref = "auto" | "light" | "dark";
-export type ColorPref = "color" | "bw";
 export type MotionPref = "full" | "reduced";
-export interface Prefs { theme: ThemePref; color: ColorPref; motion: MotionPref }
+export interface Prefs { theme: ThemePref; motion: MotionPref }
 
 /** Dark is the designed default; "auto" follows the operating system when chosen. */
-export const DEFAULT_PREFS: Prefs = { theme: "dark", color: "color", motion: "full" };
+export const DEFAULT_PREFS: Prefs = { theme: "dark", motion: "full" };
 export { PREFS_KEY };
 
-/** Whitelists every field so malformed or hostile stored values can never reach the DOM. */
+/** Whitelists every field so malformed, hostile or retired stored values (such as the removed color mode) can never reach the DOM. */
 export function sanitizePrefs(raw: unknown): Prefs {
   const r = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
   return {
     theme: r.theme === "auto" || r.theme === "light" || r.theme === "dark" ? r.theme : DEFAULT_PREFS.theme,
-    color: r.color === "bw" ? "bw" : "color",
     motion: r.motion === "reduced" ? "reduced" : "full",
   };
 }
@@ -31,7 +29,6 @@ const systemDark = () => typeof window !== "undefined" && window.matchMedia("(pr
 function apply(p: Prefs) {
   const root = document.documentElement;
   root.dataset.theme = resolveTheme(p.theme, systemDark());
-  root.dataset.bw = String(p.color === "bw");
   root.dataset.motion = p.motion;
 }
 function load(): Prefs {
