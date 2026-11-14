@@ -27,8 +27,8 @@
   "purpose": "Single-date visualization only; no confirmed environmental change",
   "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
   "knownConcerns": [
-    "Louisiana official QA identification checks not independently reviewed",
-    "RFI, noise, banding, and radiometric artifacts not cleared"
+    "Official NASA identification-group QA checks failed for both acquisitions; cause unresolved",
+    "RFI, noise, banding and radiometric artifacts have not been cleared"
   ],
   "acquisitions": [
     {

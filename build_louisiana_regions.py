@@ -35,7 +35,7 @@ STUDY = ROOT / 'pipeline/studies/louisiana_20260929_20261011.json'
 OUT = ROOT / 'frontend/public/data/louisiana-regions'
 MAX_SOURCE_BYTES = 64 * 1024**2
 POLARIZATIONS = {'HH': 'HHHH', 'HV': 'HVHV'}
-QA_WARNING = 'EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage.'
+QA_WARNING = 'EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both Louisiana acquisitions; the specific cause remains unknown. RFI, noise, banding and other radiometric artifacts have not been cleared. Radar differences do not establish flooding, vegetation loss or damage.'
 
 
 def read_acquisition(auth, public, concept, expected_date, roi, max_pixels):

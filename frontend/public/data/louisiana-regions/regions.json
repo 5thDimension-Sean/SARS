@@ -35,7 +35,7 @@
     "positive": "red"
   },
   "scientificStatus": "EXPLORATORY_NOT_CLEARED",
-  "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage.",
+  "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both Louisiana acquisitions; the specific cause remains unknown. RFI, noise, banding and other radiometric artifacts have not been cleared. Radar differences do not establish flooding, vegetation loss or damage.",
   "regionCount": 3,
   "regions": [
     {
@@ -80,7 +80,7 @@
       },
       "scientificStatus": "EXPLORATORY_NOT_CLEARED",
       "environmentalConclusion": null,
-      "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+      "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both Louisiana acquisitions; the specific cause remains unknown. RFI, noise, banding and other radiometric artifacts have not been cleared. Radar differences do not establish flooding, vegetation loss or damage."
     },
     {
       "id": "B",
@@ -124,7 +124,7 @@
       },
       "scientificStatus": "EXPLORATORY_NOT_CLEARED",
       "environmentalConclusion": null,
-      "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+      "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both Louisiana acquisitions; the specific cause remains unknown. RFI, noise, banding and other radiometric artifacts have not been cleared. Radar differences do not establish flooding, vegetation loss or damage."
     },
     {
       "id": "C",
@@ -168,7 +168,7 @@
       },
       "scientificStatus": "EXPLORATORY_NOT_CLEARED",
       "environmentalConclusion": null,
-      "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+      "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Official NASA identification-group QA checks FAIL for both Louisiana acquisitions; the specific cause remains unknown. RFI, noise, banding and other radiometric artifacts have not been cleared. Radar differences do not establish flooding, vegetation loss or damage."
     }
   ],
   "annotations": [
