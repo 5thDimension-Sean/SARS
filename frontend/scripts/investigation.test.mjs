@@ -259,3 +259,14 @@ test("FAQ search is curated, ranked, forgiving and never empty-handed for known 
   for (const f of FAQ) assert.ok(f.answer.length > 40 && !/<[a-z]/i.test(f.answer));
   assert.ok(FAQ.find((f) => f.id === "flood").answer.startsWith("No."));
 });
+
+test("globe geometry is valid, closed and needs no network", async () => {
+  const { graticule, footprints } = await import("../lib/globe-data.ts");
+  const g = graticule(15);
+  assert.equal(g.features.length, 24 + 11); // 24 meridians, 11 parallels
+  for (const f of g.features) for (const [lon, lat] of f.geometry.coordinates) assert.ok(lon >= -180 && lon <= 180 && lat >= -90 && lat <= 90);
+  const boxes = STUDIES.map((s) => parsePreview(read(`${s.previewDir}/preview-manifest.json`), s).bounds);
+  const f = footprints(boxes);
+  assert.equal(f.features.length, 3);
+  for (const ft of f.features) { const c = ft.geometry.coordinates; assert.deepEqual(c[0], c[c.length - 1]); assert.equal(c.length, 5); }
+});
