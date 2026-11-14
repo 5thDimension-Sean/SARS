@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "sar-waltz-iowa-exploratory-0.1",
+  "study": "Iowa Ames mixed land-cover study area",
+  "dates": [
+    "2026-09-25",
+    "2026-10-19"
+  ],
+  "sourceGranules": [
+    "G4325945910-ASF",
+    "G4381295241-ASF"
+  ],
+  "roiWgs84": [
+    -93.64,
+    42.0,
+    -93.6,
+    42.04
+  ],
+  "measurement": "Frequency-A gamma0 backscatter: 10*log10(screened linear power)",
+  "comparison": "after minus before, same native pixels, no spatial resampling",
+  "crs": "EPSG:32615",
+  "nativeShape": [
+    447,
+    336
+  ],
+  "nativeAffine": [
+    10.0,
+    0.0,
+    446990.0,
+    0.0,
+    -10.0,
+    4654420.0
+  ],
+  "commonValidPixels": 150192,
+  "polStats": {
+    "HH": {
+      "pairedPixelCount": 150192,
+      "beforeMedianDbOnCommonPixels": -7.624225616455078,
+      "afterMedianDbOnCommonPixels": -8.543949127197266,
+      "pairedDifferenceMedianDb": -1.0026307106018066,
+      "pairedDifferenceMeanDb": -1.0728455358504467,
+      "pairedDifferenceP05Db": -6.2831130027771,
+      "pairedDifferenceP95Db": 3.9145676851272544
+    },
+    "HV": {
+      "pairedPixelCount": 150192,
+      "beforeMedianDbOnCommonPixels": -14.301733016967773,
+      "afterMedianDbOnCommonPixels": -15.597095489501953,
+      "pairedDifferenceMedianDb": -1.1858329772949219,
+      "pairedDifferenceMeanDb": -1.285633317603145,
+      "pairedDifferenceP05Db": -6.783180475234985,
+      "pairedDifferenceP95Db": 3.900451374053949
+    }
+  },
+  "displayRangesDb": {
+    "HH": [
+      -25.0,
+      0.0
+    ],
+    "HV": [
+      -30.0,
+      -5.0
+    ]
+  },
+  "differenceDisplayRangeDb": [
+    -6,
+    6
+  ],
+  "images": {
+    "20260925_HH.png": {
+      "sha256": "2978aa0fd13e92d20de64073c82fb67b1f71c5803f195fc09e18c429537c3521"
+    },
+    "20260925_HV.png": {
+      "sha256": "33e6a093735c7a6243d9a1b03226ac6a943303f5e713e5c66331f1c1c795eeed"
+    },
+    "20261019_HH.png": {
+      "sha256": "48c7100828252c060a5463deacb147b391e5cfb48ce58f3613c26a7b5ccef63a"
+    },
+    "20261019_HV.png": {
+      "sha256": "a4bd9867eb3ecf98ae4b785f6b5176b9624dc6f5fa6cbbccd5557650c02d1d41"
+    },
+    "HH_difference_exploratory.png": {
+      "sha256": "a941244471f1044509a52a5b85a3068c5b43d31779d6e8a7dc9be4f6442566e1"
+    },
+    "HV_difference_exploratory.png": {
+      "sha256": "b9dd932ef8f6ba3fca65b1d4147534f939e0c97b28a64b3b15d33eba3f4e4264"
+    }
+  },
+  "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+  "warning": "Provisional NISAR GCOV radar-return observations; not cleared for quantitative environmental analysis. Official QA review, radiometric artifacts, RFI, banding and noise floor remain unresolved. No harvest, crop change, physical cause, or detection accuracy is inferred.",
+  "qaReview": "Official QA summary, radiometric artifacts, RFI, banding and noise floor not cleared; report contains 10 UNVERIFIED checks.",
+  "note": "Images and statistics are for exploratory inspection only. No harvest or land-cover attribution."
+}

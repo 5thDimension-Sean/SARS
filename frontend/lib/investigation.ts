@@ -9,7 +9,7 @@ export type LonLat = [number, number];
 export type Bounds = [number, number, number, number]; // west, south, east, north
 
 export interface StudyConfig {
-  id: "everglades" | "louisiana" | "california";
+  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa";
   label: string;
   /** Short name for compact controls. */
   short: string;
@@ -38,7 +38,18 @@ export const STUDIES: readonly StudyConfig[] = [
     dates: ["2026-09-29", "2026-10-11"], granules: ["G4330259432-ASF", "G4361359332-ASF"], utmZone: 15, center: [-89.41, 29.21] },
   { id: "california", label: "Big Sur, California", short: "California", contextDir: "california-context", place: "Big Sur, California (Plaskett Fire area)",
     evidenceDir: "california-evidence", regionsDir: "california-regions", previewDir: "california-preview", gibsContext: false,
-    dates: ["2026-08-22", "2026-09-15"], granules: ["G4288641488-ASF", "G4314277037-ASF"], utmZone: 10, center: [-121.42, 35.9] },
+
+    dates: ["2026-08-22", "2026-09-15"], granules: ["G4288641488-ASF", "G4314277037-ASF"],
+    utmZone: 10, center: [-121.42, 35.9] },
+  { id: "hawaii", label: "Kīlauea, Hawaiʻi", short: "Hawaii", contextDir: null, place: "Hawaiʻi Kīlauea summit area", evidenceDir: "hawaii-review",
+    regionsDir: "hawaii-review", previewDir: "hawaii-preview", gibsContext: false,
+    dates: ["2026-09-04", "2026-09-16"], granules: ["G4300303633-ASF", "G4315672426-ASF"],
+    utmZone: 5, center: [-155.27, 19.41] },
+  { id: "iowa", label: "Ames, Iowa — mixed land cover", short: "Iowa", contextDir: null, place: "Ames, Iowa — mixed land cover", evidenceDir: "iowa-review",
+    regionsDir: "iowa-review", previewDir: "iowa-preview", gibsContext: false,
+    dates: ["2026-09-25", "2026-10-19"], granules: ["G4325945910-ASF", "G4381295241-ASF"],
+    utmZone: 15, center: [-93.62, 42.02] },
+
 ];
 
 export const QA_LABEL = "EXPLORATORY_NOT_CLEARED";

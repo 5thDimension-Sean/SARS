@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import { ProcessedOverlayPanel } from "./processed-overlay-panel";
+import { HawaiiStudy } from "./hawaii-study";
+import { IowaStudy } from "./iowa-study";
 import dynamic from "next/dynamic";
 import type { InvestigationMap, ViewMode } from "./investigation/investigation-map";
 import { RadarHero, Reveal, ConnectionStatus } from "./investigation/radar-hero";
@@ -53,7 +55,7 @@ export function NisarPrototype() {
   return <main className={styles.page}>
     <a className="skip-link" href="#look">Skip to the radar</a>
     <div className={styles.wrap}><ConnectionStatus /><RadarHero study={study} pol={pol} /><Primer /></div>
-    <div className={styles.wrap}><div key={study.id} className={styles.enter}><Workbench study={study} pol={pol} /></div></div>
+    <div className={styles.wrap}><div key={study.id} className={styles.enter}>{study.id === "hawaii" ? <HawaiiStudy pol={pol} /> : study.id === "iowa" ? <IowaStudy pol={pol} /> : <Workbench study={study} pol={pol} />}</div></div>
     <footer className={styles.footer}><span>Dancing with SARs · NASA Space Apps · Observe carefully. Interpret cautiously.</span><span>AI assistance was used for interface design and code. The published radar measurements were preserved.</span></footer>
   </main>;
 }

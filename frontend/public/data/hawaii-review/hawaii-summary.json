@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "sar-waltz-hawaii-exploratory-0.1",
+  "study": "Hawaii Kilauea summit area",
+  "dates": [
+    "2026-09-04",
+    "2026-09-16"
+  ],
+  "sourceGranules": [
+    "G4300303633-ASF",
+    "G4315672426-ASF"
+  ],
+  "roiWgs84": [
+    -155.29,
+    19.39,
+    -155.25,
+    19.43
+  ],
+  "measurement": "Frequency-A gamma0 backscatter: 10*log10(screened linear power)",
+  "comparison": "after minus before, same native pixels, no spatial resampling",
+  "crs": "EPSG:32605",
+  "nativeShape": [
+    449,
+    427
+  ],
+  "nativeAffine": [
+    10.0,
+    0.0,
+    259490.0,
+    0.0,
+    -10.0,
+    2150010.0
+  ],
+  "commonValidPixels": 191700,
+  "polStats": {
+    "HH": {
+      "pairedPixelCount": 191700,
+      "beforeMedianDbOnCommonPixels": -9.369539260864258,
+      "afterMedianDbOnCommonPixels": -9.510002136230469,
+      "pairedDifferenceMedianDb": -0.11004137992858887,
+      "pairedDifferenceMeanDb": -0.12436903312877132,
+      "pairedDifferenceP05Db": -3.8339400768280028,
+      "pairedDifferenceP95Db": 3.5480335712432853
+    },
+    "HV": {
+      "pairedPixelCount": 191700,
+      "beforeMedianDbOnCommonPixels": -17.640235900878906,
+      "afterMedianDbOnCommonPixels": -17.729488372802734,
+      "pairedDifferenceMedianDb": -0.05245018005371094,
+      "pairedDifferenceMeanDb": -0.05821763104023135,
+      "pairedDifferenceP05Db": -4.276713132858276,
+      "pairedDifferenceP95Db": 4.149014377593991
+    }
+  },
+  "displayRangesDb": {
+    "HH": [
+      -25.0,
+      0.0
+    ],
+    "HV": [
+      -30.0,
+      -5.0
+    ]
+  },
+  "differenceDisplayRangeDb": [
+    -6,
+    6
+  ],
+  "images": {
+    "20260904_HH.png": {
+      "sha256": "55e65d6bafb310f84cf65271d86dbc383ed8eab9e0a1a1bc082b19df99f2fb34"
+    },
+    "20260904_HV.png": {
+      "sha256": "1a9e7d4f5a7671185da6017fb6d11f20cfab1e8a10ec7f5bb1c5f1ac167d6e85"
+    },
+    "20260916_HH.png": {
+      "sha256": "5379ba67de152f38c7e746ee0ec96b75d2b15320ca653ae96b003224d450d9f2"
+    },
+    "20260916_HV.png": {
+      "sha256": "70407d29836c28041e52800c04629429573ac932b1ce6ecfaca3d90eb85ad549"
+    },
+    "HH_difference_exploratory.png": {
+      "sha256": "60d4ca0c0ef8719e375b6f3022e992b23d10bf925436731ba98d28176a4e0a9f"
+    },
+    "HV_difference_exploratory.png": {
+      "sha256": "113272667fbfcfecce8b9f230388afcdc363ac8ffd62a875547bd689f069dbcf"
+    }
+  },
+  "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+  "warning": "Provisional NISAR GCOV radar-return observations; not cleared for quantitative environmental analysis. Official QA review, radiometric artifacts, RFI, banding and noise floor remain unresolved. No lava, damage, physical cause, or detection accuracy is inferred.",
+  "qaReview": "Official QA summary, radiometric artifacts, RFI, banding and noise floor not cleared; report contains 10 UNVERIFIED checks.",
+  "note": "Images and statistics are for exploratory inspection only. No environmental impact or eruption attribution."
+}

@@ -1,0 +1,65 @@
+{
+  "bounds": [
+    -155.29060413209166,
+    19.389482328205357,
+    -155.24940252039985,
+    19.430535660854403
+  ],
+  "measurement": "Frequency-A gamma0 backscatter: 10*log10(screened linear power)",
+  "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+  "sourceCollection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+  "acquisitions": [
+    {
+      "date": "2026-09-04",
+      "conceptId": "G4300303633-ASF",
+      "track": 151,
+      "frame": 11,
+      "images": {
+        "HH": {
+          "filename": "20260904_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 191700,
+          "sha256": "55e65d6bafb310f84cf65271d86dbc383ed8eab9e0a1a1bc082b19df99f2fb34"
+        },
+        "HV": {
+          "filename": "20260904_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 191700,
+          "sha256": "1a9e7d4f5a7671185da6017fb6d11f20cfab1e8a10ec7f5bb1c5f1ac167d6e85"
+        }
+      }
+    },
+    {
+      "date": "2026-09-16",
+      "conceptId": "G4315672426-ASF",
+      "track": 151,
+      "frame": 11,
+      "images": {
+        "HH": {
+          "filename": "20260916_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 191700,
+          "sha256": "5379ba67de152f38c7e746ee0ec96b75d2b15320ca653ae96b003224d450d9f2"
+        },
+        "HV": {
+          "filename": "20260916_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 191700,
+          "sha256": "70407d29836c28041e52800c04629429573ac932b1ce6ecfaca3d90eb85ad549"
+        }
+      }
+    }
+  ]
+}
