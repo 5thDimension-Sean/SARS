@@ -62,7 +62,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
       if (cancelled || !afterEl.current) return;
       try {
         lib.setWorkerUrl(new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).toString());
-        const style = (): StyleSpecification => ({ version: 8, sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#17262b" } }] });
+        const style = (): StyleSpecification => ({ version: 8, sources: {}, layers: [{ id: "background", type: "background", paint: { "background-color": "#0b0b0c" } }] });
         const make = (container: HTMLElement) => new lib.Map({
           container, style: style(), bounds: sceneBounds, fitBoundsOptions: { padding: 8 }, maxBounds, minZoom: 5, maxZoom: 17, cooperativeGestures: true,
           dragRotate: false, pitchWithRotate: false, attributionControl: false,
@@ -130,8 +130,8 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
               }
             }
             m.addSource("regions", { type: "geojson", data: regionData });
-            m.addLayer({ id: "region-fill", type: "fill", source: "regions", paint: { "fill-color": "#8ce4d5", "fill-opacity": 0 } });
-            m.addLayer({ id: "region-line", type: "line", source: "regions", paint: { "line-color": "#ffffff", "line-width": 1.5, "line-opacity": 0.8 } });
+            m.addLayer({ id: "region-fill", type: "fill", source: "regions", paint: { "fill-color": "#ffffff", "fill-opacity": 0 } });
+            m.addLayer({ id: "region-line", type: "line", source: "regions", paint: { "line-color": "#c7c7cc", "line-width": 1.25, "line-opacity": 0.75 } });
             m.on("click", "region-fill", (e) => { const id = e.features?.[0]?.properties?.id; if (typeof id === "string") callbacks.current.onSelect(id); });
             m.on("mouseenter", "region-fill", e => { m.getCanvas().style.cursor = "pointer"; const r = regions.regions.find(r => r.id === e.features?.[0]?.properties?.id); m.getCanvas().title = r ? `Region ${r.id}: ${r.title} · ${regions.scientificStatus}` : regions.scientificStatus; });
             m.on("mouseleave", "region-fill", () => { m.getCanvas().style.cursor = "grab"; m.getCanvas().title = ""; });
@@ -199,8 +199,8 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
     if (!handles) return;
     const isSel = (a: unknown, b: unknown) => ["case", ["==", ["get", "id"], selectedId], a, b] as never;
     eachMap((m) => {
-      m.setPaintProperty("region-line", "line-color", isSel("#8ce4d5", "#ffffff"));
-      m.setPaintProperty("region-line", "line-width", isSel(4, 1.5));
+      m.setPaintProperty("region-line", "line-color", isSel("#ffffff", "#c7c7cc"));
+      m.setPaintProperty("region-line", "line-width", isSel(3.5, 1.25));
       m.setPaintProperty("region-line", "line-opacity", isSel(1, 0.7));
       m.setPaintProperty("region-fill", "fill-opacity", 0);
     });

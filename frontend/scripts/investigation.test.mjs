@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
-  STUDIES, parseEvidence, parseRegions, parsePreview, utmToLonLat, rasterCorners, ringBounds,
+  STUDIES, parseContext, parseEvidence, parseRegions, parsePreview, utmToLonLat, rasterCorners, ringBounds,
   fmtSignedDb, fmtDb, dataUrl, describeRegion, describeStudyShift, histogramShares, histogramOverlap, qaState,
 } from "../lib/investigation.ts";
 
@@ -151,4 +151,38 @@ test("QA wording is classified conservatively and data URLs respect the base pat
   assert.equal(dataUrl("a/b.json", ""), "/data/a/b.json");
   assert.throws(() => dataUrl("../secret"), /Unsafe/);
   assert.throws(() => dataUrl("https://evil.example/x"), /Unsafe/);
+});
+
+test("California validates end to end and is aligned with its own published region polygons", () => {
+  const s = STUDIES.find((x) => x.id === "california");
+  const { evidence, regions } = load(s);
+  assert.equal(regions.regions.length, 3);
+  assert.equal(regions.scientificStatus, "EXPLORATORY_NOT_CLEARED");
+  const preview = parsePreview(read("california-preview/preview-manifest.json"), s);
+  assert.deepEqual(preview.acquisitions.map((a) => a.conceptId), [...s.granules]);
+  // Identification QA failure must be surfaced to users as FAIL, not softened.
+  const states = evidence.quality.map(([, text]) => qaState(text));
+  assert.ok(states.includes("fail") && states.includes("unverified"));
+  assert.throws(() => parsePreview(read("everglades-preview/preview-manifest.json"), s), /does not match/);
+});
+
+test("context photographs are credited, same-directory JPEGs from the declared source and never measurements", () => {
+  const ctx = parseContext(read("california-context/context.json"));
+  assert.equal(ctx.photos.length, 3);
+  assert.match(ctx.notice, /not NISAR measurements/);
+  for (const p of ctx.photos) { assert.ok(p.credit && p.rights && p.sourceUrl.startsWith("https://www.dvidshub.net/")); assert.match(p.usage, /not geographically matched/); }
+  const bad = (patch) => ({ ...read("california-context/context.json"), photos: [{ ...read("california-context/context.json").photos[0], ...patch }] });
+  assert.throws(() => parseContext(bad({ imageFile: "../secret.jpg" })), /Unsafe/);
+  assert.throws(() => parseContext(bad({ sourceUrl: "https://evil.example/image/1/x" })), /source/);
+  assert.throws(() => parseContext(bad({ sourceUrl: "javascript:alert(1)" })), /source/);
+  assert.throws(() => parseContext({ photos: [] }), /malformed/);
+});
+
+test("wildfire context never leaks into radar wording", () => {
+  const s = STUDIES.find((x) => x.id === "california");
+  const { evidence, regions } = load(s);
+  for (const pol of ["HH", "HV"]) {
+    const texts = [describeStudyShift(pol, evidence.pols[pol], s.dates), ...regions.regions.map((r) => describeRegion(pol, r, s.dates))];
+    for (const t of texts) assert.doesNotMatch(t, /fire|burn|wildfire|damage|vegetation|flood|plaskett/i);
+  }
 });

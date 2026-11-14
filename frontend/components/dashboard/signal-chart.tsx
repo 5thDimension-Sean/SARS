@@ -139,7 +139,7 @@ export function SignalChart({
                   name={`After ${after.date}`}
                   type="monotone"
                   dataKey="after"
-                  stroke="#51d4d4"
+                  stroke="#f5f5f7"
                   strokeWidth={2}
                   dot={false}
                   isAnimationActive={false}
@@ -153,8 +153,8 @@ export function SignalChart({
                 {axes}
                 <defs>
                   <linearGradient id="signal-fill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#51d4d4" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#51d4d4" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#f5f5f7" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#f5f5f7" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <Area
@@ -171,7 +171,7 @@ export function SignalChart({
                   name={`After ${after.date}`}
                   type="monotone"
                   dataKey="after"
-                  stroke="#51d4d4"
+                  stroke="#f5f5f7"
                   strokeWidth={2}
                   fill="url(#signal-fill)"
                   isAnimationActive={false}

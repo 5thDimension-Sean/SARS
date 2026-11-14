@@ -3,36 +3,36 @@
 @import "../vendor/shadcn-tailwind-4.13.0.css";
 :root {
   color-scheme: dark;
-  --background: #080c10;
-  --foreground: #e6edf2;
-  --card: #10161c;
-  --card-foreground: #e6edf2;
-  --popover: #141d25;
-  --popover-foreground: #e6edf2;
-  --primary: #51d4d4;
-  --primary-foreground: #071114;
-  --secondary: #18232b;
-  --secondary-foreground: #d8e4ea;
-  --muted: #19232b;
-  --muted-foreground: #91a0ac;
-  --accent: #1a2e36;
-  --accent-foreground: #dceef2;
-  --destructive: #ff7069;
-  --border: #263139;
-  --input: #34434d;
-  --ring: #51d4d4;
+  --background: #000000;
+  --foreground: #f5f5f7;
+  --card: #0b0b0c;
+  --card-foreground: #f5f5f7;
+  --popover: #161618;
+  --popover-foreground: #f5f5f7;
+  --primary: #f5f5f7;
+  --primary-foreground: #000000;
+  --secondary: #161618;
+  --secondary-foreground: #f5f5f7;
+  --muted: #161618;
+  --muted-foreground: #a1a1a6;
+  --accent: #1c1c1e;
+  --accent-foreground: #f5f5f7;
+  --destructive: #f5f5f7;
+  --border: #2c2c2e;
+  --input: #3a3a3c;
+  --ring: #f5f5f7;
   --radius: 0.15rem;
-  --sidebar: #10161c;
-  --sidebar-foreground: #e6edf2;
-  --sidebar-primary: #51d4d4;
-  --sidebar-primary-foreground: #080c10;
-  --sidebar-accent: #192b32;
-  --sidebar-accent-foreground: #e6edf2;
-  --sidebar-border: #263139;
-  --sidebar-ring: #51d4d4;
-  --signal: #51d4d4;
-  --warning: #eda65b;
-  --alert: #ff7069;
+  --sidebar: #0b0b0c;
+  --sidebar-foreground: #f5f5f7;
+  --sidebar-primary: #f5f5f7;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #1c1c1e;
+  --sidebar-accent-foreground: #f5f5f7;
+  --sidebar-border: #2c2c2e;
+  --sidebar-ring: #f5f5f7;
+  --signal: #f5f5f7;
+  --warning: #d1d1d6;
+  --alert: #f5f5f7;
 }
 @theme inline {
   --color-background: var(--background);
@@ -788,7 +788,7 @@ input:focus-visible,
 .search-shell kbd {
   margin-left: auto;
   padding: 2px 4px;
-  border: 1px solid #34434d;
+  border: 1px solid #3a3a3c;
   font-size: 10px;
 }
 .workspace {
@@ -1229,9 +1229,9 @@ input:focus-visible,
   height: 26px;
   display: grid;
   place-items: center;
-  background: #51d4d4;
+  background: #f5f5f7;
   color: #0b1b22;
-  border: 1px solid #51d4d4;
+  border: 1px solid #f5f5f7;
 }
 .play-button:hover {
   background: #8be2e2;
@@ -1561,7 +1561,7 @@ input:focus-visible,
   background: #b5c6d2;
 }
 .after-line {
-  background: #51d4d4;
+  background: #f5f5f7;
 }
 .sign-note {
   font-size: 11px !important;

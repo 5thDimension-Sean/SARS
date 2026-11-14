@@ -6,7 +6,11 @@
 
 Per study the page reads, under `public/data/`: `<study>-evidence/evidence.json`, `<study>-regions/regions.json` + `regions.geojson` + `{HH,HV}_difference_exploratory.png`, and (Everglades only) `everglades-preview/preview-manifest.json` + four single-date PNGs. `lib/investigation.ts` validates every file before display (dates and granule IDs match the study, histogram bins reconcile with pixel counts, published differences match per-date statistics, regions carry no environmental conclusion and are labelled exploratory). A file that fails validation produces a visible error, never substitute data.
 
-Adding a study = one entry in `STUDIES` plus its files. Louisiana has no single-date previews yet, so it shows the difference map only and says so.
+Adding a study = one entry in `STUDIES` plus its files. All three studies (Everglades, Louisiana Delta, Big Sur California) now have single-date previews, evidence and regions. A study without a validated preview manifest falls back to the difference map and says so. California also loads `california-context/context.json` (credited incident photographs; validated, labelled "not NISAR measurements", never geographically matched to radar).
+
+## Visual system (current)
+
+Strictly black / white / gray: canvas `#000`, text `#f5f5f7` / `#a1a1a6`, hairlines `#ffffff1f`, white fills for the selected state. Quality status is carried by the word and badge shape (FAIL = filled, UNVERIFIED = dashed, PASS = outline), never by colour. The only colour is the difference-map legend, which reproduces the colours encoded in the published PNGs. The fictional lab on `/` is rendered in grayscale. Layout: sticky bar (location, polarization, QA label) → hero → radar primer → 01 Look (map + permanent region inspector) → 02 Compare → (03 Context, California only) → Verify.
 
 ## Scientific guardrails implemented
 

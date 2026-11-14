@@ -4,6 +4,8 @@ import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import Link from "next/link";
 import everglades from "@/public/data/everglades-preview/preview-manifest.json";
 import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
+import california from "@/public/data/california-preview/preview-manifest.json";
+const MANIFESTS = { everglades, louisiana, california } as const;
 import { dataUrl, fmtDate, parsePreview, type Pol, type StudyConfig } from "@/lib/investigation";
 import styles from "./investigation.module.css";
 
@@ -33,7 +35,7 @@ export function RadarHero({ study, pol, educational = false }: { study: StudyCon
   const root = useRef<HTMLElement>(null);
   const later = useRef<HTMLImageElement>(null);
   let preview;
-  try { preview = parsePreview(study.id === "everglades" ? everglades : louisiana, study); } catch { preview = null; }
+  try { preview = parsePreview(MANIFESTS[study.id], study); } catch { preview = null; }
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     let raf = 0;

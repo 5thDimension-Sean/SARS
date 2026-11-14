@@ -9,9 +9,13 @@ export type LonLat = [number, number];
 export type Bounds = [number, number, number, number]; // west, south, east, north
 
 export interface StudyConfig {
-  id: "everglades" | "louisiana";
+  id: "everglades" | "louisiana" | "california";
   label: string;
+  /** Short name for compact controls. */
+  short: string;
   place: string;
+  /** Optional directory of sourced, non-radar location photographs (never treated as measurements). */
+  contextDir: string | null;
   evidenceDir: string;
   regionsDir: string;
   /** Georeferenced single-date HH/HV previews. null = none published for this study. */
@@ -24,16 +28,19 @@ export interface StudyConfig {
 }
 
 export const STUDIES: readonly StudyConfig[] = [
-  { id: "everglades", label: "Everglades, Florida", place: "Florida Everglades", evidenceDir: "everglades-evidence",
+  { id: "everglades", label: "Everglades, Florida", short: "Everglades", contextDir: null, place: "Florida Everglades", evidenceDir: "everglades-evidence",
     regionsDir: "everglades-regions", previewDir: "everglades-preview", gibsContext: true,
     dates: ["2026-09-30", "2026-10-12"], granules: ["G4342506513-ASF", "G4373929961-ASF"], utmZone: 17 },
-  { id: "louisiana", label: "Louisiana Delta", place: "Louisiana Mississippi River Delta", evidenceDir: "louisiana-evidence",
+  { id: "louisiana", label: "Louisiana Delta", short: "Louisiana", contextDir: null, place: "Louisiana Mississippi River Delta", evidenceDir: "louisiana-evidence",
     regionsDir: "louisiana-regions", previewDir: "louisiana-preview", gibsContext: false,
     dates: ["2026-09-29", "2026-10-11"], granules: ["G4330259432-ASF", "G4361359332-ASF"], utmZone: 15 },
+  { id: "california", label: "Big Sur, California", short: "California", contextDir: "california-context", place: "Big Sur, California (Plaskett Fire area)",
+    evidenceDir: "california-evidence", regionsDir: "california-regions", previewDir: "california-preview", gibsContext: false,
+    dates: ["2026-08-22", "2026-09-15"], granules: ["G4288641488-ASF", "G4314277037-ASF"], utmZone: 10 },
 ];
 
 export const QA_LABEL = "EXPLORATORY_NOT_CLEARED";
-export const NO_CAUSE_NOTICE = "Radar differences do not establish flooding, vegetation loss, or damage.";
+export const NO_CAUSE_NOTICE = "Radar differences do not establish flooding, vegetation loss, burned area, or damage.";
 
 export function dataUrl(path: string, basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ""): string {
   if (/(^|\/)\.\.(\/|$)/.test(path) || path.startsWith("/") || /^[a-z]+:/i.test(path)) throw new Error("Unsafe data path");
@@ -245,6 +252,24 @@ export function parsePreview(value: unknown, study: StudyConfig): PreviewSet {
     bounds: [w, s, e, n], measurement: str(value.measurement, "measurement"), scientificClearance: str(value.scientificClearance, "scientificClearance"),
     sourceCollection: str(value.sourceCollection, "sourceCollection"), acquisitions: [acq[0], acq[1]],
   };
+}
+
+// ---------------------------------------------------------------- context photographs (not measurements)
+export interface ContextPhoto { title: string; date: string; caption: string; credit: string; rights: string; usage: string; sourceUrl: string; imageFile: string }
+export interface ContextSet { sectionTitle: string; notice: string; photos: ContextPhoto[] }
+
+export function parseContext(value: unknown): ContextSet {
+  if (!isRec(value) || !Array.isArray(value.photos) || !value.photos.length) throw new Error("Context file is malformed");
+  const photos = value.photos.map((p): ContextPhoto => {
+    if (!isRec(p)) throw new Error("Invalid photograph");
+    const file = str(p.imageFile, "imageFile"), url = str(p.sourceUrl, "sourceUrl"), date = str(p.date, "date");
+    // Only same-directory JPEG files and the credited public source page are accepted.
+    if (!/^[\w.-]+\.jpe?g$/i.test(file)) throw new Error("Unsafe photograph file name");
+    if (!/^https:\/\/www\.dvidshub\.net\/image\/\d+\//.test(url)) throw new Error("Unexpected photograph source");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("Invalid photograph date");
+    return { title: str(p.title, "title"), date, caption: str(p.caption, "caption"), credit: str(p.credit, "credit"), rights: str(p.rights, "rights"), usage: str(p.usage, "usage"), sourceUrl: url, imageFile: file };
+  });
+  return { sectionTitle: str(value.sectionTitle, "sectionTitle"), notice: str(value.notice, "notice"), photos };
 }
 
 // ---------------------------------------------------------------- geometry
