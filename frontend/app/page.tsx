@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Dashboard } from "@/components/dashboard/dashboard";
 import { RadarHero } from "@/components/investigation/radar-hero";
+import { StoryMap } from "@/components/story-map";
 import { STUDIES } from "@/lib/investigation";
 import styles from "@/components/investigation/investigation.module.css";
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function Home() {
     <div className={styles.page} style={{ minHeight: 0, paddingBottom: 0 }}>
       <div className={styles.wrap}><RadarHero study={STUDIES[0]} pol="HH" educational /></div>
     </div>
+    <StoryMap />
     <section className="sample-lab" aria-labelledby="sample-lab-title"><div className="sample-lab-heading"><h2 id="sample-lab-title">Learn the tools.<br />Then question the evidence.</h2></div><Dashboard /></section>
     <div className={styles.page} style={{ minHeight: 0, paddingBottom: 0 }}>
       <footer className={styles.footer} style={{ marginTop: 0, paddingBottom: 32 }}>

@@ -64,6 +64,7 @@
 @media (min-width: 1040px) { .viewer { grid-template-columns: minmax(0, 1fr) 360px; align-items: start; } }
 .viewTools { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 12px; }
 .check { display: inline-flex; gap: 8px; align-items: center; color: var(--label2); font-size: .875rem; }
+.check input[type="range"] { width: 140px; }
 .check input { accent-color: var(--fill); width: 18px; height: 18px; }
 .mapFrame { position: relative; height: clamp(440px, 72dvh, 780px); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #0b0b0c; isolation: isolate; }
 /* Selectors are deliberately more specific than MapLibre's own .maplibregl-map { position: relative }, which loads later. */
@@ -130,6 +131,17 @@
 .qa_fail { background: var(--fill); color: var(--on-fill); border: 1px solid var(--fill); }
 .qa_unverified { border: 1px dashed var(--label2); color: var(--label); }
 .qa_pass { border: 1px solid var(--line-strong); color: var(--label2); }
+
+/* questions */
+.search { width: 100%; max-width: 520px; min-height: 48px; padding: 0 18px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--elev2); color: var(--label); font: inherit; font-size: 1rem; }
+.search::placeholder { color: var(--label3); }
+.faq { display: grid; max-width: 760px; }
+.faq details { border-top: 1px solid var(--line); padding: 4px 0; }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; min-height: 48px; display: flex; align-items: center; font-weight: 600; letter-spacing: -.01em; }
+.faq summary::marker { color: var(--label3); }
+.faq p { margin: 0 0 14px; color: var(--label2); max-width: 62ch; }
+.range { accent-color: var(--fill); }
 
 /* lower sections */
 .twoCol { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr); }

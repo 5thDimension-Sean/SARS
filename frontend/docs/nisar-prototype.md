@@ -81,3 +81,13 @@ Automated validation on November 6, 2026: all 7 tests passed; full ESLint passed
 The full lint run exposed existing ref-access and internal-navigation violations. Small fixes retain the mobile panel's last displayed content in state, update the tool-state ref after commit, and use Next Link for the home link. No sample data or analysis formulas changed. The local static server now resolves extensionless exported routes.
 
 Manual checklist: inspect both date images; pan and zoom without changing the comparison viewpoint; verify attribution and provenance; try narrow/mobile width and keyboard navigation; block NASA requests and confirm comparison disables; retry after reconnecting; confirm the demo still works. Do not deploy until these checks pass.
+
+
+## Additions (settings, story map, changed pixels, FAQ)
+
+- **Display settings** (`components/settings-menu.tsx`, `lib/prefs.ts`): Auto/Light/Dark, Color/Black & white, Full/Reduced motion. Stored in localStorage only; a first-party boot script in `<head>` applies them before paint. Black & white is a root filter, so it covers charts, maps, photographs and the lab. The lab stays dark in every theme.
+- **Type**: Geist and Geist Mono (SIL OFL), self-hosted from the copies inside the Next package (`app/fonts/`); no third-party font requests.
+- **Map limits** (`lib/map-limits.ts`): zoom-out and panning stop at the published scene. "Wider NASA GIBS context" is opt-in and relaxes the limit to the GIBS tile.
+- **Changed pixels** (`lib/change-filter.ts`): hides faint colors of the published difference image. It works on color strength, not dB, and never produces a number (the project rules forbid deriving dB from a displayed PNG).
+- **Story map** (`components/story-map.tsx`): placeholder scrollytelling on `/`. Locations and dates come from the study registry; the story text is a draft slot.
+- **Questions** (`lib/faq.ts`): curated, searchable answers. Nothing is generated. A free-form AI assistant is deliberately not included: it would need a server and API key (not possible on static Pages), could state unsupported scientific conclusions, and the project forbids AI-generated conclusions.

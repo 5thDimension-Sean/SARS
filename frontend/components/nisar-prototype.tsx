@@ -23,6 +23,7 @@ import styles from "./investigation/investigation.module.css";
 import { verifyBrowsePair } from "@/lib/nisar-browse";
 import { usePolarization, useStudyId } from "@/lib/view-store";
 import { usePrefs } from "@/lib/prefs";
+import { FAQ, searchFaq } from "@/lib/faq";
 import {
   POLS, QA_LABEL, STUDIES, dataUrl, describeRegion, describeStudyShift, fmtDate, fmtDb, fmtInt, fmtSignedDb,
   parseContext, parseEvidence, parsePreview, parseRegions, qaLabel, qaState,
@@ -75,6 +76,8 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   const [mode, setMode] = useState<ViewMode>("swipe");
   const [selected, setSelected] = useState("all");
   const [resetSignal] = useState(0);
+  const [changedOnly, setChangedOnly] = useState(false);
+  const [strength, setStrength] = useState(0.35);
   const [problem, setProblem] = useState("");
   const [afterMap, setAfterMap] = useState<MapLibreMap | null>(null);
   const [processedLabel, setProcessedLabel] = useState("");
@@ -138,12 +141,14 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
           <div className={styles.viewTools}>
             <Seg label="View" value={effectiveMode} onChange={setMode} options={[
               { id: "swipe", text: "Swipe", disabled: !preview }, { id: "side", text: "Side by side", disabled: !preview }, { id: "difference", text: "Difference" }]} />
+            {effectiveMode === "difference" && <Seg label="Pixels" value={changedOnly ? "changed" : "all"} onChange={(v) => setChangedOnly(v === "changed")} options={[{ id: "all", text: "All pixels" }, { id: "changed", text: "Changed pixels" }]} />}
+            {effectiveMode === "difference" && changedOnly && <label className={styles.check}>Faint<input type="range" min={0.1} max={0.9} step={0.05} value={strength} aria-label="Hide differences weaker than this color strength" onChange={(e) => setStrength(Number(e.target.value))} />Strong</label>}
             {study.gibsContext && <label className={styles.check}><input type="checkbox" checked={gibsReady && gibsVisible} disabled={!gibsReady} onChange={(e) => setGibsVisible(e.target.checked)} /> Wider NASA GIBS context</label>}
           </div>
           {problem && <p role="alert" className={`${styles.notice} ${styles.error}`} style={{ marginBottom: 12 }}>{problem}</p>}
           <MapGate study={study} regions={regions} preview={preview} pol={pol} mode={effectiveMode} selectedId={selected} onSelect={setSelected}
-            gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} />
-          <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} />
+            gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} changeOnly={effectiveMode === "difference" && changedOnly ? strength : 0} />
+          <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} changedOnly={changedOnly} />
           <p className={`${styles.small} ${styles.muted}`} style={{ marginTop: 10 }}>Pixels are drawn as published (nearest-neighbour; no smoothing, sharpening or enhancement); one pixel is about 10 m. {gibsNote}</p>
         </div>
         <aside className={styles.inspector} aria-labelledby="h-region">
@@ -196,6 +201,8 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
 
     <TrustSection study={study} evidence={evidence} regions={regions} preview={preview} />
 
+    <Faq />
+
     <details className={styles.more} style={{ marginTop: 48 }}>
       <summary>Processed GCOV products (advanced)</summary>
       <div className={styles.products}><ProcessedOverlayPanel map={afterMap} onDisplay={setProcessedLabel} />{processedLabel && <p role="status">Showing: {processedLabel}</p>}</div>
@@ -203,12 +210,12 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   </>;
 }
 
-function Legend({ mode, pol, preview, regions }: { mode: ViewMode; pol: Pol; preview: PreviewSet | null; regions: RegionSet }) {
+function Legend({ mode, pol, preview, regions, changedOnly }: { mode: ViewMode; pol: Pol; preview: PreviewSet | null; regions: RegionSet; changedOnly: boolean }) {
   const bw = usePrefs().color === "bw";
   if (mode === "difference") {
     const [lo, hi] = regions.limitsDb;
     // This ramp reproduces the colours encoded in the published difference PNGs, so it is data, not decoration.
-    return <div className={styles.legend}><div>{pol} difference, later minus earlier, per pixel, clipped at ±{hi} dB. Colors are not a flood or damage map.{bw && " Black & white mode is on, so the sign of a difference can no longer be told apart; switch back to Color in display settings to read it."}</div>
+    return <div className={styles.legend}><div>{pol} difference, later minus earlier, per pixel, clipped at ±{hi} dB. Colors are not a flood or damage map.{changedOnly && " Only pixels with a stronger color are shown. This is a display filter on the published image, set by color strength rather than dB, and it is not a measurement."}{bw && " Black & white mode is on, so the sign of a difference can no longer be told apart; switch back to Color in display settings to read it."}</div>
       <div className={styles.ramp} style={{ background: "linear-gradient(90deg,#1010ff,#f4f0ff 50%,#ff1010)", }} role="img" aria-label={`Blue is negative, near-white is zero, red is positive, clipped at ${lo} and ${hi} dB`} />
       <div className={styles.rampLabels}><span>{fmtSignedDb(lo, 0)} (lower later)</span><span>0</span><span>{fmtSignedDb(hi, 0)} (higher later)</span></div></div>;
   }
@@ -282,5 +289,17 @@ function TrustSection({ study, evidence, regions, preview }: { study: StudyConfi
         <p className={styles.small}><a href="https://hyp3-docs.asf.alaska.edu/nisar-docs/worldview/" rel="noopener noreferrer">ASF imagery guide</a> · <a href="https://nisar-docs.asf.alaska.edu/provisional-known-issues/" rel="noopener noreferrer">Provisional-data limitations</a> · <a href="https://nasa-gibs.github.io/gibs-api-docs/" rel="noopener noreferrer">NASA GIBS</a></p>
       </div>
     </div>
+  </section>;
+}
+
+function Faq() {
+  const [query, setQuery] = useState("");
+  const results = searchFaq(query);
+  return <section className={styles.section} id="faq" aria-labelledby="h-faq">
+    <header><h2 id="h-faq">Questions</h2><p className={styles.lead}>Type a few words, such as “HV”, “flood” or “data”. Answers are written in advance; nothing is generated.</p></header>
+    <input className={styles.search} type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the answers" aria-label="Search the answers" />
+    <p className={styles.small} role="status" aria-live="polite" style={{ margin: "10px 0" }}>{query.trim() ? `${results.length} of ${FAQ.length} answers` : ""}</p>
+    {results.length === 0 ? <p className={styles.notice}>No answer matches “{query.trim()}”. Try words like HH, dB, region, flood, data or upload.</p>
+      : <div className={styles.faq}>{results.map((f) => <details key={f.id} open={!!query.trim() && results[0]?.id === f.id}><summary>{f.question}</summary><p>{f.answer}</p></details>)}</div>}
   </section>;
 }

@@ -1,0 +1,33 @@
+.story { --line: var(--page-line); --label: var(--page-label); --label2: var(--page-label2); --label3: var(--page-label3);
+  width: min(1240px, 100%); margin: 0 auto; padding: clamp(56px, 9vw, 112px) clamp(16px, 4vw, 40px) 0; color: var(--label); font-family: var(--font); background: var(--page-bg); }
+.head { display: grid; gap: 10px; margin-bottom: 32px; }
+.head h2 { margin: 0; font-size: clamp(1.75rem, 3.6vw, 2.75rem); font-weight: 600; letter-spacing: -.04em; line-height: 1.1; }
+.head p { margin: 0; max-width: 62ch; color: var(--label2); font-size: 1.0625rem; }
+.layout { display: grid; gap: 0 clamp(24px, 5vw, 80px); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); } }
+.stage { position: sticky; top: 64px; z-index: 1; align-self: start; height: min(62vh, 520px); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--page-elev1); }
+@media (max-width: 899px) { .stage { top: 56px; height: 34vh; min-height: 220px; } }
+.svg { display: block; width: 100%; height: 100%; }
+.camera { transform-origin: 0 0; transition: transform 1.1s cubic-bezier(.32,.72,0,1); }
+.grid { stroke: var(--label3); stroke-opacity: .28; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 2 6; }
+.place { cursor: pointer; outline: none; }
+.dot { fill: var(--label3); transition: fill .4s, r .4s cubic-bezier(.32,.72,0,1); }
+.place[data-active="true"] .dot { fill: var(--label); r: 5.5px; }
+.pulse { fill: none; stroke: var(--label); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.place[data-active="true"] .pulse { animation: pulse 2.4s cubic-bezier(.32,.72,0,1) infinite; }
+@keyframes pulse { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(4.5); } }
+.hit { fill: transparent; }
+.label { fill: var(--label2); font-size: 6px; font-weight: 500; letter-spacing: -.01em; opacity: 0; transition: opacity .5s; paint-order: stroke; }
+.place[data-active="true"] .label, .svg[data-overview="true"] .label { opacity: 1; fill: var(--label); }
+.svg[data-overview="true"] .dot { fill: var(--label); }
+.place:focus-visible .hit { stroke: var(--label); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.steps { list-style: none; margin: 0; padding: 0; }
+.step { display: grid; align-content: center; gap: 10px; min-height: 70vh; opacity: .3; transition: opacity .6s; }
+.step[data-active="true"] { opacity: 1; }
+.step h3 { margin: 0; font-size: clamp(1.375rem, 2.4vw, 1.875rem); font-weight: 600; letter-spacing: -.03em; }
+.step p { margin: 0; color: var(--label2); max-width: 44ch; }
+.step a { justify-self: start; color: var(--label); text-underline-offset: 4px; text-decoration-color: var(--line); }
+.step a:hover { text-decoration-color: var(--label); }
+.step a:focus-visible { outline: 2px solid var(--label); outline-offset: 3px; border-radius: 4px; }
+@media (max-width: 899px) { .step { min-height: 55vh; align-content: start; padding-top: 24px; } }
+@media (prefers-reduced-motion: reduce) { .camera, .dot, .label, .step { transition: none; } .place[data-active="true"] .pulse { animation: none; opacity: .5; } }

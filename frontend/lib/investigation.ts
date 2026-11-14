@@ -25,18 +25,20 @@ export interface StudyConfig {
   dates: Pair<string>;
   granules: Pair<string>;
   utmZone: number;
+  /** Approximate scene centre (lon, lat), used only to place the location on the story map. */
+  center: LonLat;
 }
 
 export const STUDIES: readonly StudyConfig[] = [
   { id: "everglades", label: "Everglades, Florida", short: "Everglades", contextDir: null, place: "Florida Everglades", evidenceDir: "everglades-evidence",
     regionsDir: "everglades-regions", previewDir: "everglades-preview", gibsContext: true,
-    dates: ["2026-09-30", "2026-10-12"], granules: ["G4342506513-ASF", "G4373929961-ASF"], utmZone: 17 },
+    dates: ["2026-09-30", "2026-10-12"], granules: ["G4342506513-ASF", "G4373929961-ASF"], utmZone: 17, center: [-80.8, 25.5] },
   { id: "louisiana", label: "Louisiana Delta", short: "Louisiana", contextDir: null, place: "Louisiana Mississippi River Delta", evidenceDir: "louisiana-evidence",
     regionsDir: "louisiana-regions", previewDir: "louisiana-preview", gibsContext: false,
-    dates: ["2026-09-29", "2026-10-11"], granules: ["G4330259432-ASF", "G4361359332-ASF"], utmZone: 15 },
+    dates: ["2026-09-29", "2026-10-11"], granules: ["G4330259432-ASF", "G4361359332-ASF"], utmZone: 15, center: [-89.41, 29.21] },
   { id: "california", label: "Big Sur, California", short: "California", contextDir: "california-context", place: "Big Sur, California (Plaskett Fire area)",
     evidenceDir: "california-evidence", regionsDir: "california-regions", previewDir: "california-preview", gibsContext: false,
-    dates: ["2026-08-22", "2026-09-15"], granules: ["G4288641488-ASF", "G4314277037-ASF"], utmZone: 10 },
+    dates: ["2026-08-22", "2026-09-15"], granules: ["G4288641488-ASF", "G4314277037-ASF"], utmZone: 10, center: [-121.42, 35.9] },
 ];
 
 export const QA_LABEL = "EXPLORATORY_NOT_CLEARED";

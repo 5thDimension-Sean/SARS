@@ -226,3 +226,36 @@ test("map limits: the contain view fits the scene exactly and the zoom-out limit
     assert.ok((out[2] - out[0]) > 1.9 * (east - west));
   }
 });
+
+test("changed-pixels filter hides faint colours only, works on colour strength and refuses bad thresholds", async () => {
+  const { changeStrength, hideWeakChanges } = await import("../lib/change-filter.ts");
+  assert.equal(changeStrength(255, 255, 255), 0);
+  assert.ok(changeStrength(16, 16, 255) > 0.9 && changeStrength(255, 16, 16) > 0.9);
+  assert.ok(changeStrength(244, 240, 255) < 0.1); // the near-white "no difference" colour
+  const px = new Uint8ClampedArray([244, 240, 255, 255, 16, 16, 255, 255, 140, 135, 255, 255, 255, 16, 16, 0]);
+  const kept = hideWeakChanges(px, 0.35);
+  assert.equal(kept, 2); // strong blue and mid blue stay; near-white hidden; already-transparent skipped
+  assert.deepEqual([px[3], px[7], px[11], px[15]], [0, 255, 255, 0]);
+  assert.throws(() => hideWeakChanges(new Uint8ClampedArray(4), 2), /between 0 and 1/);
+  assert.equal(hideWeakChanges(new Uint8ClampedArray([244, 240, 255, 255]), 0), 1); // threshold 0 keeps everything
+});
+
+test("study centres sit inside the published scenes so the story map points at real places", () => {
+  for (const s of STUDIES) {
+    const [w, so, e, n] = parsePreview(read(`${s.previewDir}/preview-manifest.json`), s).bounds;
+    assert.ok(s.center[0] >= w - 0.02 && s.center[0] <= e + 0.02 && s.center[1] >= so - 0.02 && s.center[1] <= n + 0.02, s.id);
+  }
+});
+
+test("FAQ search is curated, ranked, forgiving and never empty-handed for known topics", async () => {
+  const { FAQ, searchFaq } = await import("../lib/faq.ts");
+  assert.equal(searchFaq("").length, FAQ.length);
+  assert.equal(searchFaq("   ").length, FAQ.length);
+  assert.equal(searchFaq("what is HV?")[0].id, "hhhv");
+  assert.equal(searchFaq("flooding")[0].id, "flood");
+  assert.equal(searchFaq("can I upload hdf5")[0].id, "upload");
+  assert.equal(searchFaq("xyzzy").length, 0);
+  assert.equal(searchFaq("<img src=x onerror=alert(1)>").length, 0);
+  for (const f of FAQ) assert.ok(f.answer.length > 40 && !/<[a-z]/i.test(f.answer));
+  assert.ok(FAQ.find((f) => f.id === "flood").answer.startsWith("No."));
+});

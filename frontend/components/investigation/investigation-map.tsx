@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import type { Map as MapLibreMap, Marker, LngLatBoundsLike, StyleSpecification } from "maplibre-gl";
+import type { ImageSource, Map as MapLibreMap, Marker, LngLatBoundsLike, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import {
   cornersBounds, dataUrl, fmtDate, padBounds, rasterCorners, ringBounds,
   type Bounds, type LonLat, type Pol, type PreviewSet, type RegionSet, type StudyConfig, POLS,
 } from "@/lib/investigation";
+import { filteredDifferenceUrl } from "@/lib/change-filter";
 import { containView, viewBounds } from "@/lib/map-limits";
 import { prefersReducedMotion } from "@/lib/prefs";
 import { ATTRIBUTION, STUDY_BOUNDS, tileUrl, type BrowseDate } from "@/lib/nisar-browse";
@@ -27,6 +28,8 @@ interface Props {
   gibsReady: boolean; gibsVisible: boolean; onGibsFail: () => void;
   onProblem: (message: string) => void; onAfterMap: (map: MapLibreMap | null) => void;
   resetSignal: number;
+  /** 0 shows every pixel; otherwise the colour-strength threshold (0.1 to 0.9) below which difference pixels are hidden. Display only. */
+  changeOnly?: number;
 }
 
 /**
@@ -34,7 +37,7 @@ interface Props {
  * geographic grid. Layout (swipe curtain, side by side, or single difference map) is pure CSS, so toggling
  * modes never reloads or resamples data. The raster layers use nearest-neighbour sampling: no smoothing.
  */
-export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal }: Props) {
+export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal, changeOnly = 0 }: Props) {
   const beforeEl = useRef<HTMLDivElement>(null);
   const afterEl = useRef<HTMLDivElement>(null);
   const [handles, setHandles] = useState<Handles | null>(null);
@@ -197,6 +200,30 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
   }, [eachMap, pol, mode]);
 
   useEffect(() => { eachMap(constrain); }, [eachMap, constrain, relaxed]);
+
+  // ---- "changed pixels only": hide faint difference colours (display filter; filtered pictures are cached per setting)
+  const filtered = useRef(new Map<string, string>());
+  useEffect(() => () => { filtered.current.forEach((u) => URL.revokeObjectURL(u)); filtered.current.clear(); }, [study.id]);
+  useEffect(() => {
+    if (!handles) return;
+    const m = handles.after, corners = rasterCorners(regions, study.utmZone);
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      void (async () => {
+        for (const p of POLS) {
+          const source = m.getSource(`diff-${p}`) as ImageSource | undefined;
+          if (!source) continue;
+          const original = dataUrl(`${study.regionsDir}/${p}_difference_exploratory.png`);
+          if (!changeOnly) { source.updateImage({ url: original, coordinates: corners }); continue; }
+          const key = `${p}:${changeOnly}`;
+          let url = filtered.current.get(key);
+          if (!url) { url = await filteredDifferenceUrl(original, changeOnly); if (cancelled) { URL.revokeObjectURL(url); return; } filtered.current.set(key, url); }
+          source.updateImage({ url, coordinates: corners });
+        }
+      })().catch(() => callbacks.current.onProblem("The changed-pixels filter could not run. The unfiltered difference map is unaffected."));
+    }, 120);
+    return () => { cancelled = true; window.clearTimeout(timer); };
+  }, [handles, changeOnly, regions, study.regionsDir, study.utmZone]);
 
   // ---- NASA GIBS browse mosaic: context only, below the measured rasters, added only after the pair was verified
   useEffect(() => {
