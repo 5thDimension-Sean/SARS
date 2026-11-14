@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "sar-waltz-regions-1.0",
+  "study": "Louisiana Delta",
+  "dates": [
+    "2026-09-29",
+    "2026-10-11"
+  ],
+  "sourceGranules": [
+    "G4330259432-ASF",
+    "G4361359332-ASF"
+  ],
+  "crs": "EPSG:32615",
+  "nativeShape": [
+    457,
+    404
+  ],
+  "pixelSpacingMeters": [
+    10.0,
+    -10.0
+  ],
+  "firstPixelCenter": [
+    847065.0,
+    3238875.0
+  ],
+  "pairedHHAndHVPixels": 184628,
+  "differenceDefinition": "after dB minus before dB; paired pixel comparison",
+  "visualizationScale": {
+    "limitsDb": [
+      -6,
+      6
+    ],
+    "clipping": true,
+    "zero": "near-white",
+    "negative": "blue",
+    "positive": "red"
+  },
+  "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+  "warning": "EXPLORATORY ONLY \u00e2\u20ac\u201d NOT CLEARED FOR QUANTITATIVE ANALYSIS. Both official identification-group QA checks failed; RFI/banding/noise and other radiometric artifacts are unverified. Radar differences do not establish flooding, vegetation loss, or damage.",
+  "regionCount": 3,
+  "regions": [
+    {
+      "id": "A",
+      "title": "Relatively increasing HH radar return",
+      "selectionMethod": "80x80 native-pixel window; nonoverlapping 20-pixel separation; exploratory score",
+      "rowRange": [
+        0,
+        80
+      ],
+      "columnRange": [
+        120,
+        200
+      ],
+      "pixelSpacingMeters": [
+        10.0,
+        -10.0
+      ],
+      "stats": {
+        "HH": {
+          "beforeMedianDb": -21.317,
+          "afterMedianDb": -20.656,
+          "pairedDifference": {
+            "pixels": 6400,
+            "medianDifferenceDb": 0.492,
+            "meanDifferenceDb": 0.536,
+            "p05DifferenceDb": -4.017,
+            "p95DifferenceDb": 5.125
+          }
+        },
+        "HV": {
+          "beforeMedianDb": -23.954,
+          "afterMedianDb": -23.498,
+          "pairedDifference": {
+            "pixels": 6400,
+            "medianDifferenceDb": 0.334,
+            "meanDifferenceDb": 0.302,
+            "p05DifferenceDb": -4.147,
+            "p95DifferenceDb": 4.714
+          }
+        }
+      },
+      "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+      "environmentalConclusion": null,
+      "warning": "EXPLORATORY ONLY \u00e2\u20ac\u201d NOT CLEARED FOR QUANTITATIVE ANALYSIS. Both official identification-group QA checks failed; RFI/banding/noise and other radiometric artifacts are unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+    },
+    {
+      "id": "B",
+      "title": "Relatively decreasing HH radar return",
+      "selectionMethod": "80x80 native-pixel window; nonoverlapping 20-pixel separation; exploratory score",
+      "rowRange": [
+        120,
+        200
+      ],
+      "columnRange": [
+        280,
+        360
+      ],
+      "pixelSpacingMeters": [
+        10.0,
+        -10.0
+      ],
+      "stats": {
+        "HH": {
+          "beforeMedianDb": -8.266,
+          "afterMedianDb": -9.383,
+          "pairedDifference": {
+            "pixels": 6400,
+            "medianDifferenceDb": -1.096,
+            "meanDifferenceDb": -1.103,
+            "p05DifferenceDb": -6.048,
+            "p95DifferenceDb": 3.936
+          }
+        },
+        "HV": {
+          "beforeMedianDb": -17.553,
+          "afterMedianDb": -18.323,
+          "pairedDifference": {
+            "pixels": 6400,
+            "medianDifferenceDb": -0.223,
+            "meanDifferenceDb": -0.276,
+            "p05DifferenceDb": -4.923,
+            "p95DifferenceDb": 4.254
+          }
+        }
+      },
+      "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+      "environmentalConclusion": null,
+      "warning": "EXPLORATORY ONLY \u00e2\u20ac\u201d NOT CLEARED FOR QUANTITATIVE ANALYSIS. Both official identification-group QA checks failed; RFI/banding/noise and other radiometric artifacts are unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+    },
+    {
+      "id": "C",
+      "title": "Lower-magnitude paired HH/HV differences",
+      "selectionMethod": "80x80 native-pixel window; nonoverlapping 20-pixel separation; exploratory score",
+      "rowRange": [
+        160,
+        240
+      ],
+      "columnRange": [
+        0,
+        80
+      ],
+      "pixelSpacingMeters": [
+        10.0,
+        -10.0
+      ],
+      "stats": {
+        "HH": {
+          "beforeMedianDb": -9.632,
+          "afterMedianDb": -9.83,
+          "pairedDifference": {
+            "pixels": 6400,
+            "medianDifferenceDb": 0.001,
+            "meanDifferenceDb": -0.034,
+            "p05DifferenceDb": -4.844,
+            "p95DifferenceDb": 4.763
+          }
+        },
+        "HV": {
+          "beforeMedianDb": -18.508,
+          "afterMedianDb": -18.787,
+          "pairedDifference": {
+            "pixels": 6400,
+            "medianDifferenceDb": -0.21,
+            "meanDifferenceDb": -0.22,
+            "p05DifferenceDb": -4.821,
+            "p95DifferenceDb": 4.299
+          }
+        }
+      },
+      "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+      "environmentalConclusion": null,
+      "warning": "EXPLORATORY ONLY \u00e2\u20ac\u201d NOT CLEARED FOR QUANTITATIVE ANALYSIS. Both official identification-group QA checks failed; RFI/banding/noise and other radiometric artifacts are unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+    }
+  ],
+  "annotations": [
+    {
+      "id": "A",
+      "label": "Relatively increasing HH radar return",
+      "featureId": "A",
+      "observation": "Selected from a reproducible paired-pixel radar-difference search; see numeric HH/HV differences in the region statistics.",
+      "interpretation": "Radar response differs between dates; physical cause unverified.",
+      "qaStatus": "EXPLORATORY_NOT_CLEARED"
+    },
+    {
+      "id": "B",
+      "label": "Relatively decreasing HH radar return",
+      "featureId": "B",
+      "observation": "Selected from a reproducible paired-pixel radar-difference search; see numeric HH/HV differences in the region statistics.",
+      "interpretation": "Radar response differs between dates; physical cause unverified.",
+      "qaStatus": "EXPLORATORY_NOT_CLEARED"
+    },
+    {
+      "id": "C",
+      "label": "Lower-magnitude paired HH/HV differences",
+      "featureId": "C",
+      "observation": "Selected from a reproducible paired-pixel radar-difference search; see numeric HH/HV differences in the region statistics.",
+      "interpretation": "Radar response differs between dates; physical cause unverified.",
+      "qaStatus": "EXPLORATORY_NOT_CLEARED"
+    }
+  ],
+  "recommendation": "Display with explicit scientific QA warning and source details. Do not label regions flooding, vegetation loss, or damage without validation."
+}

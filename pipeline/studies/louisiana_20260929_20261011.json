@@ -1,0 +1,14 @@
+﻿{
+  "schemaVersion": "1.0",
+  "purpose": "Louisiana Delta NISAR GCOV compatibility and scientific QA inspection",
+  "roiWgs84": [-89.43, 29.19, -89.39, 29.23],
+  "maxRoiPixels": 250000,
+  "granules": [
+    "G4330259432-ASF",
+    "G4361359332-ASF"
+  ],
+  "expectedDates": [
+    "2026-09-29",
+    "2026-10-11"
+  ]
+}
