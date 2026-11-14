@@ -72,7 +72,7 @@
         },
         "scientificStatus": "EXPLORATORY_NOT_CLEARED",
         "environmentalConclusion": null,
-        "warning": "EXPLORATORY ONLY \u00e2\u20ac\u201d NOT CLEARED FOR QUANTITATIVE ANALYSIS. Both official identification-group QA checks failed; RFI/banding/noise and other radiometric artifacts are unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+        "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage."
       }
     },
     {
@@ -146,7 +146,7 @@
         },
         "scientificStatus": "EXPLORATORY_NOT_CLEARED",
         "environmentalConclusion": null,
-        "warning": "EXPLORATORY ONLY \u00e2\u20ac\u201d NOT CLEARED FOR QUANTITATIVE ANALYSIS. Both official identification-group QA checks failed; RFI/banding/noise and other radiometric artifacts are unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+        "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage."
       }
     },
     {
@@ -220,7 +220,7 @@
         },
         "scientificStatus": "EXPLORATORY_NOT_CLEARED",
         "environmentalConclusion": null,
-        "warning": "EXPLORATORY ONLY \u00e2\u20ac\u201d NOT CLEARED FOR QUANTITATIVE ANALYSIS. Both official identification-group QA checks failed; RFI/banding/noise and other radiometric artifacts are unverified. Radar differences do not establish flooding, vegetation loss, or damage."
+        "warning": "EXPLORATORY ONLY - NOT CLEARED FOR QUANTITATIVE ANALYSIS. Louisiana official QA identification checks have not yet been independently reviewed. RFI, banding, noise, and radiometric artifacts remain unverified. Radar differences do not establish flooding, vegetation loss, or damage."
       }
     }
   ]
