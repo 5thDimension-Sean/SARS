@@ -9,7 +9,7 @@ export type LonLat = [number, number];
 export type Bounds = [number, number, number, number]; // west, south, east, north
 
 export interface StudyConfig {
-  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa";
+  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa" | "palm";
   label: string;
   /** Short name for compact controls. */
   short: string;
@@ -49,6 +49,10 @@ export const STUDIES: readonly StudyConfig[] = [
     regionsDir: "iowa-review", previewDir: "iowa-preview", gibsContext: false,
     dates: ["2026-09-25", "2026-10-19"], granules: ["G4325945910-ASF", "G4381295241-ASF"],
     utmZone: 15, center: [-93.62, 42.02] },
+  { id: "palm", label: "Palm Jumeirah, Dubai", short: "Dubai", contextDir: null, place: "Palm Jumeirah, Dubai, UAE",
+    evidenceDir: "palm-review", regionsDir: "palm-review", previewDir: "palm-preview", gibsContext: false,
+    dates: ["2026-10-05", "2026-10-17"], granules: ["G4347479954-ASF", "G4377687641-ASF"],
+    utmZone: 40, center: [55.135, 25.12] },
 
 ];
 

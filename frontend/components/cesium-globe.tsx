@@ -20,6 +20,7 @@ const BOUNDS: Record<StudyConfig["id"], Bounds> = {
   california: california.bounds as Bounds,
   hawaii: [-155.29, 19.39, -155.25, 19.43],
   iowa: [-93.64, 42.00, -93.60, 42.04],
+  palm: [55.1093539169735, 25.099327722374785, 55.1606336944163, 25.14067318498334],
 };
 export type StepId = "overview" | StudyConfig["id"];
 const baseUrl = () => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/cesium/`;

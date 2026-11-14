@@ -1,0 +1,65 @@
+{
+  "bounds": [
+    55.1093539169735,
+    25.099327722374785,
+    55.1606336944163,
+    25.14067318498334
+  ],
+  "measurement": "Frequency-A gamma0 backscatter: 10*log10(screened linear power)",
+  "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+  "sourceCollection": "NASA NISAR L2 GCOV via ASF DAAC; check official collection maturity in product metadata",
+  "acquisitions": [
+    {
+      "date": "2026-10-05",
+      "conceptId": "G4347479954-ASF",
+      "track": 78,
+      "frame": 76,
+      "images": {
+        "HH": {
+          "filename": "20261005_HH.png",
+          "displayRangeDb": [
+            -25,
+            0
+          ],
+          "screenedPixels": 230461,
+          "sha256": "3ace299b37a9b5f948ae768f0c8d5e2ee5de595e7dd96f567a5a9e603bf0f44b"
+        },
+        "HV": {
+          "filename": "20261005_HV.png",
+          "displayRangeDb": [
+            -30,
+            -5
+          ],
+          "screenedPixels": 230461,
+          "sha256": "800034d365724c10a28599abaa2b5fb97108111f80139ac1b857e8af616b873c"
+        }
+      }
+    },
+    {
+      "date": "2026-10-17",
+      "conceptId": "G4377687641-ASF",
+      "track": 78,
+      "frame": 76,
+      "images": {
+        "HH": {
+          "filename": "20261017_HH.png",
+          "displayRangeDb": [
+            -25,
+            0
+          ],
+          "screenedPixels": 230461,
+          "sha256": "4fb3dc577201e4c7166870f330ccaa935dbd7aceb22185ea2e9530d986351a5f"
+        },
+        "HV": {
+          "filename": "20261017_HV.png",
+          "displayRangeDb": [
+            -30,
+            -5
+          ],
+          "screenedPixels": 230461,
+          "sha256": "86e130a05e53e65858aac5185e1f2f1da54254a510c37f57d7ff7464cd7ec246"
+        }
+      }
+    }
+  ]
+}

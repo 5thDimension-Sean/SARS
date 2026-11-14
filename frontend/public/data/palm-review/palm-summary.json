@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "tango-palm-exploratory-0.1",
+  "study": "Palm Jumeirah, Dubai, UAE",
+  "dates": [
+    "2026-10-05",
+    "2026-10-17"
+  ],
+  "sourceGranules": [
+    "G4347479954-ASF",
+    "G4377687641-ASF"
+  ],
+  "roiWgs84": [
+    55.11,
+    25.1,
+    55.16,
+    25.14
+  ],
+  "nativeShape": [
+    451,
+    511
+  ],
+  "crs": "EPSG:32640",
+  "nativeGrid": {
+    "crs": "EPSG:32640",
+    "roiShape": [
+      451,
+      511
+    ],
+    "spacing": [
+      10.0,
+      -10.0
+    ],
+    "roiFirstCenter": [
+      309415.0,
+      2781785.0
+    ],
+    "window": [
+      12629,
+      13080,
+      8909,
+      9420
+    ]
+  },
+  "acquisitions": [
+    {
+      "date": "2026-10-05",
+      "granule": "G4347479954-ASF",
+      "grid": {
+        "crs": "EPSG:32640",
+        "roiShape": [
+          451,
+          511
+        ],
+        "spacing": [
+          10.0,
+          -10.0
+        ],
+        "roiFirstCenter": [
+          309415.0,
+          2781785.0
+        ],
+        "window": [
+          12629,
+          13080,
+          8909,
+          9420
+        ]
+      },
+      "identity": {
+        "trackNumber": 78,
+        "frameNumber": 76,
+        "orbitPassDirection": "Descending",
+        "productVersion": "1.0.11",
+        "dataMaturity": null
+      },
+      "audit": {
+        "bodyBytesConsumed": 49283072,
+        "verified206Responses": 47,
+        "lastHttpStatus": 206
+      },
+      "catalogSha256": "84615f88e731f94862a7e333f65303ab32de814b46f913a4e9e19b34c114a7ab"
+    },
+    {
+      "date": "2026-10-17",
+      "granule": "G4377687641-ASF",
+      "grid": {
+        "crs": "EPSG:32640",
+        "roiShape": [
+          451,
+          511
+        ],
+        "spacing": [
+          10.0,
+          -10.0
+        ],
+        "roiFirstCenter": [
+          309415.0,
+          2781785.0
+        ],
+        "window": [
+          12629,
+          13080,
+          8909,
+          9420
+        ]
+      },
+      "identity": {
+        "trackNumber": 78,
+        "frameNumber": 76,
+        "orbitPassDirection": "Descending",
+        "productVersion": "1.0.11",
+        "dataMaturity": null
+      },
+      "audit": {
+        "bodyBytesConsumed": 49283072,
+        "verified206Responses": 47,
+        "lastHttpStatus": 206
+      },
+      "catalogSha256": "b1dd68d17e0fc1c43a6d4b9f0d975b728eba90e382d92b162d4a924d58934a23"
+    }
+  ],
+  "polStats": {
+    "HH": {
+      "commonValidPixels": 230461,
+      "pairedDifferenceMedianDb": 0.02072751522064209,
+      "pairedDifferenceMeanDb": 0.01781055223067736,
+      "date1MedianDbOnCommonPixels": -8.461097717285156,
+      "date2MedianDbOnCommonPixels": -8.471921920776367
+    },
+    "HV": {
+      "commonValidPixels": 230461,
+      "pairedDifferenceMedianDb": -0.16002655029296875,
+      "pairedDifferenceMeanDb": -0.16114521831125708,
+      "date1MedianDbOnCommonPixels": -17.24417495727539,
+      "date2MedianDbOnCommonPixels": -17.439197540283203
+    }
+  },
+  "images": {
+    "20261005_HH.png": "3ace299b37a9b5f948ae768f0c8d5e2ee5de595e7dd96f567a5a9e603bf0f44b",
+    "20261017_HH.png": "4fb3dc577201e4c7166870f330ccaa935dbd7aceb22185ea2e9530d986351a5f",
+    "HH_difference_exploratory.png": "c47fdeb73e533d5409765279b4d6cadae8a81458b5f7693a784c5d39d15968af",
+    "20261005_HV.png": "800034d365724c10a28599abaa2b5fb97108111f80139ac1b857e8af616b873c",
+    "20261017_HV.png": "86e130a05e53e65858aac5185e1f2f1da54254a510c37f57d7ff7464cd7ec246",
+    "HV_difference_exploratory.png": "455b971d4844c1c43533941ee12641f7de23ae259e3757dfd3d23408586d8a9b"
+  },
+  "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+  "warnings": [
+    "Official identification-group QA failures reported by the earlier compatibility investigation; independently recheck the official QA summaries before publication.",
+    "Radiometric artifacts, noise, RFI and residual calibration have not been cleared.",
+    "Measured radar-return differences do not establish a specific physical or environmental cause.",
+    "Images and statistics are exploratory. Do not treat them as validated environmental findings."
+  ]
+}

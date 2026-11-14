@@ -7,7 +7,8 @@ import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
 import california from "@/public/data/california-preview/preview-manifest.json";
 import hawaii from "@/public/data/hawaii-preview/preview-manifest.json";
 import iowa from "@/public/data/iowa-preview/preview-manifest.json";
-const MANIFESTS = { everglades, louisiana, california, hawaii, iowa } as const;
+import palm from "@/public/data/palm-preview/preview-manifest.json";
+const MANIFESTS = { everglades, louisiana, california, hawaii, iowa, palm } as const;
 import { dataUrl, fmtDate, parsePreview, type Pol, type StudyConfig } from "@/lib/investigation";
 import { prefersReducedMotion } from "@/lib/prefs";
 import styles from "./investigation.module.css";
@@ -65,7 +66,7 @@ export function RadarHero({ study, pol, educational = false }: { study: StudyCon
           {/* eslint-disable-next-line @next/next/no-img-element -- scroll changes opacity only, never measured pixels */}
           <img ref={later} className={styles.heroLater} src={dataUrl(`${study.previewDir}/${preview.acquisitions[1].images[pol].filename}`)} alt={`${study.label}, ${fmtDate(study.dates[1])}, ${pol} radar backscatter.`} width="404" height="444" loading="lazy" />
         </div>
-        <figcaption><span>{study.label} · Same area, two dates</span><span>{fmtDate(study.dates[0])} / {fmtDate(study.dates[1])} · {pol} · {preview.acquisitions[0].images[pol].displayRangeDb.join(" to ")} dB</span><span>NASA NISAR L2 GCOV provisional via ASF DAAC · Single-date previews, no cause established</span></figcaption>
+        <figcaption><span>{study.label} · Same area, two dates</span><span>{fmtDate(study.dates[0])} / {fmtDate(study.dates[1])} · {pol} · {preview.acquisitions[0].images[pol].displayRangeDb.join(" to ")} dB</span><span>NASA NISAR L2 GCOV via ASF DAAC · Single-date previews, no cause established</span></figcaption>
       </figure> : <p className={styles.notice}>The published preview did not validate. No substitute imagery is shown.</p>}
     </div>
   </section>;
