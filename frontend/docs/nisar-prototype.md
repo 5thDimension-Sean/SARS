@@ -1,3 +1,34 @@
+# NISAR Scientific Evidence viewer
+
+`/nisar-prototype` is a guided investigation: **1 Look** (synchronized before/after radar, swipe / side-by-side / exploratory difference) → **2 Inspect a region** (A/B/C, highlighted on the map) → **3 Compare the whole scene** (histogram + statistics) → **4 Check the evidence** (QA checks, limitations, provenance). A location selector (Everglades, Louisiana Delta) and an HH/HV toggle apply everywhere. `EXPLORATORY_NOT_CLEARED` is visible at all times.
+
+## Data contract
+
+Per study the page reads, under `public/data/`: `<study>-evidence/evidence.json`, `<study>-regions/regions.json` + `regions.geojson` + `{HH,HV}_difference_exploratory.png`, and (Everglades only) `everglades-preview/preview-manifest.json` + four single-date PNGs. `lib/investigation.ts` validates every file before display (dates and granule IDs match the study, histogram bins reconcile with pixel counts, published differences match per-date statistics, regions carry no environmental conclusion and are labelled exploratory). A file that fails validation produces a visible error, never substitute data.
+
+Adding a study = one entry in `STUDIES` plus its files. Louisiana has no single-date previews yet, so it shows the difference map only and says so.
+
+## Scientific guardrails implemented
+
+- Numbers come only from the JSON files; all explanatory sentences are templates over those numbers and never name a physical cause (tested).
+- Whole-scene differences are labelled "difference of separate regional summaries"; region numbers are paired per-pixel statistics. The UI notes they are not interchangeable.
+- Raster layers use nearest-neighbour sampling: no smoothing or sharpening. The difference PNGs are placed on their native UTM grid using four geographic corners (inverse UTM, verified in tests against the published region polygons).
+- NASA GIBS is coarse context only and is added only after the existing two-date tile probe passes; failure never blocks the measured previews.
+- Quality statuses (PASS / FAIL / UNVERIFIED) come from `evidence.json` and are shown as text, not a score. The `warning` strings in `regions.json` are intentionally not rendered (see data notes below).
+
+## Data notes for the analysis owner
+
+- `louisiana-regions/regions.json` `warning` says both official identification-group checks failed and contains mojibake (`â€”`), while `louisiana-evidence/evidence.json` says Louisiana QA is UNVERIFIED. The UI follows `evidence.json`.
+- Everglades whole-scene HH median shift in `evidence.json` is +0.0223 dB (displays as +0.02 dB), not +0.03.
+
+## Deployment (GitHub Pages)
+
+`.github/workflows/pages.yml` runs tests, lint and build on every PR and, on pushes to `main` (or manual dispatch), publishes `frontend/out`. In the repository, set **Settings → Pages → Source = GitHub Actions** once. The workflow sets `NEXT_PUBLIC_BASE_PATH=/<repo>` so the site is served at `https://<owner>.github.io/<repo>/nisar-prototype`. `next.config.ts` and `dataUrl()` both read that variable; local development uses no prefix.
+
+---
+
+# Earlier prototype notes (historical)
+
 # Limited NISAR map prototype
 
 ## Repository reconciliation

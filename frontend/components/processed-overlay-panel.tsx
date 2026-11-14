@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import { loadProcessedOverlays, type ProcessedOverlay } from "@/lib/processed-overlays";
-import { DATES } from "@/lib/nisar-browse";
 
 export function ProcessedOverlayPanel({ map, onDisplay }: { map: MapLibreMap | null; onDisplay: (label: string) => void }) {
   const [overlays, setOverlays] = useState<ProcessedOverlay[]>([]);
@@ -41,7 +40,7 @@ export function ProcessedOverlayPanel({ map, onDisplay }: { map: MapLibreMap | n
       if (cancelled) return;
       map.addSource("processed-preview", { type: "image", url: overlay.url, coordinates: overlay.coordinates });
       map.addLayer({ id: "processed-preview", type: "raster", source: "processed-preview", paint: { "raster-fade-duration": 0 } });
-      DATES.forEach((date) => map.setLayoutProperty(date, "visibility", "none"));
+      if (map.getLayer("gibs")) map.setLayoutProperty("gibs", "visibility", "none");
       map.setMaxBounds(null);
       map.setMinZoom(0);
       map.fitBounds([overlay.coordinates[3], overlay.coordinates[1]], { padding: 30, duration: 0 });
@@ -55,7 +54,7 @@ export function ProcessedOverlayPanel({ map, onDisplay }: { map: MapLibreMap | n
       if (!map.getStyle()) return;
       if (map.getLayer("processed-preview")) map.removeLayer("processed-preview");
       if (map.getSource("processed-preview")) map.removeSource("processed-preview");
-      DATES.forEach((date) => map.setLayoutProperty(date, "visibility", "visible"));
+      if (map.getLayer("gibs")) map.setLayoutProperty("gibs", "visibility", "visible");
       map.setMinZoom(minZoom);
       map.setMaxBounds(previousBounds ?? null);
       map.jumpTo({ center, zoom });
