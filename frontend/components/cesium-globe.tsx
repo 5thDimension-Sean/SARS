@@ -13,7 +13,14 @@ import styles from "./story-map.module.css";
 type Cesium = typeof CesiumNS;
 declare global { interface Window { Cesium?: Cesium; CESIUM_BASE_URL?: string } }
 
-const BOUNDS: Record<StudyConfig["id"], Bounds> = { everglades: everglades.bounds as Bounds, louisiana: louisiana.bounds as Bounds, california: california.bounds as Bounds };
+
+const BOUNDS: Record<StudyConfig["id"], Bounds> = {
+  everglades: everglades.bounds as Bounds,
+  louisiana: louisiana.bounds as Bounds,
+  california: california.bounds as Bounds,
+  hawaii: [-155.29, 19.39, -155.25, 19.43],
+  iowa: [-93.64, 42.00, -93.60, 42.04],
+};
 export type StepId = "overview" | StudyConfig["id"];
 const baseUrl = () => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/cesium/`;
 

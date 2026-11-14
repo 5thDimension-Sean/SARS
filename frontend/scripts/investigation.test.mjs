@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import {
   STUDIES, parseContext, parseEvidence, parseRegions, parsePreview, utmToLonLat, rasterCorners, ringBounds,
   fmtSignedDb, fmtDb, dataUrl, describeRegion, describeStudyShift, histogramShares, histogramOverlap, qaState,
@@ -12,9 +13,102 @@ const load = (s) => ({
   evidence: parseEvidence(read(`${s.evidenceDir}/evidence.json`), s),
   regions: parseRegions(read(`${s.regionsDir}/regions.json`), read(`${s.regionsDir}/regions.geojson`), s),
 });
+const FULL_EVIDENCE_STUDIES = STUDIES.filter(
+  (s) => ["everglades", "louisiana", "california"].includes(s.id)
+);
+
+const EXPLORATORY_STUDIES = [
+  { id: "hawaii", dates: ["2026-09-04", "2026-09-16"], granules: ["G4300303633-ASF", "G4315672426-ASF"], utmZone: 5,
+    noCause: "No lava, damage, physical cause, or detection accuracy is inferred.", note: "No environmental impact or eruption attribution." },
+  { id: "iowa", dates: ["2026-09-25", "2026-10-19"], granules: ["G4325945910-ASF", "G4381295241-ASF"], utmZone: 15,
+    noCause: "No harvest, crop change, physical cause, or detection accuracy is inferred.", note: "No harvest or land-cover attribution." },
+];
+
+function checkRadarImage(directory, filename, sha256) {
+  assert.match(filename, /^[A-Za-z0-9_]+\.png$/);
+  const bytes = readFileSync(new URL(`../public/data/${directory}/${filename}`, import.meta.url));
+  assert.ok(bytes.length > 24, filename);
+  assert.equal(bytes.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", filename);
+  assert.equal(bytes.toString("ascii", 12, 16), "IHDR", filename);
+  assert.ok(bytes.readUInt32BE(16) > 0 && bytes.readUInt32BE(20) > 0, filename);
+  assert.match(sha256, /^[a-f0-9]{64}$/);
+  assert.equal(createHash("sha256").update(bytes).digest("hex"), sha256, `${directory}/${filename}`);
+}
+
+for (const expected of EXPLORATORY_STUDIES) {
+  test(`${expected.id} registration and previews match the declared NASA acquisitions`, () => {
+    const matches = STUDIES.filter((s) => s.id === expected.id);
+    assert.equal(matches.length, 1);
+    const s = matches[0];
+    assert.deepEqual(s.dates, expected.dates);
+    assert.deepEqual(s.granules, expected.granules);
+    assert.equal(s.utmZone, expected.utmZone);
+    assert.equal(s.previewDir, `${s.id}-preview`);
+    assert.equal(s.evidenceDir, `${s.id}-review`);
+    assert.equal(s.regionsDir, `${s.id}-review`);
+    assert.equal(s.gibsContext, false);
+    assert.equal(studyFromHash(`#${s.id}`), s.id);
+    const raw = read(`${s.previewDir}/preview-manifest.json`);
+    const preview = parsePreview(raw, s);
+    assert.deepEqual(preview.acquisitions.map((a) => a.date), expected.dates);
+    assert.deepEqual(preview.acquisitions.map((a) => a.conceptId), expected.granules);
+    assert.equal(preview.scientificClearance, "EXPLORATORY_NOT_CLEARED");
+    const wrongDate = structuredClone(raw); wrongDate.acquisitions[0].date = expected.dates[1];
+    assert.throws(() => parsePreview(wrongDate, s), /does not match/);
+    const wrongGranule = structuredClone(raw); wrongGranule.acquisitions[0].conceptId = expected.granules[1];
+    assert.throws(() => parsePreview(wrongGranule, s), /does not match/);
+  });
+
+  test(`${expected.id} exploratory summary has valid paired HH/HV statistics and all radar assets`, () => {
+    const s = STUDIES.find((s) => s.id === expected.id);
+    const summary = read(`${s.regionsDir}/${s.id}-summary.json`);
+    const preview = parsePreview(read(`${s.previewDir}/preview-manifest.json`), s);
+    assert.deepEqual(summary.dates, expected.dates);
+    assert.deepEqual(summary.sourceGranules, expected.granules);
+    assert.equal(summary.crs, `EPSG:326${String(expected.utmZone).padStart(2, "0")}`);
+    assert.equal(summary.nativeShape.length, 2);
+    assert.ok(summary.nativeShape.every((n) => Number.isSafeInteger(n) && n > 0));
+    assert.ok(Number.isSafeInteger(summary.commonValidPixels) && summary.commonValidPixels > 0);
+    assert.ok(summary.commonValidPixels <= summary.nativeShape[0] * summary.nativeShape[1]);
+    assert.deepEqual(Object.keys(summary.polStats).sort(), ["HH", "HV"]);
+    for (const pol of ["HH", "HV"]) {
+      const stats = summary.polStats[pol];
+      assert.equal(stats.pairedPixelCount, summary.commonValidPixels);
+      for (const key of ["beforeMedianDbOnCommonPixels", "afterMedianDbOnCommonPixels", "pairedDifferenceMedianDb",
+        "pairedDifferenceMeanDb", "pairedDifferenceP05Db", "pairedDifferenceP95Db"]) {
+        assert.ok(Number.isFinite(stats[key]), `${s.id} ${pol} ${key}`);
+      }
+      assert.ok(stats.pairedDifferenceP05Db <= stats.pairedDifferenceMedianDb);
+      assert.ok(stats.pairedDifferenceMedianDb <= stats.pairedDifferenceP95Db);
+      // A median of paired differences must not be replaced by a difference of medians.
+      for (const acquisition of preview.acquisitions) {
+        const image = acquisition.images[pol];
+        assert.ok(Number.isSafeInteger(image.screenedPixels) && image.screenedPixels >= stats.pairedPixelCount);
+        assert.ok(image.screenedPixels <= summary.nativeShape[0] * summary.nativeShape[1]);
+        assert.deepEqual(image.displayRangeDb, summary.displayRangesDb[pol]);
+        assert.ok(image.displayRangeDb.every(Number.isFinite) && image.displayRangeDb[0] < image.displayRangeDb[1]);
+        assert.equal(image.sha256, summary.images[image.filename].sha256);
+        checkRadarImage(s.previewDir, image.filename, image.sha256);
+      }
+    }
+    const expectedImages = expected.dates.flatMap((date) => ["HH", "HV"].map((pol) => `${date.replaceAll("-", "")}_${pol}.png`));
+    expectedImages.push("HH_difference_exploratory.png", "HV_difference_exploratory.png");
+    assert.deepEqual(Object.keys(summary.images).sort(), expectedImages.sort());
+    for (const [filename, image] of Object.entries(summary.images)) checkRadarImage(s.regionsDir, filename, image.sha256);
+    assert.equal(summary.scientificStatus, "EXPLORATORY_NOT_CLEARED");
+    assert.equal(summary.warning, "Provisional NISAR GCOV radar-return observations; not cleared for quantitative environmental analysis. Official QA review, radiometric artifacts, RFI, banding and noise floor remain unresolved. " + expected.noCause);
+    assert.equal(summary.note, "Images and statistics are for exploratory inspection only. " + expected.note);
+    assert.match(summary.qaReview, /not cleared.*UNVERIFIED/);
+    // Keep causal terms confined to the explicit disclaimers checked above.
+    const { warning, note, ...descriptive } = summary;
+    assert.ok(warning && note);
+    assert.doesNotMatch(JSON.stringify(descriptive), /lava|erupt|harvest|crop change|damage|flood|deforest|confirmed|caused by/i);
+  });
+}
 
 test("published evidence and regions validate for both studies", () => {
-  for (const s of STUDIES) {
+  assert.deepEqual(FULL_EVIDENCE_STUDIES.map((s) => s.id), ["everglades", "louisiana", "california"]);
+  for (const s of FULL_EVIDENCE_STUDIES) {
     const { evidence, regions } = load(s);
     assert.equal(regions.regions.length, 3);
     assert.equal(regions.scientificStatus, "EXPLORATORY_NOT_CLEARED");
@@ -37,7 +131,7 @@ test("region statistics match the published A/B/C numbers", () => {
 });
 
 test("UTM inverse reproduces the published region polygons from row/column windows", () => {
-  for (const s of STUDIES) {
+  for (const s of FULL_EVIDENCE_STUDIES) {
     const { regions } = load(s);
     const [dx, dy] = regions.pixelSpacingMeters;
     const [x0, y0] = regions.firstPixelCenter;
@@ -95,7 +189,7 @@ test("Louisiana real previews validate and reject the Everglades pair", () => {
 });
 
 test("region warnings never claim official QA failed when evidence says UNVERIFIED", () => {
-  for (const s of STUDIES) {
+  for (const s of FULL_EVIDENCE_STUDIES) {
     const ev = read(`${s.evidenceDir}/evidence.json`);
     const region = read(`${s.regionsDir}/regions.json`);
     if (qaState(ev.quality.identificationGroup) === "unverified") {
@@ -112,7 +206,7 @@ test("formatting uses signed, unit-bearing numbers and avoids negative zero", ()
 });
 
 test("plain-language text states numbers and never asserts a physical cause", () => {
-  for (const s of STUDIES) {
+  for (const s of FULL_EVIDENCE_STUDIES) {
     const { evidence, regions } = load(s);
     const texts = [];
     for (const pol of ["HH", "HV"]) {
@@ -133,7 +227,7 @@ test("histogram shares sum to one per date", () => {
 });
 
 test("histogram overlap is a bounded descriptive number reported in the study summary", () => {
-  for (const s of STUDIES) {
+  for (const s of FULL_EVIDENCE_STUDIES) {
     const { evidence } = load(s);
     for (const pol of ["HH", "HV"]) {
       const o = histogramOverlap(evidence.pols[pol]);
