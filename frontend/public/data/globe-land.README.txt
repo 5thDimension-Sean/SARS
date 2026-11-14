@@ -1,4 +1,0 @@
-globe-land.geojson: land outlines for the story globe's offline fallback.
-Source: Natural Earth 1:110m countries (public domain, https://www.naturalearthdata.com), as distributed in the
-geopandas 0.14 sample datasets. Coordinates rounded to 0.1 degree and latitudes clamped to +/-85 for the Web Mercator globe.
-Property "ice" marks Antarctica and Greenland for lighter shading. Not a measurement of anything.

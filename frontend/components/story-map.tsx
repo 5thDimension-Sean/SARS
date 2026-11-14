@@ -2,97 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import type { Map as MapLibreMap } from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-import everglades from "@/public/data/everglades-preview/preview-manifest.json";
-import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
-import california from "@/public/data/california-preview/preview-manifest.json";
-import { STUDIES, dataUrl, fmtDate, type Bounds, type StudyConfig } from "@/lib/investigation";
-import { footprints, graticule } from "@/lib/globe-data";
+import { STUDIES, fmtDate } from "@/lib/investigation";
 import { prefersReducedMotion } from "@/lib/prefs";
+import { CesiumGlobe, type StepId } from "./cesium-globe";
 import styles from "./story-map.module.css";
-
-const BOUNDS: Record<StudyConfig["id"], Bounds> = { everglades: everglades.bounds as Bounds, louisiana: louisiana.bounds as Bounds, california: california.bounds as Bounds };
-const centerOf = (b: Bounds): [number, number] => [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]; // the footprint centre, so dot, box and flight agree
-const OVERVIEW = { center: [-98, 28] as [number, number], zoom: 1.45 };
-const FOCUS_ZOOM = 5.4; // close enough to read the region; the offline outline is coarse, the NASA photo (when it loads) is not
-// NASA Blue Marble (a real NASA product) served by GIBS in natural color. If it cannot load, the Natural Earth land outline underneath still makes the globe read as Earth.
-const BLUE_MARBLE = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg";
-
-type StepId = "overview" | StudyConfig["id"];
-
-/** A 3D globe whose camera flies (out, across, then in) to each study location as the story scrolls. */
-function Globe({ active, onPick, onUnavailable }: { active: StepId; onPick: (id: StepId) => void; onUnavailable: () => void }) {
-  const box = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<MapLibreMap | null>(null);
-  const [markerEls] = useState(() => new Map<string, HTMLButtonElement>());
-  const cb = useRef({ onPick, onUnavailable });
-  useEffect(() => { cb.current = { onPick, onUnavailable }; });
-
-  useEffect(() => {
-    let cancelled = false, instance: MapLibreMap | undefined;
-    void import("maplibre-gl").then((lib) => {
-      if (cancelled || !box.current) return;
-      try {
-        lib.setWorkerUrl(new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).toString());
-        instance = new lib.Map({
-          container: box.current, center: OVERVIEW.center, zoom: OVERVIEW.zoom, minZoom: 1, maxZoom: 9, pitch: 0, dragRotate: false, pitchWithRotate: false,
-          scrollZoom: false, doubleClickZoom: false, cooperativeGestures: window.matchMedia("(pointer: coarse)").matches, // wheel always scrolls the page
-          attributionControl: { compact: true, customAttribution: "Globe: NASA GIBS (Blue Marble) · Natural Earth (public domain)" },
-          style: {
-            version: 8, projection: { type: "globe" },
-            // A thin blue atmosphere that fades out as the camera comes down to the scene.
-            sky: { "sky-color": "#2f78c4", "horizon-color": "#9fd0ff", "sky-horizon-blend": 0.6, "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 1, 4, 0.9, 7, 0] },
-            sources: {
-              bluemarble: { type: "raster", tiles: [BLUE_MARBLE], tileSize: 256, maxzoom: 8 },
-              land: { type: "geojson", data: new URL(dataUrl("globe-land.geojson"), window.location.href).href },
-              graticule: { type: "geojson", data: graticule(15) },
-              footprints: { type: "geojson", data: footprints(Object.values(BOUNDS)) },
-            },
-            layers: [
-              { id: "sphere", type: "background", paint: { "background-color": "#1d4f86" } },
-              { id: "land", type: "fill", source: "land", filter: ["!=", ["get", "ice"], true], paint: { "fill-color": "#5f8450", "fill-antialias": true } },
-              { id: "ice", type: "fill", source: "land", filter: ["==", ["get", "ice"], true], paint: { "fill-color": "#e8eef2" } },
-              { id: "bluemarble", type: "raster", source: "bluemarble", paint: { "raster-fade-duration": 600 } },
-              { id: "graticule", type: "line", source: "graticule", paint: { "line-color": "#ffffff", "line-opacity": 0.1, "line-width": 0.6 } },
-              { id: "footprints", type: "line", source: "footprints", paint: { "line-color": "#ffffff", "line-width": 1.5 } },
-            ],
-          },
-        });
-        instance.getCanvas().setAttribute("aria-label", "3D globe showing the three study locations. Drag to rotate.");
-        instance.getCanvas().style.cursor = "grab";
-        instance.on("error", (e) => { if ((e as { sourceId?: string }).sourceId !== "bluemarble") return; /* imagery is optional */ });
-        const sync = () => { if (box.current && instance) box.current.dataset.view = `${instance.getCenter().lng.toFixed(1)},${instance.getCenter().lat.toFixed(1)},${instance.getZoom().toFixed(1)}`; };
-        instance.on("move", sync);
-        instance.once("load", () => {
-          if (cancelled || !instance) return;
-          for (const s of STUDIES) {
-            const el = document.createElement("button");
-            el.type = "button"; el.className = styles.marker; el.dataset.place = s.id;
-            el.setAttribute("aria-label", `${s.label}: show this stop`);
-            el.innerHTML = '<i></i><b></b>'; (el.lastElementChild as HTMLElement).textContent = s.short;
-            el.addEventListener("click", () => cb.current.onPick(s.id));
-            markerEls.set(s.id, el);
-            new lib.Marker({ element: el }).setLngLat(centerOf(BOUNDS[s.id])).addTo(instance);
-          }
-          sync(); setMap(instance);
-        });
-      } catch { cb.current.onUnavailable(); }
-    }).catch(() => cb.current.onUnavailable());
-    return () => { cancelled = true; instance?.remove(); markerEls.clear(); };
-  }, [markerEls]);
-
-  // The camera follows the story: zoom out, travel, zoom in (flyTo), or jump when motion is reduced.
-  useEffect(() => {
-    if (!map) return;
-    const target = active === "overview" ? OVERVIEW : { center: centerOf(BOUNDS[active]), zoom: FOCUS_ZOOM };
-    if (prefersReducedMotion()) map.jumpTo({ center: target.center, zoom: target.zoom });
-    else map.flyTo({ center: target.center, zoom: target.zoom, duration: active === "overview" ? 2400 : 3600, curve: 1.7, essential: true });
-    markerEls.forEach((el, id) => { el.dataset.active = String(id === active); el.dataset.overview = String(active === "overview"); });
-  }, [map, active, markerEls]);
-
-  return <div ref={box} className={styles.globe} data-ready={!!map}>{!map && <span className={styles.loading} role="status">Loading globe…</span>}</div>;
-}
 
 // ---- flat fallback (no WebGL): the original equirectangular drawing
 const W = 840, H = 500, LON0 = -128, LON1 = -72, LAT0 = 22, LAT1 = 49, ZOOM = 2.4;
@@ -112,7 +25,7 @@ function FlatMap({ active, onPick }: { active: StepId; onPick: (id: StepId) => v
   </svg>;
 }
 
-/** Placeholder story map: a long scroll runway that flies a 3D globe between the three real locations. */
+/** Placeholder story map: a long scroll runway that flies a CesiumJS 3D globe between the three real locations. */
 export function StoryMap() {
   const [active, setActive] = useState<StepId>("overview");
   const [flat, setFlat] = useState(false);
@@ -132,7 +45,10 @@ export function StoryMap() {
       <p>This story is a placeholder. The text for each stop is a draft slot; the locations and dates are real.</p>
     </div>
     <div className={styles.layout}>
-      <div className={styles.stage}>{flat ? <FlatMap active={active} onPick={go} /> : <Globe active={active} onPick={go} onUnavailable={() => setFlat(true)} />}</div>
+      <div className={styles.stage}>{flat ? <FlatMap active={active} onPick={go} /> : <CesiumGlobe active={active} onPick={go} onUnavailable={() => setFlat(true)} />}
+        <p className={styles.credit}>3D globe: CesiumJS · Imagery: Natural Earth II (public domain)</p>
+        <div className={styles.stops} role="group" aria-label="Jump to a place">{STUDIES.map((s) => <button key={s.id} type="button" aria-pressed={active === s.id} onClick={() => go(s.id)}>{s.short}</button>)}</div>
+      </div>
       <ol className={styles.steps}>
         <li ref={(el) => { steps.current.overview = el; }} data-id="overview" data-active={active === "overview"} className={`${styles.step} ${styles.intro}`}>
           <h3>Start from orbit.</h3>

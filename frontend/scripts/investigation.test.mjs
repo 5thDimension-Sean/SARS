@@ -262,25 +262,18 @@ test("FAQ search is curated, ranked, forgiving and never empty-handed for known 
   assert.ok(FAQ.find((f) => f.id === "flood").answer.startsWith("No."));
 });
 
-test("globe geometry is valid, closed and needs no network", async () => {
-  const { graticule, footprints } = await import("../lib/globe-data.ts");
-  const g = graticule(15);
-  assert.equal(g.features.length, 24 + 11); // 24 meridians, 11 parallels
-  for (const f of g.features) for (const [lon, lat] of f.geometry.coordinates) assert.ok(lon >= -180 && lon <= 180 && lat >= -90 && lat <= 90);
-  const boxes = STUDIES.map((s) => parsePreview(read(`${s.previewDir}/preview-manifest.json`), s).bounds);
-  const f = footprints(boxes);
-  assert.equal(f.features.length, 3);
-  for (const ft of f.features) { const c = ft.geometry.coordinates; assert.deepEqual(c[0], c[c.length - 1]); assert.equal(c.length, 5); }
-});
 
-test("globe land outline is valid, closed, in range and small enough to ship", () => {
-  const raw = readFileSync(new URL("../public/data/globe-land.geojson", import.meta.url), "utf8");
-  assert.ok(raw.length < 250 * 1024);
-  const g = JSON.parse(raw);
-  assert.ok(g.features.length > 150);
-  for (const f of g.features) for (const poly of f.geometry.coordinates) for (const ring of poly) {
-    assert.deepEqual(ring[0], ring[ring.length - 1]);
-    for (const [lon, lat] of ring) assert.ok(lon >= -180 && lon <= 180 && lat >= -85 && lat <= 85);
+
+test("globe camera plan: valid targets, sensible heights and an overview that frames the whole Earth", async () => {
+  const { OVERVIEW, FOCUS_HEIGHT, FLIGHT_CEILING, focusTarget, centerOf } = await import("../lib/globe-camera.ts");
+  assert.ok(OVERVIEW.height > 2 * 6_371_000 * 0.8); // high enough that the whole globe fits the frame
+  assert.ok(FOCUS_HEIGHT < FLIGHT_CEILING && FLIGHT_CEILING < OVERVIEW.height); // flights rise between stops, then settle
+  for (const s of STUDIES) {
+    const b = parsePreview(read(`${s.previewDir}/preview-manifest.json`), s).bounds;
+    const t = focusTarget(b);
+    const [lon, lat] = centerOf(b);
+    assert.deepEqual([t.lon, t.lat, t.height], [lon, lat, FOCUS_HEIGHT]);
+    assert.ok(Math.abs(t.lon - s.center[0]) < 0.05 && Math.abs(t.lat - s.center[1]) < 0.05, s.id);
   }
-  assert.equal(g.features.filter((f) => f.properties.ice).length, 2); // Antarctica and Greenland
+  assert.throws(() => focusTarget([-200, 0, -190, 10]), /Invalid/);
 });

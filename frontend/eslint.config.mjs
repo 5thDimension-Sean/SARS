@@ -16,6 +16,7 @@ const eslintConfig = defineConfig([
     ".sites-runtime/**",
     ".wrangler/**",
     "next-env.d.ts",
+    "public/cesium/**",
   ]),
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],

@@ -14,6 +14,11 @@ const mime = {
   ".png": "image/png",
   ".woff2": "font/woff2",
   ".ico": "image/x-icon",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".gif": "image/gif",
+  ".xml": "application/xml",
+  ".wasm": "application/wasm",
 };
 const server = createServer(async (req, res) => {
   try {
