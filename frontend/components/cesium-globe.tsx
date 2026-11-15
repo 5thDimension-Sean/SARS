@@ -13,6 +13,8 @@ declare global { interface Window { Cesium?: Cesium; CESIUM_BASE_URL?: string } 
 const baseUrl = () => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/cesium/`;
 /** NASA GIBS Blue Marble: a sharper, public-domain base map. Natural Earth II stays underneath as the fallback. */
 const BLUE_MARBLE = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_NextGeneration/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg";
+/** Sentinel-2 cloudless mosaic, about 10 m per pixel. Free for non-commercial use with attribution. */
+const SENTINEL_CLOUDLESS = "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg";
 const GOLD = "#f6c667";
 
 let loading: Promise<Cesium> | null = null;
@@ -73,13 +75,19 @@ export function CesiumGlobe({ places, progressRef, activeIndex, onPick, onUnavai
         const imagery = await C.TileMapServiceImageryProvider.fromUrl(`${baseUrl()}Assets/Textures/NaturalEarthII`);
         if (cancelled) { v.destroy(); return; }
         v.imageryLayers.addImageryProvider(imagery);
-        // Sharper layer on top. If NASA GIBS cannot be reached the layer is dropped and the bundled imagery shows through.
-        try {
-          const hd = new C.UrlTemplateImageryProvider({ url: BLUE_MARBLE, tilingScheme: new C.WebMercatorTilingScheme(), maximumLevel: 8, credit: "NASA GIBS · Blue Marble" });
-          const layer = v.imageryLayers.addImageryProvider(hd);
-          let failures = 0;
-          hd.errorEvent.addEventListener(() => { if (++failures > 6 && !v.isDestroyed()) { v.imageryLayers.remove(layer, true); v.scene.requestRender(); } });
-        } catch { /* optional */ }
+        // Higher-resolution layers stacked over the bundled map. Each is dropped on its own if its host is unreachable, so the
+        // globe always falls back to the layer beneath it. Only tile requests are made; nothing about the visitor is sent.
+        const addHd = (url: string, maximumLevel: number, credit: string) => {
+          try {
+            const hd = new C.UrlTemplateImageryProvider({ url, tilingScheme: new C.WebMercatorTilingScheme(), maximumLevel, credit });
+            const layer = v.imageryLayers.addImageryProvider(hd);
+            let failures = 0;
+            hd.errorEvent.addEventListener(() => { if (++failures > 8 && !v.isDestroyed()) { v.imageryLayers.remove(layer, true); v.scene.requestRender(); } });
+          } catch { /* optional */ }
+        };
+        addHd(BLUE_MARBLE, 8, "NASA GIBS · Blue Marble");
+        addHd(SENTINEL_CLOUDLESS, 13, "Sentinel-2 cloudless by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2020)");
+        scene.globe.maximumScreenSpaceError = 1; scene.globe.preloadSiblings = true;
         // Scrolling belongs to the page: stop Cesium from seeing wheel and touch input, and turn its own camera controls off.
         const host = box.current;
         const shield = (e: Event) => e.stopPropagation();

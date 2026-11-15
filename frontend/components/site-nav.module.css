@@ -55,7 +55,7 @@
 .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border: 1px solid var(--nav-ring); border-radius: 999px; color: var(--nav-dim); font-size: .6875rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
 .badge b { color: #f6c667; font-size: .75rem; }
 button.link { border: 0; background: transparent; font: inherit; font-size: .8125rem; cursor: pointer; }
-.list ul.menu { position: absolute; top: calc(100% + 12px); left: 50%; translate: -50% 0; z-index: 70; display: grid; grid-template-columns: repeat(2, minmax(150px, 1fr)); gap: 4px; width: max-content; max-width: calc(100vw - 32px); margin: 0; padding: 10px; list-style: none; border: 1px solid var(--nav-line); border-radius: 18px; background: var(--panel-bg); -webkit-backdrop-filter: saturate(180%) blur(28px); backdrop-filter: saturate(180%) blur(28px); box-shadow: 0 24px 60px #00000050; }
+.list ul.menu { position: absolute; top: calc(100% + 12px); left: 50%; translate: -50% 0; z-index: 70; display: grid; grid-template-columns: repeat(2, minmax(130px, 1fr)); gap: 4px; width: max-content; max-width: calc(100vw - 32px); margin: 0; padding: 10px; list-style: none; border: 1px solid var(--nav-line); border-radius: 18px; background: var(--panel-bg); -webkit-backdrop-filter: saturate(180%) blur(28px); backdrop-filter: saturate(180%) blur(28px); box-shadow: 0 24px 60px #00000050; }
 .menu a { display: grid; gap: 2px; padding: 10px 14px; border-radius: 12px; color: var(--nav-text); text-decoration: none; }
 .menu a:hover, .menu a:focus-visible, .menu a[aria-current="page"] { background: var(--nav-ghost); outline: none; }
 .menu span { color: var(--nav-dim); font-size: .6875rem; }

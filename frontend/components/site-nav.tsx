@@ -78,7 +78,6 @@ export function SiteNav() {
     <nav className={styles.inner} aria-label="Primary">
       <div className={styles.brandWrap}>
         <Link href="/" className={styles.brand}>Tango</Link>
-        <span className={styles.badge} title="Built for the NASA Space Apps Challenge 2026"><b aria-hidden="true">✦</b> Space Apps 2026</span>
       </div>
       <div ref={list} className={styles.list} onPointerLeave={unhover} onBlur={unhover}>
         <span ref={ghost} className={styles.ghost} aria-hidden="true" />
@@ -94,7 +93,7 @@ export function SiteNav() {
         </ul>
         {menu && <ul className={styles.menu} aria-label="Places" onKeyDown={(e) => { if (e.key === "Escape") setMenu(false); }}>
           {PLACES.map((p) => <li key={p.id}><Link href={p.href} aria-current={onInvestigation && study === p.id ? "page" : undefined}
-            onClick={() => { setMenu(false); if (p.kind === "study") chooseStudy(p.id as (typeof STUDIES)[number]["id"]); }}><strong>{p.short}</strong><span>{p.kind === "study" ? "Investigation" : "Research"}</span></Link></li>)}
+            onClick={() => { setMenu(false); if (p.kind === "study") chooseStudy(p.id as (typeof STUDIES)[number]["id"]); }}><strong>{p.short}</strong></Link></li>)}
         </ul>}
       </div>
       <div className={styles.right}>

@@ -6,10 +6,10 @@ export const smoothstep = (v: number) => { const t = clamp01(v); return t * t * 
 const wrapLon = (l: number) => ((l + 540) % 360) - 180;
 
 /** Whole Earth, a little margin, over the Atlantic so the first move reads as a flight to the Americas. */
-export const HERO_VIEW: CameraTarget = { lon: -60, lat: 22, height: 17_500_000 };
-/** Low enough to read the surroundings, high enough that ~10 m previews are not magnified into blur. */
-export const FOCUS_HEIGHT = 2_200_000;
-export const FLIGHT_CEILING = 11_000_000;
+export const HERO_VIEW: CameraTarget = { lon: -60, lat: 22, height: 22_000_000 };
+/** Close enough that the base imagery shows real terrain detail around each scene. */
+export const FOCUS_HEIGHT = 700_000;
+export const FLIGHT_CEILING = 12_000_000;
 /** Fraction of each leg spent parked on a stop, at either end. The text is readable while the camera dwells. */
 export const DWELL = 0.2;
 

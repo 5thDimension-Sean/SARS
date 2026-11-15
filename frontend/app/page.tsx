@@ -5,10 +5,10 @@ import { ContextLayers } from "@/components/context-layers";
 import { SiteFooter } from "@/components/site-footer";
 import styles from "@/components/investigation/investigation.module.css";
 export const metadata: Metadata = {
-  title: "Tango | Our Golden Record, written in radar",
+  title: "Tango | Our Golden Record",
   description: "Scroll from orbit to places around the world and compare two dates of real NASA NISAR radar. Exploratory, educational, and clearly labeled.",
-  openGraph: { title: "Tango | Our Golden Record, written in radar", description: "Compare two dates of real radar, place by place.", type: "website" },
-  twitter: { card: "summary", title: "Tango | Our Golden Record, written in radar", description: "An educational radar explorer with clearly labeled data." },
+  openGraph: { title: "Tango | Our Golden Record", description: "Compare two dates of real radar, place by place.", type: "website" },
+  twitter: { card: "summary", title: "Tango | Our Golden Record", description: "An educational radar explorer with clearly labeled data." },
 };
 export default function Home() {
   return <>

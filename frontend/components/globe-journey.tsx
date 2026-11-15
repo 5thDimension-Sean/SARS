@@ -72,8 +72,7 @@ export function GlobeJourney() {
       <div className={styles.shade} aria-hidden="true" />
       <div className={styles.copy}>
         <article ref={(el) => { panels.current[0] = el; }} className={styles.panel} style={{ opacity: 1 }} aria-label="Introduction">
-          <p className={styles.eyebrow}>NASA Space Apps · 2026</p>
-          <h1 className={styles.display}>Our Golden Record, written in radar.</h1>
+          <h1 className={styles.display}>Our Golden Record</h1>
           <p className={styles.scrollCue}><span aria-hidden="true" />Scroll to start</p>
         </article>
         {places.map((p, i) => <article key={p.id} ref={(el) => { panels.current[i + 1] = el; }} className={styles.panel} style={{ opacity: 0, visibility: "hidden" }} aria-label={p.label}>
@@ -89,7 +88,7 @@ export function GlobeJourney() {
         <li><button type="button" className={styles.dot} aria-label="Start from orbit" aria-current={active === 0 ? "step" : undefined} onClick={() => goTo(0)}><span>Orbit</span></button></li>
         {places.map((p, i) => <li key={p.id}><button type="button" className={styles.dot} aria-label={`Go to ${p.label}`} aria-current={active === i + 1 ? "step" : undefined} onClick={() => goTo(i + 1)}><span>{p.short}</span></button></li>)}
       </ol>
-      <p className={styles.credit}>3D globe: CesiumJS · Imagery: NASA GIBS Blue Marble and Natural Earth II (public domain)</p>
+      <p className={styles.credit}>3D globe: CesiumJS · Imagery: Natural Earth II, NASA GIBS Blue Marble, Sentinel-2 cloudless © EOX (contains modified Copernicus Sentinel data 2020)</p>
     </div>
   </section>;
 }
