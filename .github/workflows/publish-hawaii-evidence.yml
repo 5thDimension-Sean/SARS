@@ -54,5 +54,6 @@ jobs:
           git add frontend/public/data/hawaii-processed frontend/public/data/hawaii-full-evidence frontend/public/data/hawaii-full-regions frontend/public/data/hawaii-full-preview
           if ! git diff --cached --quiet; then
             git commit -m "Publish actual Hawaii NISAR histogram evidence and georeferenced analysis"
+            git pull --rebase origin feat/hawaii-iowa-full-scientific-evidence
             git push origin HEAD:feat/hawaii-iowa-full-scientific-evidence
           fi
