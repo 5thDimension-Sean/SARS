@@ -32,7 +32,7 @@ jobs:
       - name: Find and process genuine NISAR pair
         env:
           EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
-        run: python -m pipeline.coastal_pair_action --mode discover --site ${{ matrix.site }} --out pipeline/coastal-review
+        run: python -m pipeline.coastal_pair_action --mode process --site ${{ matrix.site }} --out pipeline/coastal-review
       - name: Upload only derivatives and report
         if: always()
         uses: actions/upload-artifact@v4
