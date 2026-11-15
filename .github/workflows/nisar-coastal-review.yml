@@ -1,0 +1,45 @@
+name: NISAR coastal pair review
+
+on:
+  push:
+    branches:
+      - feat/usgs-midnight-pass-erosion
+    paths:
+      - .github/workflows/nisar-coastal-review.yml
+      - pipeline/coastal_pair_action.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coastal:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [rodanthe]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Run tests
+        run: python -m pytest pipeline/tests -q
+      - name: Find and process genuine NISAR pair
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: python -m pipeline.coastal_pair_action --mode process --site ${{ matrix.site }} --out pipeline/coastal-review
+      - name: Upload only derivatives and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nisar-coastal-review-${{ matrix.site }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            pipeline/coastal-review/discovery.json
+            pipeline/coastal-review/processed/**

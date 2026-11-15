@@ -362,7 +362,10 @@ test("globe journey: every place is reachable, the path is continuous and text f
   const { HERO_VIEW, FOCUS_HEIGHT, FLIGHT_CEILING, cameraAt, textState, progressFor } = await import("../lib/globe-journey.ts");
   const { PLACES } = await import("../lib/places.ts");
   assert.ok(PLACES.length >= 8 && PLACES.some((p) => p.id === "etna") && PLACES.some((p) => p.id === "hubbard") && PLACES.some((p) => p.id === "sossusvlei"));
-  for (const s of STUDIES) {
+  assert.ok(PLACES.some(p => p.id === "rodanthe" && p.href === "/coastal-erosion"), "real storm-period coastline is featured");
+  assert.ok(!PLACES.some(p => p.id === "iowa"), "Iowa is removed from featured globe stops");
+  assert.ok(STUDIES.some(s => s.id === "iowa"), "Iowa remains available as an earlier investigation");
+  for (const s of STUDIES.filter(s => s.id !== "iowa")) {
     const place = PLACES.find((p) => p.id === s.id);
     assert.ok(place, s.id);
     assert.ok(Math.abs(place.lon - s.center[0]) < 0.05 && Math.abs(place.lat - s.center[1]) < 0.05, s.id);

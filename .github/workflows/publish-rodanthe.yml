@@ -1,0 +1,62 @@
+name: Publish reviewed Rodanthe NISAR derivatives
+
+on:
+  push:
+    branches:
+      - feat/usgs-midnight-pass-erosion
+    paths:
+      - .github/workflows/publish-rodanthe.yml
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch verified provenance and processing outputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/rodanthe"
+          gh run download 43679557350 --repo "$GITHUB_REPOSITORY" --name nisar-coastal-review-rodanthe --dir "$RUNNER_TEMP/rodanthe"
+          test -f "$RUNNER_TEMP/rodanthe/discovery.json"
+          test -f "$RUNNER_TEMP/rodanthe/processed/manifest.json"
+          test -s "$RUNNER_TEMP/rodanthe/processed/T162_F019_A/20260917_HH.png"
+          test -s "$RUNNER_TEMP/rodanthe/processed/T162_F019_A/20260929_HH.png"
+          test -s "$RUNNER_TEMP/rodanthe/processed/T162_F019_A/change_20260917_20260929.png"
+          python - "$RUNNER_TEMP/rodanthe" <<'PY'
+          import json,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          report=json.loads((root/"discovery.json").read_text())
+          manifest=json.loads((root/"processed/manifest.json").read_text())
+          assert report["status"]=="EXPLORATORY_PROCESSED_NOT_QA_CLEARED"
+          assert [x["date"] for x in report["selected"]]==["2026-09-17","2026-09-29"]
+          assert len(manifest["frames"])==1
+          f=manifest["frames"][0]
+          assert f["id"]=="T162_F019_A" and len(f["changeLayers"])==3
+          assert [a["date"][:10] for a in f["acquisitions"]]==["2026-09-17","2026-09-29"]
+          assert not f["mixedVersions"]
+          PY
+      - name: Commit derivative files, never source HDF5 or secrets
+        run: |
+          set -euo pipefail
+          target=frontend/public/data/rodanthe-processed
+          mkdir -p "$target"
+          cp -R "$RUNNER_TEMP/rodanthe/processed/." "$target/"
+          cp "$RUNNER_TEMP/rodanthe/discovery.json" "$target/discovery.json"
+          test "$(find "$target" -name '*.h5' | wc -l)" = 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$target"
+          if ! git diff --cached --quiet; then
+            git commit -m "Add authentic pre-post storm Rodanthe NISAR GCOV derivative imagery"
+            git push origin HEAD:feat/usgs-midnight-pass-erosion
+          fi
