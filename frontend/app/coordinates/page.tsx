@@ -128,7 +128,7 @@ export default function CoordinateExplorer() {
       if (!blob.type.startsWith("image/png")) throw new Error("Unexpected output image format");
       const objectUrl = URL.createObjectURL(blob); created.push(objectUrl);
       if (alive) setImages(previous => ({ ...previous, [name]: objectUrl }));
-    }))).catch(() => { if (alive) setMessage("Some verified image previews could not be loaded."); });
+    })).catch(() => { if (alive) setMessage("Some verified image previews could not be loaded."); });
     return () => { alive = false; controller.abort(); created.forEach(URL.revokeObjectURL); };
   }, [result, sessionId]);
 
