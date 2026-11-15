@@ -12,6 +12,8 @@ export const FOCUS_HEIGHT = 700_000;
 export const FLIGHT_CEILING = 12_000_000;
 /** Fraction of each leg spent parked on a stop, at either end. The text is readable while the camera dwells. */
 export const DWELL = 0.2;
+/** Length of the one-time flight to each stop, in seconds. */
+export const FLIGHT_SECONDS = 2.6;
 
 const greatCircleDegrees = (a: CameraTarget, b: CameraTarget) => {
   const r = Math.PI / 180;

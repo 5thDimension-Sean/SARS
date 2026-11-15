@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, type MutableRefObject } from "react";
+import { useEffect, useRef, useState } from "react";
 import type * as CesiumNS from "cesium";
 import type { Place } from "@/lib/places";
-import { FOCUS_HEIGHT, HERO_VIEW, cameraAt, type CameraTarget } from "@/lib/globe-journey";
+import { FLIGHT_CEILING, FLIGHT_SECONDS, FOCUS_HEIGHT, HERO_VIEW, type CameraTarget } from "@/lib/globe-journey";
 import { prefersReducedMotion } from "@/lib/prefs";
 import styles from "./globe-journey.module.css";
 
@@ -34,20 +34,21 @@ function loadCesium(): Promise<Cesium> {
 }
 
 /**
- * The one globe on the home page, rendered with CesiumJS (no Cesium ion). Its camera is driven by `progressRef`, the
- * visitor's scroll position, so it travels at the visitor's own pace: stop 0 is the whole Earth, then each place in turn.
+ * The one globe on the home page, rendered with CesiumJS (no Cesium ion). The camera flies once to each
+ * stop as the visitor scrolls to it: stop 0 is the whole Earth, then each place in turn.
  */
-export function CesiumGlobe({ places, progressRef, activeIndex, onPick, onUnavailable }: {
-  places: readonly Place[]; progressRef: MutableRefObject<number>; activeIndex: number; onPick: (id: string) => void; onUnavailable: () => void;
+export function CesiumGlobe({ places, activeIndex, onPick, onUnavailable }: {
+  places: readonly Place[]; activeIndex: number; onPick: (id: string) => void; onUnavailable: () => void;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const [viewer, setViewer] = useState<CesiumNS.Viewer | null>(null);
   const cb = useRef({ onPick, onUnavailable });
+  const quality = useRef<(hi: boolean) => void>(() => {});
+  const placed = useRef(false);
   useEffect(() => { cb.current = { onPick, onUnavailable }; });
 
   useEffect(() => {
-    let cancelled = false, created: CesiumNS.Viewer | undefined, handler: CesiumNS.ScreenSpaceEventHandler | undefined, raf = 0;
-    const stops: CameraTarget[] = [HERO_VIEW, ...places.map((p) => ({ lon: p.lon, lat: p.lat, height: FOCUS_HEIGHT }))];
+    let cancelled = false, created: CesiumNS.Viewer | undefined, handler: CesiumNS.ScreenSpaceEventHandler | undefined;
     void loadCesium().then(async (C) => {
       if (cancelled || !box.current) return;
       try {
@@ -64,7 +65,7 @@ export function CesiumGlobe({ places, progressRef, activeIndex, onPick, onUnavai
         scene.backgroundColor = C.Color.BLACK;
         scene.globe.baseColor = C.Color.fromCssColorString("#16406f");
         scene.globe.enableLighting = false; scene.globe.showGroundAtmosphere = true;
-        scene.globe.maximumScreenSpaceError = 1; scene.globe.tileCacheSize = 300;
+        scene.globe.maximumScreenSpaceError = 1.5; scene.globe.tileCacheSize = 150;
         scene.globe.atmosphereLightIntensity = 14; scene.globe.atmosphereBrightnessShift = 0.05;
         const sky = (f: string) => `${baseUrl()}Assets/Textures/SkyBox/tycho2t3_80_${f}.jpg`;
         scene.skyBox = new C.SkyBox({ sources: { positiveX: sky("px"), negativeX: sky("mx"), positiveY: sky("py"), negativeY: sky("my"), positiveZ: sky("pz"), negativeZ: sky("mz") } });
@@ -87,7 +88,7 @@ export function CesiumGlobe({ places, progressRef, activeIndex, onPick, onUnavai
         };
         addHd(BLUE_MARBLE, 8, "NASA GIBS · Blue Marble");
         addHd(SENTINEL_CLOUDLESS, 13, "Sentinel-2 cloudless by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2020)");
-        scene.globe.maximumScreenSpaceError = 1; scene.globe.preloadSiblings = true;
+        scene.globe.preloadSiblings = false;
         // Scrolling belongs to the page: stop Cesium from seeing wheel and touch input, and turn its own camera controls off.
         const host = box.current;
         const shield = (e: Event) => e.stopPropagation();
@@ -112,42 +113,44 @@ export function CesiumGlobe({ places, progressRef, activeIndex, onPick, onUnavai
           const c = C.Cartographic.fromCartesian(v.camera.positionWC);
           box.current.dataset.view = `${C.Math.toDegrees(c.longitude).toFixed(1)},${C.Math.toDegrees(c.latitude).toFixed(1)},${(c.height / 1000).toFixed(0)}`;
         });
-        // Scroll-linked camera. Reduced motion snaps to the nearest stop instead of travelling between them.
-        let lastP = Number.NaN, lastSpin = 0, spin = 0;
-        const aim = (t: CameraTarget) => v.camera.setView({ destination: C.Cartesian3.fromDegrees(t.lon, t.lat, t.height), orientation: { heading: 0, pitch: -C.Math.PI_OVER_TWO, roll: 0 } });
-        const visible = { v: true };
-        const io = "IntersectionObserver" in window ? new IntersectionObserver(([e]) => { visible.v = e.isIntersecting; }) : null;
-        io?.observe(host);
-        const frame = (t: number) => {
-          raf = requestAnimationFrame(frame);
-          if (v.isDestroyed() || !visible.v || document.hidden) return;
-          const dt = Math.min((t - lastSpin) / 1000, 0.1); lastSpin = t;
-          const reduced = prefersReducedMotion();
-          const raw = progressRef.current;
-          const p = reduced ? Math.round(raw) : raw;
-          // A very slow drift while parked on the opening view keeps the Earth alive without taking control from scrolling.
-          const idle = p < 0.02 && !reduced;
-          if (idle) spin += dt * 2.2; else if (spin !== 0 && p >= 0.02) spin = 0;
-          if (p === lastP && !idle) return;
-          lastP = p;
-          const c = cameraAt(stops, p);
-          aim({ ...c, lon: c.lon - spin });
+        // The camera flies once per stop (a timed, eased flight), so the GPU only works for those couple of seconds.
+        // The globe renders on demand: a lighter tier is used during the flight, and full quality returns when it lands.
+        const dpr = window.devicePixelRatio || 1;
+        let hq = true;
+        quality.current = (hi: boolean) => {
+          if (hi === hq || v.isDestroyed()) return;
+          hq = hi;
+          v.resolutionScale = hi ? Math.min(dpr, 2) : Math.min(dpr, 1.25);
+          scene.msaaSamples = hi ? 4 : 1;
+          scene.globe.maximumScreenSpaceError = hi ? 1.25 : 3;
           scene.requestRender();
         };
-        raf = requestAnimationFrame(frame);
         v.camera.setView({ destination: C.Cartesian3.fromDegrees(HERO_VIEW.lon, HERO_VIEW.lat, HERO_VIEW.height), orientation: { heading: 0, pitch: -C.Math.PI_OVER_TWO, roll: 0 } });
         scene.requestRender();
         setViewer(v);
-        const prevCleanup = () => { io?.disconnect(); for (const type of ["wheel", "touchstart", "touchmove", "touchend"]) host.removeEventListener(type, shield, { capture: true }); };
+        const prevCleanup = () => { for (const type of ["wheel", "touchstart", "touchmove", "touchend"]) host.removeEventListener(type, shield, { capture: true }); };
         (created as unknown as { __cleanup?: () => void }).__cleanup = prevCleanup;
       } catch { cb.current.onUnavailable(); }
     }).catch(() => cb.current.onUnavailable());
     return () => {
-      cancelled = true; cancelAnimationFrame(raf); handler?.destroy();
+      cancelled = true; handler?.destroy();
       (created as unknown as { __cleanup?: () => void } | undefined)?.__cleanup?.();
       if (created && !created.isDestroyed()) created.destroy();
     };
-  }, [places, progressRef]);
+  }, [places]);
+
+  // One eased flight to each stop. Reduced motion jumps straight there.
+  useEffect(() => {
+    const C = window.Cesium;
+    if (!viewer || !C || viewer.isDestroyed()) return;
+    const t: CameraTarget = activeIndex === 0 ? HERO_VIEW : { lon: places[activeIndex - 1].lon, lat: places[activeIndex - 1].lat, height: FOCUS_HEIGHT };
+    const destination = C.Cartesian3.fromDegrees(t.lon, t.lat, t.height), orientation = { heading: 0, pitch: -C.Math.PI_OVER_TWO, roll: 0 };
+    viewer.camera.cancelFlight();
+    if (!placed.current || prefersReducedMotion()) { placed.current = true; viewer.camera.setView({ destination, orientation }); viewer.scene.requestRender(); return; }
+    quality.current(false);
+    viewer.camera.flyTo({ destination, orientation, duration: FLIGHT_SECONDS, maximumHeight: FLIGHT_CEILING, easingFunction: C.EasingFunction.CUBIC_IN_OUT,
+      complete: () => quality.current(true), cancel: () => quality.current(true) });
+  }, [viewer, activeIndex, places]);
 
   // Labels: only the current stop is named, so the orbit view stays uncluttered.
   useEffect(() => {
