@@ -14,7 +14,7 @@ const load = (s) => ({
   regions: parseRegions(read(`${s.regionsDir}/regions.json`), read(`${s.regionsDir}/regions.geojson`), s),
 });
 const FULL_EVIDENCE_STUDIES = STUDIES.filter(
-  (s) => ["everglades", "louisiana", "california"].includes(s.id)
+  (s) => ["everglades", "louisiana", "california", "rodanthe", "amazon"].includes(s.id)
 );
 
 const EXPLORATORY_STUDIES = [
@@ -107,7 +107,7 @@ for (const expected of EXPLORATORY_STUDIES) {
 }
 
 test("published evidence and regions validate for both studies", () => {
-  assert.deepEqual(FULL_EVIDENCE_STUDIES.map((s) => s.id), ["everglades", "louisiana", "california"]);
+  assert.deepEqual(FULL_EVIDENCE_STUDIES.map((s) => s.id), ["everglades", "louisiana", "california", "rodanthe", "amazon"]);
   for (const s of FULL_EVIDENCE_STUDIES) {
     const { evidence, regions } = load(s);
     assert.equal(regions.regions.length, 3);
@@ -363,6 +363,7 @@ test("globe journey: every place is reachable, the path is continuous and text f
   const { PLACES } = await import("../lib/places.ts");
   assert.ok(PLACES.length >= 8 && PLACES.some((p) => p.id === "etna") && PLACES.some((p) => p.id === "hubbard") && PLACES.some((p) => p.id === "sossusvlei"));
   assert.ok(PLACES.some(p => p.id === "rodanthe" && p.href === "/coastal-erosion"), "real storm-period coastline is featured");
+  assert.ok(PLACES.some(p => p.id === "amazon" && p.href === "/amazon-river"), "Amazon is an additional investigation");
   assert.ok(!PLACES.some(p => p.id === "iowa"), "Iowa is removed from featured globe stops");
   assert.ok(STUDIES.some(s => s.id === "iowa"), "Iowa remains available as an earlier investigation");
   for (const s of STUDIES.filter(s => s.id !== "iowa")) {
