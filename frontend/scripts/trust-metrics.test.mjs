@@ -235,9 +235,9 @@ test("report escapes hostile text everywhere and states it is not a confidence s
 
 test("escaping and filenames are safe", () => {
   assert.equal(escapeHtml(`<a href="x">&'</a>`), "&lt;a href=&quot;x&quot;&gt;&amp;&#39;&lt;/a&gt;");
-  assert.equal(reportFilename("Louisiana Delta", "Region A"), "sar-waltz-trust-Louisiana-Delta-Region-A.html");
-  assert.match(reportFilename("../../etc/passwd", "<x>"), /^sar-waltz-trust-[A-Za-z0-9_-]+\.html$/);
-  assert.equal(reportFilename("", ""), "sar-waltz-trust-box-box.html");
+  assert.equal(reportFilename("Louisiana Delta", "Region A"), "tango-trust-Louisiana-Delta-Region-A.html");
+  assert.match(reportFilename("../../etc/passwd", "<x>"), /^tango-trust-[A-Za-z0-9_-]+\.html$/);
+  assert.equal(reportFilename("", ""), "tango-trust-box-box.html");
 });
 
 test("signed dB text never prints negative zero", () => {

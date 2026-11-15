@@ -217,6 +217,12 @@ export function TrustPanel() {
       {!data.grids ? <div className={styles.empty} role="status">
         <p><strong>{data.problem ? "The numerical difference grid could not be used." : "No numerical difference grid is published for this study yet."}</strong> {data.problem}</p>
         <p>Measured statistics, background context and custom boxes are unavailable. Colors in the exploratory difference images are never converted into numbers. The offline pipeline writes the grid when the study is regenerated.</p>
+        <div className={styles.figures}>{POLS.map((pol) => <figure key={pol}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${data.base}${data.study.regionsDir}/${pol}_difference_exploratory.png`} alt={`Exploratory ${pol} difference image between ${data.dates[0]} and ${data.dates[1]}. Display only; colors are not measurements.`}
+            onError={(e) => { e.currentTarget.style.display = "none"; }} />
+          <figcaption>{pol} · {data.dates[0]} to {data.dates[1]} · exploratory, display only</figcaption>
+        </figure>)}</div>
       </div> : <>
         <p>Drag on the image, pick a preset, or type pixel edges (rows count from the north edge; each cell is {Math.abs(spacing![0])} × {Math.abs(spacing![1])} m). The image is display-only; every number comes from the numerical grid.</p>
         <p className={styles.hint}>Preset regions were chosen by ranking windows on their own measured change, so they cannot serve as an unbiased test. A box you draw is a fairer test, though checking many boxes still produces chance hits.</p>

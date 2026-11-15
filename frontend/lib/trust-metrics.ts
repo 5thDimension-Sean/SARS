@@ -289,7 +289,7 @@ export function escapeHtml(value: unknown): string {
 
 export function reportFilename(study: string, label: string): string {
   const clean = (s: string) => s.replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "box";
-  return `sar-waltz-trust-${clean(study)}-${clean(label)}.html`;
+  return `tango-trust-${clean(study)}-${clean(label)}.html`;
 }
 
 export interface ReportInput {
@@ -324,9 +324,9 @@ export function buildTrustReport(i: ReportInput): string {
   const looks = i.looks > 1
     ? `<p>${escapeHtml(i.looks)} boxes were checked in this session; about ${escapeHtml(expectedChanceHits(i.looks).toFixed(1))} would look unusual by chance at a 5% rate. The rate above is not corrected for repeated looks.</p>` : "";
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SAR-Waltz evidence report: ${escapeHtml(i.study)} ${escapeHtml(i.boxLabel)}</title>
+<title>Tango evidence report: ${escapeHtml(i.study)} ${escapeHtml(i.boxLabel)}</title>
 <style>body{font:15px/1.5 system-ui,sans-serif;max-width:50rem;margin:2rem auto;padding:0 1rem;color:#111}table{border-collapse:collapse;width:100%}td,th{border:1px solid #888;padding:.3rem .5rem;text-align:left}.warn{border:2px solid #b00;padding:.6rem;font-weight:600}li{margin:.4rem 0}.fail strong{color:#b00}.pass strong{color:#060}@media print{body{margin:0}}</style></head><body>
-<h1>SAR-Waltz evidence report</h1>
+<h1>Tango evidence report</h1>
 <p class="warn">${escapeHtml(i.warning)}</p>
 <p><strong>This report is an evidence checklist. It is not a scientific confidence score, a probability of change, or a detection of flooding, vegetation loss or displacement.</strong></p>
 <h2>Provenance</h2>
