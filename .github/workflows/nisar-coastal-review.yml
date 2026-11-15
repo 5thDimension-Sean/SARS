@@ -14,6 +14,10 @@ permissions:
 jobs:
   coastal:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [cameron, isles-dernieres, chandeleur, rodanthe, cape-hatteras]
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
@@ -27,12 +31,12 @@ jobs:
       - name: Find and process genuine NISAR pair
         env:
           EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
-        run: python -m pipeline.coastal_pair_action --mode process --out pipeline/coastal-review
+        run: python -m pipeline.coastal_pair_action --mode discover --site ${{ matrix.site }} --out pipeline/coastal-review
       - name: Upload only derivatives and report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: nisar-coastal-review
+          name: nisar-coastal-review-${{ matrix.site }}
           retention-days: 7
           if-no-files-found: warn
           path: |
