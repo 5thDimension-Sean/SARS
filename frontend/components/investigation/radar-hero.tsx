@@ -56,7 +56,7 @@ export function RadarHero({ study, pol, educational = false }: { study: StudyCon
     <div className={styles.heroInner}>
       <div className={styles.heroCopy}>
         <h1 id="radar-hero-title">A different way<br />to see Earth.</h1>
-        <p className={styles.heroLead}>NISAR records the microwave energy returned by Earth’s surface. Two dates invite a closer look.</p>
+        <p className={styles.heroLead}>NISAR records the microwave energy returned by Earth’s surface. Two dates invite a closer look. Exploratory data; official identification QA failed and scientific clearance remains unresolved.</p>
         {educational ? <Link className={styles.primary} href="/nisar-prototype">Begin the investigation <span aria-hidden="true">↗</span></Link> : <a className={styles.primary} href="#step-look">Begin the investigation <span aria-hidden="true">↓</span></a>}
       </div>
       {preview ? <figure key={study.id} className={`${styles.heroFigure} ${styles.enter}`}>

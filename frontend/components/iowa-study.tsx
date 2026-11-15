@@ -1,5 +1,6 @@
 "use client";
 
+import { IdentificationQa } from "./identification-qa";
 import { useState } from "react";
 import type { Pol } from "@/lib/investigation";
 import { dataUrl } from "@/lib/investigation";
@@ -27,6 +28,7 @@ export function IowaStudy({ pol }: { pol: Pol }) {
       September 25 versus October 19, 2026 · NASA NISAR L-band Frequency A · HH and HV radar backscatter.
       The same native 10 m grid is shown across both dates, without resampling. This is an exploratory mixed-land-cover radar-return comparison, not a confirmed harvest or crop-change map. This area includes substantial developed land; the comparison has not been limited to agricultural fields.
     </p>
+    <IdentificationQa />
     <div role="group" aria-label="Radar comparison view" style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "22px 0 14px" }}>
       <button type="button" style={buttonStyle(mode === "swipe")} aria-pressed={mode === "swipe"} onClick={() => setMode("swipe")}>Compare dates</button>
       <button type="button" style={buttonStyle(mode === "side")} aria-pressed={mode === "side"} onClick={() => setMode("side")}>Side by side</button>

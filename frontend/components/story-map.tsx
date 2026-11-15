@@ -41,7 +41,7 @@ export function StoryMap() {
 
   return <section className={styles.story} aria-labelledby="story-title">
     <div className={styles.head}>
-      <h2 id="story-title">Five places, two dates each.</h2>
+      <h2 id="story-title">Six places, two dates each.</h2>
       <p>Scroll to fly the globe to each place we have real NISAR radar for. The story text is a draft; the locations and dates are real.</p>
     </div>
     <div className={styles.layout}>
@@ -58,7 +58,7 @@ export function StoryMap() {
           <h3>{s.label}</h3>
           <div className={styles.card}>
             <p className={styles.cardDates}><time dateTime={s.dates[0]}>{fmtDate(s.dates[0])}</time><span aria-hidden="true"> → </span><time dateTime={s.dates[1]}>{fmtDate(s.dates[1])}</time></p>
-            <p>Two NISAR acquisitions. HH and HV backscatter, with candidate regions to inspect. Radar differences alone do not name a cause.</p>
+            <p>Two NISAR acquisitions. HH and HV backscatter, with candidate regions to inspect. Radar differences alone do not name a cause. Exploratory, not scientifically cleared; official identification QA failed on both dates.</p>
             <ul className={styles.chips} aria-label="Included in this investigation"><li>HH</li><li>HV</li><li>Before / after slider</li><li>Evidence report</li></ul>
             <Link className={styles.open} href={`/nisar-prototype#${s.id}`}>Open this investigation <span aria-hidden="true">↗</span></Link>
           </div>

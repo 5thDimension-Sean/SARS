@@ -1,5 +1,6 @@
 "use client";
 
+import { IdentificationQa } from "./identification-qa";
 import { useState } from "react";
 import type { Pol } from "@/lib/investigation";
 import { dataUrl } from "@/lib/investigation";
@@ -26,6 +27,7 @@ export function PalmStudy({ pol }: { pol: Pol }) {
       October 5 versus October 17, 2026 · NASA NISAR L-band Frequency A · HH and HV radar backscatter.
       This native 10 m grid compares the same area on both dates without resampling. Radar-return differences are exploratory observations, not evidence of a specific environmental or construction event.
     </p>
+    <IdentificationQa />
     <div role="group" aria-label="Radar comparison view" style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "22px 0 14px" }}>
       <button type="button" style={buttonStyle(mode === "swipe")} aria-pressed={mode === "swipe"} onClick={() => setMode("swipe")}>Compare dates</button>
       <button type="button" style={buttonStyle(mode === "side")} aria-pressed={mode === "side"} onClick={() => setMode("side")}>Side by side</button>
