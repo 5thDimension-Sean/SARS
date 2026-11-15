@@ -4,22 +4,24 @@
   "catalogVerifiedOnUtc": "2026-11-15",
   "status": "BLOCKED",
   "scientificClearance": "EXPLORATORY_NOT_CLEARED",
-  "verificationScope": "NASA CMR UMM-G records were read in the browser for all four supplied concept IDs. Dates, product names, collection, track/frame/pass, polarizations, file URLs, archive sizes and catalog MD5 values were recorded. No PNG or HDF5 bytes were downloaded; checksums are catalog expectations, not locally verified file hashes.",
+  "verificationScope": "NASA CMR records for the four supplied concept IDs were read on 2026-11-15. The eight official frequency-A browse PNGs were then imported from user-supplied local downloads. Every PNG matches the catalog byte size and MD5; PNG signatures, complete decoding and dimensions were checked. SHA-256 hashes are recorded for reproducibility. HDF5 science arrays and official QA CSV contents were not retrieved in this run. File-integrity verification does not grant scientific clearance.",
   "warnings": [
     "Unresolved official identification QA failures from prior screening remain blocking. QA CSV URLs were located but their contents were not retrieved in this run.",
     "Official browse PNGs cover product scenes; they are not the previously screened ROI exports and are not numerical rasters.",
     "No source power measurements or HH/HV temporal difference arrays have been read or generated. Never subtract displayed PNG RGB values to produce a dB difference.",
     "Previously reported screened counts are supplied by the user and were not revalidated. The original screened ROI bounds/checkpoints are unavailable in this checkout.",
-    "Terminal DNS resolution for NASA fails. Browser navigation to the official browse PNG was refused with net::ERR_BLOCKED_BY_CLIENT.",
-    "No scientific clearance, physical-cause attribution, public deployment or six-location website modification is authorized by this source index."
+    "No scientific clearance, physical-cause attribution, public deployment or six-location website modification is authorized by this source index.",
+    "NASA network access from the processing runtime remains unavailable. Only the supplied official browse PNGs have been imported; numerical ROI and temporal difference exports are still pending."
   ],
   "measurements": null,
   "exportCompletion": {
     "requiredRoiPngs": 12,
     "generatedRoiPngs": 0,
     "officialBrowsePngLinksLocated": 8,
-    "officialBrowsePngsDownloaded": 0,
-    "differenceImagesGenerated": 0
+    "officialBrowsePngsDownloaded": 8,
+    "differenceImagesGenerated": 0,
+    "officialBrowsePngsVerified": 8,
+    "browseAcquisitionMethod": "User-supplied local downloads, imported unchanged"
   },
   "acquisitions": [
     {
@@ -93,8 +95,16 @@
             "algorithm": "MD5",
             "value": "0d6011eb308801b54932abec5f7e14fc"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "localSha256": "7499b4ec91635392c1852eb92cbb63ba68188462b5813e95d1e241a394c3f1c8",
+          "image": {
+            "width": 2042,
+            "height": 2046,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         },
         "HV": {
           "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001_NATIVE_A_HVHV.png",
@@ -103,8 +113,16 @@
             "algorithm": "MD5",
             "value": "b13093fefcf3e85e9b577143fc930cea"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "localSha256": "30b9190e3112fd14565483efb8ae321c0da3bae6226535f64fa7987ac0502961",
+          "image": {
+            "width": 2042,
+            "height": 2046,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         }
       },
       "officialQaSummary": {
@@ -188,8 +206,16 @@
             "algorithm": "MD5",
             "value": "e5a57926fef639eedaddd9dce6dcccba"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "localSha256": "52e23101110edb32ec4291ffee36a7a408089e757e2ba1d7103d72fc767c7700",
+          "image": {
+            "width": 2042,
+            "height": 2046,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         },
         "HV": {
           "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001_NATIVE_A_HVHV.png",
@@ -198,8 +224,16 @@
             "algorithm": "MD5",
             "value": "6bbf1dff754e55bb3271727fec4bb247"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "localSha256": "be16c209d9786d8885999939d89c29568a134a34487a778cae041604116f4067",
+          "image": {
+            "width": 2042,
+            "height": 2046,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         }
       },
       "officialQaSummary": {
@@ -283,8 +317,16 @@
             "algorithm": "MD5",
             "value": "b16578b6a147a9ca6945310b9666d0c3"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "localSha256": "b4660eb1af7e5315f0d092cd14e60d2f282925983d2270b85e7906ce9a552007",
+          "image": {
+            "width": 1844,
+            "height": 1788,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         },
         "HV": {
           "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
@@ -293,8 +335,16 @@
             "algorithm": "MD5",
             "value": "5ecc41e7c1a5befaac1ab679985b3c9a"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "localSha256": "8b9f2cc79f73b07be673ab84e9350f506dd6db4e2e1f5e55ca4db51aeaa18dea",
+          "image": {
+            "width": 1844,
+            "height": 1788,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         }
       },
       "officialQaSummary": {
@@ -378,8 +428,16 @@
             "algorithm": "MD5",
             "value": "bb61727bf231202651916991dbbe452c"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "localSha256": "d9ad5e281eb648b0220f36997c819b30fb6d68bd4b7f09fb28395286cc8d3651",
+          "image": {
+            "width": 1844,
+            "height": 1788,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         },
         "HV": {
           "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
@@ -388,8 +446,16 @@
             "algorithm": "MD5",
             "value": "c9398bbfbceef72ae54eee034ef963f8"
           },
-          "downloaded": false,
-          "checksumVerified": false
+          "downloaded": true,
+          "checksumVerified": true,
+          "localPath": "browse/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "localSha256": "9a8296b091dc727685a8ed954e7628b50ab7ef3c49488a9506ca7c5aaea46d41",
+          "image": {
+            "width": 1844,
+            "height": 1788,
+            "mode": "L"
+          },
+          "acquisitionMethod": "User-supplied local download; copied byte-for-byte after NASA catalog size and MD5 verification"
         }
       },
       "officialQaSummary": {

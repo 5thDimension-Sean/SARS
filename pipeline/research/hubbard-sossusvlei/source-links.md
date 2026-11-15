@@ -2,7 +2,7 @@
 
 Both locations remain **BLOCKED / EXPLORATORY_NOT_CLEARED**.
 
-NASA CMR lists official frequency-A HH and HV browse PNGs for each of the four supplied granules. The table links to those previews and their HDF5 source products. These are scene browse images, not the previously screened ROI exports. File bytes have not been downloaded or independently checksum-verified in this session.
+NASA CMR lists official frequency-A HH and HV browse PNGs for each of the four supplied granules. The table links to those previews and their HDF5 source products. These are scene browse images, not the previously screened ROI exports. All eight PNGs are now included in the browse/ folder, copied unchanged from user-supplied local downloads. Each matches the NASA catalog byte size and MD5; PNG decoding and dimensions also pass verification. These integrity checks do not clear the scientific QA failures.
 
 | Location | Acquisition (UTC) | HH | HV | Numerical source | Provenance |
 | --- | --- | --- | --- | --- | --- |
@@ -17,4 +17,4 @@ The requested four date/polarization ROI images and two temporal difference imag
 
 Official identification QA failures reported by the prior screening remain unresolved. Catalog discovery does not clear scientific QA. Source-data authentication, aligned grid validation, masks, exceptions, provenance, bounded transfer/read budgets, and QA warnings remain required before producing an exploratory export.
 
-Access observed on 2026-11-15: catalog metadata was readable in the browser; terminal NASA DNS resolution failed, and direct browse PNG navigation was refused with net::ERR_BLOCKED_BY_CLIENT. No images were downloaded, no raster measurements were recomputed, and no changes were made to the six-location website.
+Access observed on 2026-11-15: catalog metadata was readable in the browser; terminal NASA DNS resolution failed, and direct browse PNG navigation was refused with net::ERR_BLOCKED_BY_CLIENT. The eight user-supplied local PNG downloads were subsequently imported and verified. No numerical raster measurements were recomputed, no temporal difference images were generated, and no changes were made to the six-location website.
