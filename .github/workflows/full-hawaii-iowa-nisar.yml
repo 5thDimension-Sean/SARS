@@ -1,0 +1,42 @@
+name: Recover full Hawaii and Iowa NISAR evidence
+
+on:
+  push:
+    branches:
+      - feat/hawaii-iowa-full-scientific-evidence
+    paths:
+      - .github/workflows/full-hawaii-iowa-nisar.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [hawaii-full, iowa-full]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install scientific processing packages
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Recover exactly published native date pair
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: python -m pipeline.coastal_pair_action --mode process --site ${{ matrix.site }} --out pipeline/full-review
+      - name: Preserve only derived rasters and metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-review-${{ matrix.site }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            pipeline/full-review/discovery.json
+            pipeline/full-review/processed/**
