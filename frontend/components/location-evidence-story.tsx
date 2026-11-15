@@ -93,6 +93,7 @@ export function NativeStudyEvidenceStory({ id, pol }: { id: "hawaii" | "iowa"; p
 }
 
 export function ResearchLocationEvidenceStory({ study }: { study: ResearchStudy }) {
+  const verifiedEtna = study.id === "etna";
   const isCandidate = study.evidence === "candidate";
   const publisher = study.evidence === "published-change" || study.evidence === "published-scene";
   const dateText = study.observationDates.length ? study.observationDates.map(fmtDate).join(" → ") : "No verified temporal pair";
@@ -105,7 +106,7 @@ export function ResearchLocationEvidenceStory({ study }: { study: ResearchStudy 
     <div className={styles.metrics}>
       <div><span>Published observation dates</span><strong className={styles.metricSmall}>{dateText}</strong></div>
       <div><span>Source evidence</span><strong className={styles.metricSmall}>{publisher ? "Published NASA / ISRO imagery" : isCandidate ? "Candidate only" : "Official NISAR browse"}</strong></div>
-      <div><span>Our numeric HH/HV change analysis</span><strong className={styles.metricSmall}>Not available</strong></div>
+      <div><span>Our numeric HH/HV change analysis</span><strong className={styles.metricSmall}>{verifiedEtna ? "Available · original GCOV processed" : "Not available"}</strong></div>
     </div>
     <div className={styles.grid}>
       <div className={styles.item}><span className={styles.eyebrow}>OBSERVATION</span><h3>What can visitors inspect?</h3>
@@ -113,11 +114,11 @@ export function ResearchLocationEvidenceStory({ study }: { study: ResearchStudy 
       <div className={styles.item}><span className={styles.eyebrow}>INTERPRETATION</span><h3>What is still uncertain?</h3>
         <p>{study.limitations[0]}</p></div>
       <div className={styles.item}><span className={styles.eyebrow}>QUALITY</span><h3>Scientific checks</h3>
-        <p>Official images or catalog metadata may be available, but TANGO has not independently cleared the product QA or calculated numerical before/after change here.</p></div>
+        <p>{verifiedEtna ? "TANGO validated matching radar grids and calculated measured changes, but product-level radiometric artifacts, noise and RFI remain unverified. This is not a validated lava map." : "Official images or catalog metadata may be available, but TANGO has not independently cleared the product QA or calculated numerical before/after change here."}</p></div>
       <div className={styles.item}><span className={styles.eyebrow}>NEXT STEP</span><h3>How to build stronger evidence</h3>
         <p>{study.nextStep}</p></div>
     </div>
-    <p className={styles.caveat}><strong>Not available:</strong> no real histogram-bin counts, paired-pixel A/B/C statistics, or quantitative change raster have been generated for this research location. No numbers or images are substituted.</p>
+    {verifiedEtna ? <p className={styles.caveat}><strong>Measured evidence is now available:</strong> open the new Mount Etna scientific investigation for actual 48-bin HH/HV histograms, numerical difference layers, three regions and QA provenance. Physical eruption attribution is not yet validated.</p> : <p className={styles.caveat}><strong>Not available:</strong> no real histogram-bin counts, paired-pixel A/B/C statistics, or quantitative change raster have been generated for this research location. No numbers or images are substituted.</p>}
   </section>;
 }
 
