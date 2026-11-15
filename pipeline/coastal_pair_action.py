@@ -16,7 +16,14 @@ import shutil
 from pipeline.fetch_nisar import load_asf, search_kwargs, catalog_metadata, expected_size, product_filename, download_products
 from pipeline.nisar_to_overlays import process_directory
 
-AOI = (-93.55, 29.70, -93.35, 29.82)
+SITES = {
+    "cameron": (-93.55, 29.70, -93.35, 29.82),
+    "isles-dernieres": (-90.95, 29.03, -90.72, 29.16),
+    "chandeleur": (-88.87, 29.65, -88.70, 29.88),
+    "rodanthe": (-75.50, 35.53, -75.43, 35.64),
+    "cape-hatteras": (-75.62, 35.18, -75.48, 35.29),
+}
+AOI = SITES["cameron"]
 MAX_PER_PRODUCT_BYTES = 2_500_000_000
 MAX_TOTAL_BYTES = 5_000_000_000
 
@@ -24,12 +31,14 @@ MAX_TOTAL_BYTES = 5_000_000_000
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=("discover", "process"), default="discover")
+    ap.add_argument("--site", choices=tuple(SITES), default="cameron")
     ap.add_argument("--out", type=Path, default=Path("pipeline/coastal-review"))
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
+    aoi = SITES[args.site]
     report: dict = {
-        "site": "Cameron Parish, Louisiana",
-        "roiWgs84": list(AOI),
+        "site": args.site,
+        "roiWgs84": list(aoi),
         "source": "NASA NISAR L2 GCOV via ASF DAAC",
         "status": "DISCOVERY_REQUIRED",
         "interpretation": "Exploratory radar-backscatter change, NOT measured shoreline erosion",
@@ -38,13 +47,16 @@ def main() -> int:
     report_file = args.out / "discovery.json"
     try:
         asf = load_asf()
-        query_args = argparse.Namespace(bbox=AOI, start="2026-07-01",
+        query_args = argparse.Namespace(bbox=aoi, start="2026-07-01",
                                         end="2026-11-14", track=None, frame=None,
                                         maturity="PROVISIONAL", max_results=200)
         products = list(asf.search(**search_kwargs(query_args, asf)))
         report["catalogResults"] = len(products)
         report["resultCapReached"] = len(products) >= 200
         groups = defaultdict(list)
+        report["sizeKnownProducts"] = 0
+        report["sizeWithinLimitProducts"] = 0
+        report["sceneNamesSample"] = []
         for p in products:
             prop = p.properties
             meta = catalog_metadata(p)
@@ -53,6 +65,20 @@ def main() -> int:
             except Exception:
                 continue
             size = expected_size(prop, filename)
+            if len(report["sceneNamesSample"]) < 5:
+                report["sceneNamesSample"].append({
+                    "date": str(prop.get("startTime", ""))[:10],
+                    "track": prop.get("pathNumber"),
+                    "frame": prop.get("frameNumber"),
+                    "pass": prop.get("flightDirection"),
+                    "sizeKnown": size is not None,
+                    "sizeGB": round(size / 1e9, 2) if size else None,
+                    "maturity": meta.get("dataMaturity")
+                })
+            if size is not None:
+                report["sizeKnownProducts"] += 1
+                if size <= MAX_PER_PRODUCT_BYTES:
+                    report["sizeWithinLimitProducts"] += 1
             if size is None or size <= 0 or size > MAX_PER_PRODUCT_BYTES:
                 continue
             # Track/frame/pass/release must agree, not merely geographic overlap.
@@ -113,7 +139,7 @@ def main() -> int:
         raw = args.out / "downloads"
         download_products([a[1], b[1]], raw, asf)
         report["status"] = "DOWNLOADED"
-        manifest = process_directory(raw, args.out / "processed", aoi=AOI,
+        manifest = process_directory(raw, args.out / "processed", aoi=aoi,
                                      pols=("HHHH", "HVHV"), max_size=2048,
                                      png_quantize=True)
         frames = manifest.get("frames", [])
@@ -123,7 +149,7 @@ def main() -> int:
         report["frames"] = [f.get("id") for f in frames]
         print("Generated genuine NISAR imagery and numeric raster derivatives.")
         return 0
-    except Exception as e:
+    except Exception:
         report["status"] = "FAILED"
         # Keep third-party exception messages out of logs and artifacts: signed URLs could leak.
         report["reason"] = "Pipeline/search/download validation failed; inspect masked job logs."
