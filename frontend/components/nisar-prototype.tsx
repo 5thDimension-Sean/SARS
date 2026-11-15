@@ -7,6 +7,7 @@ import { SiteFooter } from "./site-footer";
 import { downloadReport, type PlaceReport } from "@/lib/place-report";
 import { NativeStudy } from "./native-study";
 import { FullStudyEvidenceStory } from "./location-evidence-story";
+import { ProcessedEvidencePathway } from "./evidence-pathway";
 import dynamic from "next/dynamic";
 import type { InvestigationMap, ViewMode } from "./investigation/investigation-map";
 import { RadarHero, Reveal, ConnectionStatus } from "./investigation/radar-hero";
@@ -150,6 +151,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   const pe = evidence.pols[pol];
 
   return <>
+    <ProcessedEvidencePathway study={study} evidence={evidence} pol={pol} />
     <FullStudyEvidenceStory study={study} evidence={evidence} pol={pol} />
     <section className={styles.section} id="look" aria-labelledby="h-look">
       <header><h2 id="h-look">{study.label}</h2>
