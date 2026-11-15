@@ -15,11 +15,9 @@
 .panel { opacity: 0; visibility: hidden; transform: translateX(-56px); transition: opacity .35s ease, transform .35s ease, visibility 0s .35s; }
 .panel[data-active="true"] { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition: opacity .9s cubic-bezier(.22,.61,.36,1) .5s, transform 1s cubic-bezier(.22,.61,.36,1) .5s, visibility 0s .5s; }
 .eyebrow { display: inline-flex; align-items: center; gap: 12px; margin: 0; color: var(--gold); font: 600 .75rem/1 var(--font-mono, ui-monospace, monospace); letter-spacing: .22em; text-transform: uppercase; }
-.eyebrow::before { content: ""; width: 36px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
-.display { margin: 0; font-size: clamp(2.75rem, 7.2vw, 6.5rem); font-weight: 700; line-height: .94; letter-spacing: -.055em; text-wrap: balance;
-  background: linear-gradient(180deg, #fff 30%, var(--gold-soft) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 36px #f6c66730); }
-.title { margin: 0; font-size: clamp(2.25rem, 5vw, 4.25rem); font-weight: 700; line-height: .98; letter-spacing: -.05em; text-wrap: balance;
-  background: linear-gradient(180deg, #fff 35%, var(--gold-soft) 130%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.eyebrow::before { content: ""; width: 36px; height: 1px; background: var(--gold); }
+.display { margin: 0; font-size: clamp(2.75rem, 7.2vw, 6.5rem); font-weight: 700; line-height: .94; letter-spacing: -.055em; text-wrap: balance; color: #fff; }
+.title { margin: 0; font-size: clamp(2.25rem, 5vw, 4.25rem); font-weight: 700; line-height: .98; letter-spacing: -.05em; text-wrap: balance; color: #fff; }
 .dates { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0; color: #fff; font: 500 .9375rem var(--font-mono, ui-monospace, monospace); letter-spacing: -.01em; }
 .dates i { color: var(--gold); font-style: normal; }
 .lead { margin: 0; max-width: 40ch; color: #d2d2d7; font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.5; }
