@@ -41,7 +41,8 @@ test("candidates and mixed-sensor or single-scene sources never imply measured N
 test("local media matches recorded provenance and complete date/polarization coverage", () => {
   const provenance = JSON.parse(readFileSync(new URL("../public/research-media/local-assets.json", import.meta.url), "utf8"));
   const paths = new Set();
-  for (const s of RESEARCH_STUDIES) for (const m of s.media.filter(x => x.src.startsWith("/"))) {
+  for (const s of RESEARCH_STUDIES) for (const m of [...s.media, ...(s.video ? [s.video] : [])]) {
+    assert.ok(m.src.startsWith("/research-media/"), "All preview media must be archived locally");
     paths.add(m.src);
     const record = provenance.assets.find(a => "/" + a.path === m.src);
     assert.ok(record, m.src);
@@ -50,6 +51,8 @@ test("local media matches recorded provenance and complete date/polarization cov
     assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256);
     assert.match(record.sourceUrl, /^https:\/\//);
     if (m.src.endsWith(".png")) assert.equal(bytes.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+    else if (m.src.endsWith(".gif")) assert.match(bytes.subarray(0, 6).toString(), /^GIF8[79]a$/);
+    else if (m.src.endsWith(".mp4")) assert.equal(bytes.subarray(4, 8).toString(), "ftyp");
     else assert.equal(bytes.subarray(0, 3).toString("hex"), "ffd8ff");
   }
   assert.equal(paths.size, provenance.assets.length);
@@ -93,7 +96,9 @@ test("research routing, deployment prefixes and downloadable summaries preserve 
   assert.equal(researchIdFromHash("#queensland"), "queensland");
   assert.equal(researchIdFromHash("#unknown"), "hubbard");
   assert.equal(researchMediaUrl("/research-media/a.png", "/SARS/"), "/SARS/research-media/a.png");
-  const remote = study("mozambique").media[0].src;
+  assert.equal(researchMediaUrl("/research-media/sri-lanka/Ditwah.gif", "/SARS"), "/SARS/research-media/sri-lanka/Ditwah.gif");
+  assert.equal(researchMediaUrl(study("kamchatka").video.src, "/SARS"), "/SARS" + study("kamchatka").video.src);
+  const remote = study("mozambique").media[0].sourceUrl;
   assert.equal(researchMediaUrl(remote, "/SARS"), remote);
   for (const s of RESEARCH_STUDIES) {
     const report = researchSummary(s);

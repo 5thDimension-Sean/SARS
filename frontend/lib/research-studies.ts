@@ -11,7 +11,7 @@ export interface ResearchStudy {
   period: string; observationDates: string[]; event: string; story: string;
   limitations: string[]; nextStep: string; sources: { label: string; url: string }[];
   media: ResearchImage[];
-  video: { src: string; label: string; credit: string; note: string } | null;
+  video: { src: string; sourceUrl: string; label: string; credit: string; note: string } | null;
   archive: { dates: string[]; note: string } | null;
   status: "BLOCKED"; scientificClearance: "EXPLORATORY_NOT_CLEARED"; measurements: null;
 }
@@ -39,7 +39,7 @@ export function safeResearchSource(value: unknown): value is string {
   } catch { return false; }
 }
 export function safeResearchMedia(value: unknown): value is string {
-  return typeof value === "string" && (/^\/research-media\/[a-zA-Z0-9_/-]+\.(?:png|jpg|jpeg)$/.test(value)
+  return typeof value === "string" && (/^\/research-media\/[a-zA-Z0-9_/-]+\.(?:png|jpg|jpeg|gif|mp4)$/.test(value)
     || (safeResearchSource(value) && /\.(?:png|jpg|jpeg|gif|mp4)$/.test(new URL(value).pathname)));
 }
 function datesValid(value: unknown): value is string[] {
@@ -69,7 +69,7 @@ export function validateResearchCatalog(value: unknown): ResearchCatalog {
       && typeof m.defer === "boolean" && (m.date === null || (date(m.date) && (s.observationDates as string[]).includes(m.date)))
       && (m.polarization === undefined || m.polarization === "HH" || m.polarization === "HV"))) throw new Error("Unsafe or mismatched research media");
     if (s.video !== null && (!rec(s.video) || !safeResearchMedia(s.video.src)
-      || !String(s.video.src).endsWith(".mp4") || !text(s.video.label) || !text(s.video.credit)
+      || !String(s.video.src).endsWith(".mp4") || !safeResearchSource(s.video.sourceUrl) || !text(s.video.label) || !text(s.video.credit)
       || !text(s.video.note))) throw new Error("Invalid publisher video");
     if (s.archive !== null && (!rec(s.archive) || !datesValid(s.archive.dates) || !text(s.archive.note))) throw new Error("Invalid archived study");
     if (s.evidence === "candidate" && (s.gallery !== "pending" || s.media.length || s.observationDates.length || s.video !== null)) {

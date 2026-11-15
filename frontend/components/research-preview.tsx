@@ -73,9 +73,9 @@ function Gallery({ study }: { study: ResearchStudy }) {
     </div>
     {study.video && <div className={styles.videoBlock}>
       {!video ? <button type="button" onClick={() => setVideo(true)}>Load NASA lava-flow time-lapse ↗</button>
-        : videoFailed ? <p role="status">The video could not be loaded. <a href={study.video.src} target="_blank" rel="noopener noreferrer">Open NASA’s video ↗</a></p>
+        : videoFailed ? <p role="status">The video could not be loaded. <a href={study.video.sourceUrl} target="_blank" rel="noopener noreferrer">Open NASA&apos;s video ↗</a></p>
         : <video controls preload="metadata" aria-label={study.video.label} onError={() => setVideoFailed(true)}>
-          <source src={study.video.src} type="video/mp4" />Your browser cannot play this video.
+          <source src={researchMediaUrl(study.video.src)} type="video/mp4" />Your browser cannot play this video.
         </video>}
       <p>{study.video.note} Credit: {study.video.credit}.</p>
     </div>}

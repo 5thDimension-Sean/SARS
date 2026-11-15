@@ -36,6 +36,62 @@
       "bytes": 6457818,
       "catalogMd5Verified": false,
       "note": "Published NASA visualization downloaded from the article. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/hubbard/hubbardearthquake_nisar_20251208_lrg.jpg",
+      "sourceUrl": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/landslide-and-avalanche-debris-litter-hubbard-glacier/hubbardearthquake_nisar_20251208_lrg.jpg",
+      "sha256": "3b953a7d486ac878bbc6691215c7251af831120cd9ad3f6734ed63b50ea44900",
+      "bytes": 6553302,
+      "catalogMd5Verified": false,
+      "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/kamchatka/nisar_volcano_annotated_00500_print.jpg",
+      "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.00500_print.jpg",
+      "sha256": "8944f344e269174e79218cce893095ff5e9983efaac5c6221f15d686d3d55b27",
+      "bytes": 519913,
+      "catalogMd5Verified": false,
+      "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/mozambique/Pre_OverviewComposite.png",
+      "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Pre_OverviewComposite.png",
+      "sha256": "81389355a1134e6bac09b37f8b55cae9d7dc0ebadcdf8fd726abdafe39c8b186",
+      "bytes": 4421333,
+      "catalogMd5Verified": false,
+      "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/mozambique/Post_OverviewComposite.png",
+      "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Post_OverviewComposite.png",
+      "sha256": "faad270cbb65da0b46f48a61b742e1b18d3c06c20cee4db103a9f423735f7649",
+      "bytes": 4373571,
+      "catalogMd5Verified": false,
+      "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/sri-lanka/Ditwah.gif",
+      "sourceUrl": "https://bhoonidhi.nrsc.gov.in/NISAR/images/100days/Ditwah.gif",
+      "sha256": "3a6991d26fe3c336f972ba3f12d12c10f297497f16ffd5e640181ea4e7b5e67a",
+      "bytes": 9143204,
+      "catalogMd5Verified": false,
+      "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/antarctica/PIA26617_figA.jpg",
+      "sourceUrl": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/PIA26617_figA.jpg",
+      "sha256": "79324d1180d51ff318561f48c310449133d0b195d4c861b2f57a68ff4c95e1ed",
+      "bytes": 30515280,
+      "catalogMd5Verified": false,
+      "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/kamchatka/nisar_volcano_annotated.mp4",
+      "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.mp4",
+      "sha256": "922f5285baac7416f4561d3a7436ed14b02d3139ccd7decfe8ced234ad288e67",
+      "bytes": 31458274,
+      "catalogMd5Verified": false,
+      "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
     }
   ]
 }

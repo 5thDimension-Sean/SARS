@@ -44,7 +44,7 @@
         },
         {
           "kind": "image",
-          "src": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/landslide-and-avalanche-debris-litter-hubbard-glacier/hubbardearthquake_nisar_20251208_lrg.jpg",
+          "src": "/research-media/hubbard/hubbardearthquake_nisar_20251208_lrg.jpg",
           "label": "After the earthquake",
           "date": "2025-12-08",
           "credit": "Eric Fielding and Gustavo H. X. Shiroma / JPL; NASA Earth Observatory / Lauren Dauphin",
@@ -171,7 +171,7 @@
       "media": [
         {
           "kind": "image",
-          "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.00500_print.jpg",
+          "src": "/research-media/kamchatka/nisar_volcano_annotated_00500_print.jpg",
           "label": "Frame from NASA’s annotated time-lapse",
           "date": null,
           "credit": "NASA Scientific Visualization Studio",
@@ -180,10 +180,11 @@
         }
       ],
       "video": {
-        "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.mp4",
+        "src": "/research-media/kamchatka/nisar_volcano_annotated.mp4",
         "label": "NASA annotated lava-flow time-lapse",
         "credit": "NASA Scientific Visualization Studio",
-        "note": "Silent annotated visualization; 17 radar frames across the published observation period."
+        "note": "Silent annotated visualization; 17 radar frames across the published observation period.",
+        "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.mp4"
       },
       "archive": null,
       "status": "BLOCKED",
@@ -219,7 +220,7 @@
       "media": [
         {
           "kind": "image",
-          "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Pre_OverviewComposite.png",
+          "src": "/research-media/mozambique/Pre_OverviewComposite.png",
           "label": "Before the flooding",
           "date": "2026-01-05",
           "credit": "NASA Scientific Visualization Studio / Zoey N. Armstrong",
@@ -228,7 +229,7 @@
         },
         {
           "kind": "image",
-          "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Post_OverviewComposite.png",
+          "src": "/research-media/mozambique/Post_OverviewComposite.png",
           "label": "During the flooding",
           "date": "2026-01-17",
           "credit": "NASA Scientific Visualization Studio / Zoey N. Armstrong",
@@ -268,7 +269,7 @@
       "media": [
         {
           "kind": "image",
-          "src": "https://bhoonidhi.nrsc.gov.in/NISAR/images/100days/Ditwah.gif",
+          "src": "/research-media/sri-lanka/Ditwah.gif",
           "label": "ISRO’s mixed-sensor cyclone comparison",
           "date": null,
           "credit": "ISRO / NRSC · NISAR S-band and EOS-04 C-band",
@@ -308,7 +309,7 @@
       "media": [
         {
           "kind": "image",
-          "src": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/PIA26617_figA.jpg",
+          "src": "/research-media/antarctica/PIA26617_figA.jpg",
           "label": "NASA’s annotated Antarctic scene · approximately 29 MB",
           "date": null,
           "credit": "NASA / JPL-Caltech",
