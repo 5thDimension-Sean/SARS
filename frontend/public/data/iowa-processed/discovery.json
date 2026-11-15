@@ -1,0 +1,21 @@
+{
+  "site": "iowa-full",
+  "roiWgs84": [
+    -93.64,
+    42,
+    -93.6,
+    42.04
+  ],
+  "status": "EXPLORATORY_PROCESSED_NOT_QA_CLEARED",
+  "selected": [
+    {
+      "date": "2026-09-25",
+      "sceneName": "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001"
+    },
+    {
+      "date": "2026-10-19",
+      "sceneName": "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001"
+    }
+  ],
+  "processing": "separate exact-source HDF5 validated acquisitions, numerical COG differencing"
+}
