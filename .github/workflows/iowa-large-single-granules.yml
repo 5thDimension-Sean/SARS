@@ -1,0 +1,95 @@
+name: Process large Iowa NISAR scenes individually
+
+on:
+  push:
+    branches:
+      - feat/hawaii-iowa-full-scientific-evidence
+    paths:
+      - .github/workflows/iowa-large-single-granules.yml
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  single:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        date: ["2026-09-25", "2026-10-19"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install scientific requirements
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Download one large source, extract actual numerical COGs, delete HDF5
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: |
+          python -m pipeline.derive_single_nisar --date ${{ matrix.date }} --out pipeline/iowa-single
+          test ! -d pipeline/iowa-single/raw
+      - name: Publish only small per-date scientific derivatives
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iowa-${{ matrix.date }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            pipeline/iowa-single/discovery.json
+            pipeline/iowa-single/processed/**
+  combine:
+    needs: single
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install scientific requirements
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Download each verified single-date derivative from this run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: iowa-*
+          path: acquisitions
+          merge-multiple: false
+      - name: Assemble genuine numeric Iowa difference maps
+        run: |
+          mkdir -p stitched
+          mv acquisitions/iowa-2026-09-25 acquisitions/20260925
+          mv acquisitions/iowa-2026-10-19 acquisitions/20261019
+          python -m pipeline.assemble_nisar_single --single acquisitions --out stitched
+          mkdir -p frontend/public/data/iowa-processed
+          cp -R stitched/processed/. frontend/public/data/iowa-processed/
+          cp stitched/discovery.json frontend/public/data/iowa-processed/discovery.json
+          python -m pipeline.generate_unified_evidence --site iowa-full
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m=json.loads(Path('frontend/public/data/iowa-processed/manifest.json').read_text())
+          assert m['frames'][0]['id']=='T105_F023_A'
+          assert len(m['frames'][0]['changeLayers'])==3
+          r=json.loads(Path('frontend/public/data/iowa-full-regions/regions.json').read_text())
+          assert len(r['regions'])==3
+          e=json.loads(Path('frontend/public/data/iowa-full-evidence/evidence.json').read_text())
+          assert len(e['polarizations']['HV']['histogramBins'])==48
+          PY
+      - name: Commit only authentic reduced-grid outputs
+        run: |
+          set -euo pipefail
+          test "$(find frontend/public/data/iowa-processed -name '*.h5' | wc -l)" = 0
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add frontend/public/data/iowa-processed frontend/public/data/iowa-full-evidence frontend/public/data/iowa-full-regions frontend/public/data/iowa-full-preview
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish genuine native-grid Iowa GCOV histograms and aligned difference layers"
+            git push origin HEAD:feat/hawaii-iowa-full-scientific-evidence
+          fi
