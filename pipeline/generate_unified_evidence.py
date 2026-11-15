@@ -23,6 +23,8 @@ from rasterio.warp import transform as project
 SITES = {
     "rodanthe": {"title": "Rodanthe, North Carolina", "region": "North Carolina Outer Banks coast", "data": "rodanthe-processed"},
     "custom": {"title": "Custom NISAR coordinate comparison", "region": "Visitor-selected geographic point", "data": "results"},
+    "hawaii-full": {"title": "Kīlauea, Hawaiʻi", "region": "Kīlauea volcanic summit, Hawaiʻi, United States", "data": "hawaii-processed"},
+    "iowa-full": {"title": "Ames, Iowa", "region": "Ames, Iowa, United States", "data": "iowa-processed"},
     "amazon": {"title": "Mamirauá, Amazon River", "region": "Mamirauá Amazon River floodplain, Brazil", "data": "amazon-mamiraua"},
 }
 RANGES = {"HH": (-25., 0.), "HV": (-30., -5.)}
