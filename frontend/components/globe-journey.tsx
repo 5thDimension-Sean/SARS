@@ -64,7 +64,6 @@ export function GlobeJourney() {
           <h2 className={styles.title}>{p.label}</h2>
           <p className={styles.dates}><time dateTime={p.dates[0]}>{fmtDate(p.dates[0])}</time><i aria-hidden="true">→</i><time dateTime={p.dates[1]}>{fmtDate(p.dates[1])}</time></p>
           <p className={styles.lead}>{p.blurb} Radar differences alone do not name a cause.</p>
-          <ul className={styles.chips} aria-label="Included">{p.tags.map((t) => <li key={t}>{t}</li>)}</ul>
           <Link className={styles.cta} href={p.href}>Open this investigation <span aria-hidden="true">↗</span></Link>
         </article>)}
       </div>
