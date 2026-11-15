@@ -34,7 +34,7 @@ export function PadmaErosionStory() {
         <div><h3>What is happening here?</h3><p>In Bangladesh, the Padma’s channel changes shape over time. The Harirampur reach experienced notable historical bank loss, while shifting bars and bends also illustrate deposition.</p></div>
         <div><h3>Why does it matter?</h3><p>Communities use the river for farming and transport. A migrating channel can affect nearby land and infrastructure even when the overall river system is naturally changing.</p></div>
       </div>
-    </header>
+    </section>
     <section className={styles.section} id="look" aria-labelledby="padma-compare-title">
       <div className={styles.sectionHead}><span className={styles.eyebrow}>02 / COMPARE SATELLITE OBSERVATIONS</span><h2 id="padma-compare-title">Watch the river move.</h2>
         <p>The dark river channels, pale sediment bars, and surrounding land show a different pattern in 1988 and 2018. Look at the bends near Harirampur and Char Janajat. Not every difference in color represents erosion.</p></div>
