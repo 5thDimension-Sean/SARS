@@ -11,6 +11,9 @@ import requests
 from pipeline.fetch_nisar import product_filename, expected_size, _validate_hdf5, write_sidecar
 
 NASA_HOSTS = {"data.asf.alaska.edu", "datapool.asf.alaska.edu", "nisar.asf.earthdatacloud.nasa.gov"}
+# Observed from authenticated redirects issued by the NISAR source above.
+# Permit this exact distribution only; other CloudFront tenants are untrusted.
+NISAR_CDN_HOSTS = {"d1mv8zhcvry6x4.cloudfront.net"}
 
 
 def permitted_url(url: str, *, redirect: bool = False) -> bool:
@@ -21,8 +24,9 @@ def permitted_url(url: str, *, redirect: bool = False) -> bool:
             return False
         if host in NASA_HOSTS:
             return True
-        # Signed S3 redirects may carry the request, but NEVER the NASA bearer.
-        return redirect and (host == "s3.amazonaws.com" or host.endswith(".s3.amazonaws.com")
+        # Signed CDN/S3 redirects carry the request, but NEVER the NASA bearer.
+        return redirect and (host in NISAR_CDN_HOSTS
+                             or host == "s3.amazonaws.com" or host.endswith(".s3.amazonaws.com")
                              or (".s3." in host and host.endswith(".amazonaws.com")))
     except ValueError:
         return False
