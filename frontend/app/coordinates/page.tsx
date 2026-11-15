@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from "react";
+import Link from "next/link";
 import { PLACES } from "@/lib/places";
 import { SiteFooter } from "@/components/site-footer";
 import styles from "@/components/investigation/investigation.module.css";
@@ -49,6 +50,9 @@ export default function CoordinateExplorer() {
   const valid = lat.trim() !== "" && lon.trim() !== "" && Number.isFinite(Number(lat)) && Number.isFinite(Number(lon)) &&
     Math.abs(Number(lat)) <= 85 && Math.abs(Number(lon)) <= 180;
   const busy = ["connecting", "queued", "searching", "downloading", "processing"].includes(status);
+  const matchingPublished = valid ? PLACES.filter(p => p.bounds &&
+    Number(lon) >= p.bounds[0] && Number(lon) <= p.bounds[2] &&
+    Number(lat) >= p.bounds[1] && Number(lat) <= p.bounds[3]) : [];
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -175,6 +179,10 @@ export default function CoordinateExplorer() {
           {!valid && <p className={styles.notice} role="alert">Enter valid latitude and longitude coordinates.</p>}
           {message && <p className={styles.notice} role="status" aria-live="polite">{message}</p>}
         </form>
+        {matchingPublished.length > 0 && <div className={styles.notice} style={{ marginTop: 22 }}>
+          <strong>Already-published NASA comparison at this coordinate</strong>
+          {matchingPublished.map(place => <p key={place.id}><Link href={place.href}>Explore {place.label} using published NISAR files</Link></p>)}
+        </div>}
 
         {result && status === "ready" && <section className={styles.section} aria-labelledby="custom-result">
           <header><h2 id="custom-result">Your real NASA NISAR investigation</h2>
