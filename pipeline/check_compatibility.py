@@ -109,7 +109,11 @@ def describe(ds):
                 attr.close()
             raw = ds.attrs[key]
             attrs[key] = str(raw.decode() if isinstance(raw, bytes) else raw)[:4096]
-    return {'shape': list(ds.shape), 'dtype': str(ds.dtype), 'chunks': ds.chunks,
+    # Persisted evidence uses JSON arrays. Normalize the container here so an
+    # unchanged live dataset compares exactly with its saved description; keep
+    # contiguous storage as None and preserve every dimension without coercion.
+    return {'shape': list(ds.shape), 'dtype': str(ds.dtype),
+            'chunks': list(ds.chunks) if ds.chunks is not None else None,
             'compression': ds.compression, 'attributes': attrs}
 
 
