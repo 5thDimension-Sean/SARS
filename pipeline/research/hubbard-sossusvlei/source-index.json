@@ -1,0 +1,406 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Internal source discovery for Hubbard Glacier and Sossusvlei; not a completed raster export or measurement summary.",
+  "catalogVerifiedOnUtc": "2026-11-15",
+  "status": "BLOCKED",
+  "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+  "verificationScope": "NASA CMR UMM-G records were read in the browser for all four supplied concept IDs. Dates, product names, collection, track/frame/pass, polarizations, file URLs, archive sizes and catalog MD5 values were recorded. No PNG or HDF5 bytes were downloaded; checksums are catalog expectations, not locally verified file hashes.",
+  "warnings": [
+    "Unresolved official identification QA failures from prior screening remain blocking. QA CSV URLs were located but their contents were not retrieved in this run.",
+    "Official browse PNGs cover product scenes; they are not the previously screened ROI exports and are not numerical rasters.",
+    "No source power measurements or HH/HV temporal difference arrays have been read or generated. Never subtract displayed PNG RGB values to produce a dB difference.",
+    "Previously reported screened counts are supplied by the user and were not revalidated. The original screened ROI bounds/checkpoints are unavailable in this checkout.",
+    "Terminal DNS resolution for NASA fails. Browser navigation to the official browse PNG was refused with net::ERR_BLOCKED_BY_CLIENT.",
+    "No scientific clearance, physical-cause attribution, public deployment or six-location website modification is authorized by this source index."
+  ],
+  "measurements": null,
+  "exportCompletion": {
+    "requiredRoiPngs": 12,
+    "generatedRoiPngs": 0,
+    "officialBrowsePngLinksLocated": 8,
+    "officialBrowsePngsDownloaded": 0,
+    "differenceImagesGenerated": 0
+  },
+  "acquisitions": [
+    {
+      "location": "Hubbard Glacier",
+      "conceptId": "G4344465497-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4344465497-ASF.umm_json",
+      "acquisitionStartUtc": "2026-10-04T13:32:25.000000Z",
+      "producerGranuleId": "NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001",
+      "collection": {
+        "shortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "version": "1"
+      },
+      "productVersion": "1.0.11",
+      "pgeVersion": "R05.02.3",
+      "radarBand": "L",
+      "frequency": "A",
+      "polarizations": [
+        "HH",
+        "HV"
+      ],
+      "track": 63,
+      "frame": 32,
+      "orbitPassDirection": "ASCENDING",
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "catalogFootprintWgs84": {
+        "coordinateOrder": "longitude,latitude",
+        "ring": [
+          [
+            -135.31928,
+            59.38891
+          ],
+          [
+            -137.40816,
+            61.4639
+          ],
+          [
+            -141.56553,
+            60.33694
+          ],
+          [
+            -139.28778,
+            58.32865
+          ],
+          [
+            -135.31928,
+            59.38891
+          ]
+        ]
+      },
+      "previousScreening": {
+        "reportedValidPixels": 126563,
+        "source": "User-provided prior screening; not revalidated",
+        "roiBoundsWgs84": null
+      },
+      "hdf5": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001.h5",
+        "catalogBytes": 7444889600,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "c4fa2a86f841d684368a3d772c95fd41"
+        },
+        "downloaded": false,
+        "checksumVerified": false
+      },
+      "browse": {
+        "HH": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "catalogBytes": 1598521,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "0d6011eb308801b54932abec5f7e14fc"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        },
+        "HV": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "catalogBytes": 1579705,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "b13093fefcf3e85e9b577143fc930cea"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        }
+      },
+      "officialQaSummary": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_063_A_032_4005_DHDH_A_20261004T133225_20261004T133302_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "catalogBytes": 1441,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "149097c581e3119a765d2ab6519151b9"
+        },
+        "retrieved": false
+      }
+    },
+    {
+      "location": "Hubbard Glacier",
+      "conceptId": "G4375612623-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4375612623-ASF.umm_json",
+      "acquisitionStartUtc": "2026-10-16T13:32:26.000000Z",
+      "producerGranuleId": "NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001",
+      "collection": {
+        "shortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "version": "1"
+      },
+      "productVersion": "1.0.11",
+      "pgeVersion": "R05.02.3",
+      "radarBand": "L",
+      "frequency": "A",
+      "polarizations": [
+        "HH",
+        "HV"
+      ],
+      "track": 63,
+      "frame": 32,
+      "orbitPassDirection": "ASCENDING",
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "catalogFootprintWgs84": {
+        "coordinateOrder": "longitude,latitude",
+        "ring": [
+          [
+            -135.33679,
+            59.4325
+          ],
+          [
+            -137.39196,
+            61.44783
+          ],
+          [
+            -141.54697,
+            60.32164
+          ],
+          [
+            -139.32798,
+            58.36635
+          ],
+          [
+            -135.33679,
+            59.4325
+          ]
+        ]
+      },
+      "previousScreening": {
+        "reportedValidPixels": 127680,
+        "source": "User-provided prior screening; not revalidated",
+        "roiBoundsWgs84": null
+      },
+      "hdf5": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001.h5",
+        "catalogBytes": 7264534528,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "ff3c7e4d93c78df3f26b10563fd4a863"
+        },
+        "downloaded": false,
+        "checksumVerified": false
+      },
+      "browse": {
+        "HH": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "catalogBytes": 1545999,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "e5a57926fef639eedaddd9dce6dcccba"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        },
+        "HV": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "catalogBytes": 1531956,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "6bbf1dff754e55bb3271727fec4bb247"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        }
+      },
+      "officialQaSummary": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_063_A_032_4005_DHDH_A_20261016T133226_20261016T133302_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "catalogBytes": 1441,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "149097c581e3119a765d2ab6519151b9"
+        },
+        "retrieved": false
+      }
+    },
+    {
+      "location": "Sossusvlei",
+      "conceptId": "G4352673999-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4352673999-ASF.umm_json",
+      "acquisitionStartUtc": "2026-10-07T17:06:20.000000Z",
+      "producerGranuleId": "NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001",
+      "collection": {
+        "shortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "version": "1"
+      },
+      "productVersion": "1.0.11",
+      "pgeVersion": "R05.02.3",
+      "radarBand": "L",
+      "frequency": "A",
+      "polarizations": [
+        "HH",
+        "HV"
+      ],
+      "track": 108,
+      "frame": 101,
+      "orbitPassDirection": "DESCENDING",
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "catalogFootprintWgs84": {
+        "coordinateOrder": "longitude,latitude",
+        "ring": [
+          [
+            14.42893,
+            -23.74024
+          ],
+          [
+            13.95967,
+            -25.88047
+          ],
+          [
+            16.49608,
+            -26.30238
+          ],
+          [
+            16.91872,
+            -24.16695
+          ],
+          [
+            14.42893,
+            -23.74024
+          ]
+        ]
+      },
+      "previousScreening": {
+        "reportedValidPixels": 85095,
+        "source": "User-provided prior screening; not revalidated",
+        "roiBoundsWgs84": null
+      },
+      "hdf5": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001.h5",
+        "catalogBytes": 1828716544,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "a7c973876f3a30d722562b337517f71d"
+        },
+        "downloaded": false,
+        "checksumVerified": false
+      },
+      "browse": {
+        "HH": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "catalogBytes": 1358498,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "b16578b6a147a9ca6945310b9666d0c3"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        },
+        "HV": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "catalogBytes": 1292997,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "5ecc41e7c1a5befaac1ab679985b3c9a"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        }
+      },
+      "officialQaSummary": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "catalogBytes": 1441,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "149097c581e3119a765d2ab6519151b9"
+        },
+        "retrieved": false
+      }
+    },
+    {
+      "location": "Sossusvlei",
+      "conceptId": "G4381600932-ASF",
+      "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4381600932-ASF.umm_json",
+      "acquisitionStartUtc": "2026-10-19T17:06:20.000000Z",
+      "producerGranuleId": "NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001",
+      "collection": {
+        "shortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "version": "1"
+      },
+      "productVersion": "1.0.11",
+      "pgeVersion": "R05.02.3",
+      "radarBand": "L",
+      "frequency": "A",
+      "polarizations": [
+        "HH",
+        "HV"
+      ],
+      "track": 108,
+      "frame": 101,
+      "orbitPassDirection": "DESCENDING",
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "catalogFootprintWgs84": {
+        "coordinateOrder": "longitude,latitude",
+        "ring": [
+          [
+            14.4383,
+            -23.71901
+          ],
+          [
+            13.96918,
+            -25.85926
+          ],
+          [
+            16.50033,
+            -26.28039
+          ],
+          [
+            16.92293,
+            -24.14492
+          ],
+          [
+            14.4383,
+            -23.71901
+          ]
+        ]
+      },
+      "previousScreening": {
+        "reportedValidPixels": 85095,
+        "source": "User-provided prior screening; not revalidated",
+        "roiBoundsWgs84": null
+      },
+      "hdf5": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001.h5",
+        "catalogBytes": 1824522240,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "e1ef5059267d1b9bf101ed6355a95935"
+        },
+        "downloaded": false,
+        "checksumVerified": false
+      },
+      "browse": {
+        "HH": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+          "catalogBytes": 1329602,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "bb61727bf231202651916991dbbe452c"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        },
+        "HV": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+          "catalogBytes": 1273742,
+          "catalogChecksum": {
+            "algorithm": "MD5",
+            "value": "c9398bbfbceef72ae54eee034ef963f8"
+          },
+          "downloaded": false,
+          "checksumVerified": false
+        }
+      },
+      "officialQaSummary": {
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "catalogBytes": 1441,
+        "catalogChecksum": {
+          "algorithm": "MD5",
+          "value": "149097c581e3119a765d2ab6519151b9"
+        },
+        "retrieved": false
+      }
+    }
+  ]
+}
