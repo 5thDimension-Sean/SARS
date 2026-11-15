@@ -21,7 +21,7 @@ test("all seven scientific locations have substantive, cautious, specific explan
 });
 
 test("full-data stories use published measured whole-scene summaries, never invented statistics", () => {
-  for (const id of ["everglades","louisiana","california","hawaii","rodanthe","amazon"]) {
+  for (const id of ["everglades","louisiana","california","hawaii","rodanthe","amazon","etna"]) {
     const study = STUDIES.find(s => s.id === id);
     const evidence = parseEvidence(read(`${study.evidenceDir}/evidence.json`), study);
     for (const pol of ["HH","HV"]) {
