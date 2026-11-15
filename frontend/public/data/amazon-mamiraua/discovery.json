@@ -1,0 +1,239 @@
+{
+  "site": "amazon-mamiraua",
+  "roiWgs84": [
+    -65.02,
+    -3.3,
+    -64.75,
+    -3.08
+  ],
+  "source": "NASA NISAR L2 GCOV via ASF DAAC",
+  "status": "EXPLORATORY_PROCESSED_NOT_QA_CLEARED",
+  "interpretation": "Exploratory radar-backscatter change, NOT measured shoreline erosion",
+  "selected": [
+    {
+      "date": "2026-07-07",
+      "sceneName": "NISAR_L2_PR_GCOV_024_161_A_176_2005_DHDH_A_20260707T100307_20260707T100335_P05023_N_F_J_001",
+      "bytes": 1593835520,
+      "filename": "NISAR_L2_PR_GCOV_024_161_A_176_2005_DHDH_A_20260707T100307_20260707T100335_P05023_N_F_J_001.h5",
+      "track": "161",
+      "frame": "176",
+      "pass": "ASCENDING",
+      "productVersion": "None",
+      "compositeReleaseId": "P05023",
+      "dataMaturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-07-19",
+      "sceneName": "NISAR_L2_PR_GCOV_025_161_A_176_2005_DHDH_A_20260719T100307_20260719T100334_P05023_N_F_J_001",
+      "bytes": 1547698176,
+      "filename": "NISAR_L2_PR_GCOV_025_161_A_176_2005_DHDH_A_20260719T100307_20260719T100334_P05023_N_F_J_001.h5",
+      "track": "161",
+      "frame": "176",
+      "pass": "ASCENDING",
+      "productVersion": "None",
+      "compositeReleaseId": "P05023",
+      "dataMaturity": "PROVISIONAL"
+    }
+  ],
+  "catalogResults": 18,
+  "catalogInventory": [
+    {
+      "date": "2026-10-11",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.896,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-10-06",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 1.497,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-29",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.896,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-24",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 1.967,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-17",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.896,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-12",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 1.497,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-05",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.896,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-05",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.896,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-08-31",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 1.967,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-08-24",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.9,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-08-19",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 1.497,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-26",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 0.273,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-19",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.548,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-19",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.77,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-14",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 0.273,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-07",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.594,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-07",
+      "track": 161,
+      "frame": 176,
+      "direction": "ASCENDING",
+      "sizeGB": 1.77,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-02",
+      "track": 97,
+      "frame": 90,
+      "direction": "DESCENDING",
+      "sizeGB": 0.273,
+      "release": "P05023"
+    }
+  ],
+  "resultCapReached": false,
+  "sizeKnownProducts": 10,
+  "sizeWithinLimitProducts": 10,
+  "sceneNamesSample": [
+    {
+      "date": "2026-10-11",
+      "track": 161,
+      "frame": 176,
+      "pass": "ASCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.9,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-09-29",
+      "track": 161,
+      "frame": 176,
+      "pass": "ASCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.9,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-09-24",
+      "track": 97,
+      "frame": 90,
+      "pass": "DESCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.97,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-09-17",
+      "track": 161,
+      "frame": 176,
+      "pass": "ASCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.9,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-09-05",
+      "track": 161,
+      "frame": 176,
+      "pass": "ASCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.9,
+      "maturity": "PROVISIONAL"
+    }
+  ],
+  "compatibleMetadataPairsUnderSizeCap": 20,
+  "frames": [
+    "T161_F176_A"
+  ]
+}

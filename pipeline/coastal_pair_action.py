@@ -22,6 +22,9 @@ SITES = {
     "chandeleur": (-88.87, 29.65, -88.70, 29.88),
     "rodanthe": (-75.50, 35.53, -75.43, 35.64),
     "cape-hatteras": (-75.62, 35.18, -75.48, 35.29),
+    "amazon-mamiraua": (-65.02, -3.30, -64.75, -3.08),
+    "amazon-manaus": (-60.15, -3.26, -59.87, -3.04),
+    "amazon-santarem": (-54.91, -2.60, -54.63, -2.39),
 }
 AOI = SITES["cameron"]
 MAX_PER_PRODUCT_BYTES = 2_800_000_000
@@ -74,6 +77,10 @@ def main() -> int:
             try:
                 filename = product_filename(p)
             except Exception:
+                continue
+            # This processor requires Frequency-A HHHH and HVHV.
+            # Same track/frame can still have incompatible acquisition modes.
+            if "_DHDH_A_" not in filename:
                 continue
             size = expected_size(prop, filename)
             if len(report["sceneNamesSample"]) < 5:

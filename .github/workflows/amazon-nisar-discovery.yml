@@ -1,0 +1,42 @@
+name: Amazon NISAR catalog discovery
+
+on:
+  push:
+    branches:
+      - feat/amazon-nisar-discovery
+    paths:
+      - .github/workflows/amazon-nisar-discovery.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  amazon:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [amazon-mamiraua]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install ASF and radar science dependencies
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Search NASA ASF for compatible genuine Amazon GCOV pairs
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: python -m pipeline.coastal_pair_action --mode process --site ${{ matrix.site }} --out pipeline/amazon-review
+      - name: Upload metadata only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: amazon-nisar-${{ matrix.site }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            pipeline/amazon-review/discovery.json
+            pipeline/amazon-review/processed/**
