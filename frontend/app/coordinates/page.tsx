@@ -17,13 +17,14 @@ const STARTERS = [
 type Pol = "HH" | "HV";
 type Mode = "swipe" | "side" | "difference";
 interface Observation { date: string; count: number; meanDb: number; medianDb: number; p05Db: number; p95Db: number }
+interface Bin { lowDb: number; highDb: number; firstCount: number; secondCount: number }
 interface Region { id: string; title: string; stats: Record<Pol, { pairedDifference: { pixels: number; medianDifferenceDb: number; meanDifferenceDb: number } }> }
 interface Result {
   dates: [string, string]; track: string; frame: string; passDirection: string; release: string;
   coordinates: { latitude: number; longitude: number }; scientificStatus: string;
-  disclaimer: string; catalogCount: number;
+  disclaimer: string; catalogCount: number; quality: Record<string, string>; limitations: string[];
   images: Record<Pol, { before: string; after: string; difference: string }>;
-  evidence: Record<Pol, { observations: [Observation, Observation]; differenceOfRegionalMeansDb: number; differenceOfRegionalMediansDb: number }>;
+  evidence: Record<Pol, { observations: [Observation, Observation]; bins: Bin[]; differenceOfRegionalMeansDb: number; differenceOfRegionalMediansDb: number }>;
   regions: Region[];
   grid: { crs: string; shape: [number, number]; pixelSpacingMeters: [number, number]; pairedPixels: number };
 }
@@ -32,6 +33,31 @@ const num = (n: number) => Number(n).toLocaleString("en-US");
 const signed = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(3)} dB`;
 const inputStyle: CSSProperties = { display: "block", width: "100%", marginTop: 8 };
 const buttonStyle: CSSProperties = { padding: "12px 16px", border: "1px solid var(--line)", borderRadius: 8, cursor: "pointer" };
+
+/** Exact, real radar-bin counts from the worker, never generated image guesses. */
+function RadarHistogram({ bins, dates, pol }: { bins: Bin[]; dates: [string,string]; pol: Pol }) {
+  const peak = Math.max(1, ...bins.flatMap(b => [b.firstCount, b.secondCount]));
+  const plot = (key: "firstCount" | "secondCount") => bins.map((b, i) =>
+    `${18 + i * 480 / Math.max(1, bins.length-1)},${118 - b[key] * 96 / peak}`).join(" ");
+  return <div style={{ marginTop: 18, maxWidth: 750 }}>
+    <svg viewBox="0 0 520 150" width="100%" role="img" aria-label={`Histogram of actual ${pol} backscatter: ${dates[0]} compared with ${dates[1]}, in fixed decibel bins`}>
+      <line x1="18" y1="118" x2="498" y2="118" stroke="currentColor" opacity=".5" />
+      <polyline points={plot("firstCount")} fill="none" stroke="#979da7" strokeWidth="2.3" />
+      <polyline points={plot("secondCount")} fill="none" stroke="#4c98dc" strokeWidth="2.3" />
+      <text x="18" y="140" fill="currentColor" fontSize="11">{bins[0]?.lowDb.toFixed(0)} dB</text>
+      <text x="453" y="140" fill="currentColor" fontSize="11">{bins[bins.length-1]?.highDb.toFixed(0)} dB</text>
+      <text x="18" y="14" fill="currentColor" fontSize="11">Pixels / dB bin</text>
+    </svg>
+    <p style={{ fontSize: 13 }}><span style={{ color: "#979da7" }}>●</span> {dates[0]} &nbsp; <span style={{ color: "#4c98dc" }}>●</span> {dates[1]}</p>
+    <details style={{ marginTop: 12 }}><summary>Inspect original numerical histogram counts</summary>
+      <div style={{ overflowX: "auto" }}><table className={styles.table}>
+        <thead><tr><th>Backscatter range</th><th>{dates[0]}</th><th>{dates[1]}</th></tr></thead>
+        <tbody>{bins.map(b => <tr key={b.lowDb}><td>{b.lowDb.toFixed(2)} – {b.highDb.toFixed(2)} dB</td>
+          <td>{num(b.firstCount)}</td><td>{num(b.secondCount)}</td></tr>)}</tbody>
+      </table></div>
+    </details>
+  </div>;
+}
 
 export default function CoordinateExplorer() {
   const [lat, setLat] = useState(String(STARTERS[0].latitude));
@@ -214,6 +240,7 @@ export default function CoordinateExplorer() {
           </div> : <p role="status">Retrieving measured, access-controlled raster previews…</p>}
 
           <h3 style={{ marginTop: 32 }}>Whole-scene radar measurements — {pol}</h3>
+          <RadarHistogram bins={result.evidence[pol].bins} dates={result.dates} pol={pol} />
           <div style={{ overflowX: "auto" }}><table className={styles.table}>
             <thead><tr><th>Statistic</th><th>{result.dates[0]}</th><th>{result.dates[1]}</th></tr></thead>
             <tbody>{([
@@ -234,6 +261,14 @@ export default function CoordinateExplorer() {
           {region ? <p>Region {region.id}: {region.title}. Paired {pol} pixels: {num(region.stats[pol].pairedDifference.pixels)}. Median per-pixel change: {signed(region.stats[pol].pairedDifference.medianDifferenceDb)}. Candidate regions were selected for contrasting radar responses and are not a representative sample.</p>
             : <p>Three automatically selected regions illustrate differences in radar return. They are not mapped environmental damage, flood zones, or shoreline erosion.</p>}
 
+          <h3 style={{ marginTop: 32 }}>Scientific quality checks</h3>
+          <div style={{ overflowX: "auto" }}><table className={styles.table}>
+            <thead><tr><th>Check</th><th>Status and reason</th></tr></thead>
+            <tbody>{Object.entries(result.quality).map(([check, detail]) =>
+              <tr key={check}><th>{check}</th><td>{detail}</td></tr>)}</tbody>
+          </table></div>
+          <h3 style={{ marginTop: 24 }}>Known limitations</h3>
+          <ul>{result.limitations.map((limitation, i) => <li key={i}>{limitation}</li>)}</ul>
           <h3 style={{ marginTop: 32 }}>Data provenance & quality</h3>
           <p>NASA NISAR Level-2 provisional GCOV via ASF DAAC · {result.passDirection} track {result.track}, frame {result.frame}, release {result.release} · {result.grid.crs} · {num(result.grid.pairedPixels)} aligned analysis-grid pixels.</p>
           <p className={styles.small}>The two source files are processed privately and deleted after processing. This report contains no original HDF5 files, passwords, or API tokens. Results expire from the processing server.</p>
