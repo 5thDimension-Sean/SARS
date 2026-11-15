@@ -22,6 +22,7 @@ from rasterio.warp import transform as project
 
 SITES = {
     "rodanthe": {"title": "Rodanthe, North Carolina", "region": "North Carolina Outer Banks coast", "data": "rodanthe-processed"},
+    "custom": {"title": "Custom NISAR coordinate comparison", "region": "Visitor-selected geographic point", "data": "results"},
     "amazon": {"title": "Mamirauá, Amazon River", "region": "Mamirauá Amazon River floodplain, Brazil", "data": "amazon-mamiraua"},
 }
 RANGES = {"HH": (-25., 0.), "HV": (-30., -5.)}
@@ -192,7 +193,7 @@ def generate(site: str, public: Path):
         annotations.append({"id": ident, "observation": f"Region {ident} selected by an exploratory difference ranking of valid reduced-grid radar pixels.",
                             "interpretation": "The radar intensity changed; the environmental cause is unverified."})
 
-    gap = "Erosion and storm flooding" if site == "rodanthe" else "Inundation, river migration and vegetation change"
+    gap = "Erosion and storm flooding" if site == "rodanthe" else "Inundation, river migration and vegetation change" if site == "amazon" else "Physical environmental change"
     evidence = {
         "schemaVersion": "everglades-compatible-1.0", "title": config["title"] + " NISAR backscatter evidence",
         "studyArea": config["region"], "provenance": "NASA NISAR Level-2 GCOV provisional via ASF DAAC, processed by TANGO",
