@@ -18,6 +18,8 @@ const FOOTPRINTS: Record<string, Bounds> = {
   california: california.bounds as Bounds,
   hawaii: [-155.29, 19.39, -155.25, 19.43],
   iowa: [-93.64, 42.0, -93.6, 42.04],
+  rodanthe: [-75.50068595795983, 35.529697155479866, -75.4293561222836, 35.640310954737934],
+  amazon: [-65.02043484381555, -3.300745697057557, -64.74965756771243, -3.079380346980606],
 };
 const BLURB: Record<string, string> = {
   everglades: "Slow water and sawgrass wetlands, seen through cloud and night.",
@@ -25,13 +27,15 @@ const BLURB: Record<string, string> = {
   california: "Steep Big Sur terrain around the 2026 Plaskett fire area.",
   hawaii: "A summit caldera on a restless volcano, two weeks apart.",
   iowa: "Farmland and a university town, three and a half weeks apart.",
+  rodanthe: "Storm-period NISAR returns over the Outer Banks; erosion rate not established.",
+  amazon: "Water, forest, and floodplain radar response in the Amazon basin; interpretation exploratory.",
 };
 
 const studyPlaces: Place[] = STUDIES.map((s) => {
   const b = FOOTPRINTS[s.id];
   return {
     id: s.id, label: s.label, short: s.short, kind: "study", lon: (b[0] + b[2]) / 2, lat: (b[1] + b[3]) / 2, bounds: b,
-    href: `/nisar-prototype#${s.id}`, dates: [s.dates[0], s.dates[1]], blurb: BLURB[s.id] ?? "", tags: ["HH", "HV", "Before / after", "Evidence report"],
+    href: s.id === "rodanthe" ? "/coastal-erosion" : s.id === "amazon" ? "/amazon-river" : `/nisar-prototype#${s.id}`, dates: [s.dates[0], s.dates[1]], blurb: BLURB[s.id] ?? "", tags: ["HH", "HV", "Before / after", "Evidence report"],
   };
 });
 
@@ -48,21 +52,8 @@ const researchPlaces: Place[] = [
     blurb: "Europe’s most active volcano, before and after the August 2026 eruptive episode. Official browse images, HH and HV.", tags: ["HH", "HV", "Official browse"] },
 ];
 
-/** Verified source acquisitions, exploratory QA: a featured coastal investigation.
- * Iowa's earlier investigation is retained, but no longer occupies a globe stop.
+/** Iowa remains an accessible archived study; Rodanthe takes its featured slot.
+ * Amazon is an additional stop and never replaces another location.
  */
-const coastalPlace: Place = {
-  id: "rodanthe",
-  label: "Rodanthe, North Carolina",
-  short: "Rodanthe",
-  kind: "study",
-  lon: -75.465,
-  lat: 35.585,
-  bounds: [-75.50068595795983, 35.529697155479866, -75.4293561222836, 35.640310954737934],
-  href: "/coastal-erosion",
-  dates: ["2026-09-17", "2026-09-29"],
-  blurb: "A genuine NISAR pre/post-storm coastal backscatter comparison; erosion validation pending.",
-  tags: ["Coastal change", "HH", "HV", "Real GCOV", "Exploratory"],
-};
-export const PLACES: readonly Place[] = [...studyPlaces.filter(p => p.id !== "iowa"), coastalPlace, ...researchPlaces];
+export const PLACES: readonly Place[] = [...studyPlaces.filter(p => p.id !== "iowa"), ...researchPlaces];
 export type PlaceId = (typeof PLACES)[number]["id"];

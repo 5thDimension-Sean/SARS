@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "preview-1.0",
+  "provenance": "NASA NISAR GCOV via ASF DAAC, georeferenced overview",
+  "sourceCollection": "NISAR L2 GCOV provisional",
+  "bounds": [
+    -65.02043484381555,
+    -3.300745697057557,
+    -64.74965756771243,
+    -3.079380346980606
+  ],
+  "measurement": "gamma0 linear power converted to dB; georeferenced overview",
+  "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "acquisitions": [
+    {
+      "date": "2026-07-07",
+      "conceptId": "NISAR_L2_PR_GCOV_024_161_A_176_2005_DHDH_A_20260707T100307_20260707T100335_P05023_N_F_J_001",
+      "track": 161,
+      "frame": 176,
+      "images": {
+        "HH": {
+          "filename": "20260707_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 1835163,
+          "sha256": "79a7b4fc0d39244950cc7f4edf8669f2f44852dc0da45b1fd6ff53563b7050b9"
+        },
+        "HV": {
+          "filename": "20260707_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 1835163,
+          "sha256": "ec7207178bcb642d6e16c244786e7a8bfae997122f6fa1933acd15073ef870ad"
+        }
+      }
+    },
+    {
+      "date": "2026-07-19",
+      "conceptId": "NISAR_L2_PR_GCOV_025_161_A_176_2005_DHDH_A_20260719T100307_20260719T100334_P05023_N_F_J_001",
+      "track": 161,
+      "frame": 176,
+      "images": {
+        "HH": {
+          "filename": "20260719_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 1835163,
+          "sha256": "881907a68a18650380d384c20fe7faa1fdd9eb52ab7884a696dff57a76f81369"
+        },
+        "HV": {
+          "filename": "20260719_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 1835163,
+          "sha256": "c1d32ec59a60a440ab28eda44478b73285c4adafc9f5b97e531c0b04b26c4fc5"
+        }
+      }
+    }
+  ]
+}

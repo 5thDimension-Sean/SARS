@@ -1,0 +1,676 @@
+{
+  "schemaVersion": "everglades-compatible-1.0",
+  "title": "Mamirauá, Amazon River NISAR backscatter evidence",
+  "studyArea": "Mamirauá Amazon River floodplain, Brazil",
+  "provenance": "NASA NISAR Level-2 GCOV provisional via ASF DAAC, processed by TANGO",
+  "measurement": "gamma0 backscatter dB derived from screened linear power; statistics describe reduced georeferenced COG pixels",
+  "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "quality": {
+    "identificationGroup": "UNVERIFIED; official NISAR product QA records have not been cleared for either acquisition",
+    "frequencyAHHAndHVValidity": "PASS in processed inputs: two dates both contain finite HH/HV reduced-grid values",
+    "gridAlignment": "PASS for this derived ROI: common EPSG:32720 transform and 1503×1221 analysis array",
+    "radiometricArtifactsAndNoise": "UNVERIFIED; RFI, banding, calibration artifacts and noise-floor impacts require expert review"
+  },
+  "limitations": [
+    "Exploratory comparison of actual NASA NISAR observations, not a validated environmental finding.",
+    "Inundation, river migration and vegetation change require independent satellite, field, and water-level evidence; backscatter change alone is insufficient.",
+    "Whole-scene summary differences are not per-pixel differences. Region changes use paired valid reduced-grid pixels.",
+    "Histograms and region candidate counts are computed from reduced analysis COGs, not every native HDF5 pixel.",
+    "Candidate regions are selected for contrasting radar differences and are not a random or representative sample.",
+    "Provisional NISAR product-level identification and radiometric QA have not been independently cleared."
+  ],
+  "dates": [
+    "2026-07-07",
+    "2026-07-19"
+  ],
+  "polarizations": {
+    "HH": {
+      "observations": [
+        {
+          "date": "2026-07-07",
+          "granuleId": "NISAR_L2_PR_GCOV_024_161_A_176_2005_DHDH_A_20260707T100307_20260707T100335_P05023_N_F_J_001",
+          "count": 1835163,
+          "meanDb": -6.874222879442754,
+          "medianDb": -5.727724075317383,
+          "stdDb": 4.630541795389314,
+          "p05Db": -18.229607009887694,
+          "p95Db": -1.8389157533645677,
+          "outsideDisplayRange": 16743
+        },
+        {
+          "date": "2026-07-19",
+          "granuleId": "NISAR_L2_PR_GCOV_025_161_A_176_2005_DHDH_A_20260719T100307_20260719T100334_P05023_N_F_J_001",
+          "count": 1835163,
+          "meanDb": -6.9363057688773,
+          "medianDb": -5.705480098724365,
+          "stdDb": 4.809150422930748,
+          "p05Db": -18.869972229003906,
+          "p95Db": -1.8606733083724976,
+          "outsideDisplayRange": 15953
+        }
+      ],
+      "differenceOfRegionalMeansDb": -0.062083,
+      "differenceOfRegionalMediansDb": 0.022244,
+      "differenceInterpretation": "Difference of separate whole-scene summaries; not paired-pixel change",
+      "histogramBinCountFieldByDate": {
+        "2026-07-07": "firstCount",
+        "2026-07-19": "secondCount"
+      },
+      "histogramBins": [
+        {
+          "lowDb": -25.0,
+          "highDb": -24.479166666666668,
+          "firstCount": 19,
+          "secondCount": 47
+        },
+        {
+          "lowDb": -24.479166666666668,
+          "highDb": -23.958333333333332,
+          "firstCount": 49,
+          "secondCount": 103
+        },
+        {
+          "lowDb": -23.958333333333332,
+          "highDb": -23.4375,
+          "firstCount": 136,
+          "secondCount": 285
+        },
+        {
+          "lowDb": -23.4375,
+          "highDb": -22.916666666666668,
+          "firstCount": 336,
+          "secondCount": 571
+        },
+        {
+          "lowDb": -22.916666666666668,
+          "highDb": -22.395833333333332,
+          "firstCount": 719,
+          "secondCount": 1321
+        },
+        {
+          "lowDb": -22.395833333333332,
+          "highDb": -21.875,
+          "firstCount": 1309,
+          "secondCount": 2696
+        },
+        {
+          "lowDb": -21.875,
+          "highDb": -21.354166666666668,
+          "firstCount": 2738,
+          "secondCount": 4836
+        },
+        {
+          "lowDb": -21.354166666666668,
+          "highDb": -20.833333333333332,
+          "firstCount": 4923,
+          "secondCount": 8103
+        },
+        {
+          "lowDb": -20.833333333333332,
+          "highDb": -20.3125,
+          "firstCount": 8078,
+          "secondCount": 12695
+        },
+        {
+          "lowDb": -20.3125,
+          "highDb": -19.791666666666664,
+          "firstCount": 11787,
+          "secondCount": 17767
+        },
+        {
+          "lowDb": -19.791666666666664,
+          "highDb": -19.270833333333332,
+          "firstCount": 16370,
+          "secondCount": 22873
+        },
+        {
+          "lowDb": -19.270833333333332,
+          "highDb": -18.75,
+          "firstCount": 20861,
+          "secondCount": 26888
+        },
+        {
+          "lowDb": -18.75,
+          "highDb": -18.229166666666664,
+          "firstCount": 24444,
+          "secondCount": 27726
+        },
+        {
+          "lowDb": -18.229166666666664,
+          "highDb": -17.708333333333332,
+          "firstCount": 25857,
+          "secondCount": 26266
+        },
+        {
+          "lowDb": -17.708333333333332,
+          "highDb": -17.1875,
+          "firstCount": 25531,
+          "secondCount": 22502
+        },
+        {
+          "lowDb": -17.1875,
+          "highDb": -16.666666666666664,
+          "firstCount": 22653,
+          "secondCount": 17496
+        },
+        {
+          "lowDb": -16.666666666666664,
+          "highDb": -16.145833333333332,
+          "firstCount": 18941,
+          "secondCount": 12133
+        },
+        {
+          "lowDb": -16.145833333333332,
+          "highDb": -15.625,
+          "firstCount": 14411,
+          "secondCount": 7883
+        },
+        {
+          "lowDb": -15.625,
+          "highDb": -15.104166666666666,
+          "firstCount": 10221,
+          "secondCount": 4861
+        },
+        {
+          "lowDb": -15.104166666666666,
+          "highDb": -14.583333333333332,
+          "firstCount": 6949,
+          "secondCount": 3162
+        },
+        {
+          "lowDb": -14.583333333333332,
+          "highDb": -14.0625,
+          "firstCount": 4492,
+          "secondCount": 2189
+        },
+        {
+          "lowDb": -14.0625,
+          "highDb": -13.541666666666666,
+          "firstCount": 3180,
+          "secondCount": 1835
+        },
+        {
+          "lowDb": -13.541666666666666,
+          "highDb": -13.020833333333332,
+          "firstCount": 2535,
+          "secondCount": 1849
+        },
+        {
+          "lowDb": -13.020833333333332,
+          "highDb": -12.5,
+          "firstCount": 2357,
+          "secondCount": 1904
+        },
+        {
+          "lowDb": -12.5,
+          "highDb": -11.979166666666666,
+          "firstCount": 2878,
+          "secondCount": 2527
+        },
+        {
+          "lowDb": -11.979166666666666,
+          "highDb": -11.458333333333332,
+          "firstCount": 3621,
+          "secondCount": 3556
+        },
+        {
+          "lowDb": -11.458333333333332,
+          "highDb": -10.937499999999998,
+          "firstCount": 5293,
+          "secondCount": 5014
+        },
+        {
+          "lowDb": -10.937499999999998,
+          "highDb": -10.416666666666666,
+          "firstCount": 7959,
+          "secondCount": 7742
+        },
+        {
+          "lowDb": -10.416666666666666,
+          "highDb": -9.895833333333332,
+          "firstCount": 12593,
+          "secondCount": 12002
+        },
+        {
+          "lowDb": -9.895833333333332,
+          "highDb": -9.374999999999998,
+          "firstCount": 19848,
+          "secondCount": 19232
+        },
+        {
+          "lowDb": -9.374999999999998,
+          "highDb": -8.854166666666664,
+          "firstCount": 30616,
+          "secondCount": 29567
+        },
+        {
+          "lowDb": -8.854166666666664,
+          "highDb": -8.333333333333332,
+          "firstCount": 45798,
+          "secondCount": 44853
+        },
+        {
+          "lowDb": -8.333333333333332,
+          "highDb": -7.8125,
+          "firstCount": 65874,
+          "secondCount": 64793
+        },
+        {
+          "lowDb": -7.8125,
+          "highDb": -7.291666666666664,
+          "firstCount": 88896,
+          "secondCount": 88859
+        },
+        {
+          "lowDb": -7.291666666666664,
+          "highDb": -6.770833333333332,
+          "firstCount": 114587,
+          "secondCount": 114201
+        },
+        {
+          "lowDb": -6.770833333333332,
+          "highDb": -6.25,
+          "firstCount": 136937,
+          "secondCount": 136293
+        },
+        {
+          "lowDb": -6.25,
+          "highDb": -5.729166666666664,
+          "firstCount": 153347,
+          "secondCount": 153761
+        },
+        {
+          "lowDb": -5.729166666666664,
+          "highDb": -5.208333333333332,
+          "firstCount": 159894,
+          "secondCount": 160704
+        },
+        {
+          "lowDb": -5.208333333333332,
+          "highDb": -4.6875,
+          "firstCount": 155239,
+          "secondCount": 157103
+        },
+        {
+          "lowDb": -4.6875,
+          "highDb": -4.166666666666664,
+          "firstCount": 141360,
+          "secondCount": 143698
+        },
+        {
+          "lowDb": -4.166666666666664,
+          "highDb": -3.645833333333332,
+          "firstCount": 121381,
+          "secondCount": 122878
+        },
+        {
+          "lowDb": -3.645833333333332,
+          "highDb": -3.125,
+          "firstCount": 98163,
+          "secondCount": 98945
+        },
+        {
+          "lowDb": -3.125,
+          "highDb": -2.6041666666666643,
+          "firstCount": 75038,
+          "secondCount": 75621
+        },
+        {
+          "lowDb": -2.6041666666666643,
+          "highDb": -2.083333333333332,
+          "firstCount": 55130,
+          "secondCount": 55526
+        },
+        {
+          "lowDb": -2.083333333333332,
+          "highDb": -1.5625,
+          "firstCount": 38992,
+          "secondCount": 39153
+        },
+        {
+          "lowDb": -1.5625,
+          "highDb": -1.0416666666666643,
+          "firstCount": 26678,
+          "secondCount": 26388
+        },
+        {
+          "lowDb": -1.0416666666666643,
+          "highDb": -0.5208333333333321,
+          "firstCount": 17856,
+          "secondCount": 17674
+        },
+        {
+          "lowDb": -0.5208333333333321,
+          "highDb": 0.0,
+          "firstCount": 11546,
+          "secondCount": 11129
+        }
+      ],
+      "histogramImage": "HH_histogram_comparison.png"
+    },
+    "HV": {
+      "observations": [
+        {
+          "date": "2026-07-07",
+          "granuleId": "NISAR_L2_PR_GCOV_024_161_A_176_2005_DHDH_A_20260707T100307_20260707T100335_P05023_N_F_J_001",
+          "count": 1835163,
+          "meanDb": -12.005317650707637,
+          "medianDb": -10.67802619934082,
+          "stdDb": 4.632700142269309,
+          "p05Db": -23.432207107543945,
+          "p95Db": -7.344264984130859,
+          "outsideDisplayRange": 3464
+        },
+        {
+          "date": "2026-07-19",
+          "granuleId": "NISAR_L2_PR_GCOV_025_161_A_176_2005_DHDH_A_20260719T100307_20260719T100334_P05023_N_F_J_001",
+          "count": 1835163,
+          "meanDb": -11.955038387617032,
+          "medianDb": -10.627102851867676,
+          "stdDb": 4.645534319030356,
+          "p05Db": -23.460430145263672,
+          "p95Db": -7.3035199165344284,
+          "outsideDisplayRange": 3786
+        }
+      ],
+      "differenceOfRegionalMeansDb": 0.050279,
+      "differenceOfRegionalMediansDb": 0.050923,
+      "differenceInterpretation": "Difference of separate whole-scene summaries; not paired-pixel change",
+      "histogramBinCountFieldByDate": {
+        "2026-07-07": "firstCount",
+        "2026-07-19": "secondCount"
+      },
+      "histogramBins": [
+        {
+          "lowDb": -30.0,
+          "highDb": -29.479166666666668,
+          "firstCount": 16,
+          "secondCount": 22
+        },
+        {
+          "lowDb": -29.479166666666668,
+          "highDb": -28.958333333333332,
+          "firstCount": 50,
+          "secondCount": 47
+        },
+        {
+          "lowDb": -28.958333333333332,
+          "highDb": -28.4375,
+          "firstCount": 127,
+          "secondCount": 140
+        },
+        {
+          "lowDb": -28.4375,
+          "highDb": -27.916666666666668,
+          "firstCount": 291,
+          "secondCount": 337
+        },
+        {
+          "lowDb": -27.916666666666668,
+          "highDb": -27.395833333333332,
+          "firstCount": 667,
+          "secondCount": 716
+        },
+        {
+          "lowDb": -27.395833333333332,
+          "highDb": -26.875,
+          "firstCount": 1396,
+          "secondCount": 1362
+        },
+        {
+          "lowDb": -26.875,
+          "highDb": -26.354166666666668,
+          "firstCount": 2847,
+          "secondCount": 2769
+        },
+        {
+          "lowDb": -26.354166666666668,
+          "highDb": -25.833333333333332,
+          "firstCount": 4886,
+          "secondCount": 5166
+        },
+        {
+          "lowDb": -25.833333333333332,
+          "highDb": -25.3125,
+          "firstCount": 8460,
+          "secondCount": 8868
+        },
+        {
+          "lowDb": -25.3125,
+          "highDb": -24.791666666666664,
+          "firstCount": 13182,
+          "secondCount": 13451
+        },
+        {
+          "lowDb": -24.791666666666664,
+          "highDb": -24.270833333333332,
+          "firstCount": 18832,
+          "secondCount": 19320
+        },
+        {
+          "lowDb": -24.270833333333332,
+          "highDb": -23.75,
+          "firstCount": 24241,
+          "secondCount": 24302
+        },
+        {
+          "lowDb": -23.75,
+          "highDb": -23.229166666666664,
+          "firstCount": 27861,
+          "secondCount": 28027
+        },
+        {
+          "lowDb": -23.229166666666664,
+          "highDb": -22.708333333333332,
+          "firstCount": 29010,
+          "secondCount": 29181
+        },
+        {
+          "lowDb": -22.708333333333332,
+          "highDb": -22.1875,
+          "firstCount": 27236,
+          "secondCount": 27065
+        },
+        {
+          "lowDb": -22.1875,
+          "highDb": -21.666666666666664,
+          "firstCount": 22838,
+          "secondCount": 22287
+        },
+        {
+          "lowDb": -21.666666666666664,
+          "highDb": -21.145833333333332,
+          "firstCount": 17282,
+          "secondCount": 16375
+        },
+        {
+          "lowDb": -21.145833333333332,
+          "highDb": -20.625,
+          "firstCount": 11807,
+          "secondCount": 11257
+        },
+        {
+          "lowDb": -20.625,
+          "highDb": -20.104166666666664,
+          "firstCount": 7445,
+          "secondCount": 7031
+        },
+        {
+          "lowDb": -20.104166666666664,
+          "highDb": -19.583333333333332,
+          "firstCount": 4629,
+          "secondCount": 4512
+        },
+        {
+          "lowDb": -19.583333333333332,
+          "highDb": -19.0625,
+          "firstCount": 3239,
+          "secondCount": 3031
+        },
+        {
+          "lowDb": -19.0625,
+          "highDb": -18.541666666666664,
+          "firstCount": 2614,
+          "secondCount": 2492
+        },
+        {
+          "lowDb": -18.541666666666664,
+          "highDb": -18.020833333333332,
+          "firstCount": 2626,
+          "secondCount": 2490
+        },
+        {
+          "lowDb": -18.020833333333332,
+          "highDb": -17.5,
+          "firstCount": 3136,
+          "secondCount": 2727
+        },
+        {
+          "lowDb": -17.5,
+          "highDb": -16.979166666666664,
+          "firstCount": 3644,
+          "secondCount": 3328
+        },
+        {
+          "lowDb": -16.979166666666664,
+          "highDb": -16.458333333333332,
+          "firstCount": 4919,
+          "secondCount": 4331
+        },
+        {
+          "lowDb": -16.458333333333332,
+          "highDb": -15.937499999999998,
+          "firstCount": 6561,
+          "secondCount": 5926
+        },
+        {
+          "lowDb": -15.937499999999998,
+          "highDb": -15.416666666666666,
+          "firstCount": 9317,
+          "secondCount": 8509
+        },
+        {
+          "lowDb": -15.416666666666666,
+          "highDb": -14.895833333333332,
+          "firstCount": 13394,
+          "secondCount": 12544
+        },
+        {
+          "lowDb": -14.895833333333332,
+          "highDb": -14.374999999999998,
+          "firstCount": 19970,
+          "secondCount": 18562
+        },
+        {
+          "lowDb": -14.374999999999998,
+          "highDb": -13.854166666666664,
+          "firstCount": 29567,
+          "secondCount": 27544
+        },
+        {
+          "lowDb": -13.854166666666664,
+          "highDb": -13.333333333333332,
+          "firstCount": 42669,
+          "secondCount": 40983
+        },
+        {
+          "lowDb": -13.333333333333332,
+          "highDb": -12.8125,
+          "firstCount": 60222,
+          "secondCount": 58946
+        },
+        {
+          "lowDb": -12.8125,
+          "highDb": -12.291666666666664,
+          "firstCount": 82324,
+          "secondCount": 80841
+        },
+        {
+          "lowDb": -12.291666666666664,
+          "highDb": -11.770833333333332,
+          "firstCount": 107264,
+          "secondCount": 106223
+        },
+        {
+          "lowDb": -11.770833333333332,
+          "highDb": -11.25,
+          "firstCount": 132878,
+          "secondCount": 131586
+        },
+        {
+          "lowDb": -11.25,
+          "highDb": -10.729166666666664,
+          "firstCount": 154040,
+          "secondCount": 153318
+        },
+        {
+          "lowDb": -10.729166666666664,
+          "highDb": -10.208333333333332,
+          "firstCount": 167016,
+          "secondCount": 167506
+        },
+        {
+          "lowDb": -10.208333333333332,
+          "highDb": -9.6875,
+          "firstCount": 167538,
+          "secondCount": 169084
+        },
+        {
+          "lowDb": -9.6875,
+          "highDb": -9.166666666666664,
+          "firstCount": 156876,
+          "secondCount": 159043
+        },
+        {
+          "lowDb": -9.166666666666664,
+          "highDb": -8.645833333333332,
+          "firstCount": 135410,
+          "secondCount": 137204
+        },
+        {
+          "lowDb": -8.645833333333332,
+          "highDb": -8.125,
+          "firstCount": 107395,
+          "secondCount": 109778
+        },
+        {
+          "lowDb": -8.125,
+          "highDb": -7.604166666666664,
+          "firstCount": 78490,
+          "secondCount": 80782
+        },
+        {
+          "lowDb": -7.604166666666664,
+          "highDb": -7.083333333333332,
+          "firstCount": 52534,
+          "secondCount": 54757
+        },
+        {
+          "lowDb": -7.083333333333332,
+          "highDb": -6.5625,
+          "firstCount": 32296,
+          "secondCount": 33752
+        },
+        {
+          "lowDb": -6.5625,
+          "highDb": -6.041666666666664,
+          "firstCount": 18383,
+          "secondCount": 18943
+        },
+        {
+          "lowDb": -6.041666666666664,
+          "highDb": -5.520833333333332,
+          "firstCount": 9688,
+          "secondCount": 9999
+        },
+        {
+          "lowDb": -5.520833333333332,
+          "highDb": -5.0,
+          "firstCount": 4586,
+          "secondCount": 4913
+        }
+      ],
+      "histogramImage": "HV_histogram_comparison.png"
+    }
+  }
+}

@@ -142,7 +142,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
               }
             }
             if (which === 1) {
-              const corners = rasterCorners(regions, study.utmZone);
+              const corners = study.differenceInPreviewCrs && preview ? toQuad(preview.bounds) : rasterCorners(regions, study.utmZone);
               for (const pol of POLS) {
                 const id = `diff-${pol}`;
                 m.addSource(id, { type: "image", url: imageUrl(study.regionsDir, `${pol}_difference_exploratory.png`), coordinates: corners });
@@ -216,7 +216,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
   const overlayStrength = changeOnly;
   useEffect(() => {
     if (!handles) return;
-    const m = handles.after, corners = rasterCorners(regions, study.utmZone);
+    const m = handles.after, corners = study.differenceInPreviewCrs && preview ? toQuad(preview.bounds) : rasterCorners(regions, study.utmZone);
     const wantOverlay = showChanges && mode !== "difference", wantFiltered = mode === "difference" && changeOnly > 0;
     if (!wantOverlay && !wantFiltered) {
       for (const p of POLS) {

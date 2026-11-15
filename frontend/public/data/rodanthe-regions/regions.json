@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "sar-waltz-regions-1.0",
+  "study": "Rodanthe, North Carolina",
+  "dates": [
+    "2026-09-17",
+    "2026-09-29"
+  ],
+  "sourceGranules": [
+    "NISAR_L2_PR_GCOV_030_162_A_019_4005_DHDH_A_20260917T101351_20260917T101409_P05023_N_P_J_001",
+    "NISAR_L2_PR_GCOV_031_162_A_019_4005_DHDH_A_20260929T101352_20260929T101409_P05023_N_P_J_001"
+  ],
+  "crs": "EPSG:32618",
+  "nativeShape": [
+    1224,
+    640
+  ],
+  "pixelSpacingMeters": [
+    10.0,
+    -10.0
+  ],
+  "firstPixelCenter": [
+    454675.0,
+    3944135.0
+  ],
+  "pairedHHAndHVPixels": 783360,
+  "differenceDefinition": "later gamma0 dB minus earlier gamma0 dB on paired valid reduced-grid pixels",
+  "visualizationScale": {
+    "limitsDb": [
+      -6,
+      6
+    ]
+  },
+  "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+  "regionCount": 3,
+  "regions": [
+    {
+      "id": "A",
+      "title": "Relatively increasing HH radar return",
+      "selectionMethod": "64×64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample",
+      "rowRange": [
+        416,
+        480
+      ],
+      "columnRange": [
+        32,
+        96
+      ],
+      "stats": {
+        "HH": {
+          "beforeMedianDb": -24.7362,
+          "afterMedianDb": -19.55006,
+          "pairedDifference": {
+            "pixels": 4096,
+            "medianDifferenceDb": 5.19841,
+            "meanDifferenceDb": 5.0565,
+            "p05DifferenceDb": 0.0878,
+            "p95DifferenceDb": 9.58532
+          }
+        },
+        "HV": {
+          "beforeMedianDb": -26.74119,
+          "afterMedianDb": -26.46247,
+          "pairedDifference": {
+            "pixels": 4096,
+            "medianDifferenceDb": 0.27929,
+            "meanDifferenceDb": 0.29707,
+            "p05DifferenceDb": -3.96992,
+            "p95DifferenceDb": 4.67819
+          }
+        }
+      },
+      "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+      "environmentalConclusion": null,
+      "warning": "Backscatter change cannot independently establish erosion, flooding or vegetation damage"
+    },
+    {
+      "id": "B",
+      "title": "Relatively decreasing HH radar return",
+      "selectionMethod": "64×64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample",
+      "rowRange": [
+        1024,
+        1088
+      ],
+      "columnRange": [
+        96,
+        160
+      ],
+      "stats": {
+        "HH": {
+          "beforeMedianDb": -21.48427,
+          "afterMedianDb": -24.6868,
+          "pairedDifference": {
+            "pixels": 4096,
+            "medianDifferenceDb": -2.98562,
+            "meanDifferenceDb": -2.87976,
+            "p05DifferenceDb": -9.33479,
+            "p95DifferenceDb": 3.97712
+          }
+        },
+        "HV": {
+          "beforeMedianDb": -26.65664,
+          "afterMedianDb": -26.68318,
+          "pairedDifference": {
+            "pixels": 4096,
+            "medianDifferenceDb": 0.02417,
+            "meanDifferenceDb": 0.01472,
+            "p05DifferenceDb": -4.30236,
+            "p95DifferenceDb": 4.35807
+          }
+        }
+      },
+      "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+      "environmentalConclusion": null,
+      "warning": "Backscatter change cannot independently establish erosion, flooding or vegetation damage"
+    },
+    {
+      "id": "C",
+      "title": "Lower-magnitude HH radar difference",
+      "selectionMethod": "64×64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample",
+      "rowRange": [
+        1056,
+        1120
+      ],
+      "columnRange": [
+        512,
+        576
+      ],
+      "stats": {
+        "HH": {
+          "beforeMedianDb": -20.08512,
+          "afterMedianDb": -20.05474,
+          "pairedDifference": {
+            "pixels": 4096,
+            "medianDifferenceDb": -0.00177,
+            "meanDifferenceDb": 0.03065,
+            "p05DifferenceDb": -4.8065,
+            "p95DifferenceDb": 4.85061
+          }
+        },
+        "HV": {
+          "beforeMedianDb": -26.55689,
+          "afterMedianDb": -26.41102,
+          "pairedDifference": {
+            "pixels": 4096,
+            "medianDifferenceDb": 0.12387,
+            "meanDifferenceDb": 0.18065,
+            "p05DifferenceDb": -4.19703,
+            "p95DifferenceDb": 4.70856
+          }
+        }
+      },
+      "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+      "environmentalConclusion": null,
+      "warning": "Backscatter change cannot independently establish erosion, flooding or vegetation damage"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "A",
+      "observation": "Region A selected by an exploratory difference ranking of valid reduced-grid radar pixels.",
+      "interpretation": "The radar intensity changed; the environmental cause is unverified."
+    },
+    {
+      "id": "B",
+      "observation": "Region B selected by an exploratory difference ranking of valid reduced-grid radar pixels.",
+      "interpretation": "The radar intensity changed; the environmental cause is unverified."
+    },
+    {
+      "id": "C",
+      "observation": "Region C selected by an exploratory difference ranking of valid reduced-grid radar pixels.",
+      "interpretation": "The radar intensity changed; the environmental cause is unverified."
+    }
+  ]
+}
