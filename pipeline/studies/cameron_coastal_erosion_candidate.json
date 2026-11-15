@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "status": "DISCOVERY_REQUIRED",
+  "name": "Southwestern Louisiana coastal erosion candidate",
+  "site": "Cameron Parish coastal wetlands and Gulf-facing shoreline, Louisiana",
+  "purpose": "NISAR L-band GCOV quantitative review of coastal backscatter change alongside independent measured shoreline positions",
+  "roiWgs84": [-93.55, 29.70, -93.35, 29.82],
+  "discoveryWindowUtc": ["2026-07-01", "2026-11-14"],
+  "requiredCollection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+  "requiredPolarizations": ["HHHH", "HVHV"],
+  "minimumAcquisitions": 2,
+  "requiredPairing": "same track, frame, pass direction, calibration maturity, product version, pixel grid and valid polarization",
+  "sourceGranules": [],
+  "actualDates": [],
+  "qaStatus": "NOT_YET_VERIFIED",
+  "publishDifference": false,
+  "publishErosionRate": false,
+  "independentReference": {
+    "name": "USGS Digital Shoreline Analysis System / National Shoreline Change",
+    "purpose": "Shoreline position and rates from independently dated shorelines; not derived from GCOV",
+    "url": "https://www.usgs.gov/centers/whcmsc/science/digital-shoreline-analysis-system-dsas"
+  }
+}
