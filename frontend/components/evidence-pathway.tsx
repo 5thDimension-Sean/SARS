@@ -19,7 +19,6 @@ type Step = {
 function Pathway({ title, introduction, steps }: { title: string; introduction: string; steps: readonly Step[] }) {
   return <section className={styles.pathway} aria-label="Evidence and reasoning guide">
     <div className={styles.header}>
-      <span className={styles.eyebrow}>YOUR EVIDENCE GUIDE · FOUR STEPS</span>
       <h2>{title}</h2>
       <p>{introduction}</p>
     </div>
@@ -30,7 +29,7 @@ function Pathway({ title, introduction, steps }: { title: string; introduction: 
           <span className={styles.status} data-available={step.available}>{step.status}</span>
         </div>
         <h3>{step.heading}</h3>
-        <p>{step.detail}</p>
+        <details><summary>Why</summary><p>{step.detail}</p></details>
         <Link className={styles.action} href={step.href}>{step.action} <span aria-hidden="true">↗</span></Link>
       </li>)}
     </ol>
@@ -66,7 +65,7 @@ export function ProcessedEvidencePathway({ study, evidence, pol }: {
       href: "#verify", action: "Inspect QA, limitations and provenance", available: true,
     },
   ];
-  return <Pathway title="From observation to evidence." introduction="The same scientific workflow applies at every processed location. Follow the source imagery, quantitative measurements, possible interpretations, and the checks that could support or rule them out." steps={steps} />;
+  return <Pathway title="From observation to evidence." introduction="Source, measurement, interpretation, checks." steps={steps} />;
 }
 
 export function ResearchEvidencePathway({ study }: { study: ResearchStudy }) {
@@ -106,5 +105,5 @@ export function ResearchEvidencePathway({ study }: { study: ResearchStudy }) {
       available: true,
     },
   ];
-  return <Pathway title="From observation to evidence." introduction="Every location uses the same four-stage reasoning guide. A research location may have publisher imagery but not processed measurements, so its evidence status is shown directly instead of filling gaps with invented data." steps={steps} />;
+  return <Pathway title="From observation to evidence." introduction="Publisher imagery only; no processed measurements yet." steps={steps} />;
 }

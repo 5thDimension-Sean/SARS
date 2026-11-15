@@ -195,11 +195,11 @@ export default function CoordinateExplorer() {
   return <main className={styles.page}>
     <div className={styles.wrap}>
       <section className={styles.section} style={{ paddingTop: "clamp(40px, 8vw, 96px)" }}>
-        <header><h1 style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", letterSpacing: "-.05em" }}>Investigate by coordinates.</h1>
-          <p className={styles.lead}>Select one of ten starting points or enter your own latitude and longitude. TANGO searches for comparable real NISAR acquisitions automatically, then generates a radar investigation when suitable data is available.</p></header>
+        <header><h1 style={{ fontSize: "clamp(2.5rem, 6.4vw, 5.25rem)", fontWeight: 600, letterSpacing: "-.055em", lineHeight: 1 }}>Investigate by coordinates.</h1>
+          <p className={styles.lead}>Pick a starting point or enter a latitude and longitude.</p></header>
 
         <h2 style={{ marginTop: 36, fontSize: "1.5rem" }}>Ten starting locations</h2>
-        <p className={styles.muted}>These are coordinate shortcuts, not guarantees of satellite coverage. The backend checks NASA&apos;s actual catalog.</p>
+        <p className={styles.muted}>Shortcuts only; coverage is checked against the NASA catalog.</p>
         <div role="group" aria-label="Ten geographic starting locations" style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 16 }}>
           {STARTERS.map((place, i) => <button type="button" key={place.name} style={buttonStyle}
             disabled={busy} onClick={() => { reset(); setLat(String(place.latitude)); setLon(String(place.longitude)); }}>

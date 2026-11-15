@@ -184,9 +184,9 @@ export function TrustPanel() {
 
   return <main className={styles.workspace}>
     <header className={styles.header}>
-      <div><p className={styles.eyebrow}>Tango · Trust layer</p><h1>Is this radar change real?</h1></div>
+      <div><h1>Is this radar change real?</h1></div>
     </header>
-    <p className={styles.lead}>Provisional NISAR products are new and unvalidated. This page checks what a before/after radar change can and cannot support. It reports an <strong>evidence checklist</strong> and a <strong>background false-alarm context</strong>, never a confidence score or a probability of flooding, damage or vegetation loss.</p>
+    <p className={styles.lead}>An <strong>evidence checklist</strong>, not a confidence score.</p>
 
     <div className={styles.studies}>
       <label htmlFor="trust-location">Location</label>
@@ -224,8 +224,8 @@ export function TrustPanel() {
           <figcaption>{pol} · {data.dates[0]} to {data.dates[1]} · exploratory, display only</figcaption>
         </figure>)}</div>
       </div> : <>
-        <p>Drag on the image, pick a preset, or type pixel edges (rows count from the north edge; each cell is {Math.abs(spacing![0])} × {Math.abs(spacing![1])} m). The image is display-only; every number comes from the numerical grid.</p>
-        <p className={styles.hint}>Preset regions were chosen by ranking windows on their own measured change, so they cannot serve as an unbiased test. A box you draw is a fairer test, though checking many boxes still produces chance hits.</p>
+        <p>Drag on the image or pick a preset. Numbers come from the grid, not the picture.</p>
+        <details className={styles.hint}><summary>More detail</summary><p className={styles.hint}>Rows count from the north edge; each cell is {Math.abs(spacing![0])} × {Math.abs(spacing![1])} m. Presets were chosen by ranking windows on their own measured change, so they are not an unbiased test. A box you draw is fairer, though many boxes still produce chance hits.</p></details>
         <div className={styles.presets} role="group" aria-label="Preset regions">
           {data.regions.map((r) => <button key={r.id} type="button" aria-pressed={preset?.id === r.id} onClick={() => setDraft(toDraft(r.box))}>Region {r.id}: {r.title}</button>)}
         </div>
@@ -264,27 +264,27 @@ export function TrustPanel() {
               <td>{(a.exceedanceRate * 100).toFixed(1)}% of {a.referenceWindows}{!currentCheck.selectedFromData && a.exceedanceRate <= BACKGROUND_RATE_THRESHOLD ? " (unusual)" : ""}</td></tr>
             : <tr key={pol}><th scope="row">{pol}</th><td colSpan={6}>Refused: {a.reason}</td></tr>; })}</tbody>
         </table></div>
-        <p className={styles.hint}>Background windows are same-size boxes elsewhere in this scene. “Scene shift” is their median change; “excess” is how far this box sits beyond it. A low rate means the box is unusual within its own scene. It does not remove scene-wide effects such as calibration or moisture shifts, and it is not the probability that a physical change occurred.</p>
+        <details className={styles.hint}><summary>How to read this</summary><p className={styles.hint}>Background windows are same-size boxes elsewhere in this scene. “Scene shift” is their median change; “excess” is how far this box sits beyond it. A low rate means the box is unusual within its own scene, not that a physical change occurred. It does not remove scene-wide calibration or moisture effects.</p></details>
         {studyLooks.length > 1 && <p className={styles.hint}>You have checked {studyLooks.length} boxes here. At a {BACKGROUND_RATE_THRESHOLD * 100}% rate, about {expectedChanceHits(studyLooks.length).toFixed(1)} would look unusual by chance. These rates are not corrected for repeated looks.</p>}
       </>}
     </section>}
 
     {readiness && <section aria-labelledby="ready" className={styles.card}>
       <h2 id="ready">{section(3)} · Evidence readiness: {readiness.met} of {readiness.total} conditions met</h2>
-      <p className={styles.hint}>A checklist, not a confidence score. Failed, unverified and missing conditions stay visible, and no number here is a probability.</p>
+      <p className={styles.hint}>Failed and missing conditions stay visible.</p>
       <ul className={styles.conditions}>{readiness.conditions.map((c) => <li key={c.id} data-status={c.status}>
         <span className={styles.badge}>{c.status === "NOT_PROVIDED" ? "NOT PROVIDED" : c.status}</span> <strong>{c.label}</strong><br /><small>{c.detail}</small></li>)}</ul>
     </section>}
 
     {readiness && <section aria-labelledby="alt" className={styles.card}>
-      <h2 id="alt">{section(4)} · Other explanations for the same radar signal</h2>
-      <p className={styles.hint}>Unranked, with no probabilities. Each remains open until independent evidence is supplied.</p>
+      <h2 id="alt">{section(4)} · Other explanations</h2>
+      <p className={styles.hint}>Unranked; open until independent evidence is supplied.</p>
       <ul className={styles.conditions}>{explanations.map((e) => <li key={e.id}><span className={styles.badge}>{e.assessment === "NOT_ASSESSED" ? "NOT ASSESSED" : "PARTLY CHARACTERISED"}</span> <strong>{e.label}</strong><br /><small>What would help: {e.wouldHelp}</small></li>)}</ul>
     </section>}
 
     {data && <section aria-labelledby="report" className={styles.card}>
       <h2 id="report">Evidence report</h2>
-      <p>A self-contained, printable HTML file with provenance, the measured context, every readiness condition and the limitations. {currentCheck ? "" : "Check a box first to include measured statistics."}</p>
+      <p>Printable HTML with provenance and limitations. {currentCheck ? "" : "Check a box first."}</p>
       <button type="button" className={styles.primary} onClick={download} disabled={!currentCheck}>Download report for {currentCheck?.label ?? "a checked box"}</button>
     </section>}
 
