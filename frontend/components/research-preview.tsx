@@ -9,6 +9,7 @@ import {
 } from "@/lib/research-studies";
 import styles from "./research-preview.module.css";
 import { ResearchLocationEvidenceStory } from "./location-evidence-story";
+import { ResearchEvidencePathway } from "./evidence-pathway";
 
 const subscribe = (notify: () => void) => {
   window.addEventListener("hashchange", notify);
@@ -50,13 +51,13 @@ function Gallery({ study }: { study: ResearchStudy }) {
   const [videoFailed, setVideoFailed] = useState(false);
   const images = study.gallery === "polarization-pair" ? study.media.filter(m => m.polarization === pol) : study.media;
   const paired = study.gallery === "pair" || study.gallery === "polarization-pair";
-  if (study.gallery === "pending") return <section className={styles.pending} aria-label="NISAR availability">
+  if (study.gallery === "pending") return <section className={styles.pending} id="research-images" aria-label="NISAR availability">
     <span className={styles.small}>NISAR observations pending</span>
     <h3>Find the acquisitions first.</h3>
     <p>The event is documented, but a comparable NISAR before-and-after pair has not been verified. No substitute radar image or measured result is shown.</p>
     <p>{study.nextStep}</p>
   </section>;
-  return <section aria-label="Research imagery">
+  return <section id="research-images" aria-label="Research imagery">
     {paired && <div className={styles.controls}>
       {study.gallery === "polarization-pair" && <div className={styles.segment} role="group" aria-label="Browse polarization">
         {(["HH", "HV"] as const).map(p => <button type="button" key={p} aria-pressed={pol === p} onClick={() => setPol(p)}>{p}</button>)}
@@ -102,16 +103,17 @@ function StudyDetail({ study }: { study: ResearchStudy }) {
     <p className={styles.period}>{study.period}</p>
     <p className={styles.story}>{study.story}</p>
     {study.id === "etna" && <p><Link href="/etna-investigation">View TANGO’s newly processed, genuine NISAR HH/HV histograms, difference maps and three measured regions →</Link></p>}
+    <ResearchEvidencePathway study={study} />
     <ResearchLocationEvidenceStory study={study} />
     <Gallery study={study} />
     <div className={styles.evidenceGrid}>
-      <section className={styles.qa} aria-labelledby="research-qa-title">
+      <section className={styles.qa} id="research-qa" aria-labelledby="research-qa-title">
         <span className={styles.small}>Scientific review</span><h3 id="research-qa-title">Blocked · exploratory</h3>
         <p className={styles.code}>{study.scientificClearance}</p>
         <ul>{study.limitations.map(l => <li key={l}>{l}</li>)}</ul>
         <p>Published imagery is evidence of what the publisher observed. It does not clear our own product validation.</p>
       </section>
-      <section className={styles.sources} aria-labelledby="research-sources-title">
+      <section className={styles.sources} id="research-sources" aria-labelledby="research-sources-title">
         <span className={styles.small}>Provenance</span><h3 id="research-sources-title">Read the source.</h3>
         <ul>{study.sources.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.label} ↗</a></li>)}</ul>
         <h4>Next research step</h4><p>{study.nextStep}</p>
@@ -142,8 +144,8 @@ export function ResearchPreview() {
       <header className={styles.header}>
         <p className={styles.eyebrow}><span className={styles.dot} /> Internal research preview · unpublished</p>
         <h1>A wider world.<br /><span>Evidence comes first.</span></h1>
-        <p>Nine research stops, from lava fields to fractured ice. Explore published NISAR observations alongside clearly marked candidates for the next studies.</p>
-        <div className={styles.headerLinks}><Link href="/nisar-prototype">Open existing investigations ↗</Link><span>No scientific clearance or numerical change claims</span></div>
+        <p>Nine research stops, from lava fields to fractured ice. Explore published NISAR observations, a linked numerical investigation for Etna, and clearly marked candidates for the next studies.</p>
+        <div className={styles.headerLinks}><Link href="/nisar-prototype">Open existing investigations ↗</Link><span>Measurements are shown only where verified from actual radar data; no causal claims</span></div>
       </header>
       <div className={styles.layout}>
         <aside className={styles.sidebar}>
@@ -158,11 +160,11 @@ export function ResearchPreview() {
               <span className={styles.locationState} data-kind={s.evidence}>{EVIDENCE_LABELS[s.evidence]}</span>
             </button>
           </li>)}</ul></nav>
-          <p className={styles.sidebarNote}>Research assets remain separate from the existing investigations. Unverified candidates do not contain invented radar imagery or measurements.</p>
+          <p className={styles.sidebarNote}>Publisher imagery and investigation measurements are clearly separated. Unverified candidates do not contain invented radar imagery or measurements.</p>
         </aside>
         <StudyDetail key={study.id} study={study} />
       </div>
-      <footer className={styles.footer}>NASA / ISRO source imagery is credited per scene. This research preview has not been deployed. All nine studies remain exploratory and not cleared.</footer>
+      <footer className={styles.footer}>NASA / ISRO source imagery is credited per scene. All nine research entries remain exploratory and not scientifically cleared. Etna also has a separate processed numerical investigation.</footer>
     </div>
   </main>;
 }
