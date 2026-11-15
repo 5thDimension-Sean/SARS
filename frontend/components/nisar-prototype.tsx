@@ -71,7 +71,7 @@ export function NisarPrototype({ studyOverride }: { studyOverride?: StudyConfig[
         </div>
       </section>}
     </div>
-    <div className={styles.wrap}><div key={study.id} className={styles.enter}>{study.id === "hawaii" || study.id === "iowa" ? <NativeStudy id={study.id} pol={pol} /> : <Workbench study={study} pol={pol} />}</div></div>
+    <div className={styles.wrap}><div key={study.id} className={styles.enter}>{study.id === "iowa" ? <NativeStudy id={study.id} pol={pol} /> : <Workbench study={study} pol={pol} />}</div></div>
     <div className={styles.wrap}><SiteFooter /></div>
   </main>;
 }
