@@ -1,0 +1,51 @@
+name: Validate private coordinate NISAR processing
+
+on:
+  push:
+    branches:
+      - feat/coordinate-earthdata-private-processing
+    paths:
+      - .github/workflows/test-private-coordinate-processing.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-and-science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROCESSING_ALLOWED_ORIGINS: https://tangosars.vercel.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install processing and web API dependencies
+        run: 'python -m pip install -r pipeline/private-api-requirements.txt'
+      - name: Verify Python syntax and private API authorization tests
+        run: |
+          python -m compileall -q pipeline/private_processing_api.py pipeline/fetch_nisar.py pipeline/generate_unified_evidence.py
+          python -m pytest pipeline/tests/test_private_processing_api.py -q
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Test
+        run: npm test
+      - name: Lint
+        run: npm run lint
+      - name: Build static export with optional remote worker URL
+        env:
+          NEXT_PUBLIC_PROCESSING_API_URL: https://worker.example.test
+        run: npm run build
