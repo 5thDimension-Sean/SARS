@@ -6,6 +6,12 @@ on:
       - feat/coordinate-earthdata-private-processing
     paths:
       - .github/workflows/test-private-coordinate-processing.yml
+      - frontend/app/coordinates/page.tsx
+      - frontend/components/site-nav.tsx
+      - pipeline/private_processing_api.py
+      - pipeline/fetch_nisar.py
+      - pipeline/generate_unified_evidence.py
+      - pipeline/tests/test_private_processing_api.py
   workflow_dispatch:
 
 permissions:
@@ -28,6 +34,22 @@ jobs:
         run: |
           python -m compileall -q pipeline/private_processing_api.py pipeline/fetch_nisar.py pipeline/generate_unified_evidence.py
           python -m pytest pipeline/tests/test_private_processing_api.py -q
+      - name: Smoke test real Rodanthe GCOV derivatives through custom generator
+        run: |
+          python - <<'PY'
+          import tempfile, shutil, json
+          from pathlib import Path
+          from pipeline.generate_unified_evidence import generate
+          with tempfile.TemporaryDirectory() as td:
+              target = Path(td)
+              shutil.copytree(Path("frontend/public/data/rodanthe-processed"), target / "results")
+              generate("custom", target)
+              meta = json.loads((target / "custom-evidence/evidence.json").read_text())
+              regions = json.loads((target / "custom-regions/regions.json").read_text())
+              assert len(regions["regions"]) == 3
+              assert len(meta["polarizations"]["HH"]["histogramBins"]) == 48
+              assert (target / "custom-preview/20260917_HH.png").is_file()
+          PY
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 30
