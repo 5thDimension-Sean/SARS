@@ -11,7 +11,11 @@ def test_download_source_allowlist(url):
     assert not download.permitted_url(url)
 
 
-def test_s3_redirect_never_receives_earthdata_bearer(monkeypatch, tmp_path):
+@pytest.mark.parametrize("redirect_url", [
+    "https://test-bucket.s3.amazonaws.com/test.h5?signature=private",
+    "https://d1mv8zhcvry6x4.cloudfront.net/test.h5?signature=private",
+])
+def test_signed_redirect_never_receives_earthdata_bearer(monkeypatch, tmp_path, redirect_url):
     source = tmp_path / "fixture.h5"
     with h5py.File(source, "w") as h5:
         h5.create_dataset("SYNTHETIC_TEST_ONLY", data=[1, 2, 3])
@@ -21,7 +25,7 @@ def test_s3_redirect_never_receives_earthdata_bearer(monkeypatch, tmp_path):
         def __init__(self, redirect=False):
             self.is_redirect = redirect
             self.status_code = 302 if redirect else 200
-            self.headers = {"Location": "https://test-bucket.s3.amazonaws.com/test.h5?signature=private"} if redirect else {"Content-Length": str(len(payload))}
+            self.headers = {"Location": redirect_url} if redirect else {"Content-Length": str(len(payload))}
         def __enter__(self): return self
         def __exit__(self, *args): pass
         def iter_content(self, **kwargs): yield payload
@@ -40,6 +44,19 @@ def test_s3_redirect_never_receives_earthdata_bearer(monkeypatch, tmp_path):
     assert (tmp_path / "private" / "NISAR_TEST.h5").is_file()
     sidecar = (tmp_path / "private" / "NISAR_TEST.h5.asf.json").read_text()
     assert "test-secret" not in sidecar and "signature" not in sidecar
+
+
+def test_cdn_is_redirect_only_and_other_distributions_are_rejected():
+    approved = "https://d1mv8zhcvry6x4.cloudfront.net/test.h5"
+    assert not download.permitted_url(approved)
+    assert download.permitted_url(approved, redirect=True)
+    for url in (
+        "https://untrusted.cloudfront.net/test.h5",
+        "https://d1mv8zhcvry6x4.cloudfront.net.evil.test/test.h5",
+        "http://d1mv8zhcvry6x4.cloudfront.net/test.h5",
+        "https://user:pass@d1mv8zhcvry6x4.cloudfront.net/test.h5",
+    ):
+        assert not download.permitted_url(url, redirect=True)
 
 
 def test_oversized_stream_is_removed_and_error_is_sanitized(monkeypatch, tmp_path):
