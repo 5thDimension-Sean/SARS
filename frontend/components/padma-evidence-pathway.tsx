@@ -11,14 +11,13 @@ const steps = [
 
 export function ProcessedEvidencePathway() {
   return <section className={styles.pathway} aria-label="Padma evidence and reasoning guide">
-    <div className={styles.header}><span className={styles.eyebrow}>YOUR EVIDENCE GUIDE · FOUR STEPS</span>
-      <h2>From observation to evidence.</h2>
-      <p>Follow the same investigation process used for other TANGO locations. The Padma study uses independent NASA Landsat imagery rather than a processed NISAR radar pair, and missing measurements remain explicitly unavailable.</p>
+    <div className={styles.header}><h2>From observation to evidence.</h2>
+      <p>Independent Landsat imagery; missing measurements stay unavailable.</p>
     </div>
     <ol className={styles.steps}>
       {steps.map(step => <li key={step.number} className={styles.step}>
         <div className={styles.top}><span className={styles.number}>{step.number}</span><span className={styles.status} data-available={step.available}>{step.status}</span></div>
-        <h3>{step.heading}</h3><p>{step.detail}</p>
+        <h3>{step.heading}</h3><details><summary>Why</summary><p>{step.detail}</p></details>
         <a className={styles.action} href={step.href}>{step.action} ↗</a>
       </li>)}
     </ol>
