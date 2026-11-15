@@ -44,7 +44,7 @@ def main() -> int:
         "roiWgs84": list(aoi),
         "source": "NASA NISAR L2 GCOV via ASF DAAC",
         "status": "DISCOVERY_REQUIRED",
-        "interpretation": "Exploratory radar-backscatter change, NOT measured shoreline erosion",
+        "interpretation": "Longer interval exploratory radar-backscatter change, NOT measured shoreline erosion",
         "selected": [],
     }
     report_file = args.out / "discovery.json"
@@ -116,7 +116,7 @@ def main() -> int:
             for i, a in enumerate(items):
                 for b in items[i + 1:]:
                     days = (datetime.fromisoformat(b[0]) - datetime.fromisoformat(a[0])).days
-                    if 8 <= days <= 48 and a[2] + b[2] <= MAX_TOTAL_BYTES:
+                    if 8 <= days <= 120 and a[2] + b[2] <= MAX_TOTAL_BYTES:
                         options.append((abs(days - 12), a[2] + b[2], a, b, key))
         report["compatibleMetadataPairsUnderSizeCap"] = len(options)
         if not options:
@@ -130,7 +130,7 @@ def main() -> int:
         # 23–27 September 2026 Outer Banks nor'easter when available.
         storm_pairs = [opt for opt in options
                        if args.site == "rodanthe" and
-                       opt[2][0] == "2026-09-17" and opt[3][0] == "2026-09-29"]
+                       opt[2][0] == "2026-07-07" and opt[3][0] == "2026-10-11"]
         _, _, a, b, key = min(storm_pairs or options, key=lambda x: (x[0], x[1]))
         pair = (a, b)
         report["selected"] = [
