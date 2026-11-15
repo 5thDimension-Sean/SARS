@@ -14,10 +14,12 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass, field
 import json
 import os
+import re
 from pathlib import Path
 import secrets
 import shutil
@@ -44,7 +46,27 @@ TTL = timedelta(minutes=45)
 POOL = ThreadPoolExecutor(max_workers=MAX_ACTIVE, thread_name_prefix="nisar-private")
 LOCK = threading.RLock()
 
-app = FastAPI(title="TANGO private processing API", docs_url=None, redoc_url=None, openapi_url=None)
+@asynccontextmanager
+async def private_lifecycle(_app: FastAPI):
+    # On a crash or worker restart, old HDF5s and previews must not survive.
+    # Enforce a dedicated job directory; never recursively clean /tmp or /.
+    if len(BASE.parts) < 3 or BASE in (Path("/"), Path("/tmp"), Path.home()):
+        raise RuntimeError("PROCESSING_WORKDIR must name a dedicated private subdirectory")
+    BASE.mkdir(parents=True, mode=0o700, exist_ok=True)
+    BASE.chmod(0o700)
+    for item in BASE.iterdir():
+        if item.is_dir() and re.fullmatch(r"[A-Za-z0-9_-]{29,32}", item.name):
+            shutil.rmtree(item, ignore_errors=True)
+    try:
+        yield
+    finally:
+        for item in BASE.iterdir():
+            if item.is_dir() and re.fullmatch(r"[A-Za-z0-9_-]{29,32}", item.name):
+                shutil.rmtree(item, ignore_errors=True)
+
+
+app = FastAPI(title="TANGO private processing API", docs_url=None, redoc_url=None,
+              openapi_url=None, lifespan=private_lifecycle)
 app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_methods=["GET","POST"], allow_headers=["Authorization","Content-Type","X-Earthdata-Token"], allow_credentials=False, max_age=300)
 
 
