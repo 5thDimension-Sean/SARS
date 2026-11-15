@@ -40,6 +40,12 @@ export const SITE_CONTEXT: Record<StudyConfig["id"], {
     cannotConfirm: "Neither the 12-day nor the separately evaluated 96-day NISAR radar difference alone measures shoreline retreat.",
     nextEvidence: "Use Dare County's dated aerial shoreline comparisons to inspect real land-boundary movement; keep it separate from radar intensity.",
   },
+  etna: {
+    setting: "Mount Etna on Sicily is an active stratovolcano. These NISAR scenes bracket the August 6, 2026 eruptive episode, over a 24-day interval that also includes other possible surface changes.",
+    canSuggest: "Fresh surface roughness, moisture, ash, vegetation and viewing geometry can change L-band radar intensity near the volcano.",
+    cannotConfirm: "Differences in HH or HV radar brightness do not independently prove a new lava flow, identify a burn area, or show where eruption damage occurred.",
+    nextEvidence: "Compare with dated official volcanic observations, mapped lava boundaries, terrain-aware viewing geometry and optical imagery from the same period.",
+  },
   amazon: {
     setting: "Mamirauá is part of the Amazon River floodplain, with channels, flooded forest and seasonal water-level variation.",
     canSuggest: "Water beneath vegetation, river stage and forest structure can produce different radar returns.",
