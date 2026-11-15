@@ -8,10 +8,6 @@ import styles from "./page.module.css";
 const ROOT = "/data/rodanthe-processed/T162_F019_A";
 const dates = ["September 17, 2026", "September 29, 2026"] as const;
 const names = ["20260917", "20260929"] as const;
-const source = [
-  "NISAR_L2_PR_GCOV_030_162_A_019_4005_DHDH_A_20260917T101351_20260917T101409_P05023_N_P_J_001",
-  "NISAR_L2_PR_GCOV_031_162_A_019_4005_DHDH_A_20260929T101352_20260929T101409_P05023_N_P_J_001"
-];
 const description = "Fixed display ranges: HH −25 to 0 dB, HV −30 to −5 dB; difference −6 to +6 dB. Blue: reduced return on September 29. Red: increased return. White: little change. The temporal difference is September 29 minus September 17.";
 export default function CoastalErosionPage() {
   const [polarization, setPolarization] = useState<"HH" | "HV">("HH");
@@ -23,7 +19,7 @@ export default function CoastalErosionPage() {
     <div className={styles.wrap}>
       <p className={styles.kicker}>NISAR SCIENTIFIC INVESTIGATION / NORTH CAROLINA</p>
       <h1>Rodanthe: the coast after the storm.</h1>
-      <p className={styles.lede}>Two genuine NASA–ISRO NISAR L-band radar observations bracket the September 23–27, 2026 Outer Banks nor’easter. Explore calibrated provisional GCOV backscatter, not simulated satellite imagery.</p>
+      <p className={styles.lede}>Two genuine NASA–ISRO NISAR L-band radar observations bracket the September 23–27, 2026 Outer Banks nor’easter. Explore provisional GCOV backscatter, not simulated satellite imagery.</p>
       <div className={styles.note}><strong>Scientific boundary:</strong> These are real, georeferenced radar intensity measurements and derived differences; they do not establish a measured shoreline retreat or erosion rate. Water level, wet sand, surface roughness and radar artifacts can all affect the signal. Product-level scientific QA and independent shoreline validation remain pending.</div>
       <div className={styles.toolbar}>
         <div role="group" aria-label="Radar polarization" className={styles.segment}>
@@ -31,7 +27,7 @@ export default function CoastalErosionPage() {
         </div>
         <div role="group" aria-label="Comparison mode" className={styles.segment}>
           <button type="button" aria-pressed={mode === "pair"} onClick={() => setMode("pair")}>Before / after</button>
-          <button type="button" aria-pressed={mode === "difference"} onClick={() => setMode("difference")}>Measured dB difference</button>
+          <button type="button" aria-pressed={mode === "difference"} onClick={() => setMode("difference")}>Calculated dB difference</button>
         </div>
       </div>
       {mode === "pair" ?
