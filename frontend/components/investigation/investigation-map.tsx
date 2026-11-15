@@ -213,7 +213,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
   // ---- blended change areas: the published difference picture, grouped into soft-edged areas (display only; cached per setting)
   const filtered = useRef(new Map<string, string>());
   useEffect(() => () => { filtered.current.forEach((u) => URL.revokeObjectURL(u)); filtered.current.clear(); }, [study.id]);
-  const overlayStrength = changeOnly || 0.6;
+  const overlayStrength = changeOnly;
   useEffect(() => {
     if (!handles) return;
     const m = handles.after, corners = rasterCorners(regions, study.utmZone);
