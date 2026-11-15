@@ -24,8 +24,8 @@ SITES = {
     "cape-hatteras": (-75.62, 35.18, -75.48, 35.29),
 }
 AOI = SITES["cameron"]
-MAX_PER_PRODUCT_BYTES = 2_500_000_000
-MAX_TOTAL_BYTES = 5_000_000_000
+MAX_PER_PRODUCT_BYTES = 2_800_000_000
+MAX_TOTAL_BYTES = 5_600_000_000
 
 
 def main() -> int:
@@ -115,11 +115,16 @@ def main() -> int:
         if not options:
             report["status"] = "NO_VERIFIED_PAIR"
             report["reason"] = ("No same-track/frame/pass/version/maturity pair with disclosed "
-                                "file sizes <= 2.5 GB each. Raw grids not downloaded.")
+                                "file sizes <= 2.8 GB each. Raw grids not downloaded.")
             print("No suitable pair found. See discovery.json.")
             return 0
 
-        _, _, a, b, key = min(options, key=lambda x: (x[0], x[1]))
+        # Prioritize a real before/after acquisition around the documented
+        # 23–27 September 2026 Outer Banks nor'easter when available.
+        storm_pairs = [opt for opt in options
+                       if args.site == "rodanthe" and
+                       opt[2][0] == "2026-09-17" and opt[3][0] == "2026-09-29"]
+        _, _, a, b, key = min(storm_pairs or options, key=lambda x: (x[0], x[1]))
         pair = (a, b)
         report["selected"] = [
             {"date": x[0],
