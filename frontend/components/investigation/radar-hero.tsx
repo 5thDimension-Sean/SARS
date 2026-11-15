@@ -5,7 +5,7 @@ import Link from "next/link";
 import everglades from "@/public/data/everglades-preview/preview-manifest.json";
 import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
 import california from "@/public/data/california-preview/preview-manifest.json";
-import hawaii from "@/public/data/hawaii-preview/preview-manifest.json";
+import hawaii from "@/public/data/hawaii-full-preview/preview-manifest.json";
 import iowa from "@/public/data/iowa-preview/preview-manifest.json";
 import rodanthe from "@/public/data/rodanthe-preview/preview-manifest.json";
 import amazon from "@/public/data/amazon-preview/preview-manifest.json";
