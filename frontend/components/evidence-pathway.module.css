@@ -1,0 +1,20 @@
+.pathway{margin:30px 0 42px;padding:clamp(20px,3vw,32px);border:1px solid var(--page-line,var(--border,#333));border-radius:14px;background:var(--page-elev1,transparent);color:var(--page-label,var(--foreground,#f4f4f4));scroll-margin-top:90px}
+.header{max-width:780px;margin-bottom:26px}
+.eyebrow{display:block;color:var(--page-label3,var(--muted-foreground,#999));font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:650;margin-bottom:9px}
+.header h2{font-size:clamp(23px,3.3vw,36px);letter-spacing:-.04em;line-height:1.12;font-weight:650;margin:0 0 12px}
+.header p{font-size:15px;line-height:1.65;color:var(--page-label2,var(--muted-foreground,#aaa));margin:0}
+.steps{padding:0;margin:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.step{display:flex;flex-direction:column;min-width:0;gap:12px;padding:20px;border:1px solid var(--page-line,var(--border,#444));border-radius:10px;background:var(--page-elev2,var(--card,#161616))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.number{font-size:12px;font-family:var(--font-geist-mono,monospace);color:var(--page-label2,var(--muted-foreground,#aaa))}
+.status{font-size:11px;color:var(--page-label,var(--foreground,#eee));border:1px solid var(--page-line-strong,var(--border,#555));border-radius:6px;padding:5px 7px;line-height:1.3}
+.status[data-available="false"]{color:var(--page-label2,var(--muted-foreground,#bbb));border-style:dashed}
+.step h3{font-size:19px;line-height:1.3;letter-spacing:-.025em;font-weight:640;margin:0}
+.step p{font-size:14px;line-height:1.6;color:var(--page-label2,var(--muted-foreground,#aaa));margin:0;flex:1}
+.action{align-self:flex-start;color:var(--page-label,var(--foreground,#eee));font-size:13px;font-weight:650;text-decoration:underline;text-underline-offset:4px;line-height:1.45;overflow-wrap:anywhere}
+.action:hover{opacity:.76}
+.action:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.disclaimer{padding-top:16px;margin:18px 0 0;border-top:1px solid var(--page-line,var(--border,#444));font-size:13px;line-height:1.65;color:var(--page-label2,var(--muted-foreground,#aaa))}
+.disclaimer strong{color:var(--page-label,var(--foreground,#eee))}
+@media(max-width:720px){.steps{grid-template-columns:1fr}.pathway{margin:24px 0 30px}.step{padding:17px}}
+@media(prefers-reduced-motion:no-preference){.action{transition:opacity .15s ease}}
