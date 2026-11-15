@@ -1,0 +1,38 @@
+name: Evaluate 96-day Rodanthe NISAR coastal change
+
+on:
+  push:
+    branches:
+      - feat/rodanthe-long-interval-evaluation
+    paths:
+      - .github/workflows/rodanthe-long-interval.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install NISAR processing dependencies
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Process real longer-interval Rodanthe acquisition pair
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: python -m pipeline.coastal_pair_action --mode process --site rodanthe --out pipeline/long-review
+      - name: Archive scientific results for review only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rodanthe-long-interval-review
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            pipeline/long-review/discovery.json
+            pipeline/long-review/processed/**
