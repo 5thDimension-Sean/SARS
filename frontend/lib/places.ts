@@ -48,5 +48,21 @@ const researchPlaces: Place[] = [
     blurb: "Europe’s most active volcano, before and after the August 2026 eruptive episode. Official browse images, HH and HV.", tags: ["HH", "HV", "Official browse"] },
 ];
 
-export const PLACES: readonly Place[] = [...studyPlaces, ...researchPlaces];
+/** Verified source acquisitions, exploratory QA: a featured coastal investigation.
+ * Iowa's earlier investigation is retained, but no longer occupies a globe stop.
+ */
+const coastalPlace: Place = {
+  id: "rodanthe",
+  label: "Rodanthe, North Carolina",
+  short: "Rodanthe",
+  kind: "study",
+  lon: -75.465,
+  lat: 35.585,
+  bounds: [-75.50068595795983, 35.529697155479866, -75.4293561222836, 35.640310954737934],
+  href: "/coastal-erosion",
+  dates: ["2026-09-17", "2026-09-29"],
+  blurb: "A genuine NISAR pre/post-storm coastal backscatter comparison; erosion validation pending.",
+  tags: ["Coastal change", "HH", "HV", "Real GCOV", "Exploratory"],
+};
+export const PLACES: readonly Place[] = [...studyPlaces.filter(p => p.id !== "iowa"), coastalPlace, ...researchPlaces];
 export type PlaceId = (typeof PLACES)[number]["id"];
