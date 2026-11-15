@@ -18,8 +18,6 @@ const FULL_EVIDENCE_STUDIES = STUDIES.filter(
 );
 
 const EXPLORATORY_STUDIES = [
-  { id: "hawaii", dates: ["2026-09-04", "2026-09-16"], granules: ["NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001","NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001"], utmZone: 5,
-    noCause: "No lava, damage, physical cause, or detection accuracy is inferred.", note: "No environmental impact or eruption attribution." },
   { id: "iowa", dates: ["2026-09-25", "2026-10-19"], granules: ["G4325945910-ASF", "G4381295241-ASF"], utmZone: 15,
     noCause: "No harvest, crop change, physical cause, or detection accuracy is inferred.", note: "No harvest or land-cover attribution." },
 ];
