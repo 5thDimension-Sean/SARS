@@ -1,0 +1,38 @@
+name: Verify real Etna research evidence and frontend
+
+on:
+  push:
+    branches:
+      - feat/etna-real-research-evidence
+    paths:
+      - .github/workflows/validate-etna-science.yml
+      - frontend/lib/investigation.ts
+      - frontend/components/location-evidence-story.tsx
+      - frontend/components/research-preview.tsx
+      - frontend/scripts/investigation.test.mjs
+      - frontend/scripts/location-story.test.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install
+        run: npm ci
+      - name: Test source evidence contracts
+        run: npm test
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
