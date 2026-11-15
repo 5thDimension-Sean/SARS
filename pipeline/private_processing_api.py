@@ -223,17 +223,19 @@ def work(job_id: str, latitude: float, longitude: float, token: str) -> None:
             job.data = {"catalogCount": count, "scientificStatus": "NO_COMPATIBLE_PAIR"}
             return
         _, _, first, later, key = selected
-        if shutil.disk_usage(BASE).free < first[2] + later[2] + 3_000_000_000:
+        if shutil.disk_usage(BASE).free < 3_000_000_000:
             job.update("unavailable", "Not enough free worker storage for safe raw-data processing")
             return
-        job.update("downloading", "Downloading two genuine NASA Earthdata GCOV files")
-        # Explicit per-request token: never set process-wide environment.
-        from pipeline.private_download import download_private
-        receipts = download_private([first[1], later[1]], raw_dir, token, MAX_RAW, MAX_TOTAL)
-        token = ""
-        job.update("processing", "Checking radar grids and calculating aligned HH/HV differences")
-        processed = process_directory(raw_dir, job.directory / "results", aoi=bbox,
-                                      pols=("HHHH", "HVHV"), max_size=1800, png_quantize=True)
+        job.update("downloading", "Reading only the radar data blocks needed around your coordinates")
+        from pipeline.private_ranges import open_private_products
+        def progress(index, count):
+            job.update("processing", f"Reading source {index}/2 around your coordinates: {count / 1024**2:.1f} MiB transferred")
+        with open_private_products([first[1], later[1]], raw_dir, token, progress) as (paths, opener, receipt):
+            token = ""
+            processed = process_directory(raw_dir, job.directory / "results", aoi=bbox,
+                                          pols=("HHHH", "HVHV"), max_size=1800, png_quantize=True,
+                                          source_paths=paths, open_source=opener)
+            receipts = receipt()
         frames = processed.get("frames") or []
         if len(frames) != 1 or len(frames[0].get("changeLayers") or []) < 2:
             raise ValueError("Unable to validate a common radar comparison grid")

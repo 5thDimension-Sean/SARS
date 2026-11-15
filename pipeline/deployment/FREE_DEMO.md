@@ -36,8 +36,9 @@ runner, environment files, source files or startup commands. Each visitor
 submits their own token through the HTTPS form.
 
 Keep at least 30 GB free disk and sufficient available memory for the worker;
-measure real peak usage before opening capacity to more visitors. Source
-downloads may total 6 GB. Original products are deleted after processing;
+measure real peak usage before opening capacity to more visitors. Catalog
+products may total 6 GB, but coordinate jobs read only needed source blocks,
+with a 128 MiB transfer cap per source. Raw blocks are discarded after processing;
 derived results expire after 45 minutes. Stopping terminates processing
 descendants too. Normal worker shutdown runs cleanup; after a forced stop or
 crash, the next startup removes abandoned recognized job directories.

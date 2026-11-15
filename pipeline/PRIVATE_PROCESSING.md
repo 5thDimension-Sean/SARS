@@ -2,8 +2,9 @@
 
 ## Deployment status and acceptance gate
 
-The worker is implemented but no public backend URL has been provisioned by
-this change. A passing offline test uses explicitly synthetic test fixtures;
+The worker is implemented but no permanent public backend URL has been provisioned
+by this change. A temporary free demo is documented in `deployment/FREE_DEMO.md`.
+A passing offline test uses explicitly synthetic test fixtures;
 it does not demonstrate a real NASA authenticated download. Keep the production
 submit button disabled until a reviewed HTTPS worker is running and the
 real-data check below passes. Do not set a placeholder API URL in Vercel.
@@ -15,10 +16,30 @@ compatible NISAR pair at that point before showing any HH/HV results.
 
 ## Resource and failure bounds
 
+Coordinate jobs now use bounded HTTP byte-range access to read HDF5 metadata
+and only the HH/HV/mask chunks needed for the small requested area. They do not
+download complete multi-gigabyte scenes. Existing grid, metadata, masking and
+paired-difference checks are unchanged. Each source is limited to 128 MiB
+transferred with a 32 MiB in-memory LRU cache; both sources share a three-minute
+read deadline. Servers ignoring Range are rejected before consuming their
+whole response. Strong ETag/If-Match and exact Content-Range checks reject
+changing or mismatched source objects. Credentials are stripped from signed
+CDN/S3 requests, as on the full-download path.
+
+Range receipts report catalog source size, actual bytes transferred, and
+SHA-256 hashes of the listed retrieved ranges. These are explicitly not
+whole-file source hashes. The older offline full-download helper remains
+available separately. No persistent source cache or shared credential is added.
+
+The coordinate page retains its separate private job session in JavaScript
+memory across internal navigation. Returning in the same tab reopens the same
+job/result instead of requiring another source read. Reloading closes that
+memory session; NASA tokens are never retained for resubmission.
+
 - Single concurrent job; six accepted jobs per hour across the whole worker.
 - At most 100 catalog results, 3 GB per source and 6 GB of source downloads.
 - A 1 KiB request-body limit counts streamed bodies as well as Content-Length.
-- Private downloads have 15-second connect / 60-second idle timeouts, a
+- The offline full-download helper has 15-second connect / 60-second idle timeouts, a
   15-minute aggregate download deadline, and catalog byte limits enforced while
   streaming. NASA credentials are never sent to signed S3 redirect hosts.
 - Catalog search, download and HDF5 processing run in a separate process with
@@ -26,7 +47,7 @@ compatible NISAR pair at that point before showing any HH/HV results.
   raw and incomplete derived data. This does not depend on a cooperative thread.
 - Finished jobs expire 45 minutes after submission; a background reaper runs
   every 30 seconds even when nobody makes another API request.
-- Results include source filenames, byte counts and SHA-256 hashes, dates,
+- Results include source filenames, byte counts and explicitly scoped SHA-256 hashes, dates,
   product/specification versions, native analysis-grid CRS and QA limitations.
 - Native HDF5 track/frame/pass/release/maturity/version and requested geographic
   coverage are checked against catalog selection. Unknown catalog metadata is
@@ -102,10 +123,10 @@ the infrastructure owner) must deploy before live custom coordinates work.
    track/frame/pass/release/version). There is **no user date selection**.
    Selection is based on date separation, not on environmental causation.
 4. The service holds the token **only in worker memory during processing**.
-   It downloads both HDF5 files, screens the GCOV grids, produces aligned HH/HV
+   It reads the required HDF5 byte ranges, screens the GCOV grids, produces aligned HH/HV
    change rasters, and reuses the *Everglades evidence generator* for histograms,
    region statistics, preview PNGs, and QA records.
-5. It **deletes raw HDF5 downloads** immediately after processing. It returns
+5. It **discards raw source blocks from memory** after processing. It returns
    only derived evidence and private PNG previews via a separate unguessable
    short-lived job access token. Results are exploratory, not scientifically
    cleared, and jobs are deleted when expired and checked during subsequent API
