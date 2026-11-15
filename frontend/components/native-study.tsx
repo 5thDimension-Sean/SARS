@@ -9,6 +9,7 @@ import { downloadReport } from "@/lib/place-report";
 import hawaii from "@/public/data/hawaii-review/hawaii-summary.json";
 import iowa from "@/public/data/iowa-review/iowa-summary.json";
 import styles from "./native-study.module.css";
+import { NativeStudyEvidenceStory } from "./location-evidence-story";
 
 interface Config {
   dir: string; title: string; dates: [string, string]; stamps: [string, string]; summary: typeof hawaii; intro: string; claim: string;
@@ -133,6 +134,7 @@ export function NativeStudy({ id, pol }: { id: "hawaii" | "iowa"; pol: Pol }) {
       </div>
       <p className={styles.note}>Colored areas group neighboring pixels whose color changed most between the dates. This is a display filter on the published difference picture, not a measurement or a detection, and it names no cause. {c.noCause} Native UTM radar image, not a georeferenced map. Grayscale scales are fixed across dates. No independent environmental validation.</p>
     </div>
+    <NativeStudyEvidenceStory id={id} pol={pol} />
     <div className={styles.stats}>
       {[["Valid paired pixels", c.summary.commonValidPixels.toLocaleString("en-US")], ["Paired median difference", `${stats.pairedDifferenceMedianDb.toFixed(3)} dB`], ["Paired mean difference", `${stats.pairedDifferenceMeanDb.toFixed(3)} dB`], ["Acquisition interval", `${c.days} days`]].map(([n, v]) =>
         <div className={styles.stat} key={n}><div>{n}</div><strong>{v}</strong></div>)}

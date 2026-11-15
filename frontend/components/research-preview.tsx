@@ -8,6 +8,7 @@ import {
   type ResearchImage, type ResearchStudy,
 } from "@/lib/research-studies";
 import styles from "./research-preview.module.css";
+import { ResearchLocationEvidenceStory } from "./location-evidence-story";
 
 const subscribe = (notify: () => void) => {
   window.addEventListener("hashchange", notify);
@@ -100,6 +101,7 @@ function StudyDetail({ study }: { study: ResearchStudy }) {
     </div>
     <p className={styles.period}>{study.period}</p>
     <p className={styles.story}>{study.story}</p>
+    <ResearchLocationEvidenceStory study={study} />
     <Gallery study={study} />
     <div className={styles.evidenceGrid}>
       <section className={styles.qa} aria-labelledby="research-qa-title">

@@ -1,0 +1,40 @@
+name: Validate all location evidence stories
+
+on:
+  push:
+    branches:
+      - feat/all-location-evidence-stories
+    paths:
+      - .github/workflows/validate-location-stories.yml
+      - frontend/components/location-evidence-story.tsx
+      - frontend/components/location-evidence-story.module.css
+      - frontend/lib/location-context.ts
+      - frontend/components/nisar-prototype.tsx
+      - frontend/components/native-study.tsx
+      - frontend/components/research-preview.tsx
+      - frontend/scripts/location-story.test.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install
+        run: npm ci
+      - name: Data provenance and location-story tests
+        run: npm test
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
