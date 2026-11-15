@@ -78,6 +78,10 @@ def main() -> int:
                 filename = product_filename(p)
             except Exception:
                 continue
+            # This processor requires Frequency-A HHHH and HVHV.
+            # Same track/frame can still have incompatible acquisition modes.
+            if "_DHDH_A_" not in filename:
+                continue
             size = expected_size(prop, filename)
             if len(report["sceneNamesSample"]) < 5:
                 report["sceneNamesSample"].append({
