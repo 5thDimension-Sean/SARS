@@ -71,13 +71,13 @@ export default function CoordinateExplorer() {
         headers: { "Content-Type": "application/json", "X-Earthdata-Token": key },
         body: JSON.stringify({ latitude: Number(lat), longitude: Number(lon) }),
       });
-      const reply = await response.json();
+      const reply = (await response.json()) as Record<string, unknown>;
       if (!response.ok || typeof reply.id !== "string" || typeof reply.accessToken !== "string")
         throw new Error(response.status === 429 ? "The worker is busy. Please try again shortly." :
           response.status === 403 ? "This website is not authorized to contact the processing worker." :
           "The processing request could not be started.");
-      sessionRef.current = { id: reply.id, accessToken: reply.accessToken };
-      setSessionId(reply.id); setStatus("queued"); setMessage("Looking for actual compatible NASA NISAR scenes.");
+      sessionRef.current = { id: reply.id as string, accessToken: reply.accessToken as string };
+      setSessionId(reply.id as string); setStatus("queued"); setMessage("Looking for actual compatible NASA NISAR scenes.");
     } catch (error) {
       setStatus("failed"); setMessage(error instanceof Error ? error.message : "Unable to contact private processing service.");
     }
@@ -96,7 +96,7 @@ export default function CoordinateExplorer() {
           signal: controller.signal, credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer",
         });
         if (!response.ok) throw new Error("This private processing session expired or is unavailable.");
-        const reply = await response.json();
+        const reply = (await response.json()) as Record<string, unknown>;
         if (!active) return;
         setStatus(reply.status as JobStatus);
         setMessage(String(reply.progress || ""));
