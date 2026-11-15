@@ -52,6 +52,17 @@ def main() -> int:
                                         maturity="PROVISIONAL", max_results=200)
         products = list(asf.search(**search_kwargs(query_args, asf)))
         report["catalogResults"] = len(products)
+        report["catalogInventory"] = [
+            {
+                "date": str(p.properties.get("startTime", ""))[:10],
+                "track": p.properties.get("pathNumber"),
+                "frame": p.properties.get("frameNumber"),
+                "direction": p.properties.get("flightDirection"),
+                "sizeGB": round((expected_size(p.properties, product_filename(p)) or 0) / 1e9, 3),
+                "release": catalog_metadata(p).get("compositeReleaseId"),
+            }
+            for p in products
+        ]
         report["resultCapReached"] = len(products) >= 200
         groups = defaultdict(list)
         report["sizeKnownProducts"] = 0
