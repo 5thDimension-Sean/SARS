@@ -5,12 +5,12 @@ import Link from "next/link";
 import everglades from "@/public/data/everglades-preview/preview-manifest.json";
 import louisiana from "@/public/data/louisiana-preview/preview-manifest.json";
 import california from "@/public/data/california-preview/preview-manifest.json";
-import hawaii from "@/public/data/hawaii-preview/preview-manifest.json";
+import hawaii from "@/public/data/hawaii-full-preview/preview-manifest.json";
 import iowa from "@/public/data/iowa-preview/preview-manifest.json";
 import rodanthe from "@/public/data/rodanthe-preview/preview-manifest.json";
 import amazon from "@/public/data/amazon-preview/preview-manifest.json";
 /** Pixel sizes of the published preview PNGs (width, height). The manifests' nativeShape is not the PNG size, so it is not used for layout. */
-const PNG_SIZE = { everglades: [403, 446], louisiana: [417, 470], california: [375, 457], hawaii: [427, 449], iowa: [336, 447], rodanthe: [644, 1228], amazon: [1501, 1229] } as const;
+const PNG_SIZE = { everglades: [403, 446], louisiana: [417, 470], california: [375, 457], hawaii: [432, 456], iowa: [336, 447], rodanthe: [644, 1228], amazon: [1501, 1229] } as const;
 const MANIFESTS = { everglades, louisiana, california, hawaii, iowa, rodanthe, amazon } as const;
 import { dataUrl, fmtDate, parsePreview, type Pol, type StudyConfig } from "@/lib/investigation";
 import { prefersReducedMotion } from "@/lib/prefs";

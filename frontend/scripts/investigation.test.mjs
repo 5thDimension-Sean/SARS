@@ -14,12 +14,10 @@ const load = (s) => ({
   regions: parseRegions(read(`${s.regionsDir}/regions.json`), read(`${s.regionsDir}/regions.geojson`), s),
 });
 const FULL_EVIDENCE_STUDIES = STUDIES.filter(
-  (s) => ["everglades", "louisiana", "california", "rodanthe", "amazon"].includes(s.id)
+  (s) => ["everglades", "louisiana", "california", "hawaii", "rodanthe", "amazon"].includes(s.id)
 );
 
 const EXPLORATORY_STUDIES = [
-  { id: "hawaii", dates: ["2026-09-04", "2026-09-16"], granules: ["G4300303633-ASF", "G4315672426-ASF"], utmZone: 5,
-    noCause: "No lava, damage, physical cause, or detection accuracy is inferred.", note: "No environmental impact or eruption attribution." },
   { id: "iowa", dates: ["2026-09-25", "2026-10-19"], granules: ["G4325945910-ASF", "G4381295241-ASF"], utmZone: 15,
     noCause: "No harvest, crop change, physical cause, or detection accuracy is inferred.", note: "No harvest or land-cover attribution." },
 ];
@@ -107,7 +105,7 @@ for (const expected of EXPLORATORY_STUDIES) {
 }
 
 test("published evidence and regions validate for both studies", () => {
-  assert.deepEqual(FULL_EVIDENCE_STUDIES.map((s) => s.id), ["everglades", "louisiana", "california", "rodanthe", "amazon"]);
+  assert.deepEqual(FULL_EVIDENCE_STUDIES.map((s) => s.id), ["everglades", "louisiana", "california", "hawaii", "rodanthe", "amazon"]);
   for (const s of FULL_EVIDENCE_STUDIES) {
     const { evidence, regions } = load(s);
     assert.equal(regions.regions.length, 3);

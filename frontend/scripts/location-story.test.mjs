@@ -4,7 +4,6 @@ import { readFileSync } from "node:fs";
 import { STUDIES, parseEvidence, fmtSignedDb } from "../lib/investigation.ts";
 import { SITE_CONTEXT } from "../lib/location-context.ts";
 import { RESEARCH_STUDIES } from "../lib/research-studies.ts";
-import hawaii from "../public/data/hawaii-review/hawaii-summary.json" with { type: "json" };
 import iowa from "../public/data/iowa-review/iowa-summary.json" with { type: "json" };
 
 const read = p => JSON.parse(readFileSync(new URL(`../public/data/${p}`, import.meta.url), "utf8"));
@@ -22,7 +21,7 @@ test("all seven scientific locations have substantive, cautious, specific explan
 });
 
 test("full-data stories use published measured whole-scene summaries, never invented statistics", () => {
-  for (const id of ["everglades","louisiana","california","rodanthe","amazon"]) {
+  for (const id of ["everglades","louisiana","california","hawaii","rodanthe","amazon"]) {
     const study = STUDIES.find(s => s.id === id);
     const evidence = parseEvidence(read(`${study.evidenceDir}/evidence.json`), study);
     for (const pol of ["HH","HV"]) {
@@ -36,8 +35,8 @@ test("full-data stories use published measured whole-scene summaries, never inve
   }
 });
 
-test("Hawaii and Iowa are paired-pixel studies but have no fabricated histogram files", () => {
-  for (const evidence of [hawaii,iowa]) {
+test("Archived Iowa still uses its legitimate paired-pixel data and no fabricated histogram", () => {
+  for (const evidence of [iowa]) {
     assert.ok(evidence.commonValidPixels > 10000);
     for (const pol of ["HH","HV"]) {
       const s = evidence.polStats[pol];

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "preview-1.0",
+  "provenance": "NASA NISAR GCOV via ASF DAAC, georeferenced overview",
+  "sourceCollection": "NISAR L2 GCOV provisional",
+  "bounds": [
+    -155.29060413209163,
+    19.38947418873093,
+    -155.24935964378054,
+    19.430535660854396
+  ],
+  "measurement": "gamma0 linear power converted to dB; georeferenced overview",
+  "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "acquisitions": [
+    {
+      "date": "2026-09-04",
+      "conceptId": "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001",
+      "track": 151,
+      "frame": 11,
+      "images": {
+        "HH": {
+          "filename": "20260904_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 191701,
+          "sha256": "0e2487fc51a040ec4f8749716ba40a979d238bd54a1fa2bdc87f7b6d0764c522"
+        },
+        "HV": {
+          "filename": "20260904_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 191701,
+          "sha256": "6fbab5d9b6311a6506745cfdcf510a8e9312c42c5867b88380b1023693df217f"
+        }
+      }
+    },
+    {
+      "date": "2026-09-16",
+      "conceptId": "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001",
+      "track": 151,
+      "frame": 11,
+      "images": {
+        "HH": {
+          "filename": "20260916_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 191702,
+          "sha256": "7b4db7fa450d61a07630210d74d6a1e5815aff4ddcc77e53824b09b7d187b503"
+        },
+        "HV": {
+          "filename": "20260916_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 191702,
+          "sha256": "dc2834364e1c240e49d2e835d08b0148988a0a1db31615e6674636c0a89bac58"
+        }
+      }
+    }
+  ]
+}
