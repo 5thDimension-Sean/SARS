@@ -11,10 +11,10 @@ const validLatitude = (n: number) => Number.isFinite(n) && n >= -90 && n <= 90;
 const validLongitude = (n: number) => Number.isFinite(n) && n >= -180 && n <= 180;
 
 export default function LocationExplorer() {
-  const [lat, setLat] = useState("25.9");
-  const [lon, setLon] = useState("-80.8");
-  const [start, setStart] = useState("2026-09-01");
-  const [end, setEnd] = useState("2026-10-31");
+  const [lat, setLat] = useState(String(STUDIES[0].lat));
+  const [lon, setLon] = useState(String(STUDIES[0].lon));
+  const [start, setStart] = useState(STUDIES[0].dates[0]);
+  const [end, setEnd] = useState(STUDIES[0].dates[1]);
   const latitude = Number(lat), longitude = Number(lon);
   const valid = lat.trim() !== "" && lon.trim() !== "" && validLatitude(latitude) && validLongitude(longitude) && !!start && !!end && start <= end;
   const matches = useMemo(() => valid ? STUDIES.filter((p) => {
