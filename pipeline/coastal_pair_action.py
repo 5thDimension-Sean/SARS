@@ -25,6 +25,8 @@ SITES = {
     "amazon-mamiraua": (-65.02, -3.30, -64.75, -3.08),
     "amazon-manaus": (-60.15, -3.26, -59.87, -3.04),
     "amazon-santarem": (-54.91, -2.60, -54.63, -2.39),
+    "hawaii-full": (-155.29, 19.39, -155.25, 19.43),
+    "iowa-full": (-93.64, 42.00, -93.60, 42.04),
 }
 AOI = SITES["cameron"]
 MAX_PER_PRODUCT_BYTES = 2_800_000_000
@@ -128,10 +130,20 @@ def main() -> int:
 
         # Prioritize a real before/after acquisition around the documented
         # 23–27 September 2026 Outer Banks nor'easter when available.
+        requested_pairs = {
+            "hawaii-full": ("2026-09-04", "2026-09-16"),
+            "iowa-full": ("2026-09-25", "2026-10-19"),
+        }
+        wanted = requested_pairs.get(args.site)
+        exact_pairs = [opt for opt in options if wanted and opt[2][0] == wanted[0] and opt[3][0] == wanted[1]]
+        if wanted and not exact_pairs:
+            report["status"] = "PUBLISHED_PAIR_NOT_COMPATIBLE"
+            report["reason"] = "Published study dates are not a compatible metadata pair under current size limits; no substitution."
+            return 0
         storm_pairs = [opt for opt in options
                        if args.site == "rodanthe" and
                        opt[2][0] == "2026-09-17" and opt[3][0] == "2026-09-29"]
-        _, _, a, b, key = min(storm_pairs or options, key=lambda x: (x[0], x[1]))
+        _, _, a, b, key = min(exact_pairs or storm_pairs or options, key=lambda x: (x[0], x[1]))
         pair = (a, b)
         report["selected"] = [
             {"date": x[0],
