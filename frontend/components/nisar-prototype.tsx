@@ -48,10 +48,10 @@ function Seg<T extends string>({ label, value, options, onChange }: { label: str
   </div>;
 }
 
-export function NisarPrototype() {
+export function NisarPrototype({ studyOverride }: { studyOverride?: StudyConfig["id"] } = {}) {
   const studyId = useStudyId();
   const pol = usePolarization();
-  const study = STUDIES.find((s) => s.id === studyId)!;
+  const study = STUDIES.find((s) => s.id === (studyOverride ?? studyId))!;
   return <main className={styles.page}>
     <a className="skip-link" href="#look">Skip to the radar</a>
     <div className={styles.wrap}><ConnectionStatus /><RadarHero study={study} pol={pol} /><Primer /></div>
@@ -152,7 +152,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
           <MapGate study={study} regions={regions} preview={preview} pol={pol} mode={effectiveMode} selectedId={selected} onSelect={setSelected}
             gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} changeOnly={(effectiveMode === "difference" && changedOnly) || (effectiveMode !== "difference" && showChanges) ? strength : 0} showChanges={showChanges} />
           <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} changedOnly={changedOnly} showChanges={showChanges} />
-          <p className={`${styles.small} ${styles.muted}`} style={{ marginTop: 10 }}>Pixels are drawn as published (nearest-neighbour; no smoothing, sharpening or enhancement); one pixel is about 10 m. {gibsNote}</p>
+          <p className={`${styles.small} ${styles.muted}`} style={{ marginTop: 10 }}>Pixels are drawn as published using nearest-neighbour sampling; resolution follows the published analysis grid (which may be reduced from the original source). {gibsNote}</p>
         </div>
         <aside className={styles.inspector} aria-labelledby="h-region">
           <h2 id="h-region">Inspect a region</h2>
@@ -173,7 +173,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
       <div className={styles.twoCol}>
         <div>
           <Histogram pol={pol} ev={pe} dates={study.dates} />
-          <p className={`${styles.small} ${styles.muted}`}>Each line counts screened pixels per 0.52 dB bin. {fmtInt(pe.observations[0].outsideDisplayRange)} and {fmtInt(pe.observations[1].outsideDisplayRange)} pixels fall outside the fixed display range and are not in the bins.</p>
+          <p className={`${styles.small} ${styles.muted}`}>Each line counts screened analysis-grid pixels in fixed dB bins. {fmtInt(pe.observations[0].outsideDisplayRange)} and {fmtInt(pe.observations[1].outsideDisplayRange)} pixels fall outside the fixed display range and are not in the bins.</p>
           <details className={styles.more}><summary>Original analysis figure and bin counts</summary>
             {/* eslint-disable-next-line @next/next/no-img-element -- static export; analysis figure is shown exactly as published */}
             <img className={styles.figure} src={dataUrl(`${study.evidenceDir}/${pe.histogramImage}`)} alt={`${pol} backscatter histogram comparing ${fmtDate(study.dates[0])} and ${fmtDate(study.dates[1])}, as published with the evidence package.`} loading="lazy" />
@@ -307,7 +307,7 @@ function TrustSection({ study, evidence, regions, preview }: { study: StudyConfi
           <dt>Source</dt><dd>{evidence.provenance}</dd>
           <dt>Measurement</dt><dd>{evidence.measurement}</dd>
           <dt>Acquisitions</dt>
-          <dd>{study.dates.map((d, i) => <span key={d}>{i ? <br /> : null}{fmtDate(d)} · <a href={`https://cmr.earthdata.nasa.gov/search/concepts/${study.granules[i]}.html`} rel="noopener noreferrer">{study.granules[i]}</a>{preview ? ` · track ${preview.acquisitions[i].track}, frame ${String(preview.acquisitions[i].frame).padStart(3, "0")}` : ""}</span>)}</dd>
+          <dd>{study.dates.map((d, i) => <span key={d}>{i ? <br /> : null}{fmtDate(d)} · {/^G[0-9]+-ASF$/.test(study.granules[i]) ? <a href={`https://cmr.earthdata.nasa.gov/search/concepts/${study.granules[i]}.html`} rel="noopener noreferrer">{study.granules[i]}</a> : <span>{study.granules[i]}</span>}{preview ? ` · track ${preview.acquisitions[i].track}, frame ${String(preview.acquisitions[i].frame).padStart(3, "0")}` : ""}</span>)}</dd>
           <dt>Grid</dt><dd>{regions.crs}, {Math.abs(regions.pixelSpacingMeters[0])} m pixels, {regions.nativeShape[1]}×{regions.nativeShape[0]} (columns × rows); {fmtInt(regions.pairedPixels)} paired HH/HV pixels</dd>
           <dt>Difference</dt><dd>{regions.differenceDefinition}</dd>
           {preview && <><dt>Previews</dt><dd>{preview.sourceCollection}. {preview.measurement}. QA: {preview.scientificClearance}.</dd></>}
