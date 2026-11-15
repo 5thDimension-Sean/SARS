@@ -9,7 +9,7 @@ export type LonLat = [number, number];
 export type Bounds = [number, number, number, number]; // west, south, east, north
 
 export interface StudyConfig {
-  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa" | "rodanthe" | "amazon";
+  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa" | "rodanthe" | "amazon" | "etna";
   label: string;
   /** Short name for compact controls. */
   short: string;
@@ -56,6 +56,12 @@ export const STUDIES: readonly StudyConfig[] = [
     dates: ["2026-09-17", "2026-09-29"], granules: ["NISAR_L2_PR_GCOV_030_162_A_019_4005_DHDH_A_20260917T101351_20260917T101409_P05023_N_P_J_001","NISAR_L2_PR_GCOV_031_162_A_019_4005_DHDH_A_20260929T101352_20260929T101409_P05023_N_P_J_001"], utmZone: 18, center: [-75.465, 35.585] },
   { id: "amazon", label: "Mamirauá, Amazon River", short: "Amazon", contextDir: null, place: "Mamirauá Amazon floodplain, Brazil", evidenceDir: "amazon-evidence", regionsDir: "amazon-regions", previewDir: "amazon-preview", gibsContext: false, differenceInPreviewCrs: true,
     dates: ["2026-07-07", "2026-07-19"], granules: ["NISAR_L2_PR_GCOV_024_161_A_176_2005_DHDH_A_20260707T100307_20260707T100335_P05023_N_F_J_001","NISAR_L2_PR_GCOV_025_161_A_176_2005_DHDH_A_20260719T100307_20260719T100334_P05023_N_F_J_001"], utmZone: -20, center: [-64.885, -3.19] },
+  { id: "etna", label: "Mount Etna, Sicily", short: "Etna", contextDir: null,
+    place: "Mount Etna, Sicily, Italy", evidenceDir: "etna-event-evidence",
+    regionsDir: "etna-event-regions", previewDir: "etna-event-preview", gibsContext: false,
+    differenceInPreviewCrs: true, dates: ["2026-07-23", "2026-08-16"],
+    granules: ["NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001","NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001"], utmZone: 33, center: [15, 37.75] },
+
 ];
 
 export const QA_LABEL = "EXPLORATORY_NOT_CLEARED";
