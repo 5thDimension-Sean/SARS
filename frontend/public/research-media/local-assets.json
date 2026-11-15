@@ -92,6 +92,38 @@
       "bytes": 31458274,
       "catalogMd5Verified": false,
       "note": "Published visualization saved without modification. Local SHA-256 recorded; no official digest was supplied."
+    },
+    {
+      "path": "research-media/etna/2026-07-23_HH.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+      "sha256": "f44481ae07d5aeea881d04f90c1a29b95e7c1e3645191ff1a47c1ef10a14916f",
+      "bytes": 1231306,
+      "catalogMd5": "1fbb26b0a19862248b4ac187ee71f9f1",
+      "catalogMd5Verified": true
+    },
+    {
+      "path": "research-media/etna/2026-07-23_HV.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+      "sha256": "2f7ce7722f629040ac366ce1f7b038a2231a68d02ebe2316c87c3dd66bdb5568",
+      "bytes": 1189931,
+      "catalogMd5": "c31e2997ab832931b2038c1de5453f0b",
+      "catalogMd5Verified": true
+    },
+    {
+      "path": "research-media/etna/2026-08-16_HH.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+      "sha256": "e32d94bd01a491d0c18c17bb01fb8e63cf659eb69b2e69d64218b23ed6620196",
+      "bytes": 1245894,
+      "catalogMd5": "fec439f5fb59b44305ded4947b48435e",
+      "catalogMd5Verified": true
+    },
+    {
+      "path": "research-media/etna/2026-08-16_HV.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+      "sha256": "fe4d0556864983314998854135dcdff13c79f0c73c202d5d9e6e702a07d31220",
+      "bytes": 1178209,
+      "catalogMd5": "2fb5617effd0f213914d7fcca50310f2",
+      "catalogMd5Verified": true
     }
   ]
 }

@@ -328,25 +328,83 @@
       "title": "Etna",
       "country": "Sicily, Italy",
       "region": "Europe",
-      "theme": "Volcano · lava-flow candidate",
-      "evidence": "candidate",
-      "gallery": "pending",
-      "period": "Event: December 2025 – January 2026",
-      "observationDates": [],
-      "event": "Eruption beginning December 24, 2025",
-      "story": "INGV documents eruptive activity and a new lava fissure opening on January 1, 2026. This makes Etna a useful European target for a NISAR availability search.",
-      "limitations": [
-        "The event is documented by INGV; NISAR coverage of a comparable before/after pair has not been verified.",
-        "No radar imagery, displacement measurement or lava-area result is available in this preview."
+      "theme": "Volcano · event-spanning scene pair",
+      "evidence": "official-browse",
+      "gallery": "polarization-pair",
+      "period": "July 23 – August 16, 2026",
+      "observationDates": [
+        "2026-07-23",
+        "2026-08-16"
       ],
-      "nextStep": "Search NISAR coverage around the event, then check product availability and compatible geometry.",
+      "event": "August 6, 2026 eruptive episode",
+      "story": "NASA CMR confirms a matching NISAR GCOV pair spanning Etna’s August 6 eruptive episode. Both scenes cover the summit at 15°E, 37.75°N, use descending track 51 / frame 69, and share frequency-A HH/HV and product version 1.0.11. The four browse images match the catalog sizes and MD5 hashes.",
+      "limitations": [
+        "Pair spans the August episode, not the December 2025/January 2026 eruption originally proposed.",
+        "A permanent instrument gap from July 27 to August 10 leaves a 24-day interval across the episode; intermediate evolution is unobserved.",
+        "Both official QA summaries returned HTTP 401; Earthdata credentials are not configured here. QA contents and scientific calibration have not been independently verified.",
+        "Browse colors are not numerical radar power; no lava mapping, displacement, or difference image has been generated."
+      ],
+      "nextStep": "Authenticate with Earthdata to retrieve official QA, then inspect numerical HDF5 grids, common valid pixels and calibration before producing a fixed-scale ROI comparison.",
       "sources": [
         {
-          "label": "INGV · Etna eruption update",
-          "url": "https://www.ct.ingv.it/index.php/formazione-e-divulgazione/news/417-etna-aggiornamento-attivita-eruttiva"
+          "label": "NASA CMR · July 23 acquisition",
+          "url": "https://cmr.earthdata.nasa.gov/search/concepts/G4260544499-ASF.umm_json"
+        },
+        {
+          "label": "NASA CMR · August 16 acquisition",
+          "url": "https://cmr.earthdata.nasa.gov/search/concepts/G4284906695-ASF.umm_json"
+        },
+        {
+          "label": "DLR · August eruptive episode (Sentinel-5P context)",
+          "url": "https://www.dlr.de/en/eoc/latest/news/2026/etna-volcano-eruption-leaves-thousands-of-tourists-stranded"
+        },
+        {
+          "label": "ASF · NISAR archive and instrument gap",
+          "url": "https://nisar-docs.asf.alaska.edu/availability-overview/"
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "kind": "image",
+          "src": "/research-media/etna/2026-07-23_HH.png",
+          "label": "HH · official scene browse",
+          "date": "2026-07-23",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4260544499-ASF.umm_json",
+          "defer": false,
+          "polarization": "HH"
+        },
+        {
+          "kind": "image",
+          "src": "/research-media/etna/2026-07-23_HV.png",
+          "label": "HV · official scene browse",
+          "date": "2026-07-23",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4260544499-ASF.umm_json",
+          "defer": false,
+          "polarization": "HV"
+        },
+        {
+          "kind": "image",
+          "src": "/research-media/etna/2026-08-16_HH.png",
+          "label": "HH · official scene browse",
+          "date": "2026-08-16",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4284906695-ASF.umm_json",
+          "defer": false,
+          "polarization": "HH"
+        },
+        {
+          "kind": "image",
+          "src": "/research-media/etna/2026-08-16_HV.png",
+          "label": "HV · official scene browse",
+          "date": "2026-08-16",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4284906695-ASF.umm_json",
+          "defer": false,
+          "polarization": "HV"
+        }
+      ],
       "video": null,
       "archive": null,
       "status": "BLOCKED",
@@ -366,10 +424,11 @@
       "event": "Destructive flooding following Cyclone Senyar",
       "story": "NASA documents widespread flooding in northern Sumatra using Landsat 9. The event is a promising target for checking whether NISAR captured the flood extent through clouds.",
       "limitations": [
-        "NASA’s cited event imagery is Landsat, not NISAR.",
-        "No comparable NISAR acquisition pair or numerical flood measurements have been verified for this preview."
+        "A direct NASA CMR search across northern Sumatra (95–100.5°E, 0–6°N) returned no NISAR L0–L3 products for November 1–December 31, 2025. This does not prove the satellite never acquired data.",
+        "The Lhoksukon GCOV search first returned observations on June 21, 2026; those dates cannot show the November 2025 flood.",
+        "NASA’s event imagery is Landsat 9. No comparable NISAR event pair or flood measurement has been verified."
       ],
-      "nextStep": "Search the NISAR archive near Lhoksukon for observations bracketing the flood.",
+      "nextStep": "Recheck for released or reprocessed event-period NISAR coverage; retain the documented Landsat event context until a compatible NISAR pair becomes available.",
       "sources": [
         {
           "label": "NASA Earth Observatory · Senyar event context (Landsat)",
@@ -396,10 +455,11 @@
       "event": "Cyclone-related rainfall and flooding",
       "story": "Australia’s Bureau of Meteorology documents Cyclone Koji and extensive rainfall and flooding. It is a candidate for an Australian NISAR flood study.",
       "limitations": [
-        "The weather event is documented; a NISAR before/after pair has not been verified.",
-        "No NISAR flood map, affected-area statistic or displacement result is available in this preview."
+        "The December 29, 2025 / January 10, 2026 track-23 GCOV pair is real, but both dates precede Koji’s January 11 landfall. It cannot be used as a before/after Koji comparison.",
+        "No processed post-landfall scene was found for the central/eastern Queensland target through February 10. A wider state search through February 28 found only raw L0B records outside that target.",
+        "No verified event-spanning NISAR pair, flood-area statistic or displacement result is available here."
       ],
-      "nextStep": "Search the Fitzroy catchment and affected Queensland river basins for compatible event-spanning acquisitions.",
+      "nextStep": "Recheck the processed NISAR archive for post-landfall coverage of the affected target; the available pre-landfall and June-onward scenes do not fill this gap.",
       "sources": [
         {
           "label": "Bureau of Meteorology · Cyclone Koji",

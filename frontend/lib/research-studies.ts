@@ -24,6 +24,7 @@ const HOSTS = new Set([
   "science.nasa.gov", "assets.science.nasa.gov", "svs.gsfc.nasa.gov",
   "www.jpl.nasa.gov", "d2pn8kiwq2w21t.cloudfront.net", "cmr.earthdata.nasa.gov",
   "bhoonidhi.nrsc.gov.in", "www.ct.ingv.it", "www.bom.gov.au",
+  "www.dlr.de", "nisar-docs.asf.alaska.edu",
 ]);
 const rec = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object" && !Array.isArray(v);
 const text = (v: unknown): v is string => typeof v === "string" && !!v.trim();

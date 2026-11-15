@@ -42,3 +42,7 @@ Research checked 2026-11-15. These are ideas for the next internal studies, not 
 Start with **Russia + Mozambique**, then inspect the event-spanning Hubbard pair. For wider geographic coverage, investigate Sri Lanka and Antarctica next, keeping single-scene structure separate from measured temporal change. Run targeted NISAR availability searches for Etna, Queensland and Sumatra before committing them as documented NISAR event studies. Exact granules, ROIs and comparable pre/post products are not yet selected for these new cases.
 
 Do not describe Sossusvlei's October browse contrast or Hubbard's October imagery as a dramatic measured event merely because the terrain is visually striking. Preserve the original eight browse files, their provenance, and BLOCKED / EXPLORATORY_NOT_CLEARED status. The four requested quantitative difference images remain pending numerical data and validation.
+
+## Follow-up catalog search
+
+Etna now has a catalog-matched July 23 / August 16, 2026 GCOV pair spanning the August 6 episode, with four MD5-verified HH/HV browse files. The winter eruption pair was not located. Northern Sumatra returned no event-period NISAR products; central/eastern Queensland has no processed post-landfall pair in the searched window. See [verification notes](event-pairs/verification-notes.md) and [exact query and acquisition evidence](event-pairs/source-index.json). Catalog compatibility and browse integrity do not grant scientific clearance.

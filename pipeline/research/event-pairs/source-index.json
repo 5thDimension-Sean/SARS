@@ -1,0 +1,913 @@
+{
+  "schemaVersion": "1.0",
+  "checkedAtUtc": "2026-11-15T03:01:22.757Z",
+  "purpose": "Catalog acquisition compatibility and browse integrity only; not scientific clearance or a measured change result.",
+  "status": "BLOCKED",
+  "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+  "measurements": null,
+  "collections": [
+    {
+      "id": "C2854338529-ASF",
+      "shortName": "NISAR_L2_GCOV_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2854332392-ASF",
+      "shortName": "NISAR_L2_GSLC_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2854335566-ASF",
+      "shortName": "NISAR_L2_GUNW_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2853145197-ASF",
+      "shortName": "NISAR_L1_RSLC_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2854341702-ASF",
+      "shortName": "NISAR_L2_GOFF_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2854344945-ASF",
+      "shortName": "NISAR_L3_SME2_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2850225585-ASF",
+      "shortName": "NISAR_L1_RSLC_BETA_V1"
+    },
+    {
+      "id": "C2853153429-ASF",
+      "shortName": "NISAR_L1_RUNW_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2853147928-ASF",
+      "shortName": "NISAR_L1_RIFG_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2853156054-ASF",
+      "shortName": "NISAR_L1_ROFF_PROVISIONAL_V1"
+    },
+    {
+      "id": "C3622214170-ASF",
+      "shortName": "NISAR_L2_GCOV_BETA_V1"
+    },
+    {
+      "id": "C2850259510-ASF",
+      "shortName": "NISAR_L2_GSLC_BETA_V1"
+    },
+    {
+      "id": "C2850261892-ASF",
+      "shortName": "NISAR_L2_GUNW_BETA_V1"
+    },
+    {
+      "id": "C3803703055-ASF",
+      "shortName": "NISAR_DEM"
+    },
+    {
+      "id": "C3807638962-ASF",
+      "shortName": "NISAR_WATERMASK"
+    },
+    {
+      "id": "C2887502657-ASF",
+      "shortName": "NISAR_UR_L2"
+    },
+    {
+      "id": "C2853089814-ASF",
+      "shortName": "NISAR_L0B_RRSD_PROVISIONAL_V1"
+    },
+    {
+      "id": "C2850263910-ASF",
+      "shortName": "NISAR_L2_GOFF_BETA_V1"
+    },
+    {
+      "id": "C2850234202-ASF",
+      "shortName": "NISAR_L1_RIFG_BETA_V1"
+    },
+    {
+      "id": "C2850237619-ASF",
+      "shortName": "NISAR_L1_ROFF_BETA_V1"
+    },
+    {
+      "id": "C2850235455-ASF",
+      "shortName": "NISAR_L1_RUNW_BETA_V1"
+    },
+    {
+      "id": "C2850265000-ASF",
+      "shortName": "NISAR_L3_SME2_BETA_V1"
+    },
+    {
+      "id": "C2727908375-ASF",
+      "shortName": "NISAR_OE"
+    },
+    {
+      "id": "C2887499907-ASF",
+      "shortName": "NISAR_UR_L1"
+    },
+    {
+      "id": "C3622222871-ASF",
+      "shortName": "NISAR_ANC_AUX"
+    },
+    {
+      "id": "C2727904608-ASF",
+      "shortName": "NISAR_COP"
+    },
+    {
+      "id": "C2853091612-ASF",
+      "shortName": "NISAR_L0B_CRSD_PROVISIONAL_V1"
+    },
+    {
+      "id": "C3622254588-ASF",
+      "shortName": "NISAR_L0B_CRSD_V1"
+    },
+    {
+      "id": "C3622265756-ASF",
+      "shortName": "NISAR_L0B_RRSD_V1"
+    },
+    {
+      "id": "C3622229381-ASF",
+      "shortName": "NISAR_L1_RIFG_V1"
+    },
+    {
+      "id": "C3622241997-ASF",
+      "shortName": "NISAR_L1_ROFF_V1"
+    },
+    {
+      "id": "C3622236985-ASF",
+      "shortName": "NISAR_L1_RSLC_V1"
+    },
+    {
+      "id": "C3622237369-ASF",
+      "shortName": "NISAR_L1_RUNW_V1"
+    },
+    {
+      "id": "C3622241360-ASF",
+      "shortName": "NISAR_L2_GCOV_V1"
+    },
+    {
+      "id": "C3622250865-ASF",
+      "shortName": "NISAR_L2_GOFF_V1"
+    },
+    {
+      "id": "C3622244601-ASF",
+      "shortName": "NISAR_L2_GSLC_V1"
+    },
+    {
+      "id": "C3622247503-ASF",
+      "shortName": "NISAR_L2_GUNW_V1"
+    },
+    {
+      "id": "C3632501432-ASF",
+      "shortName": "NISAR_LRCLK_UTC"
+    },
+    {
+      "id": "C2727911748-ASF",
+      "shortName": "NISAR_OROST"
+    },
+    {
+      "id": "C2727912431-ASF",
+      "shortName": "NISAR_RP"
+    },
+    {
+      "id": "C3622233495-ASF",
+      "shortName": "NISAR_STUF"
+    },
+    {
+      "id": "C3622219145-ASF",
+      "shortName": "NISAR_TEC"
+    },
+    {
+      "id": "C2887469134-ASF",
+      "shortName": "NISAR_UR_L0B_RRSD"
+    },
+    {
+      "id": "C4066106685-ASF",
+      "shortName": "NISAR_VWC"
+    }
+  ],
+  "queries": [
+    {
+      "id": "etna-gcov-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=14.8%2C37.5%2C15.3%2C38&temporal=2025-12-01T00%3A00%3A00Z%2C2026-02-01T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C3622241360-ASF",
+      "boundingBoxWgs84": [
+        14.8,
+        37.5,
+        15.3,
+        38
+      ],
+      "pointWgs84": null,
+      "start": "2025-12-01",
+      "end": "2026-02-01",
+      "status": 200,
+      "hits": 0,
+      "returned": 0,
+      "complete": true
+    },
+    {
+      "id": "sumatra-gcov-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=96.7%2C4.7%2C97.8%2C5.5&temporal=2025-11-01T00%3A00%3A00Z%2C2025-12-16T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C3622241360-ASF",
+      "boundingBoxWgs84": [
+        96.7,
+        4.7,
+        97.8,
+        5.5
+      ],
+      "pointWgs84": null,
+      "start": "2025-11-01",
+      "end": "2025-12-16",
+      "status": 200,
+      "hits": 0,
+      "returned": 0,
+      "complete": true
+    },
+    {
+      "id": "queensland-gcov-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=146%2C-25%2C151%2C-18.5&temporal=2025-12-20T00%3A00%3A00Z%2C2026-02-10T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C3622241360-ASF",
+      "boundingBoxWgs84": [
+        146,
+        -25,
+        151,
+        -18.5
+      ],
+      "pointWgs84": null,
+      "start": "2025-12-20",
+      "end": "2026-02-10",
+      "status": 200,
+      "hits": 10,
+      "returned": 10,
+      "complete": true
+    },
+    {
+      "id": "etna-all-products-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=14.8%2C37.5%2C15.3%2C38&temporal=2025-12-01T00%3A00%3A00Z%2C2026-02-01T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C2854332392-ASF&collection_concept_id%5B%5D=C2854335566-ASF&collection_concept_id%5B%5D=C2853145197-ASF&collection_concept_id%5B%5D=C2854341702-ASF&collection_concept_id%5B%5D=C2854344945-ASF&collection_concept_id%5B%5D=C2850225585-ASF&collection_concept_id%5B%5D=C2853153429-ASF&collection_concept_id%5B%5D=C2853147928-ASF&collection_concept_id%5B%5D=C2853156054-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C2850259510-ASF&collection_concept_id%5B%5D=C2850261892-ASF&collection_concept_id%5B%5D=C2853089814-ASF&collection_concept_id%5B%5D=C2850263910-ASF&collection_concept_id%5B%5D=C2850234202-ASF&collection_concept_id%5B%5D=C2850237619-ASF&collection_concept_id%5B%5D=C2850235455-ASF&collection_concept_id%5B%5D=C2850265000-ASF&collection_concept_id%5B%5D=C2853091612-ASF&collection_concept_id%5B%5D=C3622254588-ASF&collection_concept_id%5B%5D=C3622265756-ASF&collection_concept_id%5B%5D=C3622229381-ASF&collection_concept_id%5B%5D=C3622241997-ASF&collection_concept_id%5B%5D=C3622236985-ASF&collection_concept_id%5B%5D=C3622237369-ASF&collection_concept_id%5B%5D=C3622241360-ASF&collection_concept_id%5B%5D=C3622250865-ASF&collection_concept_id%5B%5D=C3622244601-ASF&collection_concept_id%5B%5D=C3622247503-ASF",
+      "boundingBoxWgs84": [
+        14.8,
+        37.5,
+        15.3,
+        38
+      ],
+      "pointWgs84": null,
+      "start": "2025-12-01",
+      "end": "2026-02-01",
+      "status": 200,
+      "hits": 0,
+      "returned": 0,
+      "complete": true
+    },
+    {
+      "id": "sumatra-all-products-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=96.7%2C4.7%2C97.8%2C5.5&temporal=2025-11-01T00%3A00%3A00Z%2C2025-12-16T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C2854332392-ASF&collection_concept_id%5B%5D=C2854335566-ASF&collection_concept_id%5B%5D=C2853145197-ASF&collection_concept_id%5B%5D=C2854341702-ASF&collection_concept_id%5B%5D=C2854344945-ASF&collection_concept_id%5B%5D=C2850225585-ASF&collection_concept_id%5B%5D=C2853153429-ASF&collection_concept_id%5B%5D=C2853147928-ASF&collection_concept_id%5B%5D=C2853156054-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C2850259510-ASF&collection_concept_id%5B%5D=C2850261892-ASF&collection_concept_id%5B%5D=C2853089814-ASF&collection_concept_id%5B%5D=C2850263910-ASF&collection_concept_id%5B%5D=C2850234202-ASF&collection_concept_id%5B%5D=C2850237619-ASF&collection_concept_id%5B%5D=C2850235455-ASF&collection_concept_id%5B%5D=C2850265000-ASF&collection_concept_id%5B%5D=C2853091612-ASF&collection_concept_id%5B%5D=C3622254588-ASF&collection_concept_id%5B%5D=C3622265756-ASF&collection_concept_id%5B%5D=C3622229381-ASF&collection_concept_id%5B%5D=C3622241997-ASF&collection_concept_id%5B%5D=C3622236985-ASF&collection_concept_id%5B%5D=C3622237369-ASF&collection_concept_id%5B%5D=C3622241360-ASF&collection_concept_id%5B%5D=C3622250865-ASF&collection_concept_id%5B%5D=C3622244601-ASF&collection_concept_id%5B%5D=C3622247503-ASF",
+      "boundingBoxWgs84": [
+        96.7,
+        4.7,
+        97.8,
+        5.5
+      ],
+      "pointWgs84": null,
+      "start": "2025-11-01",
+      "end": "2025-12-16",
+      "status": 200,
+      "hits": 0,
+      "returned": 0,
+      "complete": true
+    },
+    {
+      "id": "queensland-all-products-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=146%2C-25%2C151%2C-18.5&temporal=2025-12-20T00%3A00%3A00Z%2C2026-02-10T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C2854332392-ASF&collection_concept_id%5B%5D=C2854335566-ASF&collection_concept_id%5B%5D=C2853145197-ASF&collection_concept_id%5B%5D=C2854341702-ASF&collection_concept_id%5B%5D=C2854344945-ASF&collection_concept_id%5B%5D=C2850225585-ASF&collection_concept_id%5B%5D=C2853153429-ASF&collection_concept_id%5B%5D=C2853147928-ASF&collection_concept_id%5B%5D=C2853156054-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C2850259510-ASF&collection_concept_id%5B%5D=C2850261892-ASF&collection_concept_id%5B%5D=C2853089814-ASF&collection_concept_id%5B%5D=C2850263910-ASF&collection_concept_id%5B%5D=C2850234202-ASF&collection_concept_id%5B%5D=C2850237619-ASF&collection_concept_id%5B%5D=C2850235455-ASF&collection_concept_id%5B%5D=C2850265000-ASF&collection_concept_id%5B%5D=C2853091612-ASF&collection_concept_id%5B%5D=C3622254588-ASF&collection_concept_id%5B%5D=C3622265756-ASF&collection_concept_id%5B%5D=C3622229381-ASF&collection_concept_id%5B%5D=C3622241997-ASF&collection_concept_id%5B%5D=C3622236985-ASF&collection_concept_id%5B%5D=C3622237369-ASF&collection_concept_id%5B%5D=C3622241360-ASF&collection_concept_id%5B%5D=C3622250865-ASF&collection_concept_id%5B%5D=C3622244601-ASF&collection_concept_id%5B%5D=C3622247503-ASF",
+      "boundingBoxWgs84": [
+        146,
+        -25,
+        151,
+        -18.5
+      ],
+      "pointWgs84": null,
+      "start": "2025-12-20",
+      "end": "2026-02-10",
+      "status": 200,
+      "hits": 50,
+      "returned": 50,
+      "complete": true
+    },
+    {
+      "id": "etna-gcov-expanded",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=14.8%2C37.5%2C15.3%2C38&temporal=2025-10-01T00%3A00%3A00Z%2C2026-11-14T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C3622241360-ASF",
+      "boundingBoxWgs84": [
+        14.8,
+        37.5,
+        15.3,
+        38
+      ],
+      "pointWgs84": null,
+      "start": "2025-10-01",
+      "end": "2026-11-14",
+      "status": 200,
+      "hits": 53,
+      "returned": 53,
+      "complete": true
+    },
+    {
+      "id": "sumatra-gcov-expanded",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=96.7%2C4.7%2C97.8%2C5.5&temporal=2025-10-01T00%3A00%3A00Z%2C2026-11-14T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C3622241360-ASF",
+      "boundingBoxWgs84": [
+        96.7,
+        4.7,
+        97.8,
+        5.5
+      ],
+      "pointWgs84": null,
+      "start": "2025-10-01",
+      "end": "2026-11-14",
+      "status": 200,
+      "hits": 31,
+      "returned": 31,
+      "complete": true
+    },
+    {
+      "id": "queensland-gcov-expanded",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?bounding_box=146%2C-25%2C151%2C-18.5&temporal=2025-10-01T00%3A00%3A00Z%2C2026-11-14T23%3A59%3A59Z&page_size=2000&sort_key=start_date&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C3622241360-ASF",
+      "boundingBoxWgs84": [
+        146,
+        -25,
+        151,
+        -18.5
+      ],
+      "pointWgs84": null,
+      "start": "2025-10-01",
+      "end": "2026-11-14",
+      "status": 200,
+      "hits": 292,
+      "returned": 292,
+      "complete": true
+    },
+    {
+      "id": "etna-point-august",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?temporal=2026-07-01T00%3A00%3A00Z%2C2026-08-31T23%3A59%3A59Z&page_size=2000&sort_key=start_date&point=15%2C37.75&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C3622241360-ASF",
+      "boundingBoxWgs84": null,
+      "pointWgs84": "15,37.75",
+      "start": "2026-07-01",
+      "end": "2026-08-31",
+      "status": 200,
+      "hits": 7,
+      "returned": 7,
+      "complete": true
+    },
+    {
+      "id": "sumatra-northern-island-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?temporal=2025-11-01T00%3A00%3A00Z%2C2025-12-31T23%3A59%3A59Z&page_size=2000&sort_key=start_date&bounding_box=95%2C0%2C100.5%2C6&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C2854332392-ASF&collection_concept_id%5B%5D=C2854335566-ASF&collection_concept_id%5B%5D=C2853145197-ASF&collection_concept_id%5B%5D=C2854341702-ASF&collection_concept_id%5B%5D=C2854344945-ASF&collection_concept_id%5B%5D=C2850225585-ASF&collection_concept_id%5B%5D=C2853153429-ASF&collection_concept_id%5B%5D=C2853147928-ASF&collection_concept_id%5B%5D=C2853156054-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C2850259510-ASF&collection_concept_id%5B%5D=C2850261892-ASF&collection_concept_id%5B%5D=C2853089814-ASF&collection_concept_id%5B%5D=C2850263910-ASF&collection_concept_id%5B%5D=C2850234202-ASF&collection_concept_id%5B%5D=C2850237619-ASF&collection_concept_id%5B%5D=C2850235455-ASF&collection_concept_id%5B%5D=C2850265000-ASF&collection_concept_id%5B%5D=C2853091612-ASF&collection_concept_id%5B%5D=C3622254588-ASF&collection_concept_id%5B%5D=C3622265756-ASF&collection_concept_id%5B%5D=C3622229381-ASF&collection_concept_id%5B%5D=C3622241997-ASF&collection_concept_id%5B%5D=C3622236985-ASF&collection_concept_id%5B%5D=C3622237369-ASF&collection_concept_id%5B%5D=C3622241360-ASF&collection_concept_id%5B%5D=C3622250865-ASF&collection_concept_id%5B%5D=C3622244601-ASF&collection_concept_id%5B%5D=C3622247503-ASF",
+      "boundingBoxWgs84": [
+        95,
+        0,
+        100.5,
+        6
+      ],
+      "pointWgs84": null,
+      "start": "2025-11-01",
+      "end": "2025-12-31",
+      "status": 200,
+      "hits": 0,
+      "returned": 0,
+      "complete": true
+    },
+    {
+      "id": "queensland-state-event",
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.umm_json?temporal=2026-01-11T00%3A00%3A00Z%2C2026-02-28T23%3A59%3A59Z&page_size=2000&sort_key=start_date&bounding_box=138%2C-29%2C154%2C-10&collection_concept_id%5B%5D=C2854338529-ASF&collection_concept_id%5B%5D=C2854332392-ASF&collection_concept_id%5B%5D=C2854335566-ASF&collection_concept_id%5B%5D=C2853145197-ASF&collection_concept_id%5B%5D=C2854341702-ASF&collection_concept_id%5B%5D=C2854344945-ASF&collection_concept_id%5B%5D=C2850225585-ASF&collection_concept_id%5B%5D=C2853153429-ASF&collection_concept_id%5B%5D=C2853147928-ASF&collection_concept_id%5B%5D=C2853156054-ASF&collection_concept_id%5B%5D=C3622214170-ASF&collection_concept_id%5B%5D=C2850259510-ASF&collection_concept_id%5B%5D=C2850261892-ASF&collection_concept_id%5B%5D=C2853089814-ASF&collection_concept_id%5B%5D=C2850263910-ASF&collection_concept_id%5B%5D=C2850234202-ASF&collection_concept_id%5B%5D=C2850237619-ASF&collection_concept_id%5B%5D=C2850235455-ASF&collection_concept_id%5B%5D=C2850265000-ASF&collection_concept_id%5B%5D=C2853091612-ASF&collection_concept_id%5B%5D=C3622254588-ASF&collection_concept_id%5B%5D=C3622265756-ASF&collection_concept_id%5B%5D=C3622229381-ASF&collection_concept_id%5B%5D=C3622241997-ASF&collection_concept_id%5B%5D=C3622236985-ASF&collection_concept_id%5B%5D=C3622237369-ASF&collection_concept_id%5B%5D=C3622241360-ASF&collection_concept_id%5B%5D=C3622250865-ASF&collection_concept_id%5B%5D=C3622244601-ASF&collection_concept_id%5B%5D=C3622247503-ASF",
+      "boundingBoxWgs84": [
+        138,
+        -29,
+        154,
+        -10
+      ],
+      "pointWgs84": null,
+      "start": "2026-01-11",
+      "end": "2026-02-28",
+      "status": 200,
+      "hits": 5,
+      "returned": 5,
+      "complete": true
+    }
+  ],
+  "etna": {
+    "result": "CATALOG_MATCHED_EVENT_SPANNING_PAIR",
+    "event": "August 6, 2026 eruptive episode",
+    "eventDate": "2026-08-06",
+    "eventSource": "https://www.dlr.de/en/eoc/latest/news/2026/etna-volcano-eruption-leaves-thousands-of-tourists-stranded",
+    "originalWinterEventPairFound": false,
+    "pointWgs84": [
+      15,
+      37.75
+    ],
+    "observationDates": [
+      "2026-07-23",
+      "2026-08-16"
+    ],
+    "repeatIntervalDays": 24,
+    "matchedAttributes": [
+      "TRACK_NUMBER",
+      "FRAME_NUMBER",
+      "ASCENDING_DESCENDING",
+      "PRODUCT_VERSION",
+      "FREQUENCY_A_POLARIZATION",
+      "FREQUENCY_A_RANGE_BANDWIDTH",
+      "FULL_FRAME",
+      "STACK_ID"
+    ],
+    "processingVersion": "1.0.11",
+    "crid": "P05023",
+    "metadataScope": "CMR point-intersection and identical collection, track, frame, pass, frequency-A polarization/bandwidth, full-frame flag, product and PGE versions. Underlying HDF5 coordinates and valid pixels have not been inspected.",
+    "limitations": [
+      "Pair spans the August episode, not the December 2025/January 2026 eruption originally proposed.",
+      "A permanent instrument gap from July 27 to August 10 leaves a 24-day interval across the episode; intermediate evolution is unobserved.",
+      "Both official QA summaries returned HTTP 401; Earthdata credentials are not configured here. QA contents and scientific calibration have not been independently verified.",
+      "Browse colors are not numerical radar power; no lava mapping, displacement, or difference image has been generated."
+    ],
+    "acquisitions": [
+      {
+        "conceptId": "G4260544499-ASF",
+        "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4260544499-ASF.umm_json",
+        "producerGranuleId": "NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001",
+        "collection": {
+          "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+          "Version": "1"
+        },
+        "temporal": {
+          "BeginningDateTime": "2026-07-23T17:55:03.000000Z",
+          "EndingDateTime": "2026-07-23T17:55:38.999342Z"
+        },
+        "attributes": {
+          "ASCENDING_DESCENDING": [
+            "DESCENDING"
+          ],
+          "FRAME_NUMBER": [
+            "69"
+          ],
+          "FREQUENCIES": [
+            "A",
+            "B"
+          ],
+          "FREQUENCY_A_POLARIZATION": [
+            "HH",
+            "HV"
+          ],
+          "FREQUENCY_A_POLARIZATION_CONCAT": [
+            "HH+HV"
+          ],
+          "FREQUENCY_A_RANGE_BANDWIDTH": [
+            "20"
+          ],
+          "FREQUENCY_B_POLARIZATION": [
+            "HH",
+            "HV"
+          ],
+          "FREQUENCY_B_POLARIZATION_CONCAT": [
+            "HH+HV"
+          ],
+          "FREQUENCY_B_RANGE_BANDWIDTH": [
+            "5"
+          ],
+          "FULL_FRAME": [
+            "TRUE"
+          ],
+          "JOINT_OBSERVATION": [
+            "FALSE"
+          ],
+          "ORBIT_TYPE": [
+            "MOE"
+          ],
+          "PROCESSING_CENTER": [
+            "JPL"
+          ],
+          "PROCESSING_LEVEL": [
+            "L2"
+          ],
+          "PRODUCTION_PIPELINE": [
+            "PR"
+          ],
+          "PRODUCT_TYPE": [
+            "GCOV"
+          ],
+          "PRODUCT_TYPE_DESC": [
+            "Geocoded Polarimetric Covariance"
+          ],
+          "PRODUCT_VERSION": [
+            "1.0.11"
+          ],
+          "RANGE_BANDWIDTH_CONCAT": [
+            "20+5"
+          ],
+          "STACK_ID": [
+            "051_D_069"
+          ],
+          "TRACK_NUMBER": [
+            "51"
+          ]
+        },
+        "pge": {
+          "PGEName": "GCOV_L_PGE",
+          "PGEVersion": "R05.02.3"
+        },
+        "footprintWgs84": [
+          [
+            14.01186,
+            40.04658
+          ],
+          [
+            13.1953,
+            37.9389
+          ],
+          [
+            15.8829,
+            37.25739
+          ],
+          [
+            16.7874,
+            39.34091
+          ],
+          [
+            14.01186,
+            40.04658
+          ]
+        ],
+        "hdf5": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001.h5",
+          "catalog": {
+            "Name": "NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001.h5",
+            "SizeInBytes": 1530920960,
+            "Format": "HDF5",
+            "Checksum": {
+              "Value": "b3784164c2eb60e179f0c27b646758c4",
+              "Algorithm": "MD5"
+            }
+          },
+          "downloaded": false
+        },
+        "qa": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "retrievalStatus": 401,
+          "verified": false
+        },
+        "browse": [
+          {
+            "polarization": "HH",
+            "path": "frontend/public/research-media/etna/2026-07-23_HH.png",
+            "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+            "bytes": 1231306,
+            "md5": "1fbb26b0a19862248b4ac187ee71f9f1",
+            "sha256": "f44481ae07d5aeea881d04f90c1a29b95e7c1e3645191ff1a47c1ef10a14916f",
+            "catalogMd5Verified": true
+          },
+          {
+            "polarization": "HV",
+            "path": "frontend/public/research-media/etna/2026-07-23_HV.png",
+            "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+            "bytes": 1189931,
+            "md5": "c31e2997ab832931b2038c1de5453f0b",
+            "sha256": "2f7ce7722f629040ac366ce1f7b038a2231a68d02ebe2316c87c3dd66bdb5568",
+            "catalogMd5Verified": true
+          }
+        ]
+      },
+      {
+        "conceptId": "G4284906695-ASF",
+        "catalogUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4284906695-ASF.umm_json",
+        "producerGranuleId": "NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001",
+        "collection": {
+          "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+          "Version": "1"
+        },
+        "temporal": {
+          "BeginningDateTime": "2026-08-16T17:55:02.000000Z",
+          "EndingDateTime": "2026-08-16T17:55:37.999342Z"
+        },
+        "attributes": {
+          "ASCENDING_DESCENDING": [
+            "DESCENDING"
+          ],
+          "FRAME_NUMBER": [
+            "69"
+          ],
+          "FREQUENCIES": [
+            "A",
+            "B"
+          ],
+          "FREQUENCY_A_POLARIZATION": [
+            "HH",
+            "HV"
+          ],
+          "FREQUENCY_A_POLARIZATION_CONCAT": [
+            "HH+HV"
+          ],
+          "FREQUENCY_A_RANGE_BANDWIDTH": [
+            "20"
+          ],
+          "FREQUENCY_B_POLARIZATION": [
+            "HH",
+            "HV"
+          ],
+          "FREQUENCY_B_POLARIZATION_CONCAT": [
+            "HH+HV"
+          ],
+          "FREQUENCY_B_RANGE_BANDWIDTH": [
+            "5"
+          ],
+          "FULL_FRAME": [
+            "TRUE"
+          ],
+          "JOINT_OBSERVATION": [
+            "FALSE"
+          ],
+          "ORBIT_TYPE": [
+            "MOE"
+          ],
+          "PROCESSING_CENTER": [
+            "JPL"
+          ],
+          "PROCESSING_LEVEL": [
+            "L2"
+          ],
+          "PRODUCTION_PIPELINE": [
+            "PR"
+          ],
+          "PRODUCT_TYPE": [
+            "GCOV"
+          ],
+          "PRODUCT_TYPE_DESC": [
+            "Geocoded Polarimetric Covariance"
+          ],
+          "PRODUCT_VERSION": [
+            "1.0.11"
+          ],
+          "RANGE_BANDWIDTH_CONCAT": [
+            "20+5"
+          ],
+          "STACK_ID": [
+            "051_D_069"
+          ],
+          "TRACK_NUMBER": [
+            "51"
+          ]
+        },
+        "pge": {
+          "PGEName": "GCOV_L_PGE",
+          "PGEVersion": "R05.02.3"
+        },
+        "footprintWgs84": [
+          [
+            14.00941,
+            40.04178
+          ],
+          [
+            13.19276,
+            37.93414
+          ],
+          [
+            15.88017,
+            37.25271
+          ],
+          [
+            16.78521,
+            39.33606
+          ],
+          [
+            14.00941,
+            40.04178
+          ]
+        ],
+        "hdf5": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001.h5",
+          "catalog": {
+            "Name": "NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001.h5",
+            "SizeInBytes": 1526726656,
+            "Format": "HDF5",
+            "Checksum": {
+              "Value": "31928baba3cc64e4c02d3aca3cc5e9cb",
+              "Algorithm": "MD5"
+            }
+          },
+          "downloaded": false
+        },
+        "qa": {
+          "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "retrievalStatus": 401,
+          "verified": false
+        },
+        "browse": [
+          {
+            "polarization": "HH",
+            "path": "frontend/public/research-media/etna/2026-08-16_HH.png",
+            "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+            "bytes": 1245894,
+            "md5": "fec439f5fb59b44305ded4947b48435e",
+            "sha256": "e32d94bd01a491d0c18c17bb01fb8e63cf659eb69b2e69d64218b23ed6620196",
+            "catalogMd5Verified": true
+          },
+          {
+            "polarization": "HV",
+            "path": "frontend/public/research-media/etna/2026-08-16_HV.png",
+            "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+            "bytes": 1178209,
+            "md5": "2fb5617effd0f213914d7fcca50310f2",
+            "sha256": "fe4d0556864983314998854135dcdff13c79f0c73c202d5d9e6e702a07d31220",
+            "catalogMd5Verified": true
+          }
+        ]
+      }
+    ]
+  },
+  "sumatra": {
+    "result": "NO_EVENT_PAIR_FOUND",
+    "event": "November 2025 Senyar flooding",
+    "searchScope": "Northern Sumatra: 95E–100.5E, 0N–6N, November 1–December 31, 2025; all catalogued NISAR L0–L3 science collections.",
+    "eventWindowHits": 0,
+    "laterGcovFirstAcquisitionAtTarget": "2026-06-21",
+    "limitations": [
+      "No public event-period products were returned in the stated catalog scope. This is a time-stamped catalog result, not proof NISAR never acquired data.",
+      "June–October 2026 coverage cannot document the November 2025 flood.",
+      "ISRO gallery offers Lake Toba imagery, not a verified Senyar temporal pair."
+    ]
+  },
+  "queensland": {
+    "result": "NO_PROCESSED_EVENT_SPANNING_PAIR_FOUND",
+    "event": "Koji landfall January 11, 2026",
+    "targetBoundingBoxWgs84": [
+      146,
+      -25,
+      151,
+      -18.5
+    ],
+    "rejectedGcovPair": {
+      "dates": [
+        "2025-12-29",
+        "2026-01-10"
+      ],
+      "track": 23,
+      "pass": "ASCENDING",
+      "frames": [
+        165,
+        166,
+        167
+      ],
+      "maturity": "BETA",
+      "reason": "Both observations precede January 11 landfall; cannot be labeled before/after Koji."
+    },
+    "statewidePostEventRawLeads": [
+      {
+        "conceptId": "G4273648609-ASF",
+        "producerGranuleId": "NISAR_L0_PR_RRSD_010_045_D_148S_20260112T081422_20260112T081630_P05023_F_J_001",
+        "collection": {
+          "ShortName": "NISAR_L0B_RRSD_PROVISIONAL_V1",
+          "Version": "1"
+        },
+        "footprintWgs84": [
+          [
+            147.16671,
+            -26.3336
+          ],
+          [
+            145.44239,
+            -33.94997
+          ],
+          [
+            148.14904,
+            -34.37039
+          ],
+          [
+            149.65194,
+            -26.76754
+          ],
+          [
+            147.16671,
+            -26.3336
+          ]
+        ],
+        "reason": "Raw L0B data, not a processed GCOV scene; footprint does not intersect the central/eastern flood-target bounding box."
+      },
+      {
+        "conceptId": "G4275648933-ASF",
+        "producerGranuleId": "NISAR_L0_PR_RRSD_010_124_A_148S_20260117T201854_20260117T202504_P05023_F_J_001",
+        "collection": {
+          "ShortName": "NISAR_L0B_RRSD_PROVISIONAL_V1",
+          "Version": "1"
+        },
+        "footprintWgs84": [
+          [
+            146.58629,
+            -33.87709
+          ],
+          [
+            141.76022,
+            -11.84456
+          ],
+          [
+            139.41822,
+            -12.282
+          ],
+          [
+            143.7664,
+            -34.2648
+          ],
+          [
+            146.58629,
+            -33.87709
+          ]
+        ],
+        "reason": "Raw L0B data, not a processed GCOV scene; footprint does not intersect the central/eastern flood-target bounding box."
+      },
+      {
+        "conceptId": "G4273696759-ASF",
+        "producerGranuleId": "NISAR_L0_PR_RRSD_011_045_D_148S_20260124T081422_20260124T081631_P05023_F_J_001",
+        "collection": {
+          "ShortName": "NISAR_L0B_RRSD_PROVISIONAL_V1",
+          "Version": "1"
+        },
+        "footprintWgs84": [
+          [
+            147.16335,
+            -26.36546
+          ],
+          [
+            145.43868,
+            -33.98183
+          ],
+          [
+            148.14639,
+            -34.40218
+          ],
+          [
+            149.64931,
+            -26.79928
+          ],
+          [
+            147.16335,
+            -26.36546
+          ]
+        ],
+        "reason": "Raw L0B data, not a processed GCOV scene; footprint does not intersect the central/eastern flood-target bounding box."
+      },
+      {
+        "conceptId": "G4274300313-ASF",
+        "producerGranuleId": "NISAR_L0_PR_RRSD_012_045_D_148S_20260205T081423_20260205T081631_P05023_F_J_001",
+        "collection": {
+          "ShortName": "NISAR_L0B_RRSD_PROVISIONAL_V1",
+          "Version": "1"
+        },
+        "footprintWgs84": [
+          [
+            147.16814,
+            -26.33791
+          ],
+          [
+            145.44404,
+            -33.95429
+          ],
+          [
+            148.15076,
+            -34.37462
+          ],
+          [
+            149.65339,
+            -26.77176
+          ],
+          [
+            147.16814,
+            -26.33791
+          ]
+        ],
+        "reason": "Raw L0B data, not a processed GCOV scene; footprint does not intersect the central/eastern flood-target bounding box."
+      },
+      {
+        "conceptId": "G4274306000-ASF",
+        "producerGranuleId": "NISAR_L0_PR_RRSD_013_045_D_148S_20260217T081423_20260217T081632_P05023_F_J_001",
+        "collection": {
+          "ShortName": "NISAR_L0B_RRSD_PROVISIONAL_V1",
+          "Version": "1"
+        },
+        "footprintWgs84": [
+          [
+            147.16876,
+            -26.3257
+          ],
+          [
+            145.44472,
+            -33.94214
+          ],
+          [
+            148.15116,
+            -34.36254
+          ],
+          [
+            149.65386,
+            -26.75962
+          ],
+          [
+            147.16876,
+            -26.3257
+          ]
+        ],
+        "reason": "Raw L0B data, not a processed GCOV scene; footprint does not intersect the central/eastern flood-target bounding box."
+      }
+    ],
+    "limitations": [
+      "No processed post-landfall products were returned for the target through February 10.",
+      "Statewide search through February 28 returned only five raw L0B products, outside the central/eastern target. They do not establish a usable flood pair.",
+      "Later June-onward products cannot substitute for event-period coverage."
+    ]
+  }
+}

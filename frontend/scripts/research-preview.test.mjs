@@ -23,7 +23,7 @@ test("research extension contains all nine locations and switches Hubbard to the
 });
 
 test("candidates and mixed-sensor or single-scene sources never imply measured NISAR temporal pairs", () => {
-  for (const id of ["etna", "sumatra", "queensland"]) {
+  for (const id of ["sumatra", "queensland"]) {
     assert.equal(study(id).evidence, "candidate");
     assert.deepEqual(study(id).observationDates, []);
     assert.deepEqual(study(id).media, []);
@@ -36,6 +36,31 @@ test("candidates and mixed-sensor or single-scene sources never imply measured N
   }
   assert.match(study("sri-lanka").limitations.join(" "), /two sensors/);
   assert.match(study("antarctica").limitations.join(" "), /not a before\/after/);
+});
+
+test("Etna's catalog pair spans the August episode while missing flood-event pairs remain unavailable", () => {
+  const audit = JSON.parse(readFileSync(new URL("../../pipeline/research/event-pairs/source-index.json", import.meta.url), "utf8"));
+  const etna = study("etna");
+  assert.equal(etna.evidence, "official-browse");
+  assert.deepEqual(etna.observationDates, ["2026-07-23", "2026-08-16"]);
+  assert.equal(etna.gallery, "polarization-pair");
+  assert.ok(etna.observationDates[0] < audit.etna.eventDate && etna.observationDates[1] > audit.etna.eventDate);
+  const [before, after] = audit.etna.acquisitions;
+  assert.deepEqual(before.collection, after.collection);
+  assert.deepEqual(before.pge, after.pge);
+  for (const key of audit.etna.matchedAttributes) assert.deepEqual(before.attributes[key], after.attributes[key]);
+  assert.equal(audit.etna.repeatIntervalDays, (Date.parse(etna.observationDates[1]) - Date.parse(etna.observationDates[0])) / 86400000);
+  for (const a of audit.etna.acquisitions) for (const m of a.browse) {
+    const bytes = readFileSync(new URL("../../" + m.path, import.meta.url));
+    assert.equal(createHash("md5").update(bytes).digest("hex"), m.md5);
+    assert.equal(a.qa.verified, false);
+    assert.equal(a.hdf5.downloaded, false);
+  }
+  assert.ok(audit.queries.every(q => q.status === 200 && q.complete && q.hits === q.returned));
+  assert.equal(audit.sumatra.result, "NO_EVENT_PAIR_FOUND");
+  assert.equal(audit.queensland.result, "NO_PROCESSED_EVENT_SPANNING_PAIR_FOUND");
+  assert.match(study("queensland").limitations.join(" "), /both dates precede/);
+  assert.match(study("sumatra").limitations.join(" "), /Landsat 9/);
 });
 
 test("local media matches recorded provenance and complete date/polarization coverage", () => {
