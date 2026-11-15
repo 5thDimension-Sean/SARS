@@ -315,7 +315,7 @@ function TrustSection({ study, evidence, regions, preview }: { study: StudyConfi
         <div className={styles.tableScroll}><table className={`${styles.table} ${styles.qaTable}`}><caption>Quality checks for {study.label} · {evidence.scientificClearance}</caption><thead><tr><th scope="col">Check</th><th scope="col">Status and evidence</th></tr></thead><tbody>{evidence.quality.map(([key, text]) => { const state = qaState(text);
           return <tr key={key}><th scope="row">{qaLabel(key)}</th><td><span className={`${styles.qaIcon} ${styles[`qa_${state}`]}`}>{state.toUpperCase()}</span><p>{text}</p></td></tr>; })}</tbody></table></div>
         <details className={styles.more}><summary>Known limitations</summary>
-        <ul className={styles.plain}>{evidence.limitations.map((l) => <li key={l}>{l}</li>)}</ul></details>
+        <ul className={styles.plain}>{evidence.limitations.map((l) => <li key={l}>{l}</li>)}<li>Pixels use nearest-neighbour sampling. Resolution follows the published analysis grid, which may be reduced from the source.</li></ul></details>
         <div className={styles.yesno}>
           <div><h3>What this shows</h3><ul className={styles.plain}><li>Real NISAR HH/HV backscatter on two dates, as histograms and statistics.</li><li>Three candidate regions with measured per-pixel differences, labeled {QA_LABEL}.</li></ul></div>
           <div><h3>What it does not show</h3><ul className={styles.plain}><li>Flooding, vegetation loss, burned area, damage or ground displacement.</li><li>A validated change detection, a confidence score or a prediction.</li></ul></div>

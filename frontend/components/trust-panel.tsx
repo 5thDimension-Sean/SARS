@@ -264,7 +264,7 @@ export function TrustPanel() {
               <td>{(a.exceedanceRate * 100).toFixed(1)}% of {a.referenceWindows}{!currentCheck.selectedFromData && a.exceedanceRate <= BACKGROUND_RATE_THRESHOLD ? " (unusual)" : ""}</td></tr>
             : <tr key={pol}><th scope="row">{pol}</th><td colSpan={6}>Refused: {a.reason}</td></tr>; })}</tbody>
         </table></div>
-        <details className={styles.hint}><summary>How to read this</summary><p className={styles.hint}>Background windows are same-size boxes elsewhere in this scene. “Scene shift” is their median change; “excess” is how far this box sits beyond it. A low rate means the box is unusual within its own scene, not that a physical change occurred.</p></details>
+        <details className={styles.hint}><summary>How to read this</summary><p className={styles.hint}>Background windows are same-size boxes elsewhere in this scene. “Scene shift” is their median change; “excess” is how far this box sits beyond it. A low rate means the box is unusual within its own scene, not that a physical change occurred. It does not remove scene-wide calibration or moisture effects.</p></details>
         {studyLooks.length > 1 && <p className={styles.hint}>You have checked {studyLooks.length} boxes here. At a {BACKGROUND_RATE_THRESHOLD * 100}% rate, about {expectedChanceHits(studyLooks.length).toFixed(1)} would look unusual by chance. These rates are not corrected for repeated looks.</p>}
       </>}
     </section>}
