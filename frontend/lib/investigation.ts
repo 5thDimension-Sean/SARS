@@ -299,7 +299,7 @@ export function utmToLonLat(easting: number, northing: number, zone: number): Lo
   const A = a / (1 + n) * (1 + n2 / 4 + n4 / 64);
   const beta = [n / 2 - 2 * n2 / 3 + 37 * n3 / 96 - n4 / 360, n2 / 48 + n3 / 15 - 437 * n4 / 1440, 17 * n3 / 480 - 37 * n4 / 840, 4397 * n4 / 161280];
   const delta = [2 * n - 2 * n2 / 3 - 2 * n3 + 116 * n4 / 45, 7 * n2 / 3 - 8 * n3 / 5 - 227 * n4 / 45, 56 * n3 / 15 - 136 * n4 / 35, 4279 * n4 / 630];
-  const xi0 = northing / (k0 * A), eta0 = (easting - 500000) / (k0 * A);
+  const xi0 = (northing - (zone < 0 ? 10000000 : 0)) / (k0 * A), eta0 = (easting - 500000) / (k0 * A);
   let xi = xi0, eta = eta0;
   beta.forEach((bj, i) => {
     const j = 2 * (i + 1);
@@ -309,7 +309,7 @@ export function utmToLonLat(easting: number, northing: number, zone: number): Lo
   const chi = Math.asin(Math.sin(xi) / Math.cosh(eta));
   let lat = chi;
   delta.forEach((dj, i) => { lat += dj * Math.sin(2 * (i + 1) * chi); });
-  const lon = (zone - 1) * 6 - 180 + 3 + Math.atan2(Math.sinh(eta), Math.cos(xi)) * 180 / Math.PI;
+  const lon = (Math.abs(zone) - 1) * 6 - 180 + 3 + Math.atan2(Math.sinh(eta), Math.cos(xi)) * 180 / Math.PI;
   return [lon, lat * 180 / Math.PI];
 }
 
