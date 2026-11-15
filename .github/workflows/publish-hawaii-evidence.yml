@@ -1,0 +1,58 @@
+name: Publish genuine Hawaii numerical histograms
+
+on:
+  push:
+    branches:
+      - feat/hawaii-iowa-full-scientific-evidence
+    paths:
+      - .github/workflows/publish-hawaii-evidence.yml
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install numerical science dependencies
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Retrieve previously reviewed real GCOV derivatives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/hawaii-evidence"
+          gh run download 43735861165 --repo "$GITHUB_REPOSITORY" --name full-review-hawaii-full --dir "$RUNNER_TEMP/hawaii-evidence"
+          test -s "$RUNNER_TEMP/hawaii-evidence/processed/manifest.json"
+          python - "$RUNNER_TEMP/hawaii-evidence" <<'PY'
+          import json,sys
+          from pathlib import Path
+          r=Path(sys.argv[1])
+          d=json.loads((r/"discovery.json").read_text())
+          assert d["status"]=="EXPLORATORY_PROCESSED_NOT_QA_CLEARED"
+          assert [s["date"] for s in d["selected"]]==["2026-09-04","2026-09-16"]
+          m=json.loads((r/"processed/manifest.json").read_text())
+          assert len(m["frames"])==1 and m["frames"][0]["id"]=="T151_F011_A"
+          assert len(m["frames"][0]["changeLayers"])==3
+          PY
+      - name: Generate Everglades evidence and publish only derivatives
+        run: |
+          set -euo pipefail
+          mkdir -p frontend/public/data/hawaii-processed
+          cp -R "$RUNNER_TEMP/hawaii-evidence/processed/." frontend/public/data/hawaii-processed/
+          cp "$RUNNER_TEMP/hawaii-evidence/discovery.json" frontend/public/data/hawaii-processed/discovery.json
+          python -m pipeline.generate_unified_evidence --site hawaii-full
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add frontend/public/data/hawaii-processed frontend/public/data/hawaii-full-evidence frontend/public/data/hawaii-full-regions frontend/public/data/hawaii-full-preview
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish actual Hawaii NISAR histogram evidence and georeferenced analysis"
+            git push origin HEAD:feat/hawaii-iowa-full-scientific-evidence
+          fi
