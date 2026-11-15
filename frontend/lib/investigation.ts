@@ -9,7 +9,7 @@ export type LonLat = [number, number];
 export type Bounds = [number, number, number, number]; // west, south, east, north
 
 export interface StudyConfig {
-  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa";
+  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa" | "rodanthe" | "amazon";
   label: string;
   /** Short name for compact controls. */
   short: string;
@@ -22,6 +22,8 @@ export interface StudyConfig {
   previewDir: string | null;
   /** NASA GIBS browse mosaic has been probed for these exact dates; only then is it used as context. */
   gibsContext: boolean;
+  /** Difference PNG is in the same Web Mercator viewport as the preview PNG. */
+  differenceInPreviewCrs?: boolean;
   dates: Pair<string>;
   granules: Pair<string>;
   utmZone: number;
@@ -50,6 +52,10 @@ export const STUDIES: readonly StudyConfig[] = [
     dates: ["2026-09-25", "2026-10-19"], granules: ["G4325945910-ASF", "G4381295241-ASF"],
     utmZone: 15, center: [-93.62, 42.02] },
 
+  { id: "rodanthe", label: "Rodanthe, North Carolina", short: "Rodanthe", contextDir: null, place: "Rodanthe, Outer Banks, North Carolina", evidenceDir: "rodanthe-evidence", regionsDir: "rodanthe-regions", previewDir: "rodanthe-preview", gibsContext: false, differenceInPreviewCrs: true,
+    dates: ["2026-09-17", "2026-09-29"], granules: ["NISAR_L2_PR_GCOV_030_162_A_019_4005_DHDH_A_20260917T101351_20260917T101409_P05023_N_P_J_001","NISAR_L2_PR_GCOV_031_162_A_019_4005_DHDH_A_20260929T101352_20260929T101409_P05023_N_P_J_001"], utmZone: 18, center: [-75.465, 35.585] },
+  { id: "amazon", label: "Mamirauá, Amazon River", short: "Amazon", contextDir: null, place: "Mamirauá Amazon floodplain, Brazil", evidenceDir: "amazon-evidence", regionsDir: "amazon-regions", previewDir: "amazon-preview", gibsContext: false, differenceInPreviewCrs: true,
+    dates: ["2026-07-07", "2026-07-19"], granules: ["NISAR_L2_PR_GCOV_024_161_A_176_2005_DHDH_A_20260707T100307_20260707T100335_P05023_N_F_J_001","NISAR_L2_PR_GCOV_025_161_A_176_2005_DHDH_A_20260719T100307_20260719T100334_P05023_N_F_J_001"], utmZone: -20, center: [-64.885, -3.19] },
 ];
 
 export const QA_LABEL = "EXPLORATORY_NOT_CLEARED";
@@ -189,7 +195,7 @@ export function parseRegions(meta: unknown, geo: unknown, study: StudyConfig): R
   const dates = meta.dates, granules = meta.sourceGranules;
   if (!Array.isArray(dates) || dates.join() !== study.dates.join() || !Array.isArray(granules) || granules.join() !== study.granules.join()) throw new Error("Region dates do not match study");
   const crs = str(meta.crs, "crs");
-  if (crs !== `EPSG:326${study.utmZone}`) throw new Error("Unexpected region CRS");
+  if (crs !== (study.utmZone < 0 ? `EPSG:327${Math.abs(study.utmZone)}` : `EPSG:326${study.utmZone}`)) throw new Error("Unexpected region CRS");
   const pair = (v: unknown, what: string): Pair<number> => {
     if (!Array.isArray(v) || v.length !== 2) throw new Error(`Invalid ${what}`);
     return [num(v[0], what), num(v[1], what)];
