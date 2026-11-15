@@ -1,0 +1,42 @@
+name: Build Everglades-compatible evidence for Rodanthe and Amazon
+
+on:
+  push:
+    branches:
+      - feat/unified-everglades-investigations
+    paths:
+      - .github/workflows/build-unified-nisar-evidence.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install reviewed processing dependencies
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Reconstruct original Everglades evidence packages from real NISAR COGs
+        run: |
+          python -m pipeline.generate_unified_evidence --site rodanthe
+          python -m pipeline.generate_unified_evidence --site amazon
+      - name: Commit only derived scientific evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add frontend/public/data/rodanthe-evidence frontend/public/data/rodanthe-regions frontend/public/data/rodanthe-preview
+          git add frontend/public/data/amazon-evidence frontend/public/data/amazon-regions frontend/public/data/amazon-preview
+          git diff --cached --stat
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish honest Everglades-format paired NISAR study datasets"
+            git push origin HEAD:feat/unified-everglades-investigations
+          fi
