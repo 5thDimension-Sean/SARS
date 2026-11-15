@@ -6,6 +6,7 @@ import Link from "next/link";
 import { PLACES } from "@/lib/places";
 import { SiteFooter } from "@/components/site-footer";
 import { COORDINATE_STARTERS as STARTERS, validCoordinate, processingEndpoint, isJobStatus, type JobStatus } from "@/lib/coordinate-request";
+import { rememberCoordinateSession, recallCoordinateSession, forgetCoordinateSession } from "@/lib/coordinate-session";
 import styles from "@/components/investigation/investigation.module.css";
 
 const ENDPOINT = processingEndpoint(process.env.NEXT_PUBLIC_PROCESSING_API_URL ?? "", process.env.NODE_ENV === "development");
@@ -25,6 +26,7 @@ interface Result {
   regions: Region[];
   grid: { crs: string; shape: [number, number]; pixelSpacingMeters: [number, number]; pairedPixels: number };
   productVersion: string; productSpecificationVersion: string;
+  sourceFiles?: { accessMode?: string; downloadedBytes?: number }[];
 }
 const num = (n: number) => Number(n).toLocaleString("en-US");
 const signed = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(3)} dB`;
@@ -57,14 +59,15 @@ function RadarHistogram({ bins, dates, pol }: { bins: Bin[]; dates: [string,stri
 }
 
 export default function CoordinateExplorer() {
-  const [lat, setLat] = useState(String(STARTERS[0].latitude));
-  const [lon, setLon] = useState(String(STARTERS[0].longitude));
+  const [restored] = useState(() => recallCoordinateSession(ENDPOINT));
+  const [lat, setLat] = useState(String(restored?.latitude ?? STARTERS[0].latitude));
+  const [lon, setLon] = useState(String(restored?.longitude ?? STARTERS[0].longitude));
   const keyRef = useRef<HTMLInputElement>(null);
-  const sessionRef = useRef<{ id: string; accessToken: string } | null>(null);
+  const sessionRef = useRef<{ id: string; accessToken: string } | null>(restored);
   const requestRef = useRef<AbortController | null>(null);
-  const [sessionId, setSessionId] = useState("");
-  const [status, setStatus] = useState<JobStatus>("idle");
-  const [message, setMessage] = useState("");
+  const [sessionId, setSessionId] = useState(restored?.id ?? "");
+  const [status, setStatus] = useState<JobStatus>(restored ? "queued" : "idle");
+  const [message, setMessage] = useState(restored ? "Resuming your private comparison." : "");
   const [result, setResult] = useState<Result | null>(null);
   const [pol, setPol] = useState<Pol>("HH");
   const [mode, setMode] = useState<Mode>("swipe");
@@ -77,6 +80,7 @@ export default function CoordinateExplorer() {
     requestRef.current?.abort();
     requestRef.current = null;
     sessionRef.current = null;
+    forgetCoordinateSession();
     setSessionId(""); setResult(null); setImages({}); setSelected("all"); setSplit(50);
     setStatus("idle"); setMessage("");
   };
@@ -94,6 +98,7 @@ export default function CoordinateExplorer() {
     if (keyRef.current) keyRef.current.value = "";
     if (!key) { setMessage("Enter your NASA Earthdata token to authenticate this one processing request."); return; }
     sessionRef.current = null;
+    forgetCoordinateSession();
     setSessionId(""); setResult(null); setImages({}); setStatus("connecting");
     setMessage("Connecting to the private processing worker over HTTPS.");
     const controller = new AbortController();
@@ -112,6 +117,10 @@ export default function CoordinateExplorer() {
         throw new Error(response.status === 429 ? "The worker is busy. Please try again shortly." :
           response.status === 403 ? "This website is not authorized to contact the processing worker." :
           "The processing request could not be started.");
+      if (typeof reply.expiresAt !== "string" || !rememberCoordinateSession({
+        id: reply.id as string, accessToken: reply.accessToken as string, expiresAt: reply.expiresAt,
+        latitude: Number(lat), longitude: Number(lon), endpoint: ENDPOINT,
+      })) throw new Error("The worker returned an invalid private session.");
       sessionRef.current = { id: reply.id as string, accessToken: reply.accessToken as string };
       setSessionId(reply.id as string); setStatus("queued"); setMessage("Looking for actual compatible NASA NISAR scenes.");
     } catch (error) {
@@ -221,6 +230,7 @@ export default function CoordinateExplorer() {
           {!ENABLED && <p className={styles.notice} role="status">Custom processing is currently unavailable. You can explore the published radar investigations below.</p>}
           {!valid && <p className={styles.notice} role="alert">Enter latitude from -85 to 85 and longitude from -180 to 180. The small study area must not cross the date line.</p>}
           {message && <p className={styles.notice} role="status" aria-live="polite">{message}</p>}
+          {sessionId && <p className={styles.small}>You can browse other pages and return in this tab to resume the comparison. Reloading the page clears the private session.</p>}
         </form>
         {matchingPublished.length > 0 && <div className={styles.notice} style={{ marginTop: 22 }}>
           <strong>Already-published NASA comparison at this coordinate</strong>
@@ -257,7 +267,9 @@ export default function CoordinateExplorer() {
             </div>}
           </div> : <p role="status">Retrieving measured, access-controlled raster previews.</p>}
 
-          <h3 style={{ marginTop: 32 }}>Whole-scene radar measurements - {pol}</h3>
+          <h3 style={{ marginTop: 32 }}>Study-area radar measurements - {pol}</h3>
+          {result.sourceFiles?.length === 2 && result.sourceFiles.every(source => source.accessMode === "HTTP_RANGE_SUBSET" && typeof source.downloadedBytes === "number" && Number.isFinite(source.downloadedBytes) && source.downloadedBytes > 0) &&
+            <p className={styles.small}>Retrieved {(result.sourceFiles.reduce((total, source) => total + (source.downloadedBytes ?? 0), 0) / 1024**2).toFixed(1)} MiB of source data for this study area. Source hashes cover the retrieved byte ranges.</p>}
           <RadarHistogram bins={result.evidence[pol].bins} dates={result.dates} pol={pol} />
           <div style={{ overflowX: "auto" }}><table className={styles.table}>
             <thead><tr><th>Statistic</th><th>{result.dates[0]}</th><th>{result.dates[1]}</th></tr></thead>
@@ -269,7 +281,7 @@ export default function CoordinateExplorer() {
                 <td key={i}>{key === "count" ? num(o[key]) : o[key].toFixed(3)}</td>)}</tr>)}
             </tbody>
           </table></div>
-          <p className={styles.small}>Whole-scene difference of medians: {signed(result.evidence[pol].differenceOfRegionalMediansDb)}; this is not a paired per-pixel difference.</p>
+          <p className={styles.small}>Study-area difference of medians: {signed(result.evidence[pol].differenceOfRegionalMediansDb)}; this is not a paired per-pixel difference.</p>
 
           <h3 style={{ marginTop: 32 }}>Inspect exploratory regions A, B, C</h3>
           <div role="group" aria-label="Region selection" style={{ display: "flex", gap: 10, flexWrap: "wrap", margin: "14px 0" }}>
@@ -290,7 +302,7 @@ export default function CoordinateExplorer() {
           <h3 style={{ marginTop: 32 }}>Data provenance & quality</h3>
           <p>NASA NISAR Level-2 provisional GCOV via ASF DAAC � {result.passDirection} track {result.track}, frame {result.frame}, release {result.release} � {result.grid.crs} � {num(result.grid.pairedPixels)} aligned analysis-grid pixels.</p>
           <p>Product version {result.productVersion}; specification {result.productSpecificationVersion}. Source granules: {result.evidence.HH.observations.map(o => o.granuleId).join("; ")}.</p>
-          <p className={styles.small}>The two source files are processed privately and deleted after processing. This report contains no original HDF5 files, passwords, or API tokens. Results expire from the processing server.</p>
+          <p className={styles.small}>Source data is read privately for this study area; credentials and raw source blocks are discarded after processing. This report contains no original HDF5 files, passwords, or API tokens. Results expire from the processing server.</p>
         </section>}
       </section>
       <SiteFooter />

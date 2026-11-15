@@ -97,9 +97,10 @@ def check_coordinates(dataset: h5py.Dataset, spacing: float, size: int) -> float
     return first
 
 
-def inspect_product(path: Path, pols: tuple[str, ...], aoi: tuple[float, float, float, float] | None) -> Product:
+def inspect_product(path: Path, pols: tuple[str, ...], aoi: tuple[float, float, float, float] | None,
+                    *, open_source=None) -> Product:
     """Validate the discovered hierarchy before any power raster is read."""
-    with h5py.File(path, "r") as h5:
+    with (open_source or h5py.File)(path, "r") as h5:
         if GRID not in h5 or IDENT not in h5:
             discovered: list[str] = []
             h5.visit(discovered.append)
@@ -191,7 +192,7 @@ def process_directory(input_dir: Path, out_dir: Path, *, pols: tuple[str, ...] =
                       max_size: int = 2048, db_ranges: dict[str, tuple[float, float]] | None = None,
                       aoi: tuple[float, float, float, float] | None = None,
                       allow_mixed_versions: bool = False, png_quantize: bool = False,
-                      dry_run: bool = False) -> dict[str, Any]:
+                      dry_run: bool = False, source_paths=None, open_source=None) -> dict[str, Any]:
     input_dir, out_dir = Path(input_dir), Path(out_dir)
     if not 1 <= max_size <= 8192:
         raise PipelineError("--max-size must be 1..8192 (default 2048; larger values use more memory).")
@@ -205,10 +206,11 @@ def process_directory(input_dir: Path, out_dir: Path, *, pols: tuple[str, ...] =
         aoi = parse_bbox(",".join(map(str, aoi)))
     if not input_dir.is_dir():
         raise PipelineError(f"Input folder does not exist: {input_dir}")
-    paths = sorted(p for p in input_dir.iterdir() if p.is_file() and p.suffix.lower() in {".h5", ".hdf5"})
+    paths = (sorted(Path(p) for p in source_paths) if source_paths is not None else
+             sorted(p for p in input_dir.iterdir() if p.is_file() and p.suffix.lower() in {".h5", ".hdf5"}))
     if not paths:
         raise PipelineError(f"No GCOV .h5 products in {input_dir}.")
-    products = [inspect_product(path, pols, aoi) for path in paths]
+    products = [inspect_product(path, pols, aoi, open_source=open_source) for path in paths]
     grouped: dict[str, list[Product]] = {}
     for product in products:
         grouped.setdefault(product.frame_id, []).append(product)
@@ -276,7 +278,7 @@ def process_directory(input_dir: Path, out_dir: Path, *, pols: tuple[str, ...] =
                     "analysisBounds": list(array_bounds(*shape, transform)), "analysisTransform": list(transform)[:6]}
                 frame["acquisitions"].append(acquisition)
                 current: dict[str, np.ndarray] = {}
-                with h5py.File(product.path, "r") as h5:
+                with (open_source or h5py.File)(product.path, "r") as h5:
                     for pol in pols:
                         label = POL_NAMES[pol]
                         name = f"{frame_id}/{product.date[:10].replace('-', '')}_{label}"

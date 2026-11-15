@@ -42,11 +42,6 @@ const CONTEXT: Record<string, { setting: string; interpretation: string; sources
     { name: "NASA Earth Observatory — Padma River", url: "https://science.nasa.gov/earth/earth-observatory/world-of-change/padma-river/", use: "1988–2018 river change sequence" },
     { name: "JRC Global Surface Water", url: "https://global-surface-water.appspot.com/", use: "Historical surface water context" }] },
 };
-const GLOBAL = [
-  { name: "ESA WorldCover", url: "https://esa-worldcover.org/", use: "Global categorical land cover maps" },
-  { name: "WorldPop", url: "https://www.worldpop.org/", use: "Population raster datasets" },
-  { name: "NASA Earthdata Search", url: "https://search.earthdata.nasa.gov/", use: "Discover additional acquisition dates and sensors" },
-];
 
 const KIND: Record<AncillaryLayer["kind"], string> = { population: "Population", land_cover: "Land cover", vegetation: "Vegetation", other: "Context" };
 
@@ -112,8 +107,6 @@ export function ContextLayers() {
         <li data-ok="false"><strong>Three-or-more-date series:</strong> Not processed for this location. Additional acquisitions must be checked for matching footprints and quality.</li>
         <li data-ok={id === "padma"}><strong>Other sensor context:</strong> {id === "padma" ? "Landsat 5 and Landsat 8 imagery is available in the separate erosion study." : "Independent dataset links above are available; no additional co-registered sensor measurement has been produced here."}</li>
       </ul>
-      <p className={styles.muted}>For additional acquisitions, use <a href="https://search.earthdata.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA Earthdata Search ↗</a>. A third acquisition is not necessarily comparable without same-geometry and quality checks.</p>
-      <div className={styles.contextLinks}>{GLOBAL.map(source => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer"><strong>{source.name} ↗</strong><small>{source.use}</small></a>)}</div>
     </div>
   </section>;
 }
