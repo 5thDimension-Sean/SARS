@@ -11,6 +11,8 @@ on:
       - frontend/components/research-preview.tsx
       - frontend/scripts/investigation.test.mjs
       - frontend/scripts/location-story.test.mjs
+      - frontend/scripts/research-preview.test.mjs
+      - frontend/app/etna-investigation/page.tsx
   workflow_dispatch:
 
 permissions:
