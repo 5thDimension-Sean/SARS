@@ -142,7 +142,7 @@ export function ResearchPreview() {
     <a className="skip-link" href="#research-study-title">Skip to research study</a>
     <div className={styles.wrap}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}><span className={styles.dot} /> Internal research preview · unpublished</p>
+        <p className={styles.eyebrow}><span className={styles.dot} /> Research explorer · source referenced</p>
         <h1>A wider world.<br /><span>Evidence comes first.</span></h1>
         <p>Nine research stops, from lava fields to fractured ice. Explore published NISAR observations, a linked numerical investigation for Etna, and clearly marked candidates for the next studies.</p>
         <div className={styles.headerLinks}><Link href="/nisar-prototype">Open existing investigations ↗</Link><span>Measurements are shown only where verified from actual radar data; no causal claims</span></div>
