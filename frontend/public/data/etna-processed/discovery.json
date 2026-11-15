@@ -1,0 +1,215 @@
+{
+  "site": "etna-event",
+  "roiWgs84": [
+    14.95,
+    37.68,
+    15.08,
+    37.82
+  ],
+  "source": "NASA NISAR L2 GCOV via ASF DAAC",
+  "status": "EXPLORATORY_PROCESSED_NOT_QA_CLEARED",
+  "interpretation": "Exploratory radar-backscatter change, not a validated event impact or physical cause",
+  "selected": [
+    {
+      "date": "2026-07-23",
+      "sceneName": "NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001",
+      "bytes": 1530920960,
+      "filename": "NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001.h5",
+      "track": "51",
+      "frame": "69",
+      "pass": "DESCENDING",
+      "productVersion": "None",
+      "compositeReleaseId": "P05023",
+      "dataMaturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-08-16",
+      "sceneName": "NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001",
+      "bytes": 1526726656,
+      "filename": "NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001.h5",
+      "track": "51",
+      "frame": "69",
+      "pass": "DESCENDING",
+      "productVersion": "None",
+      "compositeReleaseId": "P05023",
+      "dataMaturity": "PROVISIONAL"
+    }
+  ],
+  "catalogResults": 15,
+  "catalogInventory": [
+    {
+      "date": "2026-10-15",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.531,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-10-15",
+      "track": 43,
+      "frame": 21,
+      "direction": "ASCENDING",
+      "sizeGB": 1.523,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-10-03",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.531,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-10-03",
+      "track": 43,
+      "frame": 21,
+      "direction": "ASCENDING",
+      "sizeGB": 1.518,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-21",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.535,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-21",
+      "track": 43,
+      "frame": 21,
+      "direction": "ASCENDING",
+      "sizeGB": 1.514,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-09",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.535,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-09-09",
+      "track": 43,
+      "frame": 21,
+      "direction": "ASCENDING",
+      "sizeGB": 1.514,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-08-28",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.531,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-08-28",
+      "track": 43,
+      "frame": 21,
+      "direction": "ASCENDING",
+      "sizeGB": 1.518,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-08-16",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.527,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-08-16",
+      "track": 43,
+      "frame": 21,
+      "direction": "ASCENDING",
+      "sizeGB": 1.523,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-23",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.531,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-23",
+      "track": 43,
+      "frame": 21,
+      "direction": "ASCENDING",
+      "sizeGB": 1.523,
+      "release": "P05023"
+    },
+    {
+      "date": "2026-07-11",
+      "track": 51,
+      "frame": 69,
+      "direction": "DESCENDING",
+      "sizeGB": 1.527,
+      "release": "P05023"
+    }
+  ],
+  "resultCapReached": false,
+  "sizeKnownProducts": 15,
+  "sizeWithinLimitProducts": 15,
+  "sceneNamesSample": [
+    {
+      "date": "2026-10-15",
+      "track": 51,
+      "frame": 69,
+      "pass": "DESCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.53,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-10-15",
+      "track": 43,
+      "frame": 21,
+      "pass": "ASCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.52,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-10-03",
+      "track": 51,
+      "frame": 69,
+      "pass": "DESCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.53,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-10-03",
+      "track": 43,
+      "frame": 21,
+      "pass": "ASCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.52,
+      "maturity": "PROVISIONAL"
+    },
+    {
+      "date": "2026-09-21",
+      "track": 51,
+      "frame": 69,
+      "pass": "DESCENDING",
+      "sizeKnown": true,
+      "sizeGB": 1.54,
+      "maturity": "PROVISIONAL"
+    }
+  ],
+  "compatibleMetadataPairsUnderSizeCap": 37,
+  "frames": [
+    "T051_F069_D"
+  ]
+}

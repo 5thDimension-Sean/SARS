@@ -25,6 +25,7 @@ SITES = {
     "amazon-mamiraua": (-65.02, -3.30, -64.75, -3.08),
     "amazon-manaus": (-60.15, -3.26, -59.87, -3.04),
     "amazon-santarem": (-54.91, -2.60, -54.63, -2.39),
+    "etna-event": (14.95, 37.68, 15.08, 37.82),
 }
 AOI = SITES["cameron"]
 MAX_PER_PRODUCT_BYTES = 2_800_000_000
@@ -44,7 +45,7 @@ def main() -> int:
         "roiWgs84": list(aoi),
         "source": "NASA NISAR L2 GCOV via ASF DAAC",
         "status": "DISCOVERY_REQUIRED",
-        "interpretation": "Exploratory radar-backscatter change, NOT measured shoreline erosion",
+        "interpretation": "Exploratory radar-backscatter change, not a validated event impact or physical cause",
         "selected": [],
     }
     report_file = args.out / "discovery.json"
@@ -128,10 +129,19 @@ def main() -> int:
 
         # Prioritize a real before/after acquisition around the documented
         # 23–27 September 2026 Outer Banks nor'easter when available.
+        event_pairs = [opt for opt in options
+                       if args.site == "etna-event"
+                       and opt[2][0] == "2026-07-23" and opt[3][0] == "2026-08-16"
+                       and opt[4][0] == "51" and opt[4][1] == "69"
+                       and opt[4][2] == "DESCENDING"]
+        if args.site == "etna-event" and not event_pairs:
+            report["status"] = "NO_EVENT_SPANNING_COMPATIBLE_PAIR"
+            report["reason"] = "The catalog search did not confirm the exact July 23 and August 16 Etna pair. No substituted dates."
+            return 0
         storm_pairs = [opt for opt in options
                        if args.site == "rodanthe" and
                        opt[2][0] == "2026-09-17" and opt[3][0] == "2026-09-29"]
-        _, _, a, b, key = min(storm_pairs or options, key=lambda x: (x[0], x[1]))
+        _, _, a, b, key = min(event_pairs or storm_pairs or options, key=lambda x: (x[0], x[1]))
         pair = (a, b)
         report["selected"] = [
             {"date": x[0],

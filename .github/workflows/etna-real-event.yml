@@ -1,0 +1,37 @@
+name: Process actual Etna NISAR event-spanning scenes
+
+on:
+  push:
+    branches:
+      - feat/etna-real-research-evidence
+    paths:
+      - .github/workflows/etna-real-event.yml
+
+permissions:
+  contents: read
+
+jobs:
+  science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install scientific pipeline
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Download and validate exact same-track Etna pair
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: python -m pipeline.coastal_pair_action --mode process --site etna-event --out pipeline/etna-review
+      - name: Archive only numerical and image derivatives
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: etna-real-gcov-review
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            pipeline/etna-review/discovery.json
+            pipeline/etna-review/processed/**

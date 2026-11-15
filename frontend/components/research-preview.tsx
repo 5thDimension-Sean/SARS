@@ -101,6 +101,7 @@ function StudyDetail({ study }: { study: ResearchStudy }) {
     </div>
     <p className={styles.period}>{study.period}</p>
     <p className={styles.story}>{study.story}</p>
+    {study.id === "etna" && <p><Link href="/etna-investigation">View TANGO’s newly processed, genuine NISAR HH/HV histograms, difference maps and three measured regions →</Link></p>}
     <ResearchLocationEvidenceStory study={study} />
     <Gallery study={study} />
     <div className={styles.evidenceGrid}>

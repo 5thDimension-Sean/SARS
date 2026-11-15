@@ -1,0 +1,75 @@
+name: Publish real Etna NISAR numerical investigation
+
+on:
+  push:
+    branches:
+      - feat/etna-real-research-evidence
+    paths:
+      - .github/workflows/publish-etna-science.yml
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install scientific requirements
+        run: 'python -m pip install --only-binary=:all: -r pipeline/requirements.txt'
+      - name: Retrieve original processed Etna NISAR science products
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/etna-source"
+          gh run download 43737383061 --repo "$GITHUB_REPOSITORY" --name etna-real-gcov-review --dir "$RUNNER_TEMP/etna-source"
+          python - "$RUNNER_TEMP/etna-source" <<'PY'
+          from pathlib import Path
+          import json, sys
+          root=Path(sys.argv[1])
+          d=json.loads((root/"discovery.json").read_text())
+          m=json.loads((root/"processed/manifest.json").read_text())
+          assert d["status"]=="EXPLORATORY_PROCESSED_NOT_QA_CLEARED"
+          assert [v["date"] for v in d["selected"]]==["2026-07-23","2026-08-16"]
+          assert len(m["frames"])==1 and m["frames"][0]["id"]=="T051_F069_D"
+          assert [a["date"][:10] for a in m["frames"][0]["acquisitions"]]==["2026-07-23","2026-08-16"]
+          assert len(m["frames"][0]["changeLayers"])==3
+          assert not m["frames"][0]["mixedVersions"]
+          PY
+      - name: Generate whole-scene and local Etna evidence
+        run: |
+          set -euo pipefail
+          mkdir -p frontend/public/data/etna-processed
+          cp -R "$RUNNER_TEMP/etna-source/processed/." frontend/public/data/etna-processed/
+          cp "$RUNNER_TEMP/etna-source/discovery.json" frontend/public/data/etna-processed/discovery.json
+          python -m pipeline.generate_unified_evidence --site etna-event
+          test ! -e frontend/public/data/etna-processed/raw
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          d=Path("frontend/public/data")
+          e=json.loads((d/"etna-event-evidence/evidence.json").read_text())
+          r=json.loads((d/"etna-event-regions/regions.json").read_text())
+          assert len(e["polarizations"]["HH"]["histogramBins"])==48
+          assert len(r["regions"])==3
+          assert r["pairedHHAndHVPixels"]>1000
+          PY
+      - name: Commit authentic Etna scientific derivatives only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add frontend/public/data/etna-processed frontend/public/data/etna-event-evidence frontend/public/data/etna-event-regions frontend/public/data/etna-event-preview
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish real Etna HH HV numerical radar evidence"
+            git pull --rebase origin feat/etna-real-research-evidence
+            git push origin HEAD:feat/etna-real-research-evidence
+          fi

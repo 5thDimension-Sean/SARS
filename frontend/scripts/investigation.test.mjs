@@ -14,7 +14,7 @@ const load = (s) => ({
   regions: parseRegions(read(`${s.regionsDir}/regions.json`), read(`${s.regionsDir}/regions.geojson`), s),
 });
 const FULL_EVIDENCE_STUDIES = STUDIES.filter(
-  (s) => ["everglades", "louisiana", "california", "hawaii", "rodanthe", "amazon"].includes(s.id)
+  (s) => ["everglades", "louisiana", "california", "hawaii", "rodanthe", "amazon", "etna"].includes(s.id)
 );
 
 const EXPLORATORY_STUDIES = [
@@ -105,7 +105,7 @@ for (const expected of EXPLORATORY_STUDIES) {
 }
 
 test("published evidence and regions validate for both studies", () => {
-  assert.deepEqual(FULL_EVIDENCE_STUDIES.map((s) => s.id), ["everglades", "louisiana", "california", "hawaii", "rodanthe", "amazon"]);
+  assert.deepEqual(FULL_EVIDENCE_STUDIES.map((s) => s.id), ["everglades", "louisiana", "california", "hawaii", "rodanthe", "amazon", "etna"]);
   for (const s of FULL_EVIDENCE_STUDIES) {
     const { evidence, regions } = load(s);
     assert.equal(regions.regions.length, 3);
