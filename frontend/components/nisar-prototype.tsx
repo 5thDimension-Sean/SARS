@@ -79,7 +79,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   const [resetSignal] = useState(0);
   const [changedOnly, setChangedOnly] = useState(true);
   const [showChanges, setShowChanges] = useState(true);
-  const [strength, setStrength] = useState(0.6);
+  const [strength, setStrength] = useState(0.3);
   const [problem, setProblem] = useState("");
   const [afterMap, setAfterMap] = useState<MapLibreMap | null>(null);
   const [processedLabel, setProcessedLabel] = useState("");
@@ -145,7 +145,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
               { id: "swipe", text: "Swipe", disabled: !preview }, { id: "side", text: "Side by side", disabled: !preview }, { id: "difference", text: "Difference" }]} />
             {effectiveMode === "difference" && <Seg label="Pixels" value={changedOnly ? "changed" : "all"} onChange={(v) => setChangedOnly(v === "changed")} options={[{ id: "changed", text: "Changed pixels" }, { id: "all", text: "All pixels" }]} />}
             {effectiveMode !== "difference" && <label className={styles.check}><input type="checkbox" checked={showChanges} onChange={(e) => setShowChanges(e.target.checked)} /> Show changes</label>}
-            {((effectiveMode === "difference" && changedOnly) || (effectiveMode !== "difference" && showChanges)) && <label className={styles.check}>Faint<input type="range" min={0.3} max={0.9} step={0.05} value={strength} aria-label="Hide differences weaker than this color strength" onChange={(e) => setStrength(Number(e.target.value))} />Strong</label>}
+            {((effectiveMode === "difference" && changedOnly) || (effectiveMode !== "difference" && showChanges)) && <label className={styles.check}>Faint<input type="range" min={0} max={0.9} step={0.05} value={strength} aria-label="Hide differences weaker than this color strength" onChange={(e) => setStrength(Number(e.target.value))} />Strong</label>}
             {study.gibsContext && <label className={styles.check}><input type="checkbox" checked={gibsReady && gibsVisible} disabled={!gibsReady} onChange={(e) => setGibsVisible(e.target.checked)} /> Wider NASA GIBS context</label>}
           </div>
           {problem && <p role="alert" className={`${styles.notice} ${styles.error}`} style={{ marginBottom: 12 }}>{problem}</p>}
