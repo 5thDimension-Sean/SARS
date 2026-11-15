@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- private Blob URLs cannot use Next image optimization; preserve measured PNG pixels */
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from "react";
@@ -142,7 +143,7 @@ export default function CoordinateExplorer() {
           <p className={styles.lead}>Start anywhere on Earth. Select one of ten starting points or enter your own latitude and longitude. TANGO finds comparable real NISAR acquisitions automatically, then generates an Everglades-style radar investigation.</p></header>
 
         <h2 style={{ marginTop: 36, fontSize: "1.5rem" }}>Ten starting locations</h2>
-        <p className={styles.muted}>These are coordinate shortcuts, not guarantees of satellite coverage. The backend checks NASA's actual catalog.</p>
+        <p className={styles.muted}>These are coordinate shortcuts, not guarantees of satellite coverage. The backend checks NASA&apos;s actual catalog.</p>
         <div role="group" aria-label="Ten geographic starting locations" style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 16 }}>
           {STARTERS.map((place, i) => <button type="button" key={place.name} style={buttonStyle}
             disabled={busy} onClick={() => { setLat(String(place.latitude)); setLon(String(place.longitude)); setResult(null); setSessionId(""); setStatus("idle"); setMessage(""); }}>
