@@ -10,6 +10,7 @@ import {
 import styles from "./research-preview.module.css";
 import { ResearchLocationEvidenceStory } from "./location-evidence-story";
 import { ResearchEvidencePathway } from "./evidence-pathway";
+import { ResearchDataAnalysis } from "./research-data-analysis";
 
 const subscribe = (notify: () => void) => {
   window.addEventListener("hashchange", notify);
@@ -106,6 +107,7 @@ function StudyDetail({ study }: { study: ResearchStudy }) {
     <ResearchEvidencePathway study={study} />
     <ResearchLocationEvidenceStory study={study} />
     <Gallery study={study} />
+    <ResearchDataAnalysis study={study} />
     <div className={styles.evidenceGrid}>
       <section className={styles.qa} id="research-qa" aria-labelledby="research-qa-title">
         <span className={styles.small}>Scientific review</span><h3 id="research-qa-title">Blocked · exploratory</h3>
