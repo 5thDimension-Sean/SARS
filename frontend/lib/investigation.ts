@@ -195,7 +195,7 @@ export function parseRegions(meta: unknown, geo: unknown, study: StudyConfig): R
   const dates = meta.dates, granules = meta.sourceGranules;
   if (!Array.isArray(dates) || dates.join() !== study.dates.join() || !Array.isArray(granules) || granules.join() !== study.granules.join()) throw new Error("Region dates do not match study");
   const crs = str(meta.crs, "crs");
-  if (crs !== (study.utmZone < 0 ? `EPSG:327${Math.abs(study.utmZone)}` : `EPSG:326${study.utmZone}`)) throw new Error("Unexpected region CRS");
+  if (crs !== (study.utmZone < 0 ? `EPSG:327${String(Math.abs(study.utmZone)).padStart(2,"0")}` : `EPSG:326${String(study.utmZone).padStart(2,"0")}`)) throw new Error("Unexpected region CRS");
   const pair = (v: unknown, what: string): Pair<number> => {
     if (!Array.isArray(v) || v.length !== 2) throw new Error(`Invalid ${what}`);
     return [num(v[0], what), num(v[1], what)];
