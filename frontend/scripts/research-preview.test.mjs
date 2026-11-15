@@ -19,7 +19,7 @@ test("research extension contains all nine locations and switches Hubbard to the
   assert.deepEqual(study("mozambique").observationDates, ["2026-01-05", "2026-01-17"]);
   assert.equal(study("kamchatka").gallery, "sequence");
   assert.ok(study("kamchatka").video.src.endsWith("nisar_volcano_annotated.mp4"));
-  assert.equal(RESEARCH_STUDIES.some(s => STUDIES.some(old => old.id === s.id)), false);
+  assert.deepEqual(RESEARCH_STUDIES.filter(s => STUDIES.some(verified => verified.id === s.id)).map(s => s.id), ["etna"], "Etna alone is newly promoted from publisher-only research to independently processed real-data study");
 });
 
 test("candidates and mixed-sensor or single-scene sources never imply measured NISAR temporal pairs", () => {
