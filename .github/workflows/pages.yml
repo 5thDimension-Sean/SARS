@@ -3,7 +3,7 @@ name: Test and deploy to GitHub Pages
 on:
   pull_request:
   push:
-    branches: [main, feat/nisar-hackathon-ready]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -39,9 +39,6 @@ jobs:
           test -f out/nisar-prototype.html
           test -f out/data/everglades-evidence/evidence.json
           test -f out/data/louisiana-regions/regions.json
-          test -f out/etna-investigation.html
-          test -f out/data/hawaii-full-evidence/evidence.json
-          test -f out/data/etna-event-evidence/evidence.json
           test -f out/cesium/Cesium.js
           test -f out/cesium/Assets/Textures/NaturalEarthII/tilemapresource.xml
       - uses: actions/upload-pages-artifact@v3
@@ -57,7 +54,7 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: hackathon-pages
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
