@@ -262,21 +262,16 @@ def status(job_id: str, authorization: str | None = Header(default=None)):
                 **({"result": job.data} if job.status in ("ready", "unavailable") else {})}
 
 
-@app.get("/v1/jobs/{job_id}/image/{filename}")
-def image(job_id: str, filename: str, authorization: str | None = Header(default=None)):
+@app.get("/v1/jobs/{job_id}/image/{asset_path:path}")
+def image(job_id: str, asset_path: str, authorization: str | None = Header(default=None)):
     job = get_job(job_id, authorization)
-    if job.status != "ready" or not filename.endswith(".png"):
+    if job.status != "ready" or not job.data:
         raise HTTPException(404, "Image unavailable")
-    # Only PNGs named by the verified published manifest are accessible.
-    manifest = job.data["manifest"] if job.data else {}
-    allowed: set[str] = set()
-    for frame in manifest.get("frames", []):
-        allowed.update(str(a.get("overlays", {}).get(p, "")) for a in frame.get("acquisitions", []) for p in ("HH", "HV"))
-        allowed.update(str(x.get("url", "")) for x in frame.get("changeLayers", []))
-    if filename not in allowed or "/" in filename or "\\" in filename:
+    allowed = {path for images in job.data["images"].values() for path in images.values()}
+    if asset_path not in allowed:
         raise HTTPException(404, "Image unavailable")
-    path = job.directory / "results" / filename
-    if not path.is_file():
+    path = (job.directory / asset_path).resolve()
+    if not path.is_relative_to(job.directory) or not path.is_file():
         raise HTTPException(404, "Image unavailable")
     return FileResponse(path, media_type="image/png", headers={"Cache-Control": "private, no-store"})
 
