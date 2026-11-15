@@ -45,7 +45,7 @@ export const STUDIES: readonly StudyConfig[] = [
     utmZone: 10, center: [-121.42, 35.9] },
   { id: "hawaii", label: "Kīlauea, Hawaiʻi", short: "Hawaii", contextDir: null, place: "Hawaiʻi Kīlauea summit area", evidenceDir: "hawaii-full-evidence",
     regionsDir: "hawaii-full-regions", previewDir: "hawaii-full-preview", gibsContext: false, differenceInPreviewCrs: true,
-    dates: ["2026-09-04", "2026-09-16"], granules: ["G4300303633-ASF", "G4315672426-ASF"],
+    dates: ["2026-09-04", "2026-09-16"], granules: ["NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001","NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001"],
     utmZone: 5, center: [-155.27, 19.41] },
   { id: "iowa", label: "Ames, Iowa — mixed land cover", short: "Iowa", contextDir: null, place: "Ames, Iowa — mixed land cover", evidenceDir: "iowa-review",
     regionsDir: "iowa-review", previewDir: "iowa-preview", gibsContext: false,
