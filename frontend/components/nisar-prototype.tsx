@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import { ProcessedOverlayPanel } from "./processed-overlay-panel";
-import { HawaiiStudy } from "./hawaii-study";
-import { IowaStudy } from "./iowa-study";
+import { SiteFooter } from "./site-footer";
+import { NativeStudy } from "./native-study";
 import dynamic from "next/dynamic";
 import type { InvestigationMap, ViewMode } from "./investigation/investigation-map";
 import { RadarHero, Reveal, ConnectionStatus } from "./investigation/radar-hero";
@@ -24,7 +24,6 @@ import { Histogram } from "./investigation/histogram";
 import styles from "./investigation/investigation.module.css";
 import { verifyBrowsePair } from "@/lib/nisar-browse";
 import { usePolarization, useStudyId } from "@/lib/view-store";
-import { FAQ, searchFaq } from "@/lib/faq";
 import {
   POLS, QA_LABEL, STUDIES, dataUrl, describeRegion, describeStudyShift, fmtDate, fmtDb, fmtInt, fmtSignedDb,
   parseContext, parseEvidence, parsePreview, parseRegions, qaLabel, qaState,
@@ -55,8 +54,8 @@ export function NisarPrototype() {
   return <main className={styles.page}>
     <a className="skip-link" href="#look">Skip to the radar</a>
     <div className={styles.wrap}><ConnectionStatus /><RadarHero study={study} pol={pol} /><Primer /></div>
-    <div className={styles.wrap}><div key={study.id} className={styles.enter}>{study.id === "hawaii" ? <HawaiiStudy pol={pol} /> : study.id === "iowa" ? <IowaStudy pol={pol} /> : <Workbench study={study} pol={pol} />}</div></div>
-    <footer className={styles.footer}><span>Dancing with SARs · NASA Space Apps · Observe carefully. Interpret cautiously.</span><span>AI assistance was used for interface design and code. The published radar measurements were preserved.</span></footer>
+    <div className={styles.wrap}><div key={study.id} className={styles.enter}>{study.id === "hawaii" || study.id === "iowa" ? <NativeStudy id={study.id} pol={pol} /> : <Workbench study={study} pol={pol} />}</div></div>
+    <div className={styles.wrap}><SiteFooter /></div>
   </main>;
 }
 
@@ -77,8 +76,9 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   const [mode, setMode] = useState<ViewMode>("swipe");
   const [selected, setSelected] = useState("all");
   const [resetSignal] = useState(0);
-  const [changedOnly, setChangedOnly] = useState(false);
-  const [strength, setStrength] = useState(0.35);
+  const [changedOnly, setChangedOnly] = useState(true);
+  const [showChanges, setShowChanges] = useState(true);
+  const [strength, setStrength] = useState(0.6);
   const [problem, setProblem] = useState("");
   const [afterMap, setAfterMap] = useState<MapLibreMap | null>(null);
   const [processedLabel, setProcessedLabel] = useState("");
@@ -142,14 +142,15 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
           <div className={styles.viewTools}>
             <Seg label="View" value={effectiveMode} onChange={setMode} options={[
               { id: "swipe", text: "Swipe", disabled: !preview }, { id: "side", text: "Side by side", disabled: !preview }, { id: "difference", text: "Difference" }]} />
-            {effectiveMode === "difference" && <Seg label="Pixels" value={changedOnly ? "changed" : "all"} onChange={(v) => setChangedOnly(v === "changed")} options={[{ id: "all", text: "All pixels" }, { id: "changed", text: "Changed pixels" }]} />}
-            {effectiveMode === "difference" && changedOnly && <label className={styles.check}>Faint<input type="range" min={0.1} max={0.9} step={0.05} value={strength} aria-label="Hide differences weaker than this color strength" onChange={(e) => setStrength(Number(e.target.value))} />Strong</label>}
+            {effectiveMode === "difference" && <Seg label="Pixels" value={changedOnly ? "changed" : "all"} onChange={(v) => setChangedOnly(v === "changed")} options={[{ id: "changed", text: "Changed pixels" }, { id: "all", text: "All pixels" }]} />}
+            {effectiveMode !== "difference" && <label className={styles.check}><input type="checkbox" checked={showChanges} onChange={(e) => setShowChanges(e.target.checked)} /> Show changes</label>}
+            {((effectiveMode === "difference" && changedOnly) || (effectiveMode !== "difference" && showChanges)) && <label className={styles.check}>Faint<input type="range" min={0.3} max={0.9} step={0.05} value={strength} aria-label="Hide differences weaker than this color strength" onChange={(e) => setStrength(Number(e.target.value))} />Strong</label>}
             {study.gibsContext && <label className={styles.check}><input type="checkbox" checked={gibsReady && gibsVisible} disabled={!gibsReady} onChange={(e) => setGibsVisible(e.target.checked)} /> Wider NASA GIBS context</label>}
           </div>
           {problem && <p role="alert" className={`${styles.notice} ${styles.error}`} style={{ marginBottom: 12 }}>{problem}</p>}
           <MapGate study={study} regions={regions} preview={preview} pol={pol} mode={effectiveMode} selectedId={selected} onSelect={setSelected}
-            gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} changeOnly={effectiveMode === "difference" && changedOnly ? strength : 0} />
-          <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} changedOnly={changedOnly} />
+            gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} changeOnly={(effectiveMode === "difference" && changedOnly) || (effectiveMode !== "difference" && showChanges) ? strength : 0} showChanges={showChanges} />
+          <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} changedOnly={changedOnly} showChanges={showChanges} />
           <p className={`${styles.small} ${styles.muted}`} style={{ marginTop: 10 }}>Pixels are drawn as published (nearest-neighbour; no smoothing, sharpening or enhancement); one pixel is about 10 m. {gibsNote}</p>
         </div>
         <aside className={styles.inspector} aria-labelledby="h-region">
@@ -202,8 +203,6 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
 
     <TrustSection study={study} evidence={evidence} regions={regions} preview={preview} />
 
-    <Faq />
-
     <details className={styles.more} style={{ marginTop: 48 }}>
       <summary>Processed GCOV products (advanced)</summary>
       <div className={styles.products}><ProcessedOverlayPanel map={afterMap} onDisplay={setProcessedLabel} />{processedLabel && <p role="status">Showing: {processedLabel}</p>}</div>
@@ -211,7 +210,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
   </>;
 }
 
-function Legend({ mode, pol, preview, regions, changedOnly }: { mode: ViewMode; pol: Pol; preview: PreviewSet | null; regions: RegionSet; changedOnly: boolean }) {
+function Legend({ mode, pol, preview, regions, changedOnly, showChanges }: { mode: ViewMode; pol: Pol; preview: PreviewSet | null; regions: RegionSet; changedOnly: boolean; showChanges: boolean }) {
   if (mode === "difference") {
     const [lo, hi] = regions.limitsDb;
     // This ramp reproduces the colours encoded in the published difference PNGs, so it is data, not decoration.
@@ -221,7 +220,7 @@ function Legend({ mode, pol, preview, regions, changedOnly }: { mode: ViewMode; 
   }
   const range = preview?.acquisitions[0].images[pol].displayRangeDb;
   if (!range) return null;
-  return <div className={styles.legend}><div>{pol} backscatter, gamma-0. Same display scale on both dates.</div>
+  return <div className={styles.legend}><div>{pol} backscatter, gamma-0. Same display scale on both dates.{showChanges && " Colored areas group neighboring pixels whose color changed most between the dates: red where the later date is brighter, blue where it is darker. Unchanged ground is left uncolored. This is a display filter, not a detection, and it names no cause."}</div>
     <div className={styles.ramp} style={{ background: "linear-gradient(90deg,#000,#fff)" }} role="img" aria-label={`Black is ${range[0]} dB, white is ${range[1]} dB`} />
     <div className={styles.rampLabels}><span>{fmtDb(range[0], 0)} · weak return</span><span>{fmtDb(range[1], 0)} · strong return</span></div></div>;
 }
@@ -289,17 +288,5 @@ function TrustSection({ study, evidence, regions, preview }: { study: StudyConfi
         <p className={styles.small}><a href="https://hyp3-docs.asf.alaska.edu/nisar-docs/worldview/" rel="noopener noreferrer">ASF imagery guide</a> · <a href="https://nisar-docs.asf.alaska.edu/provisional-known-issues/" rel="noopener noreferrer">Provisional-data limitations</a> · <a href="https://nasa-gibs.github.io/gibs-api-docs/" rel="noopener noreferrer">NASA GIBS</a></p>
       </div>
     </div>
-  </section>;
-}
-
-function Faq() {
-  const [query, setQuery] = useState("");
-  const results = searchFaq(query);
-  return <section className={styles.section} id="faq" aria-labelledby="h-faq">
-    <header><h2 id="h-faq">Questions</h2><p className={styles.lead}>Type a few words, such as “HV”, “flood” or “data”. Answers are written in advance; nothing is generated.</p></header>
-    <input className={styles.search} type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the answers" aria-label="Search the answers" />
-    <p className={styles.small} role="status" aria-live="polite" style={{ margin: "10px 0" }}>{query.trim() ? `${results.length} of ${FAQ.length} answers` : ""}</p>
-    {results.length === 0 ? <p className={styles.notice}>No answer matches “{query.trim()}”. Try words like HH, dB, region, flood, data or upload.</p>
-      : <div className={styles.faq}>{results.map((f) => <details key={f.id} open={!!query.trim() && results[0]?.id === f.id}><summary>{f.question}</summary><p>{f.answer}</p></details>)}</div>}
   </section>;
 }

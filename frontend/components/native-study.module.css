@@ -1,0 +1,46 @@
+/* Review studies on the native radar grid (Kīlauea, Ames). Same visual language as the rest of the investigation pages. */
+.root { padding: clamp(32px, 6vw, 72px) 0 clamp(24px, 4vw, 48px); color: var(--label); }
+.root h2 { margin: 0 0 12px; font-size: clamp(2rem, 4.4vw, 3.5rem); font-weight: 700; letter-spacing: -.05em; line-height: 1.02; }
+.lead { max-width: 74ch; color: var(--label2); font-size: 1.0625rem; line-height: 1.6; margin: 0; }
+.tools { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin: 28px 0 14px; }
+.seg { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--elev1); }
+.seg button { min-height: 34px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; color: var(--label2); font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer; transition: background .25s, color .25s; }
+.seg button[aria-pressed="true"] { background: var(--fill); color: var(--on-fill); }
+.seg button:disabled { opacity: .45; cursor: default; }
+.check { display: inline-flex; align-items: center; gap: 8px; color: var(--label2); font-size: .8125rem; }
+.check input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--fill); }
+.check input[type="range"] { width: 130px; accent-color: var(--fill); }
+.action { min-height: 34px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--label); font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer; }
+.action:disabled { opacity: .45; cursor: default; }
+.seg button:focus-visible, .action:focus-visible, .divider:focus-visible, .check input:focus-visible, .more summary:focus-visible { outline: 2px solid var(--label); outline-offset: 3px; }
+
+.panel { border: 1px solid var(--line); border-radius: 22px; background: var(--elev1); padding: clamp(10px, 2vw, 18px); }
+.frame { position: relative; margin: 0 auto; width: min(100%, 720px); max-height: 74vh; overflow: hidden; border-radius: 14px; background: #000; touch-action: pan-y; user-select: none; }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; image-rendering: pixelated; object-fit: fill; }
+.layer { position: absolute; inset: 0; }
+.overlay { image-rendering: auto !important; mix-blend-mode: normal; pointer-events: none; transition: opacity .35s; }
+.divider { position: absolute; top: 0; bottom: 0; width: 44px; margin-left: -22px; display: grid; place-items: center; cursor: ew-resize; touch-action: none; }
+.divider::before { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; background: #1d9bf0; box-shadow: 0 0 0 1px #ffffffaa; }
+.divider span { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #fff; color: #111; font-weight: 700; box-shadow: 0 2px 10px #0008; }
+.tag { position: absolute; bottom: 12px; padding: 7px 12px; border-radius: 8px; background: #f2f0ecee; color: #141414; font-size: .8125rem; font-weight: 700; pointer-events: none; }
+.tagL { left: 12px; } .tagR { right: 12px; }
+.sidePair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.sidePair figure { margin: 0; }
+.sidePair figcaption { padding: 0 0 8px; color: var(--label2); font-size: .8125rem; font-weight: 600; }
+.sidePair .frame { width: 100%; }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin: 14px 4px 0; color: var(--label2); font-size: .8125rem; }
+.legend i { display: inline-block; width: 14px; height: 14px; margin-right: 6px; border-radius: 4px; vertical-align: -2px; }
+.note { margin: 12px 4px 0; color: var(--label3); font-size: .8125rem; line-height: 1.5; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 28px 0; }
+.stat { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--elev1); }
+.stat div { color: var(--label3); font-size: .8125rem; }
+.stat strong { display: block; margin-top: 6px; font-size: 1.5rem; letter-spacing: -.03em; }
+.trust { padding-top: 28px; border-top: 1px solid var(--line); }
+.trust h3 { font-size: 1.5rem; margin: 0 0 12px; letter-spacing: -.03em; }
+.trust p { max-width: 80ch; color: var(--label2); line-height: 1.6; }
+.status { color: #e9c9a0 !important; }
+.more { margin-top: 16px; }
+.more summary { cursor: pointer; font-weight: 600; }
+.more div { margin-top: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--elev1); overflow-wrap: anywhere; }
+.more p { margin: 0 0 8px; }
+@media (prefers-reduced-motion: reduce) { .overlay, .seg button { transition: none; } }

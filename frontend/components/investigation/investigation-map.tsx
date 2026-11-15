@@ -7,7 +7,7 @@ import {
   cornersBounds, dataUrl, fmtDate, padBounds, rasterCorners, ringBounds,
   type Bounds, type LonLat, type Pol, type PreviewSet, type RegionSet, type StudyConfig, POLS,
 } from "@/lib/investigation";
-import { filteredDifferenceUrl } from "@/lib/change-filter";
+import { blendedChangeUrl } from "@/lib/change-filter";
 import { containView, viewBounds } from "@/lib/map-limits";
 import { prefersReducedMotion } from "@/lib/prefs";
 import { ATTRIBUTION, STUDY_BOUNDS, tileUrl, type BrowseDate } from "@/lib/nisar-browse";
@@ -30,6 +30,8 @@ interface Props {
   resetSignal: number;
   /** 0 shows every pixel; otherwise the colour-strength threshold (0.1 to 0.9) below which difference pixels are hidden. Display only. */
   changeOnly?: number;
+  /** Overlay the blended change areas on the after-date radar (swipe and side-by-side views). Display only. */
+  showChanges?: boolean;
 }
 
 /**
@@ -37,7 +39,7 @@ interface Props {
  * geographic grid. Layout (swipe curtain, side by side, or single difference map) is pure CSS, so toggling
  * modes never reloads or resamples data. The raster layers use nearest-neighbour sampling: no smoothing.
  */
-export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal, changeOnly = 0 }: Props) {
+export function InvestigationMap({ study, regions, preview, pol, mode, selectedId, onSelect, gibsReady, gibsVisible, onGibsFail, onProblem, onAfterMap, resetSignal, changeOnly = 0, showChanges = false }: Props) {
   const beforeEl = useRef<HTMLDivElement>(null);
   const afterEl = useRef<HTMLDivElement>(null);
   const [handles, setHandles] = useState<Handles | null>(null);
@@ -146,6 +148,12 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
                 m.addSource(id, { type: "image", url: imageUrl(study.regionsDir, `${pol}_difference_exploratory.png`), coordinates: corners });
                 m.addLayer({ id, type: "raster", source: id, layout: { visibility: "none" }, paint: { "raster-resampling": "nearest", "raster-fade-duration": 0 } });
               }
+              // Blended change areas sit above the radar. They start hidden and are filled in once the blend has been computed.
+              for (const pol of POLS) {
+                const id = `chg-${pol}`;
+                m.addSource(id, { type: "image", url: imageUrl(study.regionsDir, `${pol}_difference_exploratory.png`), coordinates: corners });
+                m.addLayer({ id, type: "raster", source: id, layout: { visibility: "none" }, paint: { "raster-resampling": "linear", "raster-opacity": 0, "raster-fade-duration": 0 } });
+              }
             }
             m.addSource("regions", { type: "geojson", data: regionData });
             m.addLayer({ id: "region-fill", type: "fill", source: "regions", paint: { "fill-color": "#ffffff", "fill-opacity": 0 } });
@@ -195,35 +203,45 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
         };
         show(`sci-${p}`, mode !== "difference" && p === pol);
         show(`diff-${p}`, which === 1 && mode === "difference" && p === pol);
+        show(`chg-${p}`, which === 1 && mode !== "difference" && showChanges && p === pol);
       }
     });
-  }, [eachMap, pol, mode]);
+  }, [eachMap, pol, mode, showChanges]);
 
   useEffect(() => { eachMap(constrain); }, [eachMap, constrain, relaxed]);
 
-  // ---- "changed pixels only": hide faint difference colours (display filter; filtered pictures are cached per setting)
+  // ---- blended change areas: the published difference picture, grouped into soft-edged areas (display only; cached per setting)
   const filtered = useRef(new Map<string, string>());
   useEffect(() => () => { filtered.current.forEach((u) => URL.revokeObjectURL(u)); filtered.current.clear(); }, [study.id]);
+  const overlayStrength = changeOnly || 0.6;
   useEffect(() => {
     if (!handles) return;
     const m = handles.after, corners = rasterCorners(regions, study.utmZone);
+    const wantOverlay = showChanges && mode !== "difference", wantFiltered = mode === "difference" && changeOnly > 0;
+    if (!wantOverlay && !wantFiltered) {
+      for (const p of POLS) {
+        (m.getSource(`diff-${p}`) as ImageSource | undefined)?.updateImage({ url: dataUrl(`${study.regionsDir}/${p}_difference_exploratory.png`), coordinates: corners });
+        if (m.getLayer(`diff-${p}`)) m.setPaintProperty(`diff-${p}`, "raster-resampling", "nearest");
+      }
+      return;
+    }
     let cancelled = false;
     const timer = window.setTimeout(() => {
       void (async () => {
         for (const p of POLS) {
-          const source = m.getSource(`diff-${p}`) as ImageSource | undefined;
+          const target = wantOverlay ? `chg-${p}` : `diff-${p}`;
+          const source = m.getSource(target) as ImageSource | undefined;
           if (!source) continue;
-          const original = dataUrl(`${study.regionsDir}/${p}_difference_exploratory.png`);
-          if (!changeOnly) { source.updateImage({ url: original, coordinates: corners }); continue; }
-          const key = `${p}:${changeOnly}`;
+          const key = `${p}:${overlayStrength}`;
           let url = filtered.current.get(key);
-          if (!url) { url = await filteredDifferenceUrl(original, changeOnly); if (cancelled) { URL.revokeObjectURL(url); return; } filtered.current.set(key, url); }
+          if (!url) { url = await blendedChangeUrl(dataUrl(`${study.regionsDir}/${p}_difference_exploratory.png`), { threshold: overlayStrength, radius: 2 }); if (cancelled) { URL.revokeObjectURL(url); return; } filtered.current.set(key, url); }
           source.updateImage({ url, coordinates: corners });
+          if (!wantOverlay && m.getLayer(target)) m.setPaintProperty(target, "raster-resampling", "linear");
         }
-      })().catch(() => callbacks.current.onProblem("The changed-pixels filter could not run. The unfiltered difference map is unaffected."));
+      })().catch(() => callbacks.current.onProblem("The changed-pixels layer could not be drawn. The radar itself is unaffected."));
     }, 120);
     return () => { cancelled = true; window.clearTimeout(timer); };
-  }, [handles, changeOnly, regions, study.regionsDir, study.utmZone]);
+  }, [handles, changeOnly, overlayStrength, showChanges, mode, regions, study.regionsDir, study.utmZone]);
 
   // ---- NASA GIBS browse mosaic: context only, below the measured rasters, added only after the pair was verified
   useEffect(() => {

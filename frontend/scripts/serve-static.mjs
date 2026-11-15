@@ -49,5 +49,5 @@ const server = createServer(async (req, res) => {
   }
 });
 server.listen(port, "127.0.0.1", () =>
-  console.log(`Dancing with SARs static preview: http://127.0.0.1:${port}/`),
+  console.log(`Tango static preview: http://127.0.0.1:${port}/`),
 );

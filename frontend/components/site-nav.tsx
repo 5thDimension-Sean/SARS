@@ -2,15 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { POLS, STUDIES } from "@/lib/investigation";
+import { PLACES } from "@/lib/places";
 import { SettingsMenu } from "./settings-menu";
 import { chooseStudy, setPolarization, usePolarization, useStudyId } from "@/lib/view-store";
 import styles from "./site-nav.module.css";
 
 const ITEMS = [
   { key: "home", label: "Home", href: "/" },
-  ...STUDIES.map((s) => ({ key: s.id, label: s.short, href: `/nisar-prototype#${s.id}` })),
+  { key: "places", label: "Places", href: "" },
+  { key: "upload", label: "Upload", href: "/upload" },
+  { key: "faq", label: "FAQ", href: "/faq" },
 ] as const;
 
 /**
@@ -22,8 +25,15 @@ export function SiteNav() {
   const study = useStudyId();
   const pol = usePolarization();
   const onInvestigation = pathname.startsWith("/nisar-prototype");
-  const activeKey = onInvestigation ? study : pathname === "/" ? "home" : "";
+  const activeKey = onInvestigation || pathname.startsWith("/research-preview") ? "places" : pathname === "/" ? "home" : pathname.startsWith("/upload") ? "upload" : pathname.startsWith("/faq") ? "faq" : "";
+  const [menu, setMenu] = useState(false);
   const bar = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!menu) return;
+    const out = (e: PointerEvent) => { if (!list.current?.contains(e.target as Node)) setMenu(false); };
+    document.addEventListener("pointerdown", out);
+    return () => document.removeEventListener("pointerdown", out);
+  }, [menu]);
   const list = useRef<HTMLDivElement>(null);
   const pill = useRef<HTMLSpanElement>(null);
   const ghost = useRef<HTMLSpanElement>(null);
@@ -66,17 +76,26 @@ export function SiteNav() {
 
   return <header ref={bar} className={styles.bar} data-scrolled="false">
     <nav className={styles.inner} aria-label="Primary">
-      <Link href="/" className={styles.brand}>Dancing with SARs</Link>
+      <div className={styles.brandWrap}>
+        <Link href="/" className={styles.brand}>Tango</Link>
+        <span className={styles.badge} title="Built for the NASA Space Apps Challenge 2026"><b aria-hidden="true">✦</b> Space Apps 2026</span>
+      </div>
       <div ref={list} className={styles.list} onPointerLeave={unhover} onBlur={unhover}>
         <span ref={ghost} className={styles.ghost} aria-hidden="true" />
         <span ref={pill} className={styles.pill} aria-hidden="true" />
         <ul>
           {ITEMS.map((item) => <li key={item.key}>
-            <Link href={item.href} data-key={item.key} className={styles.link} aria-current={activeKey === item.key ? "page" : undefined}
-              onPointerEnter={(e) => hover(e.currentTarget)} onFocus={(e) => hover(e.currentTarget)}
-              onClick={() => { if (item.key !== "home") chooseStudy(item.key as (typeof STUDIES)[number]["id"]); }}>{item.label}</Link>
+            {item.key === "places"
+              ? <button type="button" data-key={item.key} className={styles.link} aria-haspopup="true" aria-expanded={menu} aria-current={activeKey === item.key ? "page" : undefined}
+                  onPointerEnter={(e) => hover(e.currentTarget)} onFocus={(e) => hover(e.currentTarget)} onClick={() => setMenu((v) => !v)}>{item.label}</button>
+              : <Link href={item.href} data-key={item.key} className={styles.link} aria-current={activeKey === item.key ? "page" : undefined}
+                  onPointerEnter={(e) => hover(e.currentTarget)} onFocus={(e) => hover(e.currentTarget)}>{item.label}</Link>}
           </li>)}
         </ul>
+        {menu && <ul className={styles.menu} aria-label="Places" onKeyDown={(e) => { if (e.key === "Escape") setMenu(false); }}>
+          {PLACES.map((p) => <li key={p.id}><Link href={p.href} aria-current={onInvestigation && study === p.id ? "page" : undefined}
+            onClick={() => { setMenu(false); if (p.kind === "study") chooseStudy(p.id as (typeof STUDIES)[number]["id"]); }}><strong>{p.short}</strong><span>{p.kind === "study" ? "Investigation" : "Research"}</span></Link></li>)}
+        </ul>}
       </div>
       <div className={styles.right}>
         {onInvestigation && <div className={styles.pol} role="group" aria-label="Polarization">

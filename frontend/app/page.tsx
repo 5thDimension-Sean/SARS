@@ -1,39 +1,24 @@
 import type { Metadata } from "next";
 import { Dashboard } from "@/components/dashboard/dashboard";
-import { HomeHero } from "@/components/home-hero";
-import { StoryMap } from "@/components/story-map";
+import { GlobeJourney } from "@/components/globe-journey";
 import { ContextLayers } from "@/components/context-layers";
+import { SiteFooter } from "@/components/site-footer";
 import styles from "@/components/investigation/investigation.module.css";
 export const metadata: Metadata = {
-  title: "Dancing with SARs | Earth Observation Console",
-  description:
-    "Explore illustrative wetland, forest, and earthquake surface changes in the Dancing with SARs sample Earth observation dashboard.",
-  openGraph: {
-    title: "Dancing with SARs | Earth Observation Console",
-    description:
-      "Compare acquisitions and explore SAR surface changes with clearly labeled sample data.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-    title: "Dancing with SARs | Earth Observation Console",
-    description:
-      "An interactive Earth observation console with clearly labeled sample data.",
-  },
+  title: "Tango | Our Golden Record, written in radar",
+  description: "Scroll from orbit to places around the world and compare two dates of real NASA NISAR radar. Exploratory, educational, and clearly labeled.",
+  openGraph: { title: "Tango | Our Golden Record, written in radar", description: "Compare two dates of real radar, place by place.", type: "website" },
+  twitter: { card: "summary", title: "Tango | Our Golden Record, written in radar", description: "An educational radar explorer with clearly labeled data." },
 };
 export default function Home() {
   return <>
-    <div className={styles.page} style={{ minHeight: 0, paddingBottom: 0 }}>
-      <div className={styles.wrap}><HomeHero /></div>
-    </div>
-    <StoryMap />
+    <GlobeJourney />
     <ContextLayers />
     <section className="sample-lab" aria-labelledby="sample-lab-title"><div className="sample-lab-heading"><h2 id="sample-lab-title">Learn the tools.<br />Then question the evidence.</h2></div><Dashboard /></section>
     <div className={styles.page} style={{ minHeight: 0, paddingBottom: 0 }}>
-      <footer className={styles.footer} style={{ marginTop: 0, paddingBottom: 32 }}>
-        <span><strong>Disclaimer.</strong> The educational lab above is fictional: its textures, dates, signals and events are illustrative and are not NASA observations. The radar previews inside each investigation are real, exploratory NASA NISAR data that is not cleared for quantitative analysis.</span>
-        <span>Dancing with SARs · NASA Space Apps. AI assistance was used for interface design and code; the published radar measurements were preserved.</span>
-      </footer>
+      <div className={styles.wrap}>
+        <SiteFooter note="The educational lab above is fictional: its textures, dates, signals and events are illustrative and are not NASA observations. The radar previews inside each investigation are real, exploratory NASA NISAR data that is not cleared for quantitative analysis." />
+      </div>
     </div>
   </>;
 }

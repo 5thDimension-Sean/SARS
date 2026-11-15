@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ComponentType } from "react";
-import { Monitor, Moon, SlidersHorizontal, Sparkles, Sun, ZapOff } from "lucide-react";
+import { Monitor, Moon, Settings, Sparkles, Sun, ZapOff } from "lucide-react";
 import { setPref, usePrefs, type Prefs } from "@/lib/prefs";
 import styles from "./site-nav.module.css";
 
@@ -31,7 +31,7 @@ export function SettingsMenu() {
 
   return <div ref={root} className={styles.settings}>
     <button ref={button} type="button" className={styles.gear} aria-label="Display settings" aria-expanded={open} aria-controls={id} aria-haspopup="dialog" onClick={() => setOpen((v) => !v)}>
-      <SlidersHorizontal size={17} strokeWidth={1.75} aria-hidden />
+      <Settings size={17} strokeWidth={1.75} aria-hidden />
     </button>
     <div id={id} role="dialog" aria-label="Display settings" className={styles.panel} data-open={open} inert={!open}>
       {GROUPS.map((g) => <div key={g.key} role="group" aria-label={g.title} className={styles.group}>

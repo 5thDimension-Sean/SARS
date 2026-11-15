@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./radar-tokens.css";
 import localFont from "next/font/local";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { SiteNav } from "@/components/site-nav";
 import { PREFS_BOOT_SCRIPT } from "@/lib/prefs-boot";
 
@@ -10,8 +11,8 @@ const geist = localFont({ src: "./fonts/Geist-Variable.woff2", variable: "--font
 const geistMono = localFont({ src: "./fonts/GeistMono-Variable.woff2", variable: "--font-geist-mono", weight: "100 900", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Dancing with SARs",
-  description: "Explore Earth surface change through SAR sample data.",
+  title: "Tango",
+  description: "Tango: compare two dates of real radar, place by place.",
   other: {
     "codex-preview": "development",
     "development-assistance": "AI-assisted interface design and code. Published radar measurements preserved.",
@@ -30,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark" data-motion="full" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable}`}>
       <head><script dangerouslySetInnerHTML={{ __html: PREFS_BOOT_SCRIPT }} /></head>
-      <body className="antialiased"><SiteNav />{children}</body>
+      <body className="antialiased"><SiteNav />{children}<ScrollReveal /></body>
     </html>
   );
 }

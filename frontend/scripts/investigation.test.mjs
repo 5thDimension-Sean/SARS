@@ -358,16 +358,85 @@ test("FAQ search is curated, ranked, forgiving and never empty-handed for known 
 
 
 
-test("globe camera plan: valid targets, sensible heights and an overview that frames the whole Earth", async () => {
-  const { OVERVIEW, FOCUS_HEIGHT, FLIGHT_CEILING, focusTarget, centerOf } = await import("../lib/globe-camera.ts");
-  assert.ok(OVERVIEW.height > 2 * 6_371_000 * 0.8); // high enough that the whole globe fits the frame
-  assert.ok(FOCUS_HEIGHT < FLIGHT_CEILING && FLIGHT_CEILING < OVERVIEW.height); // flights rise between stops, then settle
+test("globe journey: every place is reachable, the path is continuous and text follows the visitor's scroll", async () => {
+  const { HERO_VIEW, FOCUS_HEIGHT, FLIGHT_CEILING, cameraAt, textState, progressFor } = await import("../lib/globe-journey.ts");
+  const { PLACES } = await import("../lib/places.ts");
+  assert.ok(PLACES.length >= 8 && PLACES.some((p) => p.id === "etna") && PLACES.some((p) => p.id === "hubbard") && PLACES.some((p) => p.id === "sossusvlei"));
   for (const s of STUDIES) {
-    const b = parsePreview(read(`${s.previewDir}/preview-manifest.json`), s).bounds;
-    const t = focusTarget(b);
-    const [lon, lat] = centerOf(b);
-    assert.deepEqual([t.lon, t.lat, t.height], [lon, lat, FOCUS_HEIGHT]);
-    assert.ok(Math.abs(t.lon - s.center[0]) < 0.05 && Math.abs(t.lat - s.center[1]) < 0.05, s.id);
+    const place = PLACES.find((p) => p.id === s.id);
+    assert.ok(place, s.id);
+    assert.ok(Math.abs(place.lon - s.center[0]) < 0.05 && Math.abs(place.lat - s.center[1]) < 0.05, s.id);
   }
-  assert.throws(() => focusTarget([-200, 0, -190, 10]), /Invalid/);
+  const stops = [HERO_VIEW, ...PLACES.map((p) => ({ lon: p.lon, lat: p.lat, height: FOCUS_HEIGHT }))];
+  stops.forEach((s, i) => { const c = cameraAt(stops, i); assert.ok(Math.abs(c.lon - s.lon) < 1e-9 && Math.abs(c.lat - s.lat) < 1e-9 && Math.abs(c.height - s.height) < 1e-3, `stop ${i}`); });
+  // Scrubbing is monotone per leg and never leaves the globe: heights stay inside the flight ceiling for place-to-place hops.
+  let prev = cameraAt(stops, 1);
+  for (let p = 1; p <= stops.length - 1; p += 0.01) {
+    const c = cameraAt(stops, p);
+    assert.ok(Number.isFinite(c.lon) && Math.abs(c.lat) <= 90 && c.height >= FOCUS_HEIGHT - 1 && c.height <= HERO_VIEW.height + 1);
+    assert.ok(Math.abs(c.lat - prev.lat) < 25, "no jumps"); prev = c;
+  }
+  assert.ok(FLIGHT_CEILING < HERO_VIEW.height);
+  assert.deepEqual(cameraAt(stops, -5), cameraAt(stops, 0)); assert.deepEqual(cameraAt(stops, 999), cameraAt(stops, stops.length - 1));
+  assert.equal(cameraAt(stops, NaN).height, HERO_VIEW.height);
+  // Text is fully visible on its stop, gone two stops away, and arrives from the left.
+  assert.equal(textState(2, 2).opacity, 1);
+  assert.equal(textState(2, 0).opacity, 0);
+  assert.ok(textState(2, 1.7).x < 0 && textState(2, 1.7).opacity > 0 && textState(2, 1.7).opacity < 1);
+  assert.ok(textState(2, 2.3).x > 0);
+  assert.equal(progressFor(0, 3000, 1000, 8), 0);
+  assert.equal(progressFor(-2000, 3000, 1000, 8), 7);
+  assert.equal(progressFor(-1000, 3000, 1000, 8), 3.5);
+});
+
+
+test("blended change layer: speckle vanishes, clusters fuse, masked and unchanged pixels stay transparent, input is untouched", async () => {
+  const { blendChanges, INCREASE_RGB, DECREASE_RGB } = await import("../lib/change-filter.ts");
+  const W = 40, H = 40, px = new Uint8ClampedArray(W * H * 4);
+  for (let i = 0; i < px.length; i += 4) px.set([244, 240, 255, 255], i); // unchanged near-white
+  const set = (x, y, rgba) => px.set(rgba, (y * W + x) * 4);
+  set(3, 3, [255, 16, 16, 255]); // lone red speckle
+  for (let y = 15; y < 23; y++) for (let x = 15; x < 23; x++) set(x, y, [255, 16, 16, 255]); // solid increase cluster
+  for (let y = 30; y < 36; y++) for (let x = 5; x < 11; x++) set(x, y, [16, 16, 255, 255]); // solid decrease cluster
+  set(18, 18, [0, 0, 0, 0]); // masked pixel inside the cluster
+  const before = Uint8ClampedArray.from(px);
+  const { data, areaFraction } = blendChanges(px, W, H, { threshold: 0.5 });
+  assert.deepEqual(px, before);
+  const at = (x, y) => [...data.slice((y * W + x) * 4, (y * W + x) * 4 + 4)];
+  assert.equal(at(3, 3)[3], 0, "speckle removed");
+  assert.equal(at(25, 25)[3], 0, "unchanged area transparent");
+  assert.equal(at(18, 18)[3], 0, "masked pixel never painted");
+  assert.deepEqual(at(19, 19).slice(0, 3), [...INCREASE_RGB]); assert.ok(at(19, 19)[3] > 150);
+  assert.deepEqual(at(7, 32).slice(0, 3), [...DECREASE_RGB]); assert.ok(at(7, 32)[3] > 150);
+  const edge = at(15, 19)[3]; assert.ok(edge > 0 && edge < at(19, 19)[3], "soft edge");
+  assert.ok(areaFraction > 0.02 && areaFraction < 0.2);
+  assert.equal(blendChanges(new Uint8ClampedArray(W * H * 4), W, H, { threshold: 0.3 }).areaFraction, 0, "fully masked image shows nothing");
+  assert.throws(() => blendChanges(px, W, H, { threshold: 2 }), /between 0 and 1/);
+  assert.throws(() => blendChanges(px, W, H + 1, { threshold: 0.3 }), /size/);
+  assert.throws(() => blendChanges(px, W, H, { threshold: 0.3, radius: 0 }), /Radius/);
+});
+
+test("upload analysis: validates files, self-runs checks, never fabricates results for bad input, and its overview is rule-based", async () => {
+  const { acceptableFile, toGray, analyzePair, differenceRgba } = await import("../lib/upload-analysis.ts");
+  assert.ok(acceptableFile({ name: "a.h5", type: "application/x-hdf5", size: 10 }));
+  assert.ok(acceptableFile({ name: "a.png", type: "image/png", size: 0 }));
+  assert.ok(acceptableFile({ name: "a.png", type: "image/png", size: 26 * 1024 * 1024 }));
+  assert.equal(acceptableFile({ name: "a.png", type: "image/png", size: 5000 }), null);
+  const make = (w, h, f) => { const px = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const v = f(x, y); px.set(v === null ? [0, 0, 0, 0] : [v, v, v, 255], (y * w + x) * 4); } return toGray(px, w, h); };
+  const textured = (x, y) => 60 + ((x * 7 + y * 13) % 90);
+  assert.equal(analyzePair(null, make(4, 4, textured)).usable, false);
+  const mismatch = analyzePair(make(8, 8, textured), make(9, 8, textured));
+  assert.equal(mismatch.usable, false); assert.equal(mismatch.stats, null);
+  assert.equal(analyzePair(make(8, 8, () => 100), make(8, 8, textured)).usable, false, "flat image fails");
+  const same = analyzePair(make(20, 20, textured), make(20, 20, textured));
+  assert.equal(same.usable, true); assert.equal(same.stats.changedFraction, 0);
+  assert.ok(same.checks.find((c) => c.id === "calibration").status === "warn", "never claims calibration");
+  const shifted = analyzePair(make(20, 20, textured), make(20, 20, (x, y) => (x < 10 ? textured(x, y) + 80 : textured(x, y))));
+  assert.ok(Math.abs(shifted.stats.changedFraction - 0.5) < 0.01 && shifted.stats.meanShift > 30);
+  assert.ok(shifted.overview.join(" ").includes("not by an AI model") && !/flood|damage|deforest/i.test(shifted.overview.join(" ").replace("naming a cause", "")));
+  const masked = analyzePair(make(20, 20, textured), make(20, 20, (x, y) => (x < 15 ? null : textured(x, y))));
+  assert.equal(masked.checks.find((c) => c.id === "valid").status, "fail");
+  const d = differenceRgba(make(2, 1, () => 50), make(2, 1, (x) => (x ? 200 : null)));
+  assert.equal(d[3], 0, "masked pixel transparent"); assert.deepEqual([...d.slice(4, 8)], [255, 0, 0, 255]);
+  assert.throws(() => differenceRgba(make(2, 2, () => 1), make(3, 2, () => 1)), /same size/);
 });

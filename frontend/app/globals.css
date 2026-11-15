@@ -2153,3 +2153,9 @@ input:focus-visible,
     height: calc(100dvh - 94px);
   }
 }
+
+/* Scroll reveal: a calm fade and rise. Only active once ScrollReveal has run, and never with reduced motion. */
+html.reveal-on [data-rv="1"]:not([data-shown]) { opacity: 0; transform: translateY(14px); }
+html.reveal-on [data-rv="1"] { transition: opacity .8s cubic-bezier(.22,.61,.36,1), transform .8s cubic-bezier(.22,.61,.36,1); }
+html.reveal-on [data-rv="1"][data-shown] { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { html.reveal-on [data-rv="1"] { opacity: 1 !important; transform: none !important; transition: none !important; } }

@@ -28,9 +28,7 @@ test("only plain https source links are accepted", () => {
     assert.throws(() => safeHttpsUrl(bad), bad);
   assert.equal(safeHttpsUrl("https://esa-worldcover.org/"), "https://esa-worldcover.org/");
 });
-test("flights are quick and the hero spin is calm", async () => {
-  const { FLIGHT_SECONDS, HERO_SPIN_DEG_PER_S, HERO_VIEW } = await import("../lib/globe-camera.ts");
-  assert.ok(FLIGHT_SECONDS.stop <= 2 && FLIGHT_SECONDS.overview <= 2);
-  assert.ok(HERO_SPIN_DEG_PER_S > 0 && HERO_SPIN_DEG_PER_S <= 6);
-  assert.ok(HERO_VIEW.height > 8_000_000 && HERO_VIEW.height < 16_000_000); // whole sphere in frame, large in the panel
+test("the home globe journey keeps the whole Earth in frame at the start", async () => {
+  const { HERO_VIEW, FOCUS_HEIGHT } = await import("../lib/globe-journey.ts");
+  assert.ok(HERO_VIEW.height > 2 * 6_371_000 * 0.8 && HERO_VIEW.height > FOCUS_HEIGHT);
 });
