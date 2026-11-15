@@ -26,7 +26,7 @@ import styles from "./investigation/investigation.module.css";
 import { verifyBrowsePair } from "@/lib/nisar-browse";
 import { usePolarization, useStudyId } from "@/lib/view-store";
 import {
-  POLS, QA_LABEL, STUDIES, dataUrl, describeRegion, describeStudyShift, fmtDate, fmtDb, fmtInt, fmtSignedDb,
+  POLS, QA_LABEL, STUDIES, histogramOverlap, dataUrl, describeRegion, describeStudyShift, fmtDate, fmtDb, fmtInt, fmtSignedDb,
   parseContext, parseEvidence, parsePreview, parseRegions, qaLabel, qaState,
   type ContextSet, type Evidence, type Pol, type PreviewSet, type Region, type RegionSet, type StudyConfig,
 } from "@/lib/investigation";
@@ -258,17 +258,28 @@ function ContextPhotos({ study, context }: { study: StudyConfig; context: Contex
   </section>;
 }
 
+/** Backscatter ratio for a dB difference: 10^(d/10). A pure unit conversion of a measured median; it is not a change-area estimate. */
+const powerRatio = (db: number) => { const r = 10 ** (db / 10), pct = (r - 1) * 100; return `${r.toFixed(3)}× (${pct >= 0 ? "+" : "−"}${Math.abs(pct).toFixed(1)}% power)`; };
 function buildReport(study: StudyConfig, evidence: Evidence, regions: RegionSet): PlaceReport {
+  const pixelM2 = Math.abs(regions.pixelSpacingMeters[0] * regions.pixelSpacingMeters[1]), km2 = (n: number) => `${((n * pixelM2) / 1e6).toFixed(2)} km²`;
+  const days = Math.round((Date.parse(study.dates[1]) - Date.parse(study.dates[0])) / 864e5);
   return {
     title: study.label, dates: [study.dates[0], study.dates[1]], polarizations: [...POLS], granules: [study.granules[0], study.granules[1]],
     source: `${evidence.provenance} ${evidence.measurement}`, status: evidence.scientificClearance, generated: new Date().toISOString().slice(0, 10),
     tables: [
+      { caption: "Headline numbers (all derived from the published numerical grids and statistics below)", head: ["Measure", "Value"], rows: [
+        ["Days between acquisitions", String(days)],
+        ["Paired HH/HV pixels in the common grid", `${fmtInt(regions.pairedPixels)} (${km2(regions.pairedPixels)} at ${Math.abs(regions.pixelSpacingMeters[0])} m pixels)`],
+        ...POLS.flatMap((p) => { const d = evidence.pols[p]; return [
+          [`${p} median backscatter, later vs earlier`, `${fmtSignedDb(d.differenceOfRegionalMediansDb)} → ${powerRatio(d.differenceOfRegionalMediansDb)}`],
+          [`${p} histogram overlap between dates`, `${Math.round(histogramOverlap(d) * 100)}% (100% would mean identical distributions)`]]; }),
+      ] },
       ...POLS.map((p) => { const o = evidence.pols[p].observations, d = evidence.pols[p];
         return { caption: `${p} backscatter, gamma-0 in dB, whole scene (the last column is a difference of two regional summaries, not a per-pixel change)`, head: ["Statistic", fmtDate(study.dates[0]), fmtDate(study.dates[1]), "Later − earlier"],
           rows: [["Median", fmtDb(o[0].medianDb), fmtDb(o[1].medianDb), fmtSignedDb(d.differenceOfRegionalMediansDb)], ["Mean", fmtDb(o[0].meanDb), fmtDb(o[1].meanDb), fmtSignedDb(d.differenceOfRegionalMeansDb)],
             ["5th percentile", fmtDb(o[0].p05Db), fmtDb(o[1].p05Db), ""], ["95th percentile", fmtDb(o[0].p95Db), fmtDb(o[1].p95Db), ""], ["Screened pixels", fmtInt(o[0].count), fmtInt(o[1].count), ""]] }; }),
-      { caption: `Exploratory regions (${regions.scientificStatus}). Median of per-pixel differences, later minus earlier. Regions were found by a search for differences and are not typical of the scene.`, head: ["Region", ...POLS.map((p) => `${p} median difference`), "Paired pixels (HH)"],
-        rows: regions.regions.map((r) => [`${r.id}: ${r.title}`, ...POLS.map((p) => fmtSignedDb(r.stats[p].paired.medianDifferenceDb, 3)), fmtInt(r.stats.HH.paired.pixels)]) },
+      { caption: `Exploratory regions (${regions.scientificStatus}). Median of per-pixel differences, later minus earlier. Regions were found by a search for differences and are not typical of the scene.`, head: ["Region", ...POLS.map((p) => `${p} median difference`), "HH as power ratio", "Paired pixels (HH)", "Window area"],
+        rows: regions.regions.map((r) => [`${r.id}: ${r.title}`, ...POLS.map((p) => fmtSignedDb(r.stats[p].paired.medianDifferenceDb, 3)), powerRatio(r.stats.HH.paired.medianDifferenceDb), fmtInt(r.stats.HH.paired.pixels), km2(r.stats.HH.paired.pixels)]) },
     ],
     checks: evidence.quality.map(([key, text]) => ({ label: qaLabel(key), state: qaState(text).toUpperCase() as "PASS" | "FAIL" | "UNVERIFIED", text })),
     limitations: evidence.limitations,

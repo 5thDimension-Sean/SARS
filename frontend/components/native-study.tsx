@@ -144,7 +144,11 @@ export function NativeStudy({ id, pol }: { id: "hawaii" | "iowa"; pol: Pol }) {
       <button type="button" className={styles.action} onClick={() => downloadReport({
         title: c.title, dates: c.dates, polarizations: ["HH", "HV"], granules: c.granules, status: c.summary.scientificStatus, generated: new Date().toISOString().slice(0, 10),
         source: "NASA NISAR L2 GCOV provisional (NISAR_L2_GCOV_PROVISIONAL_V1), ASF DAAC, Frequency A, native 10 m grid. " + c.crs + ".",
-        tables: [{ caption: "Per-pixel paired comparison on commonly screened pixels, later minus earlier (dB). The median of differences is not the difference of the medians.", head: ["Polarization", "Paired pixels", "Median before", "Median after", "Median of differences", "Mean of differences"],
+        tables: [{ caption: "Headline numbers (derived from the published paired statistics)", head: ["Measure", "Value"], rows: [
+          ["Days between acquisitions", String(c.days)],
+          ["Commonly screened HH/HV pixels", `${c.summary.commonValidPixels.toLocaleString("en-US")} (${((c.summary.commonValidPixels * 100) / 1e6).toFixed(2)} km² at 10 m pixels)`],
+          ...(["HH", "HV"] as const).map((p) => { const d = c.summary.polStats[p].pairedDifferenceMedianDb, r = 10 ** (d / 10); return [`${p} median per-pixel change`, `${d.toFixed(3)} dB → ${r.toFixed(3)}× (${r >= 1 ? "+" : "−"}${Math.abs((r - 1) * 100).toFixed(1)}% power)`]; })] },
+          { caption: "Per-pixel paired comparison on commonly screened pixels, later minus earlier (dB). The median of differences is not the difference of the medians.", head: ["Polarization", "Paired pixels", "Median before", "Median after", "Median of differences", "Mean of differences"],
           rows: (["HH", "HV"] as const).map((p) => { const t = c.summary.polStats[p]; return [p, t.pairedPixelCount.toLocaleString("en-US"), `${t.beforeMedianDbOnCommonPixels.toFixed(3)} dB`, `${t.afterMedianDbOnCommonPixels.toFixed(3)} dB`, `${t.pairedDifferenceMedianDb.toFixed(3)} dB`, `${t.pairedDifferenceMeanDb.toFixed(3)} dB`]; }) }],
         checks: [{ label: "Compatibility validator", state: "UNVERIFIED", text: "74 PASS, 0 FAIL, 10 UNVERIFIED. Frequency B exception-mask screening unresolved; Frequency B not used." },
           { label: "Official QA, RFI, banding, noise floor", state: "UNVERIFIED", text: String((c.summary as unknown as { qaReview: string }).qaReview) }, { label: "Independent verification", state: "MISSING", text: "No independent evidence of a physical cause has been supplied." }],
