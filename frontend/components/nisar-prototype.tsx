@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import { ProcessedOverlayPanel } from "./processed-overlay-panel";
 import { SiteFooter } from "./site-footer";
+import { downloadReport, type PlaceReport } from "@/lib/place-report";
 import { NativeStudy } from "./native-study";
 import dynamic from "next/dynamic";
 import type { InvestigationMap, ViewMode } from "./investigation/investigation-map";
@@ -257,6 +258,23 @@ function ContextPhotos({ study, context }: { study: StudyConfig; context: Contex
   </section>;
 }
 
+function buildReport(study: StudyConfig, evidence: Evidence, regions: RegionSet): PlaceReport {
+  return {
+    title: study.label, dates: [study.dates[0], study.dates[1]], polarizations: [...POLS], granules: [study.granules[0], study.granules[1]],
+    source: `${evidence.provenance} ${evidence.measurement}`, status: evidence.scientificClearance, generated: new Date().toISOString().slice(0, 10),
+    tables: [
+      ...POLS.map((p) => { const o = evidence.pols[p].observations, d = evidence.pols[p];
+        return { caption: `${p} backscatter, gamma-0 in dB, whole scene (the last column is a difference of two regional summaries, not a per-pixel change)`, head: ["Statistic", fmtDate(study.dates[0]), fmtDate(study.dates[1]), "Later − earlier"],
+          rows: [["Median", fmtDb(o[0].medianDb), fmtDb(o[1].medianDb), fmtSignedDb(d.differenceOfRegionalMediansDb)], ["Mean", fmtDb(o[0].meanDb), fmtDb(o[1].meanDb), fmtSignedDb(d.differenceOfRegionalMeansDb)],
+            ["5th percentile", fmtDb(o[0].p05Db), fmtDb(o[1].p05Db), ""], ["95th percentile", fmtDb(o[0].p95Db), fmtDb(o[1].p95Db), ""], ["Screened pixels", fmtInt(o[0].count), fmtInt(o[1].count), ""]] }; }),
+      { caption: `Exploratory regions (${regions.scientificStatus}). Median of per-pixel differences, later minus earlier. Regions were found by a search for differences and are not typical of the scene.`, head: ["Region", ...POLS.map((p) => `${p} median difference`), "Paired pixels (HH)"],
+        rows: regions.regions.map((r) => [`${r.id}: ${r.title}`, ...POLS.map((p) => fmtSignedDb(r.stats[p].paired.medianDifferenceDb, 3)), fmtInt(r.stats.HH.paired.pixels)]) },
+    ],
+    checks: evidence.quality.map(([key, text]) => ({ label: qaLabel(key), state: qaState(text).toUpperCase() as "PASS" | "FAIL" | "UNVERIFIED", text })),
+    limitations: evidence.limitations,
+  };
+}
+
 function TrustSection({ study, evidence, regions, preview }: { study: StudyConfig; evidence: Evidence; regions: RegionSet; preview: PreviewSet | null }) {
   return <section className={styles.section} id="verify" aria-labelledby="h-trust">
     <header><h2 id="h-trust">What we can say.<br />And cannot.</h2>
@@ -284,6 +302,8 @@ function TrustSection({ study, evidence, regions, preview }: { study: StudyConfi
           {preview && <><dt>Previews</dt><dd>{preview.sourceCollection}. {preview.measurement}. QA: {preview.scientificClearance}.</dd></>}
           <dt>Collection</dt><dd>NISAR_L2_GCOV_PROVISIONAL_V1 · <a href="https://doi.org/10.5067/NIL2GCOV-P1" rel="noopener noreferrer">Dataset DOI</a></dd>
         </dl>
+        <button type="button" className={styles.primary} style={{ border: 0, cursor: "pointer" }} onClick={() => downloadReport(buildReport(study, evidence, regions))}>Download evidence report <span aria-hidden="true">↓</span></button>
+        <p className={`${styles.small} ${styles.muted}`}>A printable page with this place’s numbers, provenance, every quality check (failed ones included) and its limits.</p>
         {study.gibsContext && <p className={`${styles.small} ${styles.muted}`}>We acknowledge the use of imagery from the NASA Global Imagery Browse Services (GIBS), part of NASA&apos;s Earth Science Data and Information System (ESDIS). GIBS mosaics may combine products and are not pixel-level lineage.</p>}
         <p className={styles.small}><a href="https://hyp3-docs.asf.alaska.edu/nisar-docs/worldview/" rel="noopener noreferrer">ASF imagery guide</a> · <a href="https://nisar-docs.asf.alaska.edu/provisional-known-issues/" rel="noopener noreferrer">Provisional-data limitations</a> · <a href="https://nasa-gibs.github.io/gibs-api-docs/" rel="noopener noreferrer">NASA GIBS</a></p>
       </div>

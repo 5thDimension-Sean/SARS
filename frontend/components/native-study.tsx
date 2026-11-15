@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } fr
 import { blendedChangeUrl } from "@/lib/change-filter";
 import { dataUrl, fmtDate, type Pol } from "@/lib/investigation";
 import { prefersReducedMotion } from "@/lib/prefs";
+import { downloadReport } from "@/lib/place-report";
 import hawaii from "@/public/data/hawaii-review/hawaii-summary.json";
 import iowa from "@/public/data/iowa-review/iowa-summary.json";
 import styles from "./native-study.module.css";
@@ -140,6 +141,15 @@ export function NativeStudy({ id, pol }: { id: "hawaii" | "iowa"; pol: Pol }) {
       <h3>What we can say — and cannot</h3>
       <p>Both dates cover the same Frequency-A grid, with {c.summary.commonValidPixels.toLocaleString("en-US")} commonly screened HH/HV pixels. The numerical values quantify radar return only. {c.claim}</p>
       <p className={styles.status}><strong>Scientific status:</strong> {c.summary.scientificStatus}. Provisional measurements; official QA interpretation, calibration, radiometric artifacts and noise/RFI/banding remain unresolved.</p>
+      <button type="button" className={styles.action} onClick={() => downloadReport({
+        title: c.title, dates: c.dates, polarizations: ["HH", "HV"], granules: c.granules, status: c.summary.scientificStatus, generated: new Date().toISOString().slice(0, 10),
+        source: "NASA NISAR L2 GCOV provisional (NISAR_L2_GCOV_PROVISIONAL_V1), ASF DAAC, Frequency A, native 10 m grid. " + c.crs + ".",
+        tables: [{ caption: "Per-pixel paired comparison on commonly screened pixels, later minus earlier (dB). The median of differences is not the difference of the medians.", head: ["Polarization", "Paired pixels", "Median before", "Median after", "Median of differences", "Mean of differences"],
+          rows: (["HH", "HV"] as const).map((p) => { const t = c.summary.polStats[p]; return [p, t.pairedPixelCount.toLocaleString("en-US"), `${t.beforeMedianDbOnCommonPixels.toFixed(3)} dB`, `${t.afterMedianDbOnCommonPixels.toFixed(3)} dB`, `${t.pairedDifferenceMedianDb.toFixed(3)} dB`, `${t.pairedDifferenceMeanDb.toFixed(3)} dB`]; }) }],
+        checks: [{ label: "Compatibility validator", state: "UNVERIFIED", text: "74 PASS, 0 FAIL, 10 UNVERIFIED. Frequency B exception-mask screening unresolved; Frequency B not used." },
+          { label: "Official QA, RFI, banding, noise floor", state: "UNVERIFIED", text: String((c.summary as unknown as { qaReview: string }).qaReview) }, { label: "Independent verification", state: "MISSING", text: "No independent evidence of a physical cause has been supplied." }],
+        limitations: [String((c.summary as unknown as { warning: string }).warning), c.claim],
+      })}>Download evidence report ↓</button>
       <details className={styles.more} open={qaOpen} onToggle={(e) => setQaOpen(e.currentTarget.open)}>
         <summary>Data provenance and QA</summary>
         <div>

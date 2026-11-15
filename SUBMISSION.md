@@ -28,6 +28,9 @@ Derived from the official *Project Submission Guide* and *Judging & Awards Guide
 | Relevance | NISAR L-band HH/HV from NASA ASF DAAC is the core of every investigation. |
 | Presentation | The demo (30 s or 7 slides) carries this score. Spend the remaining time here. |
 
+## What Tango does with the data
+Tango takes each place's real NISAR numbers and turns them into one **printable evidence report**: dates, granules, per-polarization statistics, exploratory regions, every quality check (failed and unverified ones included) and the limits. Open a place, press *Download evidence report*. Any place that has data gets a report; the page makes no claims beyond them.
+
 ## 30-second demo script (from the guide's timeline)
 - 0:00 Name and team name.
 - 0:02 The challenge and what inspired it.

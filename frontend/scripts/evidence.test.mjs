@@ -37,3 +37,21 @@ test('pointer-anchored zoom reverses at the same cursor position', () => {
   assert.ok(Math.abs(restored.x) < 1e-10);
   assert.ok(Math.abs(restored.y) < 1e-10);
 });
+
+test('place report escapes every string, keeps failed checks visible, and never claims a cause', async () => {
+  const { placeReportHtml, reportFileName } = await import('../lib/place-report.ts');
+  const html = placeReportHtml({
+    title: 'Bad <script>alert(1)</script> place', dates: ['2026-09-30', '2026-10-12'], polarizations: ['HH', 'HV'], granules: ['G1-ASF', 'G2"><img src=x>'],
+    source: '<b>src</b>', status: 'EXPLORATORY_NOT_CLEARED',
+    tables: [{ caption: 'Cap <i>', head: ['Stat', '<th>'], rows: [['Median', '-14.8 <dB>']] }],
+    checks: [{ label: 'Official QA', state: 'FAIL', text: 'noise <svg onload=x>' }, { label: 'Dates', state: 'PASS', text: 'ok' }],
+    limitations: ['<iframe>'], generated: '2026-11-15',
+  });
+  assert.doesNotMatch(html, /<script>alert|<img src=x|<svg onload|<iframe|<b>src/);
+  assert.match(html, /&lt;script&gt;/);
+  assert.match(html, /class="fail"[^>]*><th[^>]*>Official QA/);
+  assert.match(html, /do not establish flooding/);
+  assert.match(html, /not affiliated with NASA/);
+  assert.equal(reportFileName('Big Sur, California', ['2026-08-22', '2026-09-15']), 'tango-big-sur-california-2026-08-22-2026-09-15.html');
+  assert.match(reportFileName('../../etc/passwd', ['a', 'b']), /^tango-[a-z0-9-]+-a-b\.html$/);
+});
