@@ -2,47 +2,33 @@ name: NISAR coastal pair review
 
 on:
   push:
-    branches: [feat/usgs-midnight-pass-erosion]
+    branches:
+      - feat/usgs-midnight-pass-erosion
     paths:
-      - ".github/workflows/nisar-coastal-review.yml"
-      - "pipeline/coastal_pair_action.py"
+      - .github/workflows/nisar-coastal-review.yml
   workflow_dispatch:
-    inputs:
-      mode:
-        description: "Discovery only, or authenticate and process real GCOV HDF5 files"
-        type: choice
-        options: [discover, process]
-        default: discover
 
 permissions:
   contents: read
-
-concurrency:
-  group: nisar-coastal-review-${{ github.ref }}
-  cancel-in-progress: false
 
 jobs:
   coastal:
     runs-on: ubuntu-latest
     timeout-minutes: 120
-    env:
-      PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
-      - name: Install pinned NISAR analysis dependencies
+          python-version: '3.13'
+      - name: Install dependencies
         run: python -m pip install --only-binary=:all: -r pipeline/requirements.txt
-      - name: Run pipeline unit tests
+      - name: Run tests
         run: python -m pytest pipeline/tests -q
-      - name: Discover or analyze real coastal NISAR pair
+      - name: Find and process genuine NISAR pair
         env:
           EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
-          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'process' }}
-        run: |
-          python -m pipeline.coastal_pair_action --mode "$MODE" --out pipeline/coastal-review
-      - name: Upload science review artifacts, never raw HDF5
+        run: python -m pipeline.coastal_pair_action --mode process --out pipeline/coastal-review
+      - name: Upload only derivatives and report
         if: always()
         uses: actions/upload-artifact@v4
         with:
