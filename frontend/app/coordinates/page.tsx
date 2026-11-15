@@ -5,18 +5,15 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEven
 import Link from "next/link";
 import { PLACES } from "@/lib/places";
 import { SiteFooter } from "@/components/site-footer";
+import { COORDINATE_STARTERS as STARTERS, validCoordinate, processingEndpoint, isJobStatus, type JobStatus } from "@/lib/coordinate-request";
 import styles from "@/components/investigation/investigation.module.css";
 
-const ENDPOINT = (process.env.NEXT_PUBLIC_PROCESSING_API_URL ?? "").replace(/\/$/, "");
-const ENABLED = /^https:\/\//.test(ENDPOINT) || (process.env.NODE_ENV === "development" && /^http:\/\/localhost(:\d+)?$/.test(ENDPOINT));
-const STARTERS = [
-  ...PLACES.map(p => ({ name: p.label, latitude: p.lat, longitude: p.lon })),
-  { name: "Manaus, Amazon River · new search", latitude: -3.13, longitude: -60.02 },
-].slice(0, 10);
+const ENDPOINT = processingEndpoint(process.env.NEXT_PUBLIC_PROCESSING_API_URL ?? "", process.env.NODE_ENV === "development");
+const ENABLED = Boolean(ENDPOINT);
 
 type Pol = "HH" | "HV";
 type Mode = "swipe" | "side" | "difference";
-interface Observation { date: string; count: number; meanDb: number; medianDb: number; p05Db: number; p95Db: number }
+interface Observation { date: string; granuleId: string; count: number; meanDb: number; medianDb: number; p05Db: number; p95Db: number }
 interface Bin { lowDb: number; highDb: number; firstCount: number; secondCount: number }
 interface Region { id: string; title: string; stats: Record<Pol, { pairedDifference: { pixels: number; medianDifferenceDb: number; meanDifferenceDb: number } }> }
 interface Result {
@@ -27,8 +24,8 @@ interface Result {
   evidence: Record<Pol, { observations: [Observation, Observation]; bins: Bin[]; differenceOfRegionalMeansDb: number; differenceOfRegionalMediansDb: number }>;
   regions: Region[];
   grid: { crs: string; shape: [number, number]; pixelSpacingMeters: [number, number]; pairedPixels: number };
+  productVersion: string; productSpecificationVersion: string;
 }
-type JobStatus = "idle" | "connecting" | "queued" | "searching" | "downloading" | "processing" | "ready" | "unavailable" | "failed";
 const num = (n: number) => Number(n).toLocaleString("en-US");
 const signed = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(3)} dB`;
 const inputStyle: CSSProperties = { display: "block", width: "100%", marginTop: 8 };
@@ -48,11 +45,11 @@ function RadarHistogram({ bins, dates, pol }: { bins: Bin[]; dates: [string,stri
       <text x="453" y="140" fill="currentColor" fontSize="11">{bins[bins.length-1]?.highDb.toFixed(0)} dB</text>
       <text x="18" y="14" fill="currentColor" fontSize="11">Pixels / dB bin</text>
     </svg>
-    <p style={{ fontSize: 13 }}><span style={{ color: "#979da7" }}>●</span> {dates[0]} &nbsp; <span style={{ color: "#4c98dc" }}>●</span> {dates[1]}</p>
+    <p style={{ fontSize: 13 }}><span style={{ color: "#979da7" }}>?</span> {dates[0]} &nbsp; <span style={{ color: "#4c98dc" }}>?</span> {dates[1]}</p>
     <details style={{ marginTop: 12 }}><summary>Inspect original numerical histogram counts</summary>
       <div style={{ overflowX: "auto" }}><table className={styles.table}>
         <thead><tr><th>Backscatter range</th><th>{dates[0]}</th><th>{dates[1]}</th></tr></thead>
-        <tbody>{bins.map(b => <tr key={b.lowDb}><td>{b.lowDb.toFixed(2)} – {b.highDb.toFixed(2)} dB</td>
+        <tbody>{bins.map(b => <tr key={b.lowDb}><td>{b.lowDb.toFixed(2)} - {b.highDb.toFixed(2)} dB</td>
           <td>{num(b.firstCount)}</td><td>{num(b.secondCount)}</td></tr>)}</tbody>
       </table></div>
     </details>
@@ -64,6 +61,7 @@ export default function CoordinateExplorer() {
   const [lon, setLon] = useState(String(STARTERS[0].longitude));
   const keyRef = useRef<HTMLInputElement>(null);
   const sessionRef = useRef<{ id: string; accessToken: string } | null>(null);
+  const requestRef = useRef<AbortController | null>(null);
   const [sessionId, setSessionId] = useState("");
   const [status, setStatus] = useState<JobStatus>("idle");
   const [message, setMessage] = useState("");
@@ -73,9 +71,16 @@ export default function CoordinateExplorer() {
   const [split, setSplit] = useState(50);
   const [selected, setSelected] = useState("all");
   const [images, setImages] = useState<Record<string, string>>({});
-  const valid = lat.trim() !== "" && lon.trim() !== "" && Number.isFinite(Number(lat)) && Number.isFinite(Number(lon)) &&
-    Math.abs(Number(lat)) <= 85 && Math.abs(Number(lon)) <= 180;
-  const busy = ["connecting", "queued", "searching", "downloading", "processing"].includes(status);
+  const valid = validCoordinate(lat, lon);
+  const busy = ["connecting", "queued", "searching", "downloading", "processing", "generating"].includes(status);
+  const reset = () => {
+    requestRef.current?.abort();
+    requestRef.current = null;
+    sessionRef.current = null;
+    setSessionId(""); setResult(null); setImages({}); setSelected("all"); setSplit(50);
+    setStatus("idle"); setMessage("");
+  };
+  useEffect(() => () => { requestRef.current?.abort(); requestRef.current = null; sessionRef.current = null; }, []);
   const matchingPublished = valid ? PLACES.filter(p => p.bounds &&
     Number(lon) >= p.bounds[0] && Number(lon) <= p.bounds[2] &&
     Number(lat) >= p.bounds[1] && Number(lat) <= p.bounds[3]) : [];
@@ -91,13 +96,18 @@ export default function CoordinateExplorer() {
     sessionRef.current = null;
     setSessionId(""); setResult(null); setImages({}); setStatus("connecting");
     setMessage("Connecting to the private processing worker over HTTPS.");
+    const controller = new AbortController();
+    requestRef.current?.abort(); requestRef.current = controller;
+    const timeout = setTimeout(() => controller.abort(), 30000);
     try {
       const response = await fetch(`${ENDPOINT}/v1/jobs`, {
-        method: "POST", mode: "cors", cache: "no-store", credentials: "omit", referrerPolicy: "no-referrer",
+        method: "POST", mode: "cors", cache: "no-store", credentials: "omit", redirect: "error", referrerPolicy: "no-referrer", signal: controller.signal,
         headers: { "Content-Type": "application/json", "X-Earthdata-Token": key },
         body: JSON.stringify({ latitude: Number(lat), longitude: Number(lon) }),
       });
+      if (!response.ok) throw new Error(response.status === 429 ? "The worker has reached its processing limit. Please try again later." : "Unable to start processing. Check your token and try again.");
       const reply = (await response.json()) as Record<string, unknown>;
+      if (controller.signal.aborted) return;
       if (!response.ok || typeof reply.id !== "string" || typeof reply.accessToken !== "string")
         throw new Error(response.status === 429 ? "The worker is busy. Please try again shortly." :
           response.status === 403 ? "This website is not authorized to contact the processing worker." :
@@ -105,7 +115,10 @@ export default function CoordinateExplorer() {
       sessionRef.current = { id: reply.id as string, accessToken: reply.accessToken as string };
       setSessionId(reply.id as string); setStatus("queued"); setMessage("Looking for actual compatible NASA NISAR scenes.");
     } catch (error) {
+      if (requestRef.current !== controller) return;
       setStatus("failed"); setMessage(error instanceof Error ? error.message : "Unable to contact private processing service.");
+    } finally {
+      clearTimeout(timeout);
     }
   };
 
@@ -119,12 +132,14 @@ export default function CoordinateExplorer() {
       try {
         const response = await fetch(`${ENDPOINT}/v1/jobs/${encodeURIComponent(session.id)}`, {
           headers: { Authorization: `Bearer ${session.accessToken}` },
-          signal: controller.signal, credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer",
+          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]), credentials: "omit", redirect: "error", cache: "no-store", referrerPolicy: "no-referrer",
         });
         if (!response.ok) throw new Error("This private processing session expired or is unavailable.");
         const reply = (await response.json()) as Record<string, unknown>;
         if (!active) return;
-        setStatus(reply.status as JobStatus);
+        if (!isJobStatus(reply.status)) throw new Error("Unexpected processing status");
+        if (reply.status === "ready" && !reply.result) throw new Error("Missing processing result");
+        setStatus(reply.status);
         setMessage(String(reply.progress || ""));
         if (reply.status === "ready" && reply.result) { setResult(reply.result as Result); return; }
         if (reply.status === "failed" || reply.status === "unavailable") return;
@@ -150,13 +165,15 @@ export default function CoordinateExplorer() {
       name: `${p}:${mode}`, path,
     })));
     void Promise.all(items.map(async ({ name, path }) => {
+      if (!/^(custom-preview|custom-regions)\/[A-Za-z0-9_-]+\.png$/.test(path)) throw new Error("Unexpected image path");
       const res = await fetch(`${ENDPOINT}/v1/jobs/${encodeURIComponent(session.id)}/image/${path.split("/").map(encodeURIComponent).join("/")}`, {
-        headers: { Authorization: `Bearer ${session.accessToken}` }, credentials: "omit",
+        headers: { Authorization: `Bearer ${session.accessToken}` }, credentials: "omit", redirect: "error",
         cache: "no-store", signal: controller.signal, referrerPolicy: "no-referrer",
       });
       if (!res.ok) throw new Error("Measured image is unavailable");
       const blob = await res.blob();
       if (!blob.type.startsWith("image/png")) throw new Error("Unexpected output image format");
+      if (!alive) return;
       const objectUrl = URL.createObjectURL(blob); created.push(objectUrl);
       if (alive) setImages(previous => ({ ...previous, [name]: objectUrl }));
     })).catch(() => { if (alive) setMessage("Some verified image previews could not be loaded."); });
@@ -170,26 +187,26 @@ export default function CoordinateExplorer() {
     <div className={styles.wrap}>
       <section className={styles.section} style={{ paddingTop: "clamp(40px, 8vw, 96px)" }}>
         <header><h1 style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", letterSpacing: "-.05em" }}>Investigate by coordinates.</h1>
-          <p className={styles.lead}>Start anywhere on Earth. Select one of ten starting points or enter your own latitude and longitude. TANGO finds comparable real NISAR acquisitions automatically, then generates an Everglades-style radar investigation.</p></header>
+          <p className={styles.lead}>Select one of ten starting points or enter your own latitude and longitude. TANGO searches for comparable real NISAR acquisitions automatically, then generates a radar investigation when suitable data is available.</p></header>
 
         <h2 style={{ marginTop: 36, fontSize: "1.5rem" }}>Ten starting locations</h2>
         <p className={styles.muted}>These are coordinate shortcuts, not guarantees of satellite coverage. The backend checks NASA&apos;s actual catalog.</p>
         <div role="group" aria-label="Ten geographic starting locations" style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 16 }}>
           {STARTERS.map((place, i) => <button type="button" key={place.name} style={buttonStyle}
-            disabled={busy} onClick={() => { setLat(String(place.latitude)); setLon(String(place.longitude)); setResult(null); setSessionId(""); setStatus("idle"); setMessage(""); }}>
+            disabled={busy} onClick={() => { reset(); setLat(String(place.latitude)); setLon(String(place.longitude)); }}>
             {i + 1}. {place.name}
           </button>)}
         </div>
 
         <form onSubmit={submit} style={{ marginTop: 30, display: "grid", gap: 18, maxWidth: 710 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 16 }}>
-            <label>Latitude <small>(−85 to 85)</small>
+            <label>Latitude <small>(-85 to 85)</small>
               <input className={styles.search} style={inputStyle} type="number" step="any" min="-85" max="85"
-                autoComplete="off" required value={lat} disabled={busy} onChange={e => setLat(e.target.value)} />
+                autoComplete="off" required value={lat} disabled={busy} onChange={e => { reset(); setLat(e.target.value); }} />
             </label>
-            <label>Longitude <small>(−180 to 180)</small>
+            <label>Longitude <small>(-180 to 180)</small>
               <input className={styles.search} style={inputStyle} type="number" step="any" min="-180" max="180"
-                autoComplete="off" required value={lon} disabled={busy} onChange={e => setLon(e.target.value)} />
+                autoComplete="off" required value={lon} disabled={busy} onChange={e => { reset(); setLon(e.target.value); }} />
             </label>
           </div>
           <label>NASA Earthdata API token
@@ -199,10 +216,10 @@ export default function CoordinateExplorer() {
           </label>
           <p className={styles.small} id="key-privacy">Your token is transmitted only when you select Generate, over HTTPS to the dedicated processing service. It is kept in worker memory for this job, never saved in local storage, repository files, or result URLs. Derived images are served through a separate short-lived access token. Use only an official Earthdata token you control.</p>
           <button className={styles.primary} type="submit" disabled={!ENABLED || !valid || busy} style={{ width: "fit-content", border: 0, cursor: ENABLED ? "pointer" : "not-allowed" }}>
-            {busy ? "Processing real radar…" : "Generate my NISAR comparison"}
+            {busy ? "Processing real radar." : "Generate my NISAR comparison"}
           </button>
-          {!ENABLED && <p className={styles.notice} role="status">Live custom processing is not connected yet. Sean must deploy the dedicated private Python worker and configure NEXT_PUBLIC_PROCESSING_API_URL. No token can be submitted until it is securely connected.</p>}
-          {!valid && <p className={styles.notice} role="alert">Enter valid latitude and longitude coordinates.</p>}
+          {!ENABLED && <p className={styles.notice} role="status">Custom processing is currently unavailable. You can explore the published radar investigations below.</p>}
+          {!valid && <p className={styles.notice} role="alert">Enter latitude from -85 to 85 and longitude from -180 to 180. The small study area must not cross the date line.</p>}
           {message && <p className={styles.notice} role="status" aria-live="polite">{message}</p>}
         </form>
         {matchingPublished.length > 0 && <div className={styles.notice} style={{ marginTop: 22 }}>
@@ -212,8 +229,9 @@ export default function CoordinateExplorer() {
 
         {result && status === "ready" && <section className={styles.section} aria-labelledby="custom-result">
           <header><h2 id="custom-result">Your real NASA NISAR investigation</h2>
+            <p>Requested point: {result.coordinates.latitude.toFixed(5)}�, {result.coordinates.longitude.toFixed(5)}� (latitude, longitude).</p>
             <p className={styles.lead}>Automatically selected acquisitions: {result.dates[0]} and {result.dates[1]}. HH/HV data are measured satellite returns, not simulated imagery.</p></header>
-          <p className={styles.notice}>EXPLORATORY · NOT SCIENTIFICALLY CLEARED. {result.disclaimer} Product-level radiometric and noise QA and independent environmental interpretation are still necessary.</p>
+          <p className={styles.notice}>EXPLORATORY � NOT SCIENTIFICALLY CLEARED. {result.disclaimer} Product-level radiometric and noise QA and independent environmental interpretation are still necessary.</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, margin: "20px 0" }}>
             <div role="group" aria-label="Polarization">{(["HH","HV"] as const).map(p =>
               <button type="button" key={p} aria-pressed={pol === p} style={buttonStyle} onClick={() => setPol(p)}>{p}</button>)}</div>
@@ -222,10 +240,10 @@ export default function CoordinateExplorer() {
           </div>
           {before && after && diff ? <div>
             {mode === "side" ? <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))", gap: 16 }}>
-              <figure style={{ margin: 0 }}><figcaption>Before · {result.dates[0]} · {pol}</figcaption><img width="100%" src={before} alt="Real earlier NASA NISAR backscatter" /></figure>
-              <figure style={{ margin: 0 }}><figcaption>After · {result.dates[1]} · {pol}</figcaption><img width="100%" src={after} alt="Real later NASA NISAR backscatter" /></figure>
+              <figure style={{ margin: 0 }}><figcaption>Before � {result.dates[0]} � {pol}</figcaption><img width="100%" src={before} alt="Real earlier NASA NISAR backscatter" /></figure>
+              <figure style={{ margin: 0 }}><figcaption>After � {result.dates[1]} � {pol}</figcaption><img width="100%" src={after} alt="Real later NASA NISAR backscatter" /></figure>
             </div> : mode === "difference" ? <figure style={{ margin: 0, maxWidth: 950 }}>
-              <figcaption>Later minus earlier · {pol} · blue decreases, red increases; clipped to ±6 dB.</figcaption>
+              <figcaption>Later minus earlier � {pol} � blue decreases, red increases; clipped to �6 dB.</figcaption>
               <img src={diff} alt="Derived georeferenced NISAR backscatter difference" width="100%" />
             </figure> : <div style={{ maxWidth: 950 }}>
               <div style={{ position: "relative", overflow: "hidden" }}>
@@ -237,9 +255,9 @@ export default function CoordinateExplorer() {
                 <input style={{ display: "block", width: "100%" }} type="range" min={0} max={100} value={split} onChange={e => setSplit(Number(e.target.value))} />
               </label>
             </div>}
-          </div> : <p role="status">Retrieving measured, access-controlled raster previews…</p>}
+          </div> : <p role="status">Retrieving measured, access-controlled raster previews.</p>}
 
-          <h3 style={{ marginTop: 32 }}>Whole-scene radar measurements — {pol}</h3>
+          <h3 style={{ marginTop: 32 }}>Whole-scene radar measurements - {pol}</h3>
           <RadarHistogram bins={result.evidence[pol].bins} dates={result.dates} pol={pol} />
           <div style={{ overflowX: "auto" }}><table className={styles.table}>
             <thead><tr><th>Statistic</th><th>{result.dates[0]}</th><th>{result.dates[1]}</th></tr></thead>
@@ -270,7 +288,8 @@ export default function CoordinateExplorer() {
           <h3 style={{ marginTop: 24 }}>Known limitations</h3>
           <ul>{result.limitations.map((limitation, i) => <li key={i}>{limitation}</li>)}</ul>
           <h3 style={{ marginTop: 32 }}>Data provenance & quality</h3>
-          <p>NASA NISAR Level-2 provisional GCOV via ASF DAAC · {result.passDirection} track {result.track}, frame {result.frame}, release {result.release} · {result.grid.crs} · {num(result.grid.pairedPixels)} aligned analysis-grid pixels.</p>
+          <p>NASA NISAR Level-2 provisional GCOV via ASF DAAC � {result.passDirection} track {result.track}, frame {result.frame}, release {result.release} � {result.grid.crs} � {num(result.grid.pairedPixels)} aligned analysis-grid pixels.</p>
+          <p>Product version {result.productVersion}; specification {result.productSpecificationVersion}. Source granules: {result.evidence.HH.observations.map(o => o.granuleId).join("; ")}.</p>
           <p className={styles.small}>The two source files are processed privately and deleted after processing. This report contains no original HDF5 files, passwords, or API tokens. Results expire from the processing server.</p>
         </section>}
       </section>
@@ -278,3 +297,4 @@ export default function CoordinateExplorer() {
     </div>
   </main>;
 }
+
