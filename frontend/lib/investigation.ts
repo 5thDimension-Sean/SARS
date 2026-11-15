@@ -43,8 +43,8 @@ export const STUDIES: readonly StudyConfig[] = [
 
     dates: ["2026-08-22", "2026-09-15"], granules: ["G4288641488-ASF", "G4314277037-ASF"],
     utmZone: 10, center: [-121.42, 35.9] },
-  { id: "hawaii", label: "Kīlauea, Hawaiʻi", short: "Hawaii", contextDir: null, place: "Hawaiʻi Kīlauea summit area", evidenceDir: "hawaii-review",
-    regionsDir: "hawaii-review", previewDir: "hawaii-preview", gibsContext: false,
+  { id: "hawaii", label: "Kīlauea, Hawaiʻi", short: "Hawaii", contextDir: null, place: "Hawaiʻi Kīlauea summit area", evidenceDir: "hawaii-full-evidence",
+    regionsDir: "hawaii-full-regions", previewDir: "hawaii-full-preview", gibsContext: false, differenceInPreviewCrs: true,
     dates: ["2026-09-04", "2026-09-16"], granules: ["G4300303633-ASF", "G4315672426-ASF"],
     utmZone: 5, center: [-155.27, 19.41] },
   { id: "iowa", label: "Ames, Iowa — mixed land cover", short: "Iowa", contextDir: null, place: "Ames, Iowa — mixed land cover", evidenceDir: "iowa-review",
