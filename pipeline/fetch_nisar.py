@@ -155,10 +155,10 @@ def print_products(products: Sequence[Any], *, stream: TextIO = sys.stdout) -> N
         print("  ".join(cell.ljust(widths[i]) for i, cell in enumerate(row)), file=stream)
 
 
-def authenticated_session(asf: Any) -> Any:
+def authenticated_session(asf: Any, token: str | None = None) -> Any:
     """Do not print credentials or exception text from authentication libraries."""
     session = asf.ASFSession()
-    token = os.environ.get("EARTHDATA_TOKEN", "").strip()
+    token = (token if token is not None else os.environ.get("EARTHDATA_TOKEN", "")).strip()
     try:
         if token:
             return session.auth_with_token(token)
@@ -213,7 +213,7 @@ def write_sidecar(product: Any, path: Path) -> None:
             temporary.unlink(missing_ok=True)
 
 
-def download_products(products: Sequence[Any], out: Path, asf: Any) -> None:
+def download_products(products: Sequence[Any], out: Path, asf: Any, *, token: str | None = None) -> None:
     out.mkdir(parents=True, exist_ok=True)
     pending = []
     for product in products:
@@ -230,7 +230,7 @@ def download_products(products: Sequence[Any], out: Path, asf: Any) -> None:
             pending.append((product, target, size))
     if not pending:
         return
-    session = authenticated_session(asf)
+    session = authenticated_session(asf, token=token)
     try:
         for i, (product, target, size) in enumerate(pending, 1):
             LOG.info("Downloading %s [%d/%d].", target.name, i, len(pending))
