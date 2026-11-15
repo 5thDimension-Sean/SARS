@@ -71,7 +71,6 @@ export function CesiumGlobe({ places, activeIndex, onPick, onUnavailable }: {
         // High-detail textures and smoother oblique image sampling when parked at a location.
         scene.globe.maximumScreenSpaceError = compactScreen ? 1.8 : 1.15;
         scene.globe.tileCacheSize = compactScreen ? 120 : 220;
-        scene.globe.maximumAnisotropy = 8;
         scene.globe.preloadAncestors = true;
         scene.globe.atmosphereLightIntensity = 14; scene.globe.atmosphereBrightnessShift = 0.05;
         scene.fog.enabled = true;
