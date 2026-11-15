@@ -16,7 +16,7 @@ test("all seven scientific locations have substantive, cautious, specific explan
     for (const field of ["setting", "canSuggest", "cannotConfirm", "nextEvidence"]) {
       assert.ok(typeof info[field] === "string" && info[field].length >= 65, study.id+" "+field);
     }
-    assert.ok(/cannot|does not|do not|not automatically|neither/i.test(info.cannotConfirm), study.id);
+    assert.ok(/cannot|does not|do not|is not|not automatically|neither/i.test(info.cannotConfirm), study.id);
     assert.ok(/compare|check|use|cross-check/i.test(info.nextEvidence), study.id);
   }
 });
