@@ -57,11 +57,11 @@ export function NisarPrototype({ studyOverride }: { studyOverride?: StudyConfig[
     <div className={styles.wrap}><ConnectionStatus /><RadarHero study={study} pol={pol} /><Primer />
       {study.id === "rodanthe" && <section className={styles.section} aria-labelledby="h-shoreline-ground-truth">
         <header><h2 id="h-shoreline-ground-truth">Erosion, independently documented.</h2>
-          <p className={styles.lead}>The NISAR map below measures changes in radar backscatter—not the position of the shoreline. To see actual coastal retreat, compare historical aerial and drone surveys from Dare County GIS, including imagery from 1996 and 2026. The county's swipe viewer makes land loss visible against houses, roads, and other fixed landmarks.</p></header>
+          <p className={styles.lead}>The NISAR map below measures changes in radar backscatter—not the position of the shoreline. To see actual coastal retreat, compare historical aerial and drone surveys from Dare County GIS, including imagery from 1996 and 2026. The county&apos;s swipe viewer makes land loss visible against houses, roads, and other fixed landmarks.</p></header>
         <div className={styles.twoCol}>
           <div><h3>Coastal shoreline evidence</h3>
-            <p>Dare County's Hatteras Island Erosion Drone Imagery project publishes dated aerial comparisons for Rodanthe, Buxton, Avon and Hatteras. Select <strong>Rodanthe</strong>, choose widely separated dates, and move the comparison divider to inspect the historical shoreline.</p>
-            <p><a href="https://gis.darecountync.gov/hierosion/" target="_blank" rel="noopener noreferrer">Compare Dare County's real shoreline imagery (official GIS) ↗</a></p>
+            <p>Dare County&apos;s Hatteras Island Erosion Drone Imagery project publishes dated aerial comparisons for Rodanthe, Buxton, Avon and Hatteras. Select <strong>Rodanthe</strong>, choose widely separated dates, and move the comparison divider to inspect the historical shoreline.</p>
+            <p><a href="https://gis.darecountync.gov/hierosion/" target="_blank" rel="noopener noreferrer">Compare Dare County&apos;s real shoreline imagery (official GIS) ↗</a></p>
           </div>
           <div><h3>Why not simply use a longer radar interval?</h3>
             <p>We also processed authentic NISAR acquisitions from July 7 to October 11, 2026 (96 days, same track 162 / frame 19). Their 10 m radar differences still include major ocean/wave and water-surface responses. A longer date gap did not isolate a credible erosion measurement. Keep the satellite radar and independent shoreline evidence scientifically distinct.</p>
