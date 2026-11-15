@@ -1,0 +1,38 @@
+name: Validate featured NISAR investigations with Hawaii histograms
+
+on:
+  push:
+    branches:
+      - feat/featured-hawaii-complete-analysis
+    paths:
+      - .github/workflows/validate-featured-science.yml
+      - frontend/components/nisar-prototype.tsx
+      - frontend/components/investigation/radar-hero.tsx
+      - frontend/lib/investigation.ts
+      - frontend/scripts/investigation.test.mjs
+      - frontend/scripts/location-story.test.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  science:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate data and numerical evidence
+        run: npm test
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
