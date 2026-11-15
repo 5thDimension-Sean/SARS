@@ -23,7 +23,7 @@ jobs:
           python-version: '3.13'
       - run: python -m pip install -r pipeline/private-api-requirements.txt
       - run: python -m compileall -q pipeline
-      - run: python -m pytest pipeline/tests/test_private_processing_api.py pipeline/tests/test_coordinate_contract.py pipeline/tests/test_private_download.py pipeline/tests/test_custom_evidence.py pipeline/tests/test_processing.py pipeline/tests/test_fetch_inspect.py -q
+      - run: python -m pytest pipeline/tests/test_private_processing_api.py pipeline/tests/test_coordinate_contract.py pipeline/tests/test_private_download.py pipeline/tests/test_custom_evidence.py pipeline/tests/test_processing.py pipeline/tests/test_fetch_inspect.py pipeline/tests/test_demo_server.py -q
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 20
