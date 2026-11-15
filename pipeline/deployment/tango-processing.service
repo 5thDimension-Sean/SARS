@@ -1,0 +1,32 @@
+[Unit]
+Description=TANGO private NISAR coordinate worker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+WorkingDirectory=/opt/tango
+EnvironmentFile=/etc/tango-processing.env
+Environment=PROCESSING_WORKDIR=/var/lib/tango-private/jobs
+StateDirectory=tango-private
+StateDirectoryMode=0700
+UMask=0077
+ExecStart=/opt/tango/.venv/bin/python -m uvicorn pipeline.private_processing_api:app --host 127.0.0.1 --port 8090 --workers 1 --no-access-log --limit-concurrency 20 --backlog 16
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+KillMode=control-group
+MemoryMax=4G
+CPUQuota=200%
+TasksMax=128
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/tango-private
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=MPLCONFIGDIR=/var/lib/tango-private/matplotlib
+
+[Install]
+WantedBy=multi-user.target

@@ -29,11 +29,17 @@ SITES = {
     "rodanthe": {"title": "Rodanthe, North Carolina", "region": "North Carolina Outer Banks coast", "data": "rodanthe-processed"},
     "custom": {"title": "Custom NISAR coordinate comparison", "region": "Visitor-selected geographic point", "data": "results"},
     "etna-event": {"title": "Mount Etna, Sicily", "region": "Etna volcanic slopes, Sicily, Italy", "data": "etna-processed"},
-    "amazon": {"title": "Mamirauá, Amazon River", "region": "Mamirauá Amazon River floodplain, Brazil", "data": "amazon-mamiraua"},
+    "amazon": {"title": "Mamirau�, Amazon River", "region": "Mamirau� Amazon River floodplain, Brazil", "data": "amazon-mamiraua"},
 }
 RANGES = {"HH": (-25., 0.), "HV": (-30., -5.)}
 CLEARANCE = "NOT CLEARED FOR QUANTITATIVE ANALYSIS"
 QA = "EXPLORATORY_NOT_CLEARED"
+
+
+def require(condition, message):
+    # Scientific checks must remain enabled under python -O.
+    if not condition:
+        raise ValueError(message)
 
 
 def save(path, obj):
@@ -75,16 +81,16 @@ def generate(site: str, public: Path):
     src = public / config["data"]
     manifest = json.loads((src / "manifest.json").read_text())
     discovery = json.loads((src / "discovery.json").read_text())
-    assert discovery["status"] == "EXPLORATORY_PROCESSED_NOT_QA_CLEARED"
-    assert len(manifest["frames"]) == 1 and len(discovery["selected"]) == 2
+    require(discovery["status"] == "EXPLORATORY_PROCESSED_NOT_QA_CLEARED", "Unverified processing status")
+    require(len(manifest["frames"]) == 1 and len(discovery["selected"]) == 2, "Expected exactly one frame and two sources")
     frame = manifest["frames"][0]
     acquisitions = frame["acquisitions"]
-    assert len(acquisitions) == 2 and not frame["mixedVersions"]
+    require(len(acquisitions) == 2 and not frame["mixedVersions"], "Expected two compatible acquisitions")
     dates = [a["date"][:10] for a in acquisitions]
     granules = [s["sceneName"] for s in discovery["selected"]]
-    assert dates == [x["date"] for x in discovery["selected"]]
-    assert all(a["productVersion"] == acquisitions[0]["productVersion"] for a in acquisitions)
-    assert all(a["compositeReleaseId"] == acquisitions[0]["compositeReleaseId"] for a in acquisitions)
+    require(dates == [x["date"] for x in discovery["selected"]] and dates[0] < dates[1], "Acquisition dates do not match ordered sources")
+    require(all(a["productVersion"] == acquisitions[0]["productVersion"] for a in acquisitions), "Mixed product versions")
+    require(all(a["compositeReleaseId"] == acquisitions[0]["compositeReleaseId"] for a in acquisitions), "Mixed processing releases")
 
     evdir, rgdir, pvdir = (public / f"{site}-{suffix}" for suffix in ("evidence", "regions", "preview"))
     for directory in (evdir, rgdir, pvdir):
@@ -99,24 +105,25 @@ def generate(site: str, public: Path):
             values, crs, t = read_raster(tif)
             if ref_crs is None:
                 ref_crs, ref_transform, ref_shape = crs, t, values.shape
-            assert crs == ref_crs and t.almost_equals(ref_transform) and values.shape == ref_shape, "Misregistered source raster"
+            require(crs == ref_crs and t.almost_equals(ref_transform) and values.shape == ref_shape, "Misregistered source raster")
             arrays[pol].append(values)
             dst = pvdir / f"{dates[index].replace('-', '')}_{pol}.png"
             shutil.copyfile(img, dst)
             hashes[(pol, index)] = hashlib.sha256(dst.read_bytes()).hexdigest()
         difference = arrays[pol][1] - arrays[pol][0]
         native_delta, c, t = read_raster(src / next(x["cog"] for x in frame["changeLayers"] if x["type"] == "dbDiff" and x["pol"] == pol))
+        require(c == ref_crs and t.almost_equals(ref_transform) and native_delta.shape == ref_shape, "Misregistered difference raster")
         common = np.isfinite(difference) & np.isfinite(native_delta)
-        assert common.sum() > 1000
-        assert np.max(np.abs(difference[common] - native_delta[common])) < 2e-4, "Difference does not match input COGs"
+        require(common.sum() > 1000, "Insufficient paired valid pixels")
+        require(np.max(np.abs(difference[common] - native_delta[common])) < 2e-4, "Difference does not match input COGs")
         diff_png = next(x["url"] for x in frame["changeLayers"] if x["type"] == "dbDiff" and x["pol"] == pol)
         shutil.copyfile(src / diff_png, rgdir / f"{pol}_difference_exploratory.png")
         lo, hi = RANGES[pol]
         bins = np.linspace(lo, hi, 49)
         first, counts1 = obs(arrays[pol][0], dates[0], granules[0], (lo, hi), bins)
         second, counts2 = obs(arrays[pol][1], dates[1], granules[1], (lo, hi), bins)
-        assert counts1.sum() + first["outsideDisplayRange"] == first["count"]
-        assert counts2.sum() + second["outsideDisplayRange"] == second["count"]
+        require(counts1.sum() + first["outsideDisplayRange"] == first["count"], "First histogram does not account for valid pixels")
+        require(counts2.sum() + second["outsideDisplayRange"] == second["count"], "Second histogram does not account for valid pixels")
         hist = []
         for i in range(48):
             hist.append({"lowDb": float(bins[i]), "highDb": float(bins[i + 1]),
@@ -126,7 +133,7 @@ def generate(site: str, public: Path):
         plt.plot(bins[:-1], counts2, label=dates[1], linewidth=1.5)
         plt.xlabel(f"{pol} gamma0 backscatter (dB)")
         plt.ylabel("Reduced-grid pixels in fixed bins")
-        plt.title(config["title"] + " — exploratory radar return")
+        plt.title(config["title"] + " - exploratory radar return")
         plt.legend()
         plt.tight_layout()
         plt.savefig(evdir / f"{pol}_histogram_comparison.png", dpi=140)
@@ -139,11 +146,11 @@ def generate(site: str, public: Path):
             "histogramBinCountFieldByDate": {dates[0]: "firstCount", dates[1]: "secondCount"},
             "histogramBins": hist, "histogramImage": f"{pol}_histogram_comparison.png",
         }
-    assert ref_crs is not None and ref_transform is not None and ref_shape is not None
+    require(ref_crs is not None and ref_transform is not None and ref_shape is not None, "Missing reference grid")
     h, w = ref_shape
     valid = np.logical_and.reduce([np.isfinite(arrays[p][i]) for p in ("HH", "HV") for i in (0, 1)])
     diffs = {p: arrays[p][1] - arrays[p][0] for p in ("HH", "HV")}
-    # Use non-overlapping, reproducible, 64×64 reduced-grid windows. Prefer
+    # Use non-overlapping, reproducible, 64x64 reduced-grid windows. Prefer
     # HH positive, HH negative and lower-magnitude differences in A/B/C.
     size = 64
     candidates = []
@@ -166,6 +173,8 @@ def generate(site: str, public: Path):
 
     region_items, features, annotations = [], [], []
     titles = ["Relatively increasing HH radar return", "Relatively decreasing HH radar return", "Lower-magnitude HH radar difference"]
+    if site == "custom":
+        titles = ["Highest candidate median HH difference", "Lowest candidate median HH difference", "Smallest absolute candidate median HH difference"]
     for idx, (_, row, col) in enumerate(selected):
         ident = "ABC"[idx]
         mask = valid[row:row+size, col:col+size]
@@ -184,7 +193,7 @@ def generate(site: str, public: Path):
                     "p95DifferenceDb": round(float(np.percentile(d, 95)), 5),
                 },
             }
-        method = "64×64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample"
+        method = "64x64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample"
         item = {
             "id": ident, "title": titles[idx], "selectionMethod": method,
             "rowRange": [row, row+size], "columnRange": [col, col+size],
@@ -208,7 +217,7 @@ def generate(site: str, public: Path):
         "quality": {
             "identificationGroup": "UNVERIFIED; official NISAR product QA records have not been cleared for either acquisition",
             "frequencyAHHAndHVValidity": "PASS in processed inputs: two dates both contain finite HH/HV reduced-grid values",
-            "gridAlignment": f"PASS for this derived ROI: common {ref_crs} transform and {w}×{h} analysis array",
+            "gridAlignment": f"PASS for this derived ROI: common {ref_crs} transform and {w}x{h} analysis array",
             "radiometricArtifactsAndNoise": "UNVERIFIED; RFI, banding, calibration artifacts and noise-floor impacts require expert review",
         },
         "limitations": [
@@ -271,3 +280,4 @@ if __name__ == "__main__":
     parser.add_argument("--site", choices=tuple(SITES), required=True)
     args = parser.parse_args()
     generate(args.site, args.public)
+
