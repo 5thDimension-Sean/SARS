@@ -1,6 +1,6 @@
 # Worldwide NISAR change-story shortlist
 
-Research checked 2026-11-15. These are ideas for the next internal studies, not completed exports or clearance decisions. A published NISAR observation establishes a useful lead; our own asset provenance, product compatibility and scientific QA still need checking. No new location has been added to the website.
+Research checked 2026-11-15. These are ideas for the next internal studies, not completed exports or clearance decisions. A published NISAR observation establishes a useful lead; our own asset provenance, product compatibility and scientific QA still need checking. The existing investigations remain unchanged. A separate internal /research-preview route now includes the nine research stops described in preview-handoff.md; the acquisition-selection steps below still apply to new numerical exports.
 
 ## Best next additions
 

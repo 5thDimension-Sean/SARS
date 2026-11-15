@@ -1,0 +1,420 @@
+{
+  "schemaVersion": "1.0",
+  "title": "Worldwide research preview",
+  "updatedUtc": "2026-11-15",
+  "status": "BLOCKED",
+  "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+  "measurements": null,
+  "studies": [
+    {
+      "id": "hubbard",
+      "title": "Hubbard Glacier",
+      "country": "Alaska–Yukon",
+      "region": "North America",
+      "theme": "Earthquake · avalanches",
+      "evidence": "published-change",
+      "gallery": "pair",
+      "period": "November 26 – December 8, 2025",
+      "observationDates": [
+        "2025-11-26",
+        "2025-12-08"
+      ],
+      "event": "December 6, 2025 earthquake",
+      "story": "NASA’s radar comparison shows debris deposited by earthquake-triggered avalanches and landslides across the St. Elias Mountains. This replaces the October 2026 pair as the active Hubbard story.",
+      "limitations": [
+        "NASA-published false-color visualizations derived from NISAR GSLC; these are not our own HH/HV exports or a numerical difference layer.",
+        "The prior October 2026 identification QA failures remain unresolved. This replacement pair has not received an independent product-level QA review."
+      ],
+      "nextStep": "Identify the event-spanning source granules and complete independent compatibility and QA checks before numerical analysis.",
+      "sources": [
+        {
+          "label": "NASA Earth Observatory · event and images",
+          "url": "https://science.nasa.gov/earth/earth-observatory/landslide-and-avalanche-debris-litter-hubbard-glacier/"
+        }
+      ],
+      "media": [
+        {
+          "kind": "image",
+          "src": "/research-media/hubbard/hubbardearthquake_nisar_20251126_lrg.jpg",
+          "label": "Before the earthquake",
+          "date": "2025-11-26",
+          "credit": "Eric Fielding and Gustavo H. X. Shiroma / JPL; NASA Earth Observatory / Lauren Dauphin",
+          "sourceUrl": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/landslide-and-avalanche-debris-litter-hubbard-glacier/hubbardearthquake_nisar_20251126_lrg.jpg",
+          "defer": false
+        },
+        {
+          "kind": "image",
+          "src": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/landslide-and-avalanche-debris-litter-hubbard-glacier/hubbardearthquake_nisar_20251208_lrg.jpg",
+          "label": "After the earthquake",
+          "date": "2025-12-08",
+          "credit": "Eric Fielding and Gustavo H. X. Shiroma / JPL; NASA Earth Observatory / Lauren Dauphin",
+          "sourceUrl": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/landslide-and-avalanche-debris-litter-hubbard-glacier/hubbardearthquake_nisar_20251208_lrg.jpg",
+          "defer": false
+        }
+      ],
+      "video": null,
+      "archive": {
+        "dates": [
+          "2026-10-04",
+          "2026-10-16"
+        ],
+        "note": "The four October 2026 browse PNGs are retained in the research archive. Their earlier screened counts do not apply to this 2025 pair."
+      },
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "sossusvlei",
+      "title": "Sossusvlei",
+      "country": "Namibia",
+      "region": "Africa",
+      "theme": "Desert · radar texture",
+      "evidence": "official-browse",
+      "gallery": "polarization-pair",
+      "period": "October 7 – 19, 2026",
+      "observationDates": [
+        "2026-10-07",
+        "2026-10-19"
+      ],
+      "event": "Two scene previews; no event established",
+      "story": "Official frequency-A HH and HV scene previews reveal the Namib’s dune and terrain patterns. All four local files match NASA’s catalog file sizes and MD5 checksums.",
+      "limitations": [
+        "Browse-image integrity does not establish temporal change, geospatial alignment or a fixed common display scale.",
+        "Official identification QA failures remain unresolved. The prior 85,095-pixel screening counts have not been revalidated; numerical ROI and difference exports are pending."
+      ],
+      "nextStep": "Recover the screened ROI checkpoint and numerical source arrays before producing any quantitative comparison.",
+      "sources": [
+        {
+          "label": "NASA CMR · October 7",
+          "url": "https://cmr.earthdata.nasa.gov/search/concepts/G4352673999-ASF.umm_json"
+        },
+        {
+          "label": "NASA CMR · October 19",
+          "url": "https://cmr.earthdata.nasa.gov/search/concepts/G4381600932-ASF.umm_json"
+        }
+      ],
+      "media": [
+        {
+          "kind": "image",
+          "src": "/research-media/sossusvlei/2026-10-07_HH.png",
+          "label": "HH · official scene browse",
+          "date": "2026-10-07",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4352673999-ASF.umm_json",
+          "defer": false,
+          "polarization": "HH"
+        },
+        {
+          "kind": "image",
+          "src": "/research-media/sossusvlei/2026-10-07_HV.png",
+          "label": "HV · official scene browse",
+          "date": "2026-10-07",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4352673999-ASF.umm_json",
+          "defer": false,
+          "polarization": "HV"
+        },
+        {
+          "kind": "image",
+          "src": "/research-media/sossusvlei/2026-10-19_HH.png",
+          "label": "HH · official scene browse",
+          "date": "2026-10-19",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4381600932-ASF.umm_json",
+          "defer": false,
+          "polarization": "HH"
+        },
+        {
+          "kind": "image",
+          "src": "/research-media/sossusvlei/2026-10-19_HV.png",
+          "label": "HV · official scene browse",
+          "date": "2026-10-19",
+          "credit": "NASA / ISRO · Alaska Satellite Facility",
+          "sourceUrl": "https://cmr.earthdata.nasa.gov/search/concepts/G4381600932-ASF.umm_json",
+          "defer": false,
+          "polarization": "HV"
+        }
+      ],
+      "video": null,
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "kamchatka",
+      "title": "Krasheninnikov",
+      "country": "Kamchatka, Russia",
+      "region": "Northern Asia",
+      "theme": "Volcano · growing lava field",
+      "evidence": "published-change",
+      "gallery": "sequence",
+      "period": "December 25, 2025 – August 17, 2026",
+      "observationDates": [
+        "2025-12-25",
+        "2026-08-17"
+      ],
+      "event": "Ongoing volcanic eruption",
+      "story": "NASA’s 17-frame NISAR sequence follows a lava field expanding from the northern crater. It is a documented example of landscape change during an ongoing eruption.",
+      "limitations": [
+        "The sequence begins after eruption onset, so its first frame is not a pre-eruption baseline.",
+        "This is NASA’s published visualization. We have not selected or numerically processed the underlying granules."
+      ],
+      "nextStep": "Recover the sequence’s granule list and select compatible acquisitions for a bounded lava-field review.",
+      "sources": [
+        {
+          "label": "NASA Scientific Visualization Studio · sequence and downloads",
+          "url": "https://svs.gsfc.nasa.gov/5675"
+        }
+      ],
+      "media": [
+        {
+          "kind": "image",
+          "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.00500_print.jpg",
+          "label": "Frame from NASA’s annotated time-lapse",
+          "date": null,
+          "credit": "NASA Scientific Visualization Studio",
+          "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.00500_print.jpg",
+          "defer": false
+        }
+      ],
+      "video": {
+        "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005675/nisar_volcano_annotated.mp4",
+        "label": "NASA annotated lava-flow time-lapse",
+        "credit": "NASA Scientific Visualization Studio",
+        "note": "Silent annotated visualization; 17 radar frames across the published observation period."
+      },
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "mozambique",
+      "title": "Limpopo & Incomati",
+      "country": "Mozambique",
+      "region": "Africa",
+      "theme": "Flooding · river basins",
+      "evidence": "published-change",
+      "gallery": "pair",
+      "period": "January 5 – 17, 2026",
+      "observationDates": [
+        "2026-01-05",
+        "2026-01-17"
+      ],
+      "event": "January 2026 flooding",
+      "story": "NASA’s NISAR GCOV visualizations show the river basins before and during extensive flooding. The published composites use a consistent color scale across the two dates.",
+      "limitations": [
+        "False-color publisher visualizations combine HH, HV and their ratio. They are not individual HH/HV science rasters.",
+        "We have not reproduced NASA’s flood classifications or calculated flooded area."
+      ],
+      "nextStep": "Locate the two GCOV acquisitions and validate a bounded ROI before generating our own backscatter statistics.",
+      "sources": [
+        {
+          "label": "NASA Scientific Visualization Studio · before/after and legend",
+          "url": "https://svs.gsfc.nasa.gov/5661"
+        }
+      ],
+      "media": [
+        {
+          "kind": "image",
+          "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Pre_OverviewComposite.png",
+          "label": "Before the flooding",
+          "date": "2026-01-05",
+          "credit": "NASA Scientific Visualization Studio / Zoey N. Armstrong",
+          "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Pre_OverviewComposite.png",
+          "defer": false
+        },
+        {
+          "kind": "image",
+          "src": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Post_OverviewComposite.png",
+          "label": "During the flooding",
+          "date": "2026-01-17",
+          "credit": "NASA Scientific Visualization Studio / Zoey N. Armstrong",
+          "sourceUrl": "https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005661/Post_OverviewComposite.png",
+          "defer": false
+        }
+      ],
+      "video": null,
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "sri-lanka",
+      "title": "Cyclone Ditwah",
+      "country": "Sri Lanka",
+      "region": "South Asia",
+      "theme": "Cyclone · flooding",
+      "evidence": "published-scene",
+      "gallery": "single",
+      "period": "ISRO comparison dated December 2, 2025",
+      "observationDates": [],
+      "event": "Cyclone Ditwah",
+      "story": "ISRO’s gallery publishes a comparison featuring NISAR S-band and EOS-04 C-band imagery of Cyclone Ditwah.",
+      "limitations": [
+        "The publisher’s comparison includes two sensors. It must not be treated as a same-sensor NISAR temporal difference.",
+        "A compatible NISAR-only before/after pair and its individual acquisition dates have not been verified here."
+      ],
+      "nextStep": "Inspect the source panel and identify same-band NISAR acquisitions before considering a temporal comparison.",
+      "sources": [
+        {
+          "label": "ISRO Bhoonidhi · NISAR gallery",
+          "url": "https://bhoonidhi.nrsc.gov.in/NISAR/"
+        }
+      ],
+      "media": [
+        {
+          "kind": "image",
+          "src": "https://bhoonidhi.nrsc.gov.in/NISAR/images/100days/Ditwah.gif",
+          "label": "ISRO’s mixed-sensor cyclone comparison",
+          "date": null,
+          "credit": "ISRO / NRSC · NISAR S-band and EOS-04 C-band",
+          "sourceUrl": "https://bhoonidhi.nrsc.gov.in/NISAR/images/100days/Ditwah.gif",
+          "defer": true
+        }
+      ],
+      "video": null,
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "antarctica",
+      "title": "The Antarctic “hummingbird”",
+      "country": "East Antarctica",
+      "region": "Antarctica",
+      "theme": "Ice · crevasse structure",
+      "evidence": "published-scene",
+      "gallery": "single",
+      "period": "August 2025 · exact day not specified",
+      "observationDates": [],
+      "event": "Fractured ice around Nunatak Zaterjavshijsja",
+      "story": "NASA’s L-band scene shows ice fractured as it flows around a protruding mountaintop. The striking colors describe radar scattering and ice structure.",
+      "limitations": [
+        "This is a documented NISAR scene, not a before/after record of a calving event.",
+        "An exact acquisition day and a compatible temporal pair have not been verified here."
+      ],
+      "nextStep": "Identify the source acquisition and a later compatible observation before evaluating temporal change.",
+      "sources": [
+        {
+          "label": "NASA / JPL · annotated image and explanation",
+          "url": "https://www.jpl.nasa.gov/images/pia26617-nisars-l-band-radar-reveals-hummingbird-in-antarctica/"
+        }
+      ],
+      "media": [
+        {
+          "kind": "image",
+          "src": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/PIA26617_figA.jpg",
+          "label": "NASA’s annotated Antarctic scene · approximately 29 MB",
+          "date": null,
+          "credit": "NASA / JPL-Caltech",
+          "sourceUrl": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/PIA26617_figA.jpg",
+          "defer": true
+        }
+      ],
+      "video": null,
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "etna",
+      "title": "Etna",
+      "country": "Sicily, Italy",
+      "region": "Europe",
+      "theme": "Volcano · lava-flow candidate",
+      "evidence": "candidate",
+      "gallery": "pending",
+      "period": "Event: December 2025 – January 2026",
+      "observationDates": [],
+      "event": "Eruption beginning December 24, 2025",
+      "story": "INGV documents eruptive activity and a new lava fissure opening on January 1, 2026. This makes Etna a useful European target for a NISAR availability search.",
+      "limitations": [
+        "The event is documented by INGV; NISAR coverage of a comparable before/after pair has not been verified.",
+        "No radar imagery, displacement measurement or lava-area result is available in this preview."
+      ],
+      "nextStep": "Search NISAR coverage around the event, then check product availability and compatible geometry.",
+      "sources": [
+        {
+          "label": "INGV · Etna eruption update",
+          "url": "https://www.ct.ingv.it/index.php/formazione-e-divulgazione/news/417-etna-aggiornamento-attivita-eruttiva"
+        }
+      ],
+      "media": [],
+      "video": null,
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "sumatra",
+      "title": "Cyclone Senyar",
+      "country": "Aceh & North Sumatra, Indonesia",
+      "region": "Southeast Asia",
+      "theme": "Flooding · candidate",
+      "evidence": "candidate",
+      "gallery": "pending",
+      "period": "Event: November 2025",
+      "observationDates": [],
+      "event": "Destructive flooding following Cyclone Senyar",
+      "story": "NASA documents widespread flooding in northern Sumatra using Landsat 9. The event is a promising target for checking whether NISAR captured the flood extent through clouds.",
+      "limitations": [
+        "NASA’s cited event imagery is Landsat, not NISAR.",
+        "No comparable NISAR acquisition pair or numerical flood measurements have been verified for this preview."
+      ],
+      "nextStep": "Search the NISAR archive near Lhoksukon for observations bracketing the flood.",
+      "sources": [
+        {
+          "label": "NASA Earth Observatory · Senyar event context (Landsat)",
+          "url": "https://science.nasa.gov/earth/earth-observatory/senyar-swamps-sumatra/"
+        }
+      ],
+      "media": [],
+      "video": null,
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    },
+    {
+      "id": "queensland",
+      "title": "Cyclone Koji",
+      "country": "Queensland, Australia",
+      "region": "Australia",
+      "theme": "Flooding · candidate",
+      "evidence": "candidate",
+      "gallery": "pending",
+      "period": "Event: January 7 – 14, 2026",
+      "observationDates": [],
+      "event": "Cyclone-related rainfall and flooding",
+      "story": "Australia’s Bureau of Meteorology documents Cyclone Koji and extensive rainfall and flooding. It is a candidate for an Australian NISAR flood study.",
+      "limitations": [
+        "The weather event is documented; a NISAR before/after pair has not been verified.",
+        "No NISAR flood map, affected-area statistic or displacement result is available in this preview."
+      ],
+      "nextStep": "Search the Fitzroy catchment and affected Queensland river basins for compatible event-spanning acquisitions.",
+      "sources": [
+        {
+          "label": "Bureau of Meteorology · Cyclone Koji",
+          "url": "https://www.bom.gov.au/cyclone/history/Koji_2026.shtml"
+        },
+        {
+          "label": "Bureau of Meteorology · Fitzroy flood context",
+          "url": "https://www.bom.gov.au/qld/flood/brochures/fitzroy/fitzroy.shtml"
+        }
+      ],
+      "media": [],
+      "video": null,
+      "archive": null,
+      "status": "BLOCKED",
+      "scientificClearance": "EXPLORATORY_NOT_CLEARED",
+      "measurements": null
+    }
+  ]
+}

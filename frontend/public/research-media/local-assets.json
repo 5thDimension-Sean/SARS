@@ -1,0 +1,41 @@
+{
+  "purpose": "Internal research preview assets; no numerical raster or clearance claims",
+  "assets": [
+    {
+      "path": "research-media/sossusvlei/2026-10-07_HH.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+      "sha256": "b4660eb1af7e5315f0d092cd14e60d2f282925983d2270b85e7906ce9a552007",
+      "bytes": 1358498,
+      "catalogMd5Verified": true
+    },
+    {
+      "path": "research-media/sossusvlei/2026-10-07_HV.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_108_D_101_2005_DHDH_A_20261007T170620_20261007T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+      "sha256": "8b9f2cc79f73b07be673ab84e9350f506dd6db4e2e1f5e55ca4db51aeaa18dea",
+      "bytes": 1292997,
+      "catalogMd5Verified": true
+    },
+    {
+      "path": "research-media/sossusvlei/2026-10-19_HH.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+      "sha256": "d9ad5e281eb648b0220f36997c819b30fb6d68bd4b7f09fb28395286cc8d3651",
+      "bytes": 1329602,
+      "catalogMd5Verified": true
+    },
+    {
+      "path": "research-media/sossusvlei/2026-10-19_HV.png",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_108_D_101_2005_DHDH_A_20261019T170620_20261019T170655_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+      "sha256": "9a8296b091dc727685a8ed954e7628b50ab7ef3c49488a9506ca7c5aaea46d41",
+      "bytes": 1273742,
+      "catalogMd5Verified": true
+    },
+    {
+      "path": "research-media/hubbard/hubbardearthquake_nisar_20251126_lrg.jpg",
+      "sourceUrl": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/iotd/2026/landslide-and-avalanche-debris-litter-hubbard-glacier/hubbardearthquake_nisar_20251126_lrg.jpg",
+      "sha256": "5130af033864289f5d5aa65e73dc213485ca9b4c7c85832d88a507c172473ecf",
+      "bytes": 6457818,
+      "catalogMd5Verified": false,
+      "note": "Published NASA visualization downloaded from the article. Local SHA-256 recorded; no official digest was supplied."
+    }
+  ]
+}
