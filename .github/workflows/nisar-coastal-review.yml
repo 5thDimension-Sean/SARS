@@ -6,6 +6,7 @@ on:
       - feat/usgs-midnight-pass-erosion
     paths:
       - .github/workflows/nisar-coastal-review.yml
+      - pipeline/coastal_pair_action.py
   workflow_dispatch:
 
 permissions:
@@ -17,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: [cameron, isles-dernieres, chandeleur, rodanthe, cape-hatteras]
+        site: [rodanthe]
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
