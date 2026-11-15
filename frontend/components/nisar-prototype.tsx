@@ -152,7 +152,6 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
 
   return <>
     <ProcessedEvidencePathway study={study} evidence={evidence} pol={pol} />
-    <FullStudyEvidenceStory study={study} evidence={evidence} pol={pol} />
     <section className={styles.section} id="look" aria-labelledby="h-look">
       <header><h2 id="h-look">{study.label}</h2>
         <p className={styles.lead}>{fmtDate(study.dates[0])} and {fmtDate(study.dates[1])}, polarization {pol}. {preview ? "Drag the divider to compare dates. Pick a region to zoom in." : "Pick a region to zoom in."}</p></header>
@@ -185,6 +184,8 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
         </aside>
       </div>
     </section>
+
+    <FullStudyEvidenceStory study={study} evidence={evidence} pol={pol} />
 
     <section className={styles.section} id="compare" aria-labelledby="h-scene">
       <header><h2 id="h-scene">The whole scene, {pol}</h2>
