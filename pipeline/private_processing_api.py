@@ -221,6 +221,10 @@ def get_job(job_id: str, authorization: str | None) -> Job:
         raise HTTPException(404, "Job not found")
     if not secrets.compare_digest(authorization[7:], job.secret):
         raise HTTPException(404, "Job not found")
+    if datetime.now(timezone.utc) - job.created > TTL and job.status in ("ready", "failed", "unavailable"):
+        shutil.rmtree(job.directory, ignore_errors=True)
+        JOBS.pop(job_id, None)
+        raise HTTPException(404, "Job expired")
     return job
 
 
