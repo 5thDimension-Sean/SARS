@@ -164,6 +164,23 @@ def work(job_id: str, latitude: float, longitude: float, token: str) -> None:
         if len(frames) != 1 or len(frames[0].get("changeLayers") or []) < 2:
             raise ValueError("Unable to validate a common radar comparison grid")
         dates = [str(first[0]), str(later[0])]
+        from pipeline.generate_unified_evidence import generate
+        (job.directory / "results" / "discovery.json").write_text(json.dumps({
+            "status": "EXPLORATORY_PROCESSED_NOT_QA_CLEARED",
+            "selected": [{"date": str(item[0]), "sceneName": str(item[1].properties.get("sceneName") or item[1].properties.get("fileID"))}
+                         for item in (first, later)],
+        }), encoding="utf8")
+        generate("custom", job.directory)
+        evidence = json.loads((job.directory / "custom-evidence" / "evidence.json").read_text())
+        regions = json.loads((job.directory / "custom-regions" / "regions.json").read_text())
+        frame = frames[0]
+        data_images = {
+            pol: {
+                "before": "custom-preview/" + dates[0].replace("-", "") + "_" + pol + ".png",
+                "after": "custom-preview/" + dates[1].replace("-", "") + "_" + pol + ".png",
+                "difference": "custom-regions/" + pol + "_difference_exploratory.png",
+            } for pol in ("HH", "HV")
+        }
         job.data = {
             "dates": dates, "track": key[0], "frame": key[1],
             "passDirection": key[2], "release": key[3],
@@ -172,6 +189,20 @@ def work(job_id: str, latitude: float, longitude: float, token: str) -> None:
             "scientificStatus": "EXPLORATORY_NOT_CLEARED",
             "disclaimer": "Radar backscatter differences do not establish flooding, erosion, crop damage, or physical causes.",
             "manifest": processed,
+            "images": data_images,
+            "evidence": {
+                pol: {"observations": evidence["polarizations"][pol]["observations"],
+                      "bins": evidence["polarizations"][pol]["histogramBins"],
+                      "differenceOfRegionalMeansDb": evidence["polarizations"][pol]["differenceOfRegionalMeansDb"],
+                      "differenceOfRegionalMediansDb": evidence["polarizations"][pol]["differenceOfRegionalMediansDb"]}
+                for pol in ("HH", "HV")
+            },
+            "regions": [{"id": r["id"], "title": r["title"], "stats": r["stats"]}
+                        for r in regions["regions"]],
+            "bounds": frame["bounds"],
+            "grid": {"crs": regions["crs"], "shape": regions["nativeShape"],
+                     "pixelSpacingMeters": regions["pixelSpacingMeters"],
+                     "pairedPixels": regions["pairedHHAndHVPixels"]},
         }
         # JSON does not contain credentials; raw HDF5 never exposed.
         job.status, job.progress = "ready", "Actual aligned NASA NISAR comparison available"
@@ -208,6 +239,7 @@ def create_job(payload: Location, x_earthdata_token: str | None = Header(default
         raise HTTPException(403, "Origin not permitted")
     if not x_earthdata_token or not 20 <= len(x_earthdata_token) <= 2048 or any(x in x_earthdata_token for x in "\r\n"):
         raise HTTPException(400, "An Earthdata token is required")
+    BASE.mkdir(parents=True, mode=0o700, exist_ok=True)
     with LOCK:
         prune()
         if sum(j.status in ("queued", "searching", "downloading", "processing") for j in JOBS.values()) >= MAX_ACTIVE:
