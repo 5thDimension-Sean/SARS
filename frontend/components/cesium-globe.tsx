@@ -59,17 +59,30 @@ export function CesiumGlobe({ places, activeIndex, onPick, onUnavailable }: {
           // Quality: render at the screen's real pixel density (the default is capped for speed) and smooth edges.
           useBrowserRecommendedResolution: false, msaaSamples: 4,
         }));
-        v.resolutionScale = Math.min(window.devicePixelRatio || 1, 2);
+        // Crisper imagery on modern displays, without forcing huge framebuffers on phones.
+        const compactScreen = window.matchMedia("(max-width: 899px)").matches;
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, compactScreen ? 1.5 : 2);
+        v.resolutionScale = pixelRatio;
         v.scene.postProcessStages.fxaa.enabled = true;
         const scene = v.scene;
         scene.backgroundColor = C.Color.BLACK;
         scene.globe.baseColor = C.Color.fromCssColorString("#16406f");
         scene.globe.enableLighting = false; scene.globe.showGroundAtmosphere = true;
-        scene.globe.maximumScreenSpaceError = 1.5; scene.globe.tileCacheSize = 150;
+        // High-detail textures and smoother oblique image sampling when parked at a location.
+        scene.globe.maximumScreenSpaceError = compactScreen ? 1.8 : 1.15;
+        scene.globe.tileCacheSize = compactScreen ? 120 : 220;
+        scene.globe.maximumAnisotropy = 8;
+        scene.globe.preloadAncestors = true;
         scene.globe.atmosphereLightIntensity = 14; scene.globe.atmosphereBrightnessShift = 0.05;
+        scene.fog.enabled = true;
+        scene.fog.density = 0.00012;
+        scene.fog.minimumBrightness = 0.08;
         const sky = (f: string) => `${baseUrl()}Assets/Textures/SkyBox/tycho2t3_80_${f}.jpg`;
         scene.skyBox = new C.SkyBox({ sources: { positiveX: sky("px"), negativeX: sky("mx"), positiveY: sky("py"), negativeY: sky("my"), positiveZ: sky("pz"), negativeZ: sky("mz") } });
-        if (scene.skyAtmosphere) scene.skyAtmosphere.show = true;
+        if (scene.skyAtmosphere) {
+          scene.skyAtmosphere.show = true;
+          scene.skyAtmosphere.atmosphereLightIntensity = 14;
+        }
         if (scene.sun) scene.sun.show = false;
         if (scene.moon) scene.moon.show = false;
         // Natural-color Earth bundled with CesiumJS, awaited so the globe never flashes empty.
@@ -99,7 +112,9 @@ export function CesiumGlobe({ places, activeIndex, onPick, onUnavailable }: {
         for (const p of places) {
           v.entities.add({
             id: p.id, position: C.Cartesian3.fromDegrees(p.lon, p.lat),
-            point: { pixelSize: 11, color: C.Color.fromCssColorString(GOLD), outlineColor: C.Color.WHITE, outlineWidth: 2, disableDepthTestDistance: Number.POSITIVE_INFINITY },
+            point: { pixelSize: 11, color: C.Color.fromCssColorString(GOLD), outlineColor: C.Color.WHITE.withAlpha(0.9), outlineWidth: 2,
+              scaleByDistance: new C.NearFarScalar(100_000, 1.2, 25_000_000, 0.7),
+              disableDepthTestDistance: Number.POSITIVE_INFINITY },
             label: { text: p.short.toUpperCase(), font, fillColor: C.Color.WHITE, outlineColor: C.Color.BLACK.withAlpha(0.85), outlineWidth: 4, style: C.LabelStyle.FILL_AND_OUTLINE,
               horizontalOrigin: C.HorizontalOrigin.LEFT, verticalOrigin: C.VerticalOrigin.CENTER, pixelOffset: new C.Cartesian2(16, 0), disableDepthTestDistance: Number.POSITIVE_INFINITY },
             rectangle: p.bounds ? { coordinates: C.Rectangle.fromDegrees(...(p.bounds as [number, number, number, number])), fill: false, outline: true, outlineColor: C.Color.fromCssColorString(GOLD), height: 0 } : undefined,
@@ -115,14 +130,13 @@ export function CesiumGlobe({ places, activeIndex, onPick, onUnavailable }: {
         });
         // The camera flies once per stop (a timed, eased flight), so the GPU only works for those couple of seconds.
         // The globe renders on demand: a lighter tier is used during the flight, and full quality returns when it lands.
-        const dpr = window.devicePixelRatio || 1;
         let hq = true;
         quality.current = (hi: boolean) => {
           if (hi === hq || v.isDestroyed()) return;
           hq = hi;
-          v.resolutionScale = hi ? Math.min(dpr, 2) : Math.min(dpr, 1.25);
-          scene.msaaSamples = hi ? 4 : 1;
-          scene.globe.maximumScreenSpaceError = hi ? 1.25 : 3;
+          v.resolutionScale = hi ? pixelRatio : Math.min(pixelRatio, 1);
+          scene.msaaSamples = hi ? (compactScreen ? 2 : 4) : 1;
+          scene.globe.maximumScreenSpaceError = hi ? (compactScreen ? 1.8 : 1.15) : 3.2;
           scene.requestRender();
         };
         v.camera.setView({ destination: C.Cartesian3.fromDegrees(HERO_VIEW.lon, HERO_VIEW.lat, HERO_VIEW.height), orientation: { heading: 0, pitch: -C.Math.PI_OVER_TWO, roll: 0 } });
