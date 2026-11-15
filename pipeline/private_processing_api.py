@@ -190,6 +190,8 @@ def work(job_id: str, latitude: float, longitude: float, token: str) -> None:
             "disclaimer": "Radar backscatter differences do not establish flooding, erosion, crop damage, or physical causes.",
             "manifest": processed,
             "images": data_images,
+            "quality": evidence["quality"],
+            "limitations": evidence["limitations"],
             "evidence": {
                 pol: {"observations": evidence["polarizations"][pol]["observations"],
                       "bins": evidence["polarizations"][pol]["histogramBins"],
