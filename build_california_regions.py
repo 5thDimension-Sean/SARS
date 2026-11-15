@@ -29,6 +29,7 @@ from pipeline.common import power_to_db
 from pipeline.fetch_nisar import authenticated_session, load_asf
 from pipeline.science_validation import gamma0_check, inspect_quality_grids, screen_power
 from pipeline.sources import RangeReader
+from pipeline.trust_grid import write_difference_grids
 
 ROOT = Path(__file__).resolve().parent
 STUDY = ROOT / 'pipeline/studies/california_plaskett_20260822_20260915.json'
@@ -250,6 +251,12 @@ def main():
         json.dump({'type': 'FeatureCollection', 'features': features}, f, indent=2)
     for pol in POLARIZATIONS:
         make_difference_png(diffs[pol], common, OUT / f'{pol}_difference_exploratory.png')
+    # Numerical grids for the trust layer; the PNGs above are display-only.
+    write_difference_grids(
+        OUT, diffs, study='California Plaskett Fire study area', dates=[before['date'], after['date']],
+        granules=[before['conceptId'], after['conceptId']], crs=before['crs'],
+        pixel_spacing_m=before['spacing'], first_pixel_center=before['firstCenter'],
+        warning=QA_WARNING)
     metadata = {
         'schemaVersion': 'sar-waltz-regions-1.0',
         'study': 'California Plaskett Fire study area', 'dates': [before['date'], after['date']],

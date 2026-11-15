@@ -13,6 +13,7 @@ const ITEMS = [
   { key: "home", label: "Home", href: "/" },
   { key: "places", label: "Places", href: "" },
   { key: "coordinates", label: "Coordinates", href: "/coordinates" },
+  { key: "trust", label: "Trust check", href: "/trust" },
   { key: "faq", label: "FAQ", href: "/faq" },
 ] as const;
 
@@ -25,7 +26,7 @@ export function SiteNav() {
   const study = useStudyId();
   const pol = usePolarization();
   const onInvestigation = pathname.startsWith("/nisar-prototype");
-  const activeKey = onInvestigation || pathname.startsWith("/research-preview") || pathname.startsWith("/coastal-erosion") || pathname.startsWith("/amazon-river") || pathname.startsWith("/etna-investigation") ? "places" : pathname === "/" ? "home" : pathname.startsWith("/coordinates") ? "coordinates" : pathname.startsWith("/faq") ? "faq" : "";
+  const activeKey = onInvestigation || pathname.startsWith("/research-preview") || pathname.startsWith("/coastal-erosion") || pathname.startsWith("/amazon-river") || pathname.startsWith("/etna-investigation") ? "places" : pathname === "/" ? "home" : pathname.startsWith("/coordinates") ? "coordinates" : pathname.startsWith("/trust") ? "trust" : pathname.startsWith("/faq") ? "faq" : "";
   const [menu, setMenu] = useState(false);
   const bar = useRef<HTMLElement>(null);
   useEffect(() => {

@@ -20,6 +20,11 @@ import numpy as np
 import rasterio
 from rasterio.warp import transform as project
 
+try:  # run as a module from the repository root, or directly as a script
+    from pipeline.trust_grid import write_difference_grids
+except ImportError:
+    from trust_grid import write_difference_grids
+
 SITES = {
     "rodanthe": {"title": "Rodanthe, North Carolina", "region": "North Carolina Outer Banks coast", "data": "rodanthe-processed"},
     "custom": {"title": "Custom NISAR coordinate comparison", "region": "Visitor-selected geographic point", "data": "results"},
@@ -230,6 +235,12 @@ def generate(site: str, public: Path):
         "annotations": annotations,
     }
     save(rgdir / "regions.json", meta)
+    # Numerical paired-difference grids for the trust layer. The PNGs above are display-only.
+    write_difference_grids(
+        rgdir, {p: np.where(valid, diffs[p], np.nan) for p in ("HH", "HV")}, study=config["title"],
+        dates=dates, granules=granules, crs=str(ref_crs), pixel_spacing_m=[float(dx), float(dy)],
+        first_pixel_center=[float(v) for v in ref_transform * (0.5, 0.5)],
+        warning=f"EXPLORATORY ONLY. {CLEARANCE}. Radar differences do not establish flooding, erosion, vegetation loss or damage.")
     save(rgdir / "regions.geojson", {"type": "FeatureCollection", "features": features})
     pr = {
         "schemaVersion": "preview-1.0",
