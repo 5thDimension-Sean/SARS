@@ -7,7 +7,7 @@
   "measurementType": "per-acquisition descriptive statistics",
   "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
   "quality": {
-    "identificationGroup": "FAIL on both official NASA QA summaries; specific identification failure unexplained",
+    "identificationGroup": "FAIL on both official QA summaries. Two metadata failures reproduced: instrumentName is LSAR; the matching checker expects L-SAR or S-SAR. listOfObservationModes contains (NOT SPECIFIED) instead of a structured observation-mode value. These are not necessarily the only official QA failures. They do not independently establish invalid radar pixels or incorrect geolocation. Acquisition-mode provenance is incomplete; scientific clearance and radiometric review remain unresolved. Unverified checks remain unverified.",
     "frequencyAHHAndHVValidity": "PASS on both official NASA QA summaries for Frequency A HH/HV invalid-pixel threshold checks; decimated rasters only",
     "gridAlignment": "PASS for selected Frequency A ROI: EPSG:32610, 10 m, 450 by 369",
     "radiometricArtifactsAndNoise": "UNVERIFIED; RFI, noise and possible banding need review"

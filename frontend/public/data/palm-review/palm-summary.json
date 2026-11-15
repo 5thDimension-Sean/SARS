@@ -149,5 +149,6 @@
     "Radiometric artifacts, noise, RFI and residual calibration have not been cleared.",
     "Measured radar-return differences do not establish a specific physical or environmental cause.",
     "Images and statistics are exploratory. Do not treat them as validated environmental findings."
-  ]
+  ],
+  "identificationQa": "FAIL on both official QA summaries. Two metadata failures reproduced: instrumentName is LSAR; the matching checker expects L-SAR or S-SAR. listOfObservationModes contains (NOT SPECIFIED) instead of a structured observation-mode value. These are not necessarily the only official QA failures. They do not independently establish invalid radar pixels or incorrect geolocation. Acquisition-mode provenance is incomplete; scientific clearance and radiometric review remain unresolved. Unverified checks remain unverified."
 }

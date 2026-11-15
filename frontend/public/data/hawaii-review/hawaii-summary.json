@@ -88,5 +88,6 @@
   "scientificStatus": "EXPLORATORY_NOT_CLEARED",
   "warning": "Provisional NISAR GCOV radar-return observations; not cleared for quantitative environmental analysis. Official QA review, radiometric artifacts, RFI, banding and noise floor remain unresolved. No lava, damage, physical cause, or detection accuracy is inferred.",
   "qaReview": "Official QA summary, radiometric artifacts, RFI, banding and noise floor not cleared; report contains 10 UNVERIFIED checks.",
-  "note": "Images and statistics are for exploratory inspection only. No environmental impact or eruption attribution."
+  "note": "Images and statistics are for exploratory inspection only. No environmental impact or eruption attribution.",
+  "identificationQa": "FAIL on both official QA summaries. Two metadata failures reproduced: instrumentName is LSAR; the matching checker expects L-SAR or S-SAR. listOfObservationModes contains (NOT SPECIFIED) instead of a structured observation-mode value. These are not necessarily the only official QA failures. They do not independently establish invalid radar pixels or incorrect geolocation. Acquisition-mode provenance is incomplete; scientific clearance and radiometric review remain unresolved. Unverified checks remain unverified."
 }

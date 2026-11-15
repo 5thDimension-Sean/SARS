@@ -1,0 +1,3 @@
+// Grounded in the version-matched audit dated 2026-11-14. No scientific clearance.
+export const IDENTIFICATION_QA = "FAIL on both official QA summaries. Two metadata failures reproduced: instrumentName is LSAR; the matching checker expects L-SAR or S-SAR. listOfObservationModes contains (NOT SPECIFIED) instead of a structured observation-mode value.";
+export const IDENTIFICATION_LIMITS = "These are not necessarily the only official QA failures. They do not independently establish invalid radar pixels or incorrect geolocation. Acquisition-mode provenance is incomplete; scientific clearance and radiometric review remain unresolved. Unverified checks remain unverified.";

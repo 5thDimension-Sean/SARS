@@ -1,5 +1,6 @@
 "use client";
 
+import { IdentificationQa } from "./identification-qa";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import { ProcessedOverlayPanel } from "./processed-overlay-panel";
@@ -137,6 +138,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
     <section className={styles.section} id="look" aria-labelledby="h-look">
       <header><h2 id="h-look">{study.label}</h2>
         <p className={styles.lead}>{fmtDate(study.dates[0])} and {fmtDate(study.dates[1])}, polarization {pol}. {preview ? "Drag the divider to compare dates. Pick a region to zoom in." : "Pick a region to zoom in."}</p></header>
+      <IdentificationQa />
       {previewNote && <p className={styles.notice} role="note" style={{ marginBottom: 16 }}>{previewNote}</p>}
       <div className={styles.viewer} data-workbench>
         <div>

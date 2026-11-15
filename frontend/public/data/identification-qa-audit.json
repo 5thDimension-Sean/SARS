@@ -1,0 +1,3829 @@
+{
+  "investigationDate": "2026-11-14",
+  "scope": "Read-only metadata and official QA investigation; no QA status changes or scientific clearance.",
+  "method": "Bounded authenticated primary HDF5 identification reads; bounded small official QA artifact reads. Version-matched observation-mode function extracted with Python AST and executed locally; instrument value compared with official allowed enum. Not a full QA rerun.",
+  "limits": [
+    "Official CSV contains only aggregate identification FAIL. No detailed per-check production log found among CMR distributed files.",
+    "Two independently reproduced failed predicates are a lower bound, not an exhaustive list of original production failures.",
+    "No new audit of historical Hubbard BETA pair or the single October 28 validated Hubbard acquisition in this report."
+  ],
+  "officialRuleSources": {
+    "17.0.0": {
+      "url": "https://github.com/isce-framework/nisarqa/blob/v17.0.0/src/nisarqa/validate/sanity_checks.py",
+      "sha256": "e97b180f1b3084faafddf55358a40a0a58fe4b95f9648fc2cb4907f7b46c4c12",
+      "observationModeFunctionLine": 549
+    },
+    "17.2.0": {
+      "url": "https://github.com/isce-framework/nisarqa/blob/v17.2.0/src/nisarqa/validate/sanity_checks.py",
+      "sha256": "e97b180f1b3084faafddf55358a40a0a58fe4b95f9648fc2cb4907f7b46c4c12",
+      "observationModeFunctionLine": 549
+    }
+  },
+  "products": [
+    {
+      "study": "Hawaii",
+      "conceptId": "G4300303633-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 5786
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 11
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S9",
+          "shape": [],
+          "value": "Ascending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 151
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-04T15:50:57.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-04T15:50:39.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001.h5",
+          "size": 2751463424,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/2751463424",
+            "lastContentRange": "bytes 2743074816-2743140351/2751463424",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_QA_REPORT.pdf",
+          "size": 363166,
+          "sha256": "7bf0a9f72906fc29093925b7d3afe98e28167bb24729d7b8a32ec7cc39bb9a5e",
+          "transfer": {
+            "bodyBytesConsumed": 363166,
+            "requests": 7,
+            "cachePeakBytes": 363166,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 6,
+            "firstContentRange": "bytes 0-65535/363166",
+            "lastContentRange": "bytes 327680-363165/363166",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_QA_STATS.h5",
+          "size": 72706,
+          "sha256": "26d7d57e0fa6843477dda62b9ee51e512e87a5925997491c3cee0f44930afd5d",
+          "transfer": {
+            "bodyBytesConsumed": 72706,
+            "requests": 3,
+            "cachePeakBytes": 72706,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72706",
+            "lastContentRange": "bytes 65536-72705/72706",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001.h5",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_029_151_A_011_4005_DHDH_A_20260904T155039_20260904T155057_P05023_N_P_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 764993
+    },
+    {
+      "study": "Hawaii",
+      "conceptId": "G4315672426-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 5959
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 11
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S9",
+          "shape": [],
+          "value": "Ascending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 151
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-16T15:50:57.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-16T15:50:39.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001.h5",
+          "size": 2755657728,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/2755657728",
+            "lastContentRange": "bytes 2747269120-2747334655/2755657728",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_QA_REPORT.pdf",
+          "size": 368362,
+          "sha256": "e5ae9bb2426c237fb033029b4fdc906094433725bc946b4ef43b5951076a7dd1",
+          "transfer": {
+            "bodyBytesConsumed": 368362,
+            "requests": 7,
+            "cachePeakBytes": 368362,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 6,
+            "firstContentRange": "bytes 0-65535/368362",
+            "lastContentRange": "bytes 327680-368361/368362",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_QA_STATS.h5",
+          "size": 72708,
+          "sha256": "9de2ca224b5df3792210a828c822f9c08f423fedc877d9b7cd66d9ec434d68c0",
+          "transfer": {
+            "bodyBytesConsumed": 72708,
+            "requests": 3,
+            "cachePeakBytes": 72708,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72708",
+            "lastContentRange": "bytes 65536-72707/72708",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001.h5",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_030_151_A_011_4005_DHDH_A_20260916T155039_20260916T155057_P05023_N_P_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 770191
+    },
+    {
+      "study": "Iowa",
+      "conceptId": "G4325945910-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6086
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 23
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S9",
+          "shape": [],
+          "value": "Ascending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 105
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-25T11:23:00.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-25T11:22:25.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001.h5",
+          "size": 6983516160,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/6983516160",
+            "lastContentRange": "bytes 6970933248-6970998783/6983516160",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_QA_REPORT.pdf",
+          "size": 972142,
+          "sha256": "9ba2d76eac6cfbf41fec07d963699597765ff6895f274844f40af28ef60a4676",
+          "transfer": {
+            "bodyBytesConsumed": 972142,
+            "requests": 16,
+            "cachePeakBytes": 972142,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 15,
+            "firstContentRange": "bytes 0-65535/972142",
+            "lastContentRange": "bytes 917504-972141/972142",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72685,
+          "sha256": "ca46de5dcbcaaef0b322e3fa3feee7b31faedffd5463da58848af77b3204c8c8",
+          "transfer": {
+            "bodyBytesConsumed": 72685,
+            "requests": 3,
+            "cachePeakBytes": 72685,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72685",
+            "lastContentRange": "bytes 65536-72684/72685",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_031_105_A_023_4005_DHDH_A_20260925T112225_20260925T112300_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 1373948
+    },
+    {
+      "study": "Iowa",
+      "conceptId": "G4381295241-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6432
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 23
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S9",
+          "shape": [],
+          "value": "Ascending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 105
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-19T11:23:00.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-19T11:22:25.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001.h5",
+          "size": 6979321856,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/6979321856",
+            "lastContentRange": "bytes 6966738944-6966804479/6979321856",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_QA_REPORT.pdf",
+          "size": 989254,
+          "sha256": "05f12a05e9590fd31d8e9257ee60449559af6aaff929289eb199114345d33d08",
+          "transfer": {
+            "bodyBytesConsumed": 989254,
+            "requests": 17,
+            "cachePeakBytes": 989254,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 16,
+            "firstContentRange": "bytes 0-65535/989254",
+            "lastContentRange": "bytes 983040-989253/989254",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72683,
+          "sha256": "16983db6362b3404bfd4aafbaa2e9921ee5876571b7762c1ac35f93362a57e96",
+          "transfer": {
+            "bodyBytesConsumed": 72683,
+            "requests": 3,
+            "cachePeakBytes": 72683,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72683",
+            "lastContentRange": "bytes 65536-72682/72683",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_033_105_A_023_4005_DHDH_A_20261019T112225_20261019T112300_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 1391058
+    },
+    {
+      "study": "Everglades",
+      "conceptId": "G4342506513-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6151
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 76
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S10",
+          "shape": [],
+          "value": "Descending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 170
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-30T00:05:47.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-30T00:05:12.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.h5",
+          "size": 4643094528,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/4643094528",
+            "lastContentRange": "bytes 4630511616-4630577151/4643094528",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72756,
+          "sha256": "d380e94ca41722cee16ca32b450c76cb05ff66c23c916b2632333653d580185c",
+          "transfer": {
+            "bodyBytesConsumed": 72756,
+            "requests": 3,
+            "cachePeakBytes": 72756,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72756",
+            "lastContentRange": "bytes 65536-72755/72756",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_031_170_D_076_4005_DHDH_A_20260930T000512_20260930T000547_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401877
+    },
+    {
+      "study": "Everglades",
+      "conceptId": "G4373929961-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6324
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 76
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S10",
+          "shape": [],
+          "value": "Descending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 170
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-12T00:05:47.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-12T00:05:13.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.h5",
+          "size": 4504682496,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/4504682496",
+            "lastContentRange": "bytes 4492099584-4492165119/4504682496",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72757,
+          "sha256": "818f26f63d82f28597248866dc3fe7f3e347295e3a3b8d4171ec4f312e221bd8",
+          "transfer": {
+            "bodyBytesConsumed": 72757,
+            "requests": 3,
+            "cachePeakBytes": 72757,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72757",
+            "lastContentRange": "bytes 65536-72756/72757",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_032_170_D_076_4005_DHDH_A_20261012T000513_20261012T000547_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401878
+    },
+    {
+      "study": "Louisiana",
+      "conceptId": "G4330259432-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6137
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 74
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S10",
+          "shape": [],
+          "value": "Descending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 156
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-29T00:46:15.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-29T00:45:42.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001.h5",
+          "size": 4584374272,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/4584374272",
+            "lastContentRange": "bytes 4575985664-4576051199/4584374272",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72748,
+          "sha256": "549d3d8ac6d3e8d7109a1041ae6134a7b65afef8712a5cfe9e35cb1c0c3e7860",
+          "transfer": {
+            "bodyBytesConsumed": 72748,
+            "requests": 3,
+            "cachePeakBytes": 72748,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72748",
+            "lastContentRange": "bytes 65536-72747/72748",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_031_156_D_074_4005_DHDH_A_20260929T004542_20260929T004615_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401869
+    },
+    {
+      "study": "Louisiana",
+      "conceptId": "G4361359332-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6310
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 74
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S10",
+          "shape": [],
+          "value": "Descending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 156
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-11T00:46:15.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-11T00:45:42.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001.h5",
+          "size": 4580179968,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/4580179968",
+            "lastContentRange": "bytes 4571791360-4571856895/4580179968",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72746,
+          "sha256": "37ed118e0914fc2dae5d25cab2288ac1cef606b4bc2c30501368b9173e87a3fc",
+          "transfer": {
+            "bodyBytesConsumed": 72746,
+            "requests": 3,
+            "cachePeakBytes": 72746,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72746",
+            "lastContentRange": "bytes 65536-72745/72746",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_032_156_D_074_4005_DHDH_A_20261011T004542_20261011T004615_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401867
+    },
+    {
+      "study": "California",
+      "conceptId": "G4288641488-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 5597
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 20
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S9",
+          "shape": [],
+          "value": "Ascending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 135
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-08-22T13:17:51.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-08-22T13:17:16.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001.h5",
+          "size": 5884608512,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/5884608512",
+            "lastContentRange": "bytes 5872025600-5872091135/5884608512",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72713,
+          "sha256": "4477afc595dacbb7d19a55c40d78699c4edc2e9092f7861026c23e70ca89061b",
+          "transfer": {
+            "bodyBytesConsumed": 72713,
+            "requests": 3,
+            "cachePeakBytes": 72713,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72713",
+            "lastContentRange": "bytes 65536-72712/72713",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_028_135_A_020_4005_DHDH_A_20260822T131716_20260822T131751_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401834
+    },
+    {
+      "study": "California",
+      "conceptId": "G4314277037-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 5943
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 20
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S9",
+          "shape": [],
+          "value": "Ascending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 135
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-15T13:17:50.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-09-15T13:17:16.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001.h5",
+          "size": 5725224960,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/5725224960",
+            "lastContentRange": "bytes 5712642048-5712707583/5725224960",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72709,
+          "sha256": "bf4913924e0b44a773f6eab56cd6a06217c629281dd26cefc42db6a02b92508b",
+          "transfer": {
+            "bodyBytesConsumed": 72709,
+            "requests": 3,
+            "cachePeakBytes": 72709,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72709",
+            "lastContentRange": "bytes 65536-72708/72709",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_030_135_A_020_4005_DHDH_A_20260915T131716_20260915T131750_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401830
+    },
+    {
+      "study": "Palm Jumeirah",
+      "conceptId": "G4347479954-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6232
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 76
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S10",
+          "shape": [],
+          "value": "Descending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 78
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-05T14:56:29.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-05T14:55:48.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001.h5",
+          "size": 6870269952,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/6870269952",
+            "lastContentRange": "bytes 6857687040-6857752575/6870269952",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72670,
+          "sha256": "1ab04aa2be002c9941fb0debe94572cf0b8026d8ef121d5f486b52bab8170121",
+          "transfer": {
+            "bodyBytesConsumed": 72670,
+            "requests": 3,
+            "cachePeakBytes": 72670,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72670",
+            "lastContentRange": "bytes 65536-72669/72670",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_032_078_D_076_4005_DHDH_A_20261005T145548_20261005T145629_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401791
+    },
+    {
+      "study": "Palm Jumeirah",
+      "conceptId": "G4377687641-ASF",
+      "collection": {
+        "ShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "Version": "1"
+      },
+      "QASoftwareVersion": "17.0.0",
+      "identification": {
+        "absoluteOrbitNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 6405
+        },
+        "compositeReleaseId": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "P05023"
+        },
+        "frameNumber": {
+          "dtype": "uint16",
+          "shape": [],
+          "value": 76
+        },
+        "instrumentName": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "LSAR"
+        },
+        "listOfObservationModes": {
+          "dtype": "|S15",
+          "shape": [
+            1
+          ],
+          "value": [
+            "(NOT SPECIFIED)"
+          ]
+        },
+        "missionId": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "NISAR"
+        },
+        "orbitPassDirection": {
+          "dtype": "|S10",
+          "shape": [],
+          "value": "Descending"
+        },
+        "productSpecificationVersion": {
+          "dtype": "|S5",
+          "shape": [],
+          "value": "1.5.0"
+        },
+        "productType": {
+          "dtype": "|S4",
+          "shape": [],
+          "value": "GCOV"
+        },
+        "productVersion": {
+          "dtype": "|S6",
+          "shape": [],
+          "value": "1.0.11"
+        },
+        "radarBand": {
+          "dtype": "|S1",
+          "shape": [],
+          "value": "L"
+        },
+        "trackNumber": {
+          "dtype": "uint32",
+          "shape": [],
+          "value": 78
+        },
+        "zeroDopplerEndTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-17T14:56:29.999342105"
+        },
+        "zeroDopplerStartTime": {
+          "dtype": "|S29",
+          "shape": [],
+          "value": "2026-10-17T14:55:48.000000000"
+        }
+      },
+      "officialQARows": [
+        {
+          "Tool": "QA",
+          "Check": "Able to open input NISAR file?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Coordinate grid metadata cubes are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "Calibration information LUTs are valid?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "`crosstalk` LUTs skipped."
+        },
+        {
+          "Tool": "QA",
+          "Check": "Passes all `identification` group checks?",
+          "Result": "FAIL",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_A_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HHHH backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "% Cumulative NaN and Inf and fill and near-zero pixels under threshold?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": "GCOV_L_B_HVHV backscatter: If a 'FAIL' then all histogram bin counts are zero. This likely indicates that the raster contained no valid data. Note: check performed on decimated raster not full raster."
+        },
+        {
+          "Tool": "QA",
+          "Check": "QA completed with no exceptions?",
+          "Result": "PASS",
+          "Threshold": "",
+          "Actual": "",
+          "Notes": ""
+        }
+      ],
+      "reproducedChecks": {
+        "instrumentNameAllowedValue": false,
+        "observationModeFormat": [
+          false
+        ]
+      },
+      "artifacts": [
+        {
+          "name": "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001.h5",
+          "size": 6853492736,
+          "transfer": {
+            "bodyBytesConsumed": 327680,
+            "requests": 6,
+            "cachePeakBytes": 327680,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 5,
+            "firstContentRange": "bytes 0-65535/6853492736",
+            "lastContentRange": "bytes 6840909824-6840975359/6853492736",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_QA_STATS.h5",
+          "size": 72671,
+          "sha256": "b5591462cb48801c28ca503494ac6da7112c8e9eede6b8d936188941960dba0c",
+          "transfer": {
+            "bodyBytesConsumed": 72671,
+            "requests": 3,
+            "cachePeakBytes": 72671,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 2,
+            "firstContentRange": "bytes 0-65535/72671",
+            "lastContentRange": "bytes 65536-72670/72671",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        },
+        {
+          "name": "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_QA_SUMMARY.csv",
+          "size": 1441,
+          "sha256": "8938a6d85d1bcc339e850ebb7b087dc1982fdbb159995c721944b4d81880c688",
+          "transfer": {
+            "bodyBytesConsumed": 1441,
+            "requests": 2,
+            "cachePeakBytes": 1441,
+            "cacheLimitBytes": 4194304,
+            "transferLimitBytes": 33554432,
+            "lastHttpStatus": 206,
+            "redirects": [
+              {
+                "status": 303,
+                "destinationHost": "d1mv8zhcvry6x4.cloudfront.net",
+                "allowed": true,
+                "validation": {
+                  "parseable": true,
+                  "https": true,
+                  "hostAllowlisted": true,
+                  "portAllowed": true,
+                  "noUserinfo": true,
+                  "noFragment": true,
+                  "noControlCharacters": true,
+                  "strictProductPathMatches": true,
+                  "productKeySuffixMatches": true,
+                  "decodedProductKeySuffixMatches": true,
+                  "mappedOriginPrefixMatches": true,
+                  "canonicalPathMatches": false
+                }
+              }
+            ],
+            "verified206Responses": 1,
+            "firstContentRange": "bytes 0-1440/1441",
+            "lastContentRange": "bytes 0-1440/1441",
+            "safeError": null,
+            "fullFileChecksumVerified": false
+          }
+        }
+      ],
+      "distributedFiles": [
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001.h5",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_LATLON.png",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE.png",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001.h5.iso.xml",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_QA_REPORT.pdf",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_QA_STATS.h5",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_LATLON.kml",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE.kml",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "NISAR_L2_PR_GCOV_033_078_D_076_4005_DHDH_A_20261017T145548_20261017T145629_P05023_N_F_J_001.rc.yaml"
+      ],
+      "totalBodyBytes": 401792
+    }
+  ],
+  "decision": "Existing exploratory studies remain NOT CLEARED; official identification FAIL is preserved."
+}
