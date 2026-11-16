@@ -6,7 +6,7 @@ import {
   STUDIES, parseContext, parseEvidence, parseRegions, parsePreview, utmToLonLat, rasterCorners, ringBounds,
   fmtSignedDb, fmtDb, dataUrl, describeRegion, describeStudyShift, histogramShares, histogramOverlap, qaState,
 } from "../lib/investigation.ts";
-import { studyFromHash } from "../lib/view-store.ts";
+import { studyFromHash, resolveStudy } from "../lib/view-store.ts";
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../public/data/${p}`, import.meta.url), "utf8"));
 const load = (s) => ({
@@ -441,4 +441,12 @@ test("upload analysis: validates files, self-runs checks, never fabricates resul
   const d = differenceRgba(make(2, 1, () => 50), make(2, 1, (x) => (x ? 200 : null)));
   assert.equal(d[3], 0, "masked pixel transparent"); assert.deepEqual([...d.slice(4, 8)], [255, 0, 0, 255]);
   assert.throws(() => differenceRgba(make(2, 2, () => 1), make(3, 2, () => 1)), /same size/);
+});
+
+test("a remembered menu click never overrides the place named in the URL", () => {
+  assert.equal(resolveStudy("padma", "#everglades"), "everglades", "link to Everglades after choosing Padma");
+  assert.equal(resolveStudy("padma", "#padma"), "padma");
+  assert.equal(resolveStudy("padma", ""), "padma", "no place in the URL keeps the in-app choice");
+  assert.equal(resolveStudy(null, "#hubbard"), "hubbard");
+  assert.equal(resolveStudy(null, "#unknown"), STUDIES[0].id);
 });
