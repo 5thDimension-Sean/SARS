@@ -73,7 +73,7 @@ def obs(values, date, granule, limits, bins):
 
 
 def corners(transform, shape, crs, row0, row1, col0, col1):
-    xy = [transform * (col, row) for col, row in
+    xy = [transform @ (col, row) for col, row in
           [(col0, row0), (col1, row0), (col1, row1), (col0, row1), (col0, row0)]]
     lons, lats = project(crs, "EPSG:4326", [v[0] for v in xy], [v[1] for v in xy])
     return [[round(float(x), 9), round(float(y), 9)] for x, y in zip(lons, lats)]
@@ -240,7 +240,7 @@ def generate(site: str, public: Path):
         "schemaVersion": "sar-waltz-regions-1.0", "study": config["title"],
         "dates": dates, "sourceGranules": granules, "crs": str(ref_crs),
         "nativeShape": [h, w], "pixelSpacingMeters": [dx, dy],
-        "firstPixelCenter": list(ref_transform * (0.5, 0.5)),
+        "firstPixelCenter": list(ref_transform @ (0.5, 0.5)),
         "pairedHHAndHVPixels": int(valid.sum()),
         "differenceDefinition": "later gamma0 dB minus earlier gamma0 dB on paired valid reduced-grid pixels",
         "visualizationScale": {"limitsDb": [-6, 6]},
@@ -252,7 +252,7 @@ def generate(site: str, public: Path):
     write_difference_grids(
         rgdir, {p: np.where(valid, diffs[p], np.nan) for p in ("HH", "HV")}, study=config["title"],
         dates=dates, granules=granules, crs=str(ref_crs), pixel_spacing_m=[float(dx), float(dy)],
-        first_pixel_center=[float(v) for v in ref_transform * (0.5, 0.5)],
+        first_pixel_center=[float(v) for v in ref_transform @ (0.5, 0.5)],
         warning=f"EXPLORATORY ONLY. {CLEARANCE}. Radar differences do not establish flooding, erosion, vegetation loss or damage.")
     save(rgdir / "regions.geojson", {"type": "FeatureCollection", "features": features})
     pr = {

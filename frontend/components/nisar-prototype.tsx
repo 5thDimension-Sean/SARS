@@ -180,7 +180,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
           </div>
           {region ? <RegionDetail region={region} pol={pol} dates={study.dates} /> :
             <div className={styles.detail}><p>{describeStudyShift(pol, pe, study.dates)}</p>
-              <p>Regions A, B and C come from an exploratory search for pixel-level differences, so they illustrate variation rather than typical conditions.</p></div>}
+              <p>Regions A–C are exploratory picks, not typical ground.</p></div>}
         </aside>
       </div>
     </section>

@@ -241,7 +241,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
       })().catch(() => callbacks.current.onProblem("The changed-pixels layer could not be drawn. The radar itself is unaffected."));
     }, 120);
     return () => { cancelled = true; window.clearTimeout(timer); };
-  }, [handles, changeOnly, overlayStrength, showChanges, mode, regions, study.regionsDir, study.utmZone]);
+  }, [handles, changeOnly, overlayStrength, showChanges, mode, regions, study.regionsDir, study.utmZone, study.differenceInPreviewCrs, preview]);
 
   // ---- NASA GIBS browse mosaic: context only, below the measured rasters, added only after the pair was verified
   useEffect(() => {
