@@ -20,6 +20,9 @@ const FOOTPRINTS: Record<string, Bounds> = {
   iowa: [-93.64, 42.0, -93.6, 42.04],
   rodanthe: [-75.50068595795983, 35.529697155479866, -75.4293561222836, 35.640310954737934],
   amazon: [-65.02043484381555, -3.300745697057557, -64.74965756771243, -3.079380346980606],
+  hubbard: [-139.43075635339048, 59.99246872773645, -139.17057157354077, 60.20748152795458],
+  sossusvlei: [15.199616805860108, -24.850414708223134, 15.40058997730266, -24.649525031875186],
+  padma: [89.94525973443696, 23.64606296733649, 90.15441126302902, 23.85387470888398],
   etna: [14.949779196369315, 37.679925039841876, 15.080222045223318, 37.82014462574528],
 };
 const BLURB: Record<string, string> = {
@@ -29,6 +32,9 @@ const BLURB: Record<string, string> = {
   hawaii: "A summit caldera on a restless volcano, two weeks apart.",
   iowa: "Farmland and a university town, three and a half weeks apart.",
   rodanthe: "Storm-period NISAR returns over the Outer Banks; erosion rate not established.",
+  hubbard: "Tidewater glacier and mountains, 12 days spanning the December 2025 earthquake. BETA product.",
+  sossusvlei: "Dunes and salt pans in one of the driest places on Earth, 12 days apart.",
+  padma: "A braided river and its floodplain, 12 days apart. Landsat bank-erosion history is on a separate page.",
   amazon: "Water, forest, and floodplain radar response in the Amazon basin; interpretation exploratory.",
 };
 
@@ -42,15 +48,6 @@ const studyPlaces: Place[] = STUDIES.map((s) => {
 
 /** Newer stops from the research branch. Positions are approximate scene centres, used only to aim the camera. */
 const researchPlaces: Place[] = [
-  { id: "hubbard", label: "Hubbard Glacier, Alaska", short: "Hubbard", kind: "research", lon: -139.3, lat: 60.1, bounds: null,
-    href: "/research-preview#hubbard", dates: ["2025-11-26", "2025-12-08"],
-    blurb: "NASA’s published radar pair around the December 2025 earthquake in the St. Elias Mountains.", tags: ["NASA-published pair", "Before / after", "Sources"] },
-  { id: "sossusvlei", label: "Sossusvlei, Namibia", short: "Sossusvlei", kind: "research", lon: 15.3, lat: -24.75, bounds: null,
-    href: "/research-preview#sossusvlei", dates: ["2026-10-07", "2026-10-19"],
-    blurb: "Dunes and salt pans in one of the driest places on Earth. Official browse images, HH and HV.", tags: ["HH", "HV", "Official browse"] },
-  { id: "padma", label: "Padma River, Bangladesh", short: "Padma", kind: "research", lon: 90.05, lat: 23.75, bounds: null,
-    href: "/padma-erosion", dates: ["1988-01-02", "2018-01-20"],
-    blurb: "Thirty years of documented riverbank erosion and shifting channels, seen in NASA Landsat imagery—not NISAR.", tags: ["Riverbank erosion", "NASA Landsat", "1988–2018", "Independent evidence"] },
   { id: "etna", label: "Mount Etna, Sicily", short: "Etna", kind: "research", lon: 15.0, lat: 37.75, bounds: null,
     href: "/etna-investigation", dates: ["2026-07-23", "2026-08-16"],
     blurb: "Europe’s most active volcano, before and after the August 2026 eruptive episode. Official browse images, HH and HV.", tags: ["HH", "HV", "Official browse"] },

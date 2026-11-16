@@ -294,7 +294,7 @@ def process_directory(input_dir: Path, out_dir: Path, *, pols: tuple[str, ...] =
                         # sampling as a full-resolution scientific area estimate.
                         grid_size = 96
                         roi = np.full((grid_size,grid_size), np.nan, dtype=np.float32)
-                        roi_transform = target_transform * Affine.scale(target_width/grid_size,target_height/grid_size)
+                        roi_transform = target_transform @ Affine.scale(target_width/grid_size,target_height/grid_size)
                         reproject(source=values, destination=roi,
                                   src_transform=transform,src_crs=product.crs,src_nodata=np.nan,
                                   dst_transform=roi_transform,dst_crs=CRS.from_epsg(3857),dst_nodata=np.nan,

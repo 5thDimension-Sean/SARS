@@ -103,7 +103,7 @@ function StudyDetail({ study }: { study: ResearchStudy }) {
     </div>
     <p className={styles.period}>{study.period}</p>
     <p className={styles.story}>{study.story}</p>
-    {study.id === "etna" && <p><Link href="/etna-investigation">View TANGO’s newly processed, genuine NISAR HH/HV histograms, difference maps and three measured regions →</Link></p>}
+    {(study.id === "etna" || study.id === "hubbard" || study.id === "sossusvlei") && <p><Link href={study.id === "etna" ? "/etna-investigation" : "/nisar-prototype#" + study.id}>View TANGO’s processed NISAR HH/HV histograms, difference maps and three measured regions →</Link></p>}
     <ResearchEvidencePathway study={study} />
     <ResearchLocationEvidenceStory study={study} />
     <Gallery study={study} />

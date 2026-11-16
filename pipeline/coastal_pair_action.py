@@ -26,6 +26,9 @@ SITES = {
     "amazon-manaus": (-60.15, -3.26, -59.87, -3.04),
     "amazon-santarem": (-54.91, -2.60, -54.63, -2.39),
     "etna-event": (14.95, 37.68, 15.08, 37.82),
+    "hubbard": (-139.40, 60.00, -139.20, 60.20),
+    "namibia-sossusvlei": (15.20, -24.85, 15.40, -24.65),
+    "padma": (89.95, 23.65, 90.15, 23.85),
 }
 AOI = SITES["cameron"]
 MAX_PER_PRODUCT_BYTES = 2_800_000_000
@@ -37,7 +40,14 @@ def main() -> int:
     ap.add_argument("--mode", choices=("discover", "process"), default="discover")
     ap.add_argument("--site", choices=tuple(SITES), default="cameron")
     ap.add_argument("--out", type=Path, default=Path("pipeline/coastal-review"))
+    ap.add_argument("--dates", nargs=2, metavar=("EARLIER", "LATER"), help="Require exactly this acquisition-date pair (YYYY-MM-DD)")
+    ap.add_argument("--start", default="2026-07-01")
+    ap.add_argument("--end", default="2026-11-14")
+    ap.add_argument("--maturity", default="PROVISIONAL", help="Catalog maturity filter, e.g. PROVISIONAL or BETA")
+    ap.add_argument("--max-product-gb", type=float, default=MAX_PER_PRODUCT_BYTES / 1e9)
     args = ap.parse_args()
+    max_product = int(args.max_product_gb * 1e9)
+    max_total = 2 * max_product
     args.out.mkdir(parents=True, exist_ok=True)
     aoi = SITES[args.site]
     report: dict = {
@@ -51,9 +61,9 @@ def main() -> int:
     report_file = args.out / "discovery.json"
     try:
         asf = load_asf()
-        query_args = argparse.Namespace(bbox=aoi, start="2026-07-01",
-                                        end="2026-11-14", track=None, frame=None,
-                                        maturity="PROVISIONAL", max_results=200)
+        query_args = argparse.Namespace(bbox=aoi, start=args.start,
+                                        end=args.end, track=None, frame=None,
+                                        maturity=args.maturity, max_results=200)
         products = list(asf.search(**search_kwargs(query_args, asf)))
         report["catalogResults"] = len(products)
         report["catalogInventory"] = [
@@ -79,6 +89,14 @@ def main() -> int:
                 filename = product_filename(p)
             except Exception:
                 continue
+            # A catalog hit can clip only the edge of the search box and hold no valid data there.
+            try:
+                from shapely.geometry import shape, box
+                aoi_box = box(*aoi)
+                if shape(p.geometry).intersection(aoi_box).area / aoi_box.area < 0.95:
+                    continue
+            except Exception:
+                continue
             # This processor requires Frequency-A HHHH and HVHV.
             # Same track/frame can still have incompatible acquisition modes.
             if "_DHDH_A_" not in filename:
@@ -96,9 +114,9 @@ def main() -> int:
                 })
             if size is not None:
                 report["sizeKnownProducts"] += 1
-                if size <= MAX_PER_PRODUCT_BYTES:
+                if size <= max_product:
                     report["sizeWithinLimitProducts"] += 1
-            if size is None or size <= 0 or size > MAX_PER_PRODUCT_BYTES:
+            if size is None or size <= 0 or size > max_product:
                 continue
             # Track/frame/pass/release must agree, not merely geographic overlap.
             key = (str(prop.get("pathNumber")), str(prop.get("frameNumber")),
@@ -117,7 +135,7 @@ def main() -> int:
             for i, a in enumerate(items):
                 for b in items[i + 1:]:
                     days = (datetime.fromisoformat(b[0]) - datetime.fromisoformat(a[0])).days
-                    if 8 <= days <= 48 and a[2] + b[2] <= MAX_TOTAL_BYTES:
+                    if 8 <= days <= 48 and a[2] + b[2] <= max_total:
                         options.append((abs(days - 12), a[2] + b[2], a, b, key))
         report["compatibleMetadataPairsUnderSizeCap"] = len(options)
         if not options:
@@ -141,6 +159,13 @@ def main() -> int:
         storm_pairs = [opt for opt in options
                        if args.site == "rodanthe" and
                        opt[2][0] == "2026-09-17" and opt[3][0] == "2026-09-29"]
+        if args.dates:
+            wanted = [opt for opt in options if (opt[2][0], opt[3][0]) == tuple(args.dates)]
+            if not wanted:
+                report["status"] = "REQUESTED_PAIR_NOT_COMPATIBLE"
+                report["reason"] = "The requested dates are not a same-track/frame/pass/version/maturity pair in the catalog. No substituted dates."
+                return 0
+            event_pairs = wanted
         _, _, a, b, key = min(event_pairs or storm_pairs or options, key=lambda x: (x[0], x[1]))
         pair = (a, b)
         report["selected"] = [

@@ -9,7 +9,7 @@ export type LonLat = [number, number];
 export type Bounds = [number, number, number, number]; // west, south, east, north
 
 export interface StudyConfig {
-  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa" | "rodanthe" | "amazon" | "etna";
+  id: "everglades" | "louisiana" | "california" | "hawaii" | "iowa" | "rodanthe" | "amazon" | "etna" | "hubbard" | "sossusvlei" | "padma";
   label: string;
   /** Short name for compact controls. */
   short: string;
@@ -27,6 +27,8 @@ export interface StudyConfig {
   dates: Pair<string>;
   granules: Pair<string>;
   utmZone: number;
+  /** Set when the source grid is not UTM, e.g. polar stereographic EPSG:3413 north of 60°N. */
+  crs?: string;
   /** Approximate scene centre (lon, lat), used only to place the location on the story map. */
   center: LonLat;
 }
@@ -62,6 +64,12 @@ export const STUDIES: readonly StudyConfig[] = [
     differenceInPreviewCrs: true, dates: ["2026-07-23", "2026-08-16"],
     granules: ["NISAR_L2_PR_GCOV_026_051_D_069_2005_DHDH_A_20260723T175503_20260723T175538_P05023_N_F_J_001","NISAR_L2_PR_GCOV_028_051_D_069_2005_DHDH_A_20260816T175502_20260816T175537_P05023_N_F_J_001"], utmZone: 33, center: [15, 37.75] },
 
+  { id: "hubbard", label: "Hubbard Glacier, Alaska", short: "Alaska", contextDir: null, place: "Hubbard Glacier and Disenchantment Bay, Alaska", evidenceDir: "hubbard-evidence", regionsDir: "hubbard-regions", previewDir: "hubbard-preview", gibsContext: false, differenceInPreviewCrs: true,
+    dates: ["2025-11-26", "2025-12-08"], granules: ["NISAR_L2_PR_GCOV_006_063_A_032_4005_DHDH_A_20251126T133227_20251126T133303_X05009_N_F_J_001", "NISAR_L2_PR_GCOV_007_063_A_032_4005_DHDH_A_20251208T133228_20251208T133304_X05009_N_F_J_001"], utmZone: 7, crs: "EPSG:3413", center: [-139.3, 60.1] },
+  { id: "sossusvlei", label: "Sossusvlei, Namibia", short: "Namibia", contextDir: null, place: "Sossusvlei dunes and Tsauchab river area, Namibia", evidenceDir: "sossusvlei-evidence", regionsDir: "sossusvlei-regions", previewDir: "sossusvlei-preview", gibsContext: false, differenceInPreviewCrs: true,
+    dates: ["2026-10-04", "2026-10-16"], granules: ["NISAR_L2_PR_GCOV_032_057_A_165_2005_DHDH_A_20261004T044851_20261004T044925_P05023_N_F_J_001", "NISAR_L2_PR_GCOV_033_057_A_165_2005_DHDH_A_20261016T044851_20261016T044925_P05023_N_F_J_001"], utmZone: -33, center: [15.3, -24.75] },
+  { id: "padma", label: "Padma River, Bangladesh", short: "Bangladesh", contextDir: null, place: "Padma River channel and floodplain near Harirampur, Bangladesh", evidenceDir: "padma-evidence", regionsDir: "padma-regions", previewDir: "padma-preview", gibsContext: false, differenceInPreviewCrs: true,
+    dates: ["2026-10-04", "2026-10-16"], granules: ["NISAR_L2_PR_GCOV_032_069_A_014_4005_DHDH_A_20261004T232132_20261004T232206_P05023_N_F_J_001", "NISAR_L2_PR_GCOV_033_069_A_014_4005_DHDH_A_20261016T232132_20261016T232206_P05023_N_F_J_001"], utmZone: 46, center: [90.05, 23.75] },
 ];
 
 export const QA_LABEL = "EXPLORATORY_NOT_CLEARED";
@@ -201,7 +209,7 @@ export function parseRegions(meta: unknown, geo: unknown, study: StudyConfig): R
   const dates = meta.dates, granules = meta.sourceGranules;
   if (!Array.isArray(dates) || dates.join() !== study.dates.join() || !Array.isArray(granules) || granules.join() !== study.granules.join()) throw new Error("Region dates do not match study");
   const crs = str(meta.crs, "crs");
-  if (crs !== (study.utmZone < 0 ? `EPSG:327${String(Math.abs(study.utmZone)).padStart(2,"0")}` : `EPSG:326${String(study.utmZone).padStart(2,"0")}`)) throw new Error("Unexpected region CRS");
+  if (crs !== (study.crs ?? (study.utmZone < 0 ? `EPSG:327${String(Math.abs(study.utmZone)).padStart(2,"0")}` : `EPSG:326${String(study.utmZone).padStart(2,"0")}`))) throw new Error("Unexpected region CRS");
   const pair = (v: unknown, what: string): Pair<number> => {
     if (!Array.isArray(v) || v.length !== 2) throw new Error(`Invalid ${what}`);
     return [num(v[0], what), num(v[1], what)];

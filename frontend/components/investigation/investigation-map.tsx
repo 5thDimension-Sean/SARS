@@ -86,7 +86,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
         const make = (container: HTMLElement) => new lib.Map({
           container, style: style(), bounds: sceneBounds, fitBoundsOptions: { padding: 8 }, minZoom: 2, maxZoom: 17, cooperativeGestures: window.matchMedia("(pointer: coarse)").matches, // wheel zooms inside the box on desktop; touch keeps page scrolling usable
           dragRotate: false, pitchWithRotate: false, attributionControl: false,
-        }).addControl(new lib.AttributionControl({ compact: true, customAttribution: "Radar: NASA NISAR L2 GCOV (provisional) via ASF DAAC · exploratory" }))
+        }).addControl(new lib.AttributionControl({ compact: true, customAttribution: "Radar: NASA NISAR L2 GCOV via ASF DAAC · exploratory" }))
           .addControl(new lib.ScaleControl({ unit: "metric" }), "bottom-left");
         const after = make(afterEl.current);
         const before = preview && beforeEl.current ? make(beforeEl.current) : null;
@@ -241,7 +241,7 @@ export function InvestigationMap({ study, regions, preview, pol, mode, selectedI
       })().catch(() => callbacks.current.onProblem("The changed-pixels layer could not be drawn. The radar itself is unaffected."));
     }, 120);
     return () => { cancelled = true; window.clearTimeout(timer); };
-  }, [handles, changeOnly, overlayStrength, showChanges, mode, regions, study.regionsDir, study.utmZone]);
+  }, [handles, changeOnly, overlayStrength, showChanges, mode, regions, study.regionsDir, study.utmZone, study.differenceInPreviewCrs, preview]);
 
   // ---- NASA GIBS browse mosaic: context only, below the measured rasters, added only after the pair was verified
   useEffect(() => {

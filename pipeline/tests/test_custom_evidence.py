@@ -46,6 +46,6 @@ def test_misregistered_difference_cannot_pass_by_matching_values(gcov_factory, t
     manifest = prepared(gcov_factory, tmp_path)
     delta = next(x["cog"] for x in manifest["frames"][0]["changeLayers"] if x["pol"] == "HH" and x["type"] == "dbDiff")
     with rasterio.open(tmp_path / "results" / delta, "r+", IGNORE_COG_LAYOUT_BREAK="YES") as dataset:
-        dataset.transform = dataset.transform * Affine.translation(1, 0)
+        dataset.transform = dataset.transform @ Affine.translation(1, 0)
     with pytest.raises(ValueError, match="Misregistered difference raster"):
         generate("custom", tmp_path)
