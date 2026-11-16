@@ -47,13 +47,13 @@ A Python pipeline processes NISAR Level-2 Geocoded Polarimetric Covariance (GCOV
 
 Passing validity and grid alignment does not establish radiometric comparability: incidence angle, noise floor, speckle and processing artifacts can all influence a difference. So these statistics are descriptive results from real NISAR observations, useful for exploratory comparison and education, but unresolved product QA and radiometric uncertainty prevent us from treating them as independently validated environmental changes.
 
-**Sampling.** Each statistic covers one selected study area, not a whole coastline, volcano or wetland, and should not be generalized beyond it. In six pairs both dates have identical valid-pixel counts. In the other four the counts differ by 16 pixels or fewer (Etna 4, Hawaiʻi 1, Hubbard 16, Sossusvlei 1), so the masks are not strictly identical. **[FILL IN: how each study area was chosen.]**
+**Sampling.** Each statistic covers one selected study area, not a whole coastline, volcano or wetland, and should not be generalized beyond it. In six pairs both dates have identical valid-pixel counts. In the other four the counts differ by 16 pixels or fewer (Etna 4, Hawaiʻi 1, Hubbard 16, Sossusvlei 1), so the masks are not strictly identical. For each investigation we selected a geographic area of interest and cropped the satellite observations to a common analysis footprint. Our pipeline restricts comparisons to the same track, frame and pass, and checks geographic alignment and valid measurements before comparing. We did not test whether the chosen areas are representative of their surroundings.
 
 For some sites we also show independently sourced imagery, such as NASA Landsat for the Padma River. It is always labeled as distinct from NISAR.
 
 ### What Sets It Apart
 
-Tools like ASF Vertex and NASA Worldview are excellent for finding and viewing Earth observation data. TANGO is aimed at a different problem: helping non-specialists reason about the evidence behind a radar difference, with failed checks shown rather than hidden.
+Tools such as ASF Vertex and NASA Worldview are valuable for discovering and viewing Earth observation data. TANGO focuses on helping non-specialists interpret what those observations mean. Each investigation combines actual radar measurements with a guided explanation, visible quality checks (including failures), and a downloadable evidence report. Rather than simply showing where radar signals changed, TANGO helps users understand which conclusions are supported and which require additional evidence.
 
 - 3D globe exploration across 10 environments
 - Swipe, side-by-side and difference views
@@ -75,7 +75,7 @@ TANGO is for students, newcomers to remote sensing, and anyone curious about wha
 
 ### What's Next
 
-Most investigations are prepared by our team. We built a Coordinate Explorer for user-selected coordinates, but a full investigation still needs compatible acquisitions, processing and validation, and that pipeline isn't reliable end to end yet. **[FILL IN: stages that work today (coordinate entry, catalog search, acquisition selection, processing, visualization) and the first stage that is unreliable.]** We have not yet tested TANGO with users or compared any site with independent observations such as water levels; both are our next steps. Our comparisons use two dates, so they can't explain why a change occurred. Next we plan to expand the Coordinate Explorer, add longer time series, and bring in independent measurements such as water levels and rainfall.
+Most investigations are prepared by our team. The Coordinate Explorer currently supports custom coordinate entry and validation, and includes a workflow for requesting NASA catalog searches and satellite processing from a backend. Reliable end-to-end generation of new investigations has not yet been verified on the live website, so completing and validating that workflow is one of our next priorities. We have not yet tested TANGO with users or compared any site with independent observations such as water levels; both are our next steps. Our comparisons use two dates, so they can't explain why a change occurred. Next we plan to expand the Coordinate Explorer, add longer time series, and bring in independent measurements such as water levels and rainfall.
 
 ### Tools
 
