@@ -195,9 +195,10 @@ export default function CoordinateExplorer() {
   return <main className={styles.page}>
     <div className={styles.wrap}>
       <section className={styles.section} style={{ paddingTop: "clamp(40px, 8vw, 96px)" }}>
-        <header><h1 style={{ fontSize: "clamp(2.5rem, 6.4vw, 5.25rem)", fontWeight: 600, letterSpacing: "-.055em", lineHeight: 1 }}>Investigate by coordinates.</h1>
-          <p className={styles.lead}>Pick a starting point or enter a latitude and longitude.</p></header>
+        <header><h1 style={{ fontSize: "clamp(2.5rem, 6.4vw, 5.25rem)", fontWeight: 600, letterSpacing: "-.055em", lineHeight: 1 }}>{ENABLED ? "Investigate by coordinates." : "Investigate a place."}</h1>
+          <p className={styles.lead}>{ENABLED ? "Pick a starting point or enter a latitude and longitude." : "Real NISAR pairs, processed in advance."}</p></header>
 
+        {ENABLED ? <>
         <h2 style={{ marginTop: 36, fontSize: "1.5rem" }}>Ten starting locations</h2>
         <p className={styles.muted}>Shortcuts only; coverage is checked against the NASA catalog.</p>
         <div role="group" aria-label="Ten geographic starting locations" style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 16 }}>
@@ -232,7 +233,17 @@ export default function CoordinateExplorer() {
           {message && <p className={styles.notice} role="status" aria-live="polite">{message}</p>}
           {sessionId && <p className={styles.small}>You can browse other pages and return in this tab to resume the comparison. Reloading the page clears the private session.</p>}
         </form>
-        {matchingPublished.length > 0 && <div className={styles.notice} style={{ marginTop: 22 }}>
+        </> : <>
+          <h2 style={{ marginTop: 36, fontSize: "1.5rem" }}>Published NISAR comparisons</h2>
+          <p className={styles.muted}>Live processing for any coordinate is not running. These places use real NISAR pairs processed in advance.</p>
+          <ul style={{ listStyle: "none", padding: 0, marginTop: 16, display: "grid", gap: 10, maxWidth: 710 }}>
+            {PLACES.filter(place => place.kind === "study").map(place => <li key={place.id}>
+              <Link href={place.href}><strong>{place.label}</strong></Link>
+              <span className={styles.muted}> · {place.lat.toFixed(2)}, {place.lon.toFixed(2)} · {place.dates[0]} to {place.dates[1]}</span>
+            </li>)}
+          </ul>
+        </>}
+        {ENABLED && matchingPublished.length > 0 && <div className={styles.notice} style={{ marginTop: 22 }}>
           <strong>Already-published NASA comparison at this coordinate</strong>
           {matchingPublished.map(place => <p key={place.id}><Link href={place.href}>Explore {place.label} using published NISAR files</Link></p>)}
         </div>}

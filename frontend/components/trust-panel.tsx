@@ -225,7 +225,7 @@ export function TrustPanel() {
         </figure>)}</div>
       </div> : <>
         <p>Drag on the image or pick a preset. Numbers come from the grid, not the picture.</p>
-        <details className={styles.hint}><summary>More detail</summary><p className={styles.hint}>Rows count from the north edge; each cell is {Math.abs(spacing![0])} × {Math.abs(spacing![1])} m. Presets were chosen by ranking windows on their own measured change, so they are not an unbiased test. A box you draw is fairer, though many boxes still produce chance hits.</p></details>
+        <details className={styles.hint}><summary>More detail</summary><p className={styles.hint}>Rows count from the north edge; each cell is about {Math.round(Math.abs(spacing![0]))} × {Math.round(Math.abs(spacing![1]))} m. Presets were chosen by ranking windows on their own measured change, so they are not an unbiased test. A box you draw is fairer, though many boxes still produce chance hits.</p></details>
         <div className={styles.presets} role="group" aria-label="Preset regions">
           {data.regions.map((r) => <button key={r.id} type="button" aria-pressed={preset?.id === r.id} onClick={() => setDraft(toDraft(r.box))}>Region {r.id}: {r.title}</button>)}
         </div>

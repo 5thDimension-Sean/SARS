@@ -12,8 +12,6 @@ import styles from "./site-nav.module.css";
 const ITEMS = [
   { key: "home", label: "Home", href: "/" },
   { key: "places", label: "Places", href: "" },
-  { key: "coordinates", label: "Coordinates", href: "/coordinates" },
-  { key: "trust", label: "Trust check", href: "/trust" },
   { key: "faq", label: "FAQ", href: "/faq" },
 ] as const;
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { ProcessedEvidencePathway } from "./padma-evidence-pathway";
 import styles from "./padma-erosion-story.module.css";
@@ -22,7 +23,7 @@ export function PadmaErosionStory() {
     <header className={styles.hero}>
       <h1>A river that redraws the land.</h1>
       <p className={styles.lead}>Two NASA Landsat views, 1988 and 2018, of a river that keeps moving.</p>
-      <p className={styles.notice}><strong>Optical Landsat imagery, not NISAR.</strong> No radar pair processed here.</p>
+      <p className={styles.notice}><strong>Optical Landsat imagery, not NISAR.</strong> A separate exploratory NISAR radar pair is in the <Link href="/nisar-prototype#padma">radar investigation</Link>.</p>
       <a className={styles.primary} href="#look">Begin the investigation <span aria-hidden="true">↓</span></a>
     </header>
     <ProcessedEvidencePathway />
@@ -71,7 +72,7 @@ export function PadmaErosionStory() {
           <tr><th scope="row">Acquisition</th><td>January 2, 1988</td><td>January 20, 2018</td><td>Published NASA Landsat comparison</td></tr>
           <tr><th scope="row">Instrument</th><td>Landsat 5 TM</td><td>Landsat 8 OLI</td><td>Optical / infrared multispectral imagery</td></tr>
           <tr><th scope="row">Observed geometry</th><td>River channel, banks and bars</td><td>River channel, banks and bars</td><td>Source-documented bank erosion and deposition</td></tr>
-          <tr><th scope="row">NISAR HH / HV (dB)</th><td>Not available</td><td>Not available</td><td>Cannot calculate backscatter change from these images</td></tr>
+          <tr><th scope="row">NISAR HH / HV (dB)</th><td>Not available</td><td>Not available</td><td>NISAR launched in 2025; it did not observe these dates</td></tr>
           <tr><th scope="row">Paired-pixel erosion rate</th><td colSpan={2}>Not processed</td><td>Requires aligned bankline measurements and uncertainty checks</td></tr>
         </tbody></table></div>
       <p className={styles.caption}>The 66,000+ hectare figure covers loss since 1967, not these two scenes.</p>
@@ -92,7 +93,7 @@ export function PadmaErosionStory() {
           <tr><th scope="row">Published satellite observations</th><td>Available</td><td>NASA Landsat imagery from 1988 and 2018</td></tr>
           <tr><th scope="row">Independent published erosion history</th><td>Available</td><td>NASA Earth Observatory summarizes historical studies; no new TANGO measurement</td></tr>
           <tr><th scope="row">Aligned numerical water / land masks</th><td>Not processed</td><td>Displayed RGB imagery is not a georeferenced land-loss calculation</td></tr>
-          <tr><th scope="row">Same-track NISAR HH / HV pair</th><td>Not verified</td><td>No validated source-grid comparison for Padma</td></tr>
+          <tr><th scope="row">Same-track NISAR HH / HV pair</th><td>Exploratory</td><td>Oct 4 and 16, 2026 pair processed; different dates from the Landsat images and not QA-cleared</td></tr>
           <tr><th scope="row">Quantitative erosion detection</th><td>Not established</td><td>Requires matched geometry, independent validation and uncertainty analysis</td></tr>
         </tbody></table></div>
       <details className={styles.card} style={{ marginTop: 20 }}><summary>More detail: sources and limitations</summary>
