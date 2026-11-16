@@ -30,6 +30,9 @@ SITES = {
     "custom": {"title": "Custom NISAR coordinate comparison", "region": "Visitor-selected geographic point", "data": "results"},
     "etna-event": {"title": "Mount Etna, Sicily", "region": "Etna volcanic slopes, Sicily, Italy", "data": "etna-processed"},
     "amazon": {"title": "Mamirau�, Amazon River", "region": "Mamirau� Amazon River floodplain, Brazil", "data": "amazon-mamiraua"},
+    "sossusvlei": {"title": "Sossusvlei, Namibia", "region": "Sossusvlei dune and Tsauchab river area, Namibia", "data": "sossusvlei-processed"},
+    "hubbard": {"title": "Hubbard Glacier, Alaska", "region": "Hubbard Glacier and Disenchantment Bay area, Alaska, USA", "data": "hubbard-processed"},
+    "padma": {"title": "Padma River, Bangladesh", "region": "Padma River channel and floodplain near Harirampur, Bangladesh", "data": "padma-processed"},
 }
 RANGES = {"HH": (-25., 0.), "HV": (-30., -5.)}
 CLEARANCE = "NOT CLEARED FOR QUANTITATIVE ANALYSIS"
@@ -208,10 +211,11 @@ def generate(site: str, public: Path):
         annotations.append({"id": ident, "observation": f"Region {ident} selected by an exploratory difference ranking of valid reduced-grid radar pixels.",
                             "interpretation": "The radar intensity changed; the environmental cause is unverified."})
 
+    maturity = acquisitions[0].get("dataMaturity") or "provisional"
     gap = "Erosion and storm flooding" if site == "rodanthe" else "Inundation, river migration and vegetation change" if site == "amazon" else "Physical environmental change"
     evidence = {
         "schemaVersion": "everglades-compatible-1.0", "title": config["title"] + " NISAR backscatter evidence",
-        "studyArea": config["region"], "provenance": "NASA NISAR Level-2 GCOV provisional via ASF DAAC, processed by TANGO",
+        "studyArea": config["region"], "provenance": f"NASA NISAR Level-2 GCOV {maturity.lower()} via ASF DAAC, processed by TANGO",
         "measurement": "gamma0 backscatter dB derived from screened linear power; statistics describe reduced georeferenced COG pixels",
         "scientificClearance": CLEARANCE,
         "quality": {
@@ -226,7 +230,7 @@ def generate(site: str, public: Path):
             "Whole-scene summary differences are not per-pixel differences. Region changes use paired valid reduced-grid pixels.",
             "Histograms and region candidate counts are computed from reduced analysis COGs, not every native HDF5 pixel.",
             "Candidate regions are selected for contrasting radar differences and are not a random or representative sample.",
-            "Provisional NISAR product-level identification and radiometric QA have not been independently cleared.",
+            f"{maturity.capitalize()}-maturity NISAR product-level identification and radiometric QA have not been independently cleared.",
         ],
         "dates": dates, "polarizations": stats,
     }
@@ -254,7 +258,7 @@ def generate(site: str, public: Path):
     pr = {
         "schemaVersion": "preview-1.0",
         "provenance": "NASA NISAR GCOV via ASF DAAC, georeferenced overview",
-        "sourceCollection": "NISAR L2 GCOV provisional",
+        "sourceCollection": f"NISAR L2 GCOV {maturity.lower()}",
         "bounds": frame["bounds"],
         "measurement": "gamma0 linear power converted to dB; georeferenced overview",
         "scientificClearance": CLEARANCE,

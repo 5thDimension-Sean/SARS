@@ -52,4 +52,22 @@ export const SITE_CONTEXT: Record<StudyConfig["id"], {
     cannotConfirm: "A backscatter change is not automatically a mapped flood, a changed river channel or lost forest.",
     nextEvidence: "Cross-check river-gauge levels, seasonal precipitation and independently dated flood or forest-cover maps.",
   },
+  hubbard: {
+    setting: "Hubbard Glacier is a tidewater glacier in the St. Elias Mountains. These NISAR scenes bracket the December 6, 2025 earthquake, but the product is BETA maturity and other changes occurred in the interval.",
+    canSuggest: "Snow and ice surface state, melt, slope movement and viewing geometry can change L-band radar intensity.",
+    cannotConfirm: "Backscatter change alone does not show avalanche deposits, glacier motion or earthquake damage.",
+    nextEvidence: "Compare with NASA's published earthquake analysis, optical imagery and terrain-aware viewing geometry from the same dates.",
+  },
+  sossusvlei: {
+    setting: "Sossusvlei is a dune and salt-pan landscape in the Namib Desert, crossed by the ephemeral Tsauchab river.",
+    canSuggest: "Surface moisture, dune surface roughness and rare runoff can change L-band radar intensity.",
+    cannotConfirm: "A backscatter change is not automatically rainfall, flooding or dune movement.",
+    nextEvidence: "Cross-check rainfall records, river-flow reports and dated optical imagery for the same 12 days.",
+  },
+  padma: {
+    setting: "The Padma is a large braided river in Bangladesh whose channels, banks and sandbars shift with water level and sediment.",
+    canSuggest: "River stage, wet sand, vegetation and bank roughness can change L-band radar intensity between dates.",
+    cannotConfirm: "A 12-day backscatter change does not measure riverbank erosion, which needs mapped banklines over longer periods.",
+    nextEvidence: "Compare with river-gauge levels and independently dated optical bankline maps, such as the Landsat comparison on the Padma erosion page.",
+  },
 };

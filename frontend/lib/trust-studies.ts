@@ -25,18 +25,12 @@ export const TRUST_LOCATIONS: readonly TrustLocation[] = [
   grid("rodanthe", "Rodanthe, North Carolina", "rodanthe", { window: 64, step: 32 }),
   grid("amazon", "Mamirauá, Amazon", "amazon", { window: 64, step: 32 }),
   grid("hawaii", "Hawaiʻi summit", "hawaii-full", { window: 64, step: 32 }),
+  grid("hubbard", "Hubbard Glacier, Alaska", "hubbard", { window: 64, step: 32 }),
+  grid("sossusvlei", "Sossusvlei, Namibia", "sossusvlei", { window: 64, step: 32 }),
+  grid("padma", "Padma River, Bangladesh", "padma", { window: 64, step: 32 }),
   grid("etna", "Mount Etna, Sicily", "etna-event", { window: 64, step: 32 }),
   // Visitor-selected coordinate, written by pipeline/generate_unified_evidence.py --site custom when it has run.
   grid("custom", "Your own coordinate", "custom", { window: 64, step: 32 }),
-  { kind: "none", id: "padma", label: "Padma River, Bangladesh",
-    reason: "This location is documented with NASA Landsat optical images from 1988 and 2018. No NISAR product pair has been processed, and optical images cannot be turned into radar backscatter.",
-    independent: ["NASA Landsat 5 and 8 images, 1988 and 2018", "NASA Earth Observatory's published erosion history"] },
-  { kind: "none", id: "hubbard", label: "Hubbard Glacier, Alaska",
-    reason: "Only NASA's published radar visualizations are shown. They are publisher composites, not numerical HH/HV grids, so no difference can be measured.",
-    independent: [] },
-  { kind: "none", id: "sossusvlei", label: "Sossusvlei, Namibia",
-    reason: "Only official HH and HV browse images are shown. Image brightness is not a calibrated temporal difference, so no numbers can be computed.",
-    independent: [] },
 ];
 
 export const DEFAULT_LOCATION = "louisiana";

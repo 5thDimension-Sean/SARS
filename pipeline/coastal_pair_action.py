@@ -43,6 +43,7 @@ def main() -> int:
     ap.add_argument("--dates", nargs=2, metavar=("EARLIER", "LATER"), help="Require exactly this acquisition-date pair (YYYY-MM-DD)")
     ap.add_argument("--start", default="2026-07-01")
     ap.add_argument("--end", default="2026-11-14")
+    ap.add_argument("--maturity", default="PROVISIONAL", help="Catalog maturity filter, e.g. PROVISIONAL or BETA")
     ap.add_argument("--max-product-gb", type=float, default=MAX_PER_PRODUCT_BYTES / 1e9)
     args = ap.parse_args()
     max_product = int(args.max_product_gb * 1e9)
@@ -62,7 +63,7 @@ def main() -> int:
         asf = load_asf()
         query_args = argparse.Namespace(bbox=aoi, start=args.start,
                                         end=args.end, track=None, frame=None,
-                                        maturity="PROVISIONAL", max_results=200)
+                                        maturity=args.maturity, max_results=200)
         products = list(asf.search(**search_kwargs(query_args, asf)))
         report["catalogResults"] = len(products)
         report["catalogInventory"] = [
@@ -86,6 +87,14 @@ def main() -> int:
             meta = catalog_metadata(p)
             try:
                 filename = product_filename(p)
+            except Exception:
+                continue
+            # A catalog hit can clip only the edge of the search box and hold no valid data there.
+            try:
+                from shapely.geometry import shape, box
+                aoi_box = box(*aoi)
+                if shape(p.geometry).intersection(aoi_box).area / aoi_box.area < 0.95:
+                    continue
             except Exception:
                 continue
             # This processor requires Frequency-A HHHH and HVHV.

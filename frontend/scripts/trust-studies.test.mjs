@@ -25,7 +25,7 @@ test("registry ids are unique, the default exists, and every location has plain-
     if (l.kind === "none") assert.ok(l.reason.length > 40, l.id);
   }
   for (const id of ["padma", "hubbard", "sossusvlei", "custom"]) assert.ok(findLocation(id), id);
-  assert.equal(findLocation("padma").kind, "none");
+  for (const id of ["padma", "hubbard", "sossusvlei"]) assert.equal(findLocation(id).kind, "grid", `${id} now has a processed NISAR pair`);
 });
 
 test("published studies share the schema the page relies on, with regions inside the grid", () => {
