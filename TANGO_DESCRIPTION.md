@@ -4,9 +4,9 @@
 
 TANGO is a website for exploring data from the NASA–ISRO Synthetic Aperture Radar (NISAR) mission. Radar can observe Earth's surface through clouds and at night, but reading it usually takes specialized software and training. TANGO lets students, researchers, and curious people explore real NISAR measurements on an interactive globe, and learn what a radar difference does and does not prove.
 
-**A visible difference.** On Mount Etna, Sicily (Jul 23 and Aug 16, 2026), the median HH backscatter across our study area is about 0.7 dB higher on the second date, while HV is about 0.4 dB lower. A first guess might be "the volcano changed." TANGO shows why that isn't established: the two polarizations moved in opposite directions, the two numbers are separately calculated medians (not paired-pixel changes), and noise, artifacts and surface conditions can all move backscatter.
+**A visible difference.** On Mount Etna, Sicily (Jul 23 and Aug 16, 2026), the median HH backscatter across our study area is about 0.7 dB higher on the second date, while HV is about 0.4 dB lower. HH and HV respond to different surface-scattering mechanisms, so their opposing changes are worth investigating. But neither measurement alone establishes volcanic activity: the numbers are separately calculated medians (not paired-pixel changes), and noise, artifacts and surface conditions can also move backscatter. Additional observations would be needed to determine the cause.
 
-**A near-null result.** In the Florida Everglades (Sep 30 and Oct 12, 2026), the median HH backscatter is about −11.9 dB on both dates. The difference is ≈0.02 dB, effectively no change. That neither proves nor rules out flooding or vegetation change, and the official product QA for this pair shows unresolved failures, which TANGO displays instead of hiding.
+**A near-null result.** In the Florida Everglades (Sep 30 and Oct 12, 2026), the median HH backscatter is about −11.9 dB on both dates. The aggregate difference is only about 0.02 dB. That small number does not rule out localized increases and decreases that cancel out, and it is not a statistical or radiometric equivalence test. The official product QA for this pair also shows unresolved failures, which TANGO displays instead of hiding.
 
 ### How It Works
 
@@ -21,7 +21,7 @@ Users pick a place on a 3D globe (CesiumJS). Each place opens an investigation t
 
 A Python pipeline processes NISAR Level-2 Geocoded Polarimetric Covariance (GCOV) products from NASA Earthdata and the Alaska Satellite Facility. It handles HH and HV, aligns each pair on a common grid, and produces georeferenced previews, difference maps, histograms and statistics.
 
-**10 featured locations, each with a processed pair of NISAR observations (20 acquisitions).** Differences are separately calculated regional medians in dB (second date minus first).
+**10 featured locations, each with a processed pair of NISAR observations (20 acquisitions).** **Read this before the table:** all ten study areas are labeled "not cleared for quantitative analysis." These figures are descriptive outputs from real, screened NISAR data, intended for exploratory education. They are not calibrated, independently validated environmental measurements. Each is the difference of two separately calculated regional medians in dB (second date minus first), not a per-pixel change.
 
 | Location | Dates | Gap | Track / pass | HH median diff | HV median diff |
 |---|---|---|---|---|---|
@@ -36,7 +36,7 @@ A Python pipeline processes NISAR Level-2 Geocoded Polarimetric Covariance (GCOV
 | Amazon River (Mamirauá), Brazil | Jul 7 – Jul 19, 2026 | 12 d | 161, ascending | +0.02 dB | +0.05 dB |
 | Florida Everglades | Sep 30 – Oct 12, 2026 | 12 d | not recorded | +0.02 dB | −0.18 dB |
 
-*Track and pass come from the NISAR granule names. Three pairs were fetched by ASF catalog ID, so their track and pass are not recorded in our evidence files.*
+*Track and pass come from the NISAR granule names. For three pairs we stored only the ASF catalog ID, so track and pass are missing from our evidence exports; they are recoverable from the ASF records and are not unknown.*
 
 **What we checked, and what we haven't.** Every study area shows the same four checks, with failures left visible:
 
@@ -45,7 +45,9 @@ A Python pipeline processes NISAR Level-2 Geocoded Polarimetric Covariance (GCOV
 - **Official product QA: not cleared.** The Everglades, Louisiana and California pairs fail the official identification-group QA with the failing item unspecified. For the other seven, official QA records are not yet cleared.
 - **Radiometric artifacts and noise: unverified.** RFI, banding and noise-floor effects need expert review.
 
-Because of this, **every study area is marked "not cleared for quantitative analysis"**. The numbers are exploratory measurements, not confirmed environmental findings.
+Passing validity and grid alignment does not establish radiometric comparability: incidence angle, noise floor, speckle and processing artifacts can all influence a difference. So these statistics are descriptive results from real NISAR observations, useful for exploratory comparison and education, but unresolved product QA and radiometric uncertainty prevent us from treating them as independently validated environmental changes.
+
+**Sampling.** Each statistic covers one selected study area, not a whole coastline, volcano or wetland, and should not be generalized beyond it. In six pairs both dates have identical valid-pixel counts. In the other four the counts differ by 16 pixels or fewer (Etna 4, Hawaiʻi 1, Hubbard 16, Sossusvlei 1), so the masks are not strictly identical. **[FILL IN: how each study area was chosen.]**
 
 For some sites we also show independently sourced imagery, such as NASA Landsat for the Padma River. It is always labeled as distinct from NISAR.
 
@@ -73,7 +75,7 @@ TANGO is for students, newcomers to remote sensing, and anyone curious about wha
 
 ### What's Next
 
-Most investigations are prepared by our team. We built a Coordinate Explorer for user-selected coordinates, but a full investigation still needs compatible acquisitions, processing and validation, and that pipeline isn't reliable end to end yet. Our comparisons use two dates, so they can't explain why a change occurred. Next we plan to expand the Coordinate Explorer, add longer time series, and bring in independent measurements such as water levels and rainfall.
+Most investigations are prepared by our team. We built a Coordinate Explorer for user-selected coordinates, but a full investigation still needs compatible acquisitions, processing and validation, and that pipeline isn't reliable end to end yet. **[FILL IN: stages that work today (coordinate entry, catalog search, acquisition selection, processing, visualization) and the first stage that is unreliable.]** We have not yet tested TANGO with users or compared any site with independent observations such as water levels; both are our next steps. Our comparisons use two dates, so they can't explain why a change occurred. Next we plan to expand the Coordinate Explorer, add longer time series, and bring in independent measurements such as water levels and rainfall.
 
 ### Tools
 
