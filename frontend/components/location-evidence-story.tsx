@@ -21,19 +21,15 @@ function Definition({ site }: { site: StudyConfig["id"] }) {
   const context = SITE_CONTEXT[site];
   return <div className={styles.grid}>
     <div className={styles.item}>
-      <span className={styles.eyebrow}>THE PLACE</span>
       <h3>What is happening here?</h3><p>{context.setting}</p>
     </div>
     <div className={styles.item}>
-      <span className={styles.eyebrow}>POSSIBLE EXPLANATIONS · NOT CONFIRMED</span>
       <h3>Why might radar change?</h3><p>{context.canSuggest}</p>
     </div>
     <div className={styles.item}>
-      <span className={styles.eyebrow}>SCIENTIFIC LIMIT</span>
       <h3>What does it not prove?</h3><p>{context.cannotConfirm}</p>
     </div>
     <div className={styles.item}>
-      <span className={styles.eyebrow}>WHAT TO CHECK NEXT</span>
       <h3>How could we verify it?</h3><p>{context.nextEvidence}</p>
     </div>
   </div>;
@@ -46,18 +42,17 @@ export function FullStudyEvidenceStory({ study, evidence, pol }: {
   const delta = active.differenceOfRegionalMediansDb;
   return <section className={styles.section} aria-labelledby="location-observation">
     <div className={styles.intro}>
-      <span className={styles.eyebrow}>UNDERSTAND THIS LOCATION · NASA NISAR L-BAND</span>
-      <h2 id="location-observation">What did the satellite actually observe?</h2>
-      <p>Two real observations, on <strong>{fmtDate(study.dates[0])}</strong> and <strong>{fmtDate(study.dates[1])}</strong>. Radar measures how strongly the surface reflects microwaves—not a photograph of an event.</p>
+      <h2 id="location-observation">What changed?</h2>
+      <p>NISAR, <strong>{fmtDate(study.dates[0])}</strong> to <strong>{fmtDate(study.dates[1])}</strong>.</p>
     </div>
     <div className={styles.metrics}>
       <div><span>HH · change in whole-scene median</span><strong>{fmtSignedDb(hh.differenceOfRegionalMediansDb)}</strong></div>
       <div><span>HV · change in whole-scene median</span><strong>{fmtSignedDb(hv.differenceOfRegionalMediansDb)}</strong></div>
       <div><span>Analysis-grid pixels · {pol}</span><strong>{fmtInt(active.observations[0].count)} / {fmtInt(active.observations[1].count)}</strong></div>
     </div>
-    <p className={styles.reading}>In the displayed <strong>{pol}</strong> channel, the median radar return {statusPhrase(delta)} on the later date (<strong>{fmtSignedDb(delta)}</strong>). These are two separate whole-scene medians; this number is <strong>not</strong> the median of pixel-by-pixel changes. Use the A/B/C region inspector for paired-pixel measurements.</p>
-    <Definition site={study.id} />
-    <p className={styles.caveat}><strong>Evidence status: exploratory, not independently cleared.</strong> Radar backscatter alone cannot identify a physical cause; inspect the quality checks, histograms and source information below before drawing conclusions.</p>
+    <p className={styles.reading}>{pol} median return {statusPhrase(delta)} on the later date (<strong>{fmtSignedDb(delta)}</strong>), a difference of two scene medians, not a pixel-level change.</p>
+    <p className={styles.caveat}><strong>Exploratory, not cleared.</strong> Backscatter alone names no cause.</p>
+    <details className={styles.more}><summary>More detail: the place, possible explanations, limits</summary><Definition site={study.id} /></details>
   </section>;
 }
 

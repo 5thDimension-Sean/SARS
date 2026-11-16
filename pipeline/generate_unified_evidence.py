@@ -30,6 +30,9 @@ SITES = {
     "custom": {"title": "Custom NISAR coordinate comparison", "region": "Visitor-selected geographic point", "data": "results"},
     "etna-event": {"title": "Mount Etna, Sicily", "region": "Etna volcanic slopes, Sicily, Italy", "data": "etna-processed"},
     "amazon": {"title": "Mamirau�, Amazon River", "region": "Mamirau� Amazon River floodplain, Brazil", "data": "amazon-mamiraua"},
+    "sossusvlei": {"title": "Sossusvlei, Namibia", "region": "Sossusvlei dune and Tsauchab river area, Namibia", "data": "sossusvlei-processed"},
+    "hubbard": {"title": "Hubbard Glacier, Alaska", "region": "Hubbard Glacier and Disenchantment Bay area, Alaska, USA", "data": "hubbard-processed"},
+    "padma": {"title": "Padma River, Bangladesh", "region": "Padma River channel and floodplain near Harirampur, Bangladesh", "data": "padma-processed"},
 }
 RANGES = {"HH": (-25., 0.), "HV": (-30., -5.)}
 CLEARANCE = "NOT CLEARED FOR QUANTITATIVE ANALYSIS"
@@ -70,7 +73,7 @@ def obs(values, date, granule, limits, bins):
 
 
 def corners(transform, shape, crs, row0, row1, col0, col1):
-    xy = [transform * (col, row) for col, row in
+    xy = [transform @ (col, row) for col, row in
           [(col0, row0), (col1, row0), (col1, row1), (col0, row1), (col0, row0)]]
     lons, lats = project(crs, "EPSG:4326", [v[0] for v in xy], [v[1] for v in xy])
     return [[round(float(x), 9), round(float(y), 9)] for x, y in zip(lons, lats)]
@@ -208,10 +211,11 @@ def generate(site: str, public: Path):
         annotations.append({"id": ident, "observation": f"Region {ident} selected by an exploratory difference ranking of valid reduced-grid radar pixels.",
                             "interpretation": "The radar intensity changed; the environmental cause is unverified."})
 
+    maturity = acquisitions[0].get("dataMaturity") or "provisional"
     gap = "Erosion and storm flooding" if site == "rodanthe" else "Inundation, river migration and vegetation change" if site == "amazon" else "Physical environmental change"
     evidence = {
         "schemaVersion": "everglades-compatible-1.0", "title": config["title"] + " NISAR backscatter evidence",
-        "studyArea": config["region"], "provenance": "NASA NISAR Level-2 GCOV provisional via ASF DAAC, processed by TANGO",
+        "studyArea": config["region"], "provenance": f"NASA NISAR Level-2 GCOV {maturity.lower()} via ASF DAAC, processed by TANGO",
         "measurement": "gamma0 backscatter dB derived from screened linear power; statistics describe reduced georeferenced COG pixels",
         "scientificClearance": CLEARANCE,
         "quality": {
@@ -226,7 +230,7 @@ def generate(site: str, public: Path):
             "Whole-scene summary differences are not per-pixel differences. Region changes use paired valid reduced-grid pixels.",
             "Histograms and region candidate counts are computed from reduced analysis COGs, not every native HDF5 pixel.",
             "Candidate regions are selected for contrasting radar differences and are not a random or representative sample.",
-            "Provisional NISAR product-level identification and radiometric QA have not been independently cleared.",
+            f"{maturity.capitalize()}-maturity NISAR product-level identification and radiometric QA have not been independently cleared.",
         ],
         "dates": dates, "polarizations": stats,
     }
@@ -236,7 +240,7 @@ def generate(site: str, public: Path):
         "schemaVersion": "sar-waltz-regions-1.0", "study": config["title"],
         "dates": dates, "sourceGranules": granules, "crs": str(ref_crs),
         "nativeShape": [h, w], "pixelSpacingMeters": [dx, dy],
-        "firstPixelCenter": list(ref_transform * (0.5, 0.5)),
+        "firstPixelCenter": list(ref_transform @ (0.5, 0.5)),
         "pairedHHAndHVPixels": int(valid.sum()),
         "differenceDefinition": "later gamma0 dB minus earlier gamma0 dB on paired valid reduced-grid pixels",
         "visualizationScale": {"limitsDb": [-6, 6]},
@@ -248,13 +252,13 @@ def generate(site: str, public: Path):
     write_difference_grids(
         rgdir, {p: np.where(valid, diffs[p], np.nan) for p in ("HH", "HV")}, study=config["title"],
         dates=dates, granules=granules, crs=str(ref_crs), pixel_spacing_m=[float(dx), float(dy)],
-        first_pixel_center=[float(v) for v in ref_transform * (0.5, 0.5)],
+        first_pixel_center=[float(v) for v in ref_transform @ (0.5, 0.5)],
         warning=f"EXPLORATORY ONLY. {CLEARANCE}. Radar differences do not establish flooding, erosion, vegetation loss or damage.")
     save(rgdir / "regions.geojson", {"type": "FeatureCollection", "features": features})
     pr = {
         "schemaVersion": "preview-1.0",
         "provenance": "NASA NISAR GCOV via ASF DAAC, georeferenced overview",
-        "sourceCollection": "NISAR L2 GCOV provisional",
+        "sourceCollection": f"NISAR L2 GCOV {maturity.lower()}",
         "bounds": frame["bounds"],
         "measurement": "gamma0 linear power converted to dB; georeferenced overview",
         "scientificClearance": CLEARANCE,

@@ -1,0 +1,215 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              89.967964623,
+              23.682912585
+            ],
+            [
+              89.980495145,
+              23.683157609
+            ],
+            [
+              89.980760692,
+              23.671611923
+            ],
+            [
+              89.968231268,
+              23.671367033
+            ],
+            [
+              89.967964623,
+              23.682912585
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "A",
+        "title": "Relatively increasing HH radar return",
+        "selectionMethod": "64x64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample",
+        "rowRange": [
+          928,
+          992
+        ],
+        "columnRange": [
+          96,
+          160
+        ],
+        "stats": {
+          "HH": {
+            "beforeMedianDb": -17.77073,
+            "afterMedianDb": -15.97247,
+            "pairedDifference": {
+              "pixels": 4096,
+              "medianDifferenceDb": 1.58773,
+              "meanDifferenceDb": 1.80508,
+              "p05DifferenceDb": -1.48816,
+              "p95DifferenceDb": 5.8231
+            }
+          },
+          "HV": {
+            "beforeMedianDb": -21.97513,
+            "afterMedianDb": -21.74792,
+            "pairedDifference": {
+              "pixels": 4096,
+              "medianDifferenceDb": 0.28759,
+              "meanDifferenceDb": 0.34285,
+              "p05DifferenceDb": -2.21652,
+              "p95DifferenceDb": 3.14046
+            }
+          }
+        },
+        "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+        "environmentalConclusion": null,
+        "warning": "Backscatter change cannot independently establish erosion, flooding or vegetation damage"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              89.983967807,
+              23.80450894
+            ],
+            [
+              89.996510152,
+              23.804753843
+            ],
+            [
+              89.996775816,
+              23.793208167
+            ],
+            [
+              89.984234576,
+              23.792963397
+            ],
+            [
+              89.983967807,
+              23.80450894
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "B",
+        "title": "Relatively decreasing HH radar return",
+        "selectionMethod": "64x64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample",
+        "rowRange": [
+          256,
+          320
+        ],
+        "columnRange": [
+          192,
+          256
+        ],
+        "stats": {
+          "HH": {
+            "beforeMedianDb": -7.38007,
+            "afterMedianDb": -8.50785,
+            "pairedDifference": {
+              "pixels": 4096,
+              "medianDifferenceDb": -0.99331,
+              "meanDifferenceDb": -0.98456,
+              "p05DifferenceDb": -3.95403,
+              "p95DifferenceDb": 1.88806
+            }
+          },
+          "HV": {
+            "beforeMedianDb": -14.49286,
+            "afterMedianDb": -15.44308,
+            "pairedDifference": {
+              "pixels": 4096,
+              "medianDifferenceDb": -0.65774,
+              "meanDifferenceDb": -0.67447,
+              "p05DifferenceDb": -3.51609,
+              "p95DifferenceDb": 2.10068
+            }
+          }
+        },
+        "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+        "environmentalConclusion": null,
+        "warning": "Backscatter change cannot independently establish erosion, flooding or vegetation damage"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              90.055293043,
+              23.701926189
+            ],
+            [
+              90.067826379,
+              23.702164327
+            ],
+            [
+              90.068084485,
+              23.69061775
+            ],
+            [
+              90.055552249,
+              23.690379742
+            ],
+            [
+              90.055293043,
+              23.701926189
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "C",
+        "title": "Lower-magnitude HH radar difference",
+        "selectionMethod": "64x64 reduced-grid candidate window; reproducible exploratory HH median ranking; spatially separated, not a representative sample",
+        "rowRange": [
+          832,
+          896
+        ],
+        "columnRange": [
+          544,
+          608
+        ],
+        "stats": {
+          "HH": {
+            "beforeMedianDb": -6.77169,
+            "afterMedianDb": -6.77944,
+            "pairedDifference": {
+              "pixels": 4096,
+              "medianDifferenceDb": 0.00052,
+              "meanDifferenceDb": -0.01073,
+              "p05DifferenceDb": -2.77996,
+              "p95DifferenceDb": 2.77183
+            }
+          },
+          "HV": {
+            "beforeMedianDb": -14.79966,
+            "afterMedianDb": -14.58403,
+            "pairedDifference": {
+              "pixels": 4096,
+              "medianDifferenceDb": 0.1908,
+              "meanDifferenceDb": 0.17453,
+              "p05DifferenceDb": -2.77655,
+              "p95DifferenceDb": 3.11567
+            }
+          }
+        },
+        "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+        "environmentalConclusion": null,
+        "warning": "Backscatter change cannot independently establish erosion, flooding or vegetation damage"
+      }
+    }
+  ]
+}

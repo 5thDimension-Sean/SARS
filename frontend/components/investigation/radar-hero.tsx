@@ -9,10 +9,13 @@ import hawaii from "@/public/data/hawaii-full-preview/preview-manifest.json";
 import iowa from "@/public/data/iowa-preview/preview-manifest.json";
 import rodanthe from "@/public/data/rodanthe-preview/preview-manifest.json";
 import amazon from "@/public/data/amazon-preview/preview-manifest.json";
+import hubbard from "@/public/data/hubbard-preview/preview-manifest.json";
+import sossusvlei from "@/public/data/sossusvlei-preview/preview-manifest.json";
+import padma from "@/public/data/padma-preview/preview-manifest.json";
 import etna from "@/public/data/etna-event-preview/preview-manifest.json";
 /** Pixel sizes of the published preview PNGs (width, height). The manifests' nativeShape is not the PNG size, so it is not used for layout. */
-const PNG_SIZE = { everglades: [403, 446], louisiana: [417, 470], california: [375, 457], hawaii: [432, 456], iowa: [336, 447], rodanthe: [644, 1228], amazon: [1501, 1229], etna: [573, 779] } as const;
-const MANIFESTS = { everglades, louisiana, california, hawaii, iowa, rodanthe, amazon, etna } as const;
+const PNG_SIZE = { everglades: [403, 446], louisiana: [417, 470], california: [375, 457], hawaii: [432, 456], iowa: [336, 447], rodanthe: [644, 1228], amazon: [1501, 1229], hubbard: [751, 1245], sossusvlei: [1013, 1115], padma: [1064, 1155], etna: [573, 779] } as const;
+const MANIFESTS = { everglades, louisiana, california, hawaii, iowa, rodanthe, amazon, etna, hubbard, sossusvlei, padma } as const;
 import { dataUrl, fmtDate, parsePreview, type Pol, type StudyConfig } from "@/lib/investigation";
 import { prefersReducedMotion } from "@/lib/prefs";
 import styles from "./investigation.module.css";
@@ -81,7 +84,7 @@ export function RadarHero({ study, pol, educational = false }: { study: StudyCon
           {/* eslint-disable-next-line @next/next/no-img-element -- scroll changes opacity only, never measured pixels */}
           <img ref={later} className={styles.heroLater} src={dataUrl(`${study.previewDir}/${preview.acquisitions[1].images[pol].filename}`)} alt={`${study.label}, ${fmtDate(study.dates[1])}, ${pol} radar backscatter.`} width={PNG_SIZE[study.id][0]} height={PNG_SIZE[study.id][1]} loading="lazy" />
         </div>
-        <figcaption><span>{study.label} · Same area, two dates</span><span>{fmtDate(study.dates[0])} / {fmtDate(study.dates[1])} · {pol} · {preview.acquisitions[0].images[pol].displayRangeDb.join(" to ")} dB</span><span>NASA NISAR L2 GCOV provisional via ASF DAAC · Single-date previews, no cause established</span></figcaption>
+        <figcaption><span>{study.label} · Same area, two dates</span><span>{fmtDate(study.dates[0])} / {fmtDate(study.dates[1])} · {pol} · {preview.acquisitions[0].images[pol].displayRangeDb.join(" to ")} dB</span><span>NASA {preview.sourceCollection} via ASF DAAC · Single-date previews, no cause established</span></figcaption>
       </figure> : <p className={styles.notice}>The published preview did not validate. No substitute imagery is shown.</p>}
     </div>
   </section>;

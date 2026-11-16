@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "sar-waltz-difference-grid-1.0",
+  "study": "Hubbard Glacier, Alaska",
+  "dates": [
+    "2025-11-26",
+    "2025-12-08"
+  ],
+  "sourceGranules": [
+    "NISAR_L2_PR_GCOV_006_063_A_032_4005_DHDH_A_20251126T133227_20251126T133303_X05009_N_F_J_001",
+    "NISAR_L2_PR_GCOV_007_063_A_032_4005_DHDH_A_20251208T133228_20251208T133304_X05009_N_F_J_001"
+  ],
+  "definition": "after dB minus before dB; paired pixel difference of gamma0",
+  "dtype": "int16",
+  "byteOrder": "little",
+  "scaleDb": 0.01,
+  "nodata": -32768,
+  "shape": [
+    664,
+    1198
+  ],
+  "rowOrder": "north-up",
+  "crs": "EPSG:3413",
+  "pixelSpacingMeters": [
+    20.0,
+    -19.984939759036145
+  ],
+  "firstPixelCenter": [
+    -3314230.0,
+    254940.0075301205
+  ],
+  "files": {
+    "HH": "HH_difference_grid.i16",
+    "HV": "HV_difference_grid.i16"
+  },
+  "scientificStatus": "EXPLORATORY_NOT_CLEARED",
+  "warning": "EXPLORATORY ONLY. NOT CLEARED FOR QUANTITATIVE ANALYSIS. Radar differences do not establish flooding, erosion, vegetation loss or damage."
+}

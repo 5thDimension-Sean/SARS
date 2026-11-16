@@ -18,6 +18,7 @@ from pathlib import Path
 import re
 import sys
 import tempfile
+import time as _time
 from typing import Any, Mapping, Sequence, TextIO
 from urllib.parse import unquote, urlsplit
 
@@ -155,13 +156,25 @@ def print_products(products: Sequence[Any], *, stream: TextIO = sys.stdout) -> N
         print("  ".join(cell.ljust(widths[i]) for i, cell in enumerate(row)), file=stream)
 
 
+def _requests():
+    import requests
+    return requests
+
+
 def authenticated_session(asf: Any, token: str | None = None) -> Any:
     """Do not print credentials or exception text from authentication libraries."""
     session = asf.ASFSession()
     token = (token if token is not None else os.environ.get("EARTHDATA_TOKEN", "")).strip()
     try:
         if token:
-            return session.auth_with_token(token)
+            # The login host occasionally resets the TLS handshake; retry only network-level failures.
+            for attempt in range(4):
+                try:
+                    return session.auth_with_token(token)
+                except _requests().exceptions.ConnectionError:
+                    if attempt == 3:
+                        raise
+                    _time.sleep(2 ** attempt)
         configured = os.environ.get("NETRC")
         candidates = [Path(configured).expanduser()] if configured else [Path.home() / ".netrc", Path.home() / "_netrc"]
         selected = next((path for path in candidates if path.is_file()), None)

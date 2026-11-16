@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "preview-1.0",
+  "provenance": "NASA NISAR GCOV via ASF DAAC, georeferenced overview",
+  "sourceCollection": "NISAR L2 GCOV provisional",
+  "bounds": [
+    15.199616805860108,
+    -24.850414708223134,
+    15.40058997730266,
+    -24.649525031875186
+  ],
+  "measurement": "gamma0 linear power converted to dB; georeferenced overview",
+  "scientificClearance": "NOT CLEARED FOR QUANTITATIVE ANALYSIS",
+  "acquisitions": [
+    {
+      "date": "2026-10-04",
+      "conceptId": "NISAR_L2_PR_GCOV_032_057_A_165_2005_DHDH_A_20261004T044851_20261004T044925_P05023_N_F_J_001",
+      "track": 57,
+      "frame": 165,
+      "images": {
+        "HH": {
+          "filename": "20261004_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 1125531,
+          "sha256": "57fd309c8cbd234fe450f20395331d62eae4ebbeb5023d4c0e8cb46a0bafcc33"
+        },
+        "HV": {
+          "filename": "20261004_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 1125531,
+          "sha256": "b40a0cb60786325e5527d70e404a7db4d1b9f53d27a71ccd768b79978463f4d7"
+        }
+      }
+    },
+    {
+      "date": "2026-10-16",
+      "conceptId": "NISAR_L2_PR_GCOV_033_057_A_165_2005_DHDH_A_20261016T044851_20261016T044925_P05023_N_F_J_001",
+      "track": 57,
+      "frame": 165,
+      "images": {
+        "HH": {
+          "filename": "20261016_HH.png",
+          "displayRangeDb": [
+            -25.0,
+            0.0
+          ],
+          "screenedPixels": 1125532,
+          "sha256": "8bb0a1af183e2978896281ea2143dbdc1b417e9571c9fe7a646e6921023742da"
+        },
+        "HV": {
+          "filename": "20261016_HV.png",
+          "displayRangeDb": [
+            -30.0,
+            -5.0
+          ],
+          "screenedPixels": 1125532,
+          "sha256": "adcf39da91ed054dfe27434f91d63c3387f17731ca20f478e64016a740178943"
+        }
+      }
+    }
+  ]
+}

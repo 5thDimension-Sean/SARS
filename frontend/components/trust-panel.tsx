@@ -14,7 +14,7 @@ const POLS: Polarization[] = ["HH", "HV"];
 // Every published preset region was picked by ranking candidate windows on its own measured difference, so
 // none may count as a pre-specified test. Only a box the visitor draws that differs from the presets does.
 interface Region { id: string; title: string; box: Box }
-interface Evidence { quality: Record<string, string>; limitations: string[] }
+interface Evidence { quality: Record<string, string>; limitations: string[]; provenance?: string }
 interface Loaded {
   study: GridStudy; base: string; evidence: Evidence; regions: Region[]; regionsWarning: string;
   granules: [string, string]; dates: [string, string]; nativeShape: [number, number];
@@ -50,11 +50,11 @@ async function loadStudy(study: GridStudy, signal: AbortSignal): Promise<Loaded 
     getJson(`${base}${study.evidenceDir}/evidence.json`, signal), getJson(`${base}${study.regionsDir}/regions.json`, signal),
   ]);
   if (!evidenceJson || !regionsJson) return null; // location not published: truthful empty state
-  const ev = evidenceJson as { quality?: Record<string, string>; limitations?: string[] };
+  const ev = evidenceJson as { quality?: Record<string, string>; limitations?: string[]; provenance?: string };
   const rg = regionsJson as { regions?: unknown[]; warning?: string; sourceGranules?: [string, string]; dates?: [string, string]; nativeShape?: [number, number] };
   if (!ev.quality || !rg.regions || !rg.sourceGranules || !rg.dates || !rg.nativeShape) throw new Error("Published study metadata is incomplete.");
   const data: Loaded = {
-    study, base, evidence: { quality: ev.quality, limitations: ev.limitations ?? [] },
+    study, base, evidence: { quality: ev.quality, limitations: ev.limitations ?? [], provenance: typeof ev.provenance === "string" ? ev.provenance : undefined },
     regions: rg.regions.map(toRegion), regionsWarning: rg.warning ?? "", granules: rg.sourceGranules, dates: rg.dates,
     nativeShape: rg.nativeShape, meta: null, grids: null, candidates: null, problem: "",
   };
@@ -208,7 +208,7 @@ export function TrustPanel() {
 
     {data && <section aria-labelledby="provenance" className={styles.card}>
       <h2 id="provenance">Source and status</h2>
-      <p>{data.study.label}. NASA NISAR L2 GCOV provisional via ASF DAAC. Before {data.dates[0]} ({data.granules[0]}), after {data.dates[1]} ({data.granules[1]}).</p>
+      <p>{data.study.label}. {data.evidence.provenance ?? "NASA NISAR L2 GCOV via ASF DAAC"}. Before {data.dates[0]} ({data.granules[0]}), after {data.dates[1]} ({data.granules[1]}).</p>
       <p className={styles.warning}>{data.meta?.warning ?? (data.regionsWarning || "Exploratory; not cleared for quantitative analysis.")}</p>
     </section>}
 
