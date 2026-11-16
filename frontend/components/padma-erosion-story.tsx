@@ -20,24 +20,23 @@ export function PadmaErosionStory() {
   const images = mode === "side" ? IMAGES : [IMAGES[current]];
   return <div className={styles.page}>
     <header className={styles.hero}>
-      <p className={styles.eyebrow}>TANGO / EROSION FIELD STUDY / BANGLADESH</p>
       <h1>A river that redraws the land.</h1>
-      <p className={styles.lead}>The Padma River changes course as banks erode and sediment builds new bars. Compare two real NASA Landsat observations separated by 30 years to see how channels and islands have shifted.</p>
-      <p className={styles.notice}><strong>Independent optical evidence · not NISAR:</strong> These are NASA Landsat multispectral images, not NISAR SAR observations. TANGO has not processed a NISAR pair for this location.</p>
+      <p className={styles.lead}>Two NASA Landsat views, 1988 and 2018, of a river that keeps moving.</p>
+      <p className={styles.notice}><strong>Optical Landsat imagery, not NISAR.</strong> No radar pair processed here.</p>
       <a className={styles.primary} href="#look">Begin the investigation <span aria-hidden="true">↓</span></a>
     </header>
     <ProcessedEvidencePathway />
     <section className={styles.section} id="context" aria-labelledby="padma-context-title">
-      <div className={styles.sectionHead}><span className={styles.eyebrow}>UNDERSTAND THIS LOCATION</span><h2 id="padma-context-title">What makes this river different?</h2>
-        <p>Unlike Rodanthe’s ocean-driven shoreline change, the Padma demonstrates riverbank erosion and sediment deposition. Flowing water reshapes its channel, erodes one bank and builds new land elsewhere. The resulting bends and islands are visible across NASA’s historical Landsat series.</p></div>
+      <div className={styles.sectionHead}><h2 id="padma-context-title">What makes this river different?</h2>
+        <p>Flowing water erodes one bank and builds new land elsewhere.</p></div>
       <div className={styles.reasoning}>
         <div><h3>What is happening here?</h3><p>In Bangladesh, the Padma’s channel changes shape over time. The Harirampur reach experienced notable historical bank loss, while shifting bars and bends also illustrate deposition.</p></div>
         <div><h3>Why does it matter?</h3><p>Communities use the river for farming and transport. A migrating channel can affect nearby land and infrastructure even when the overall river system is naturally changing.</p></div>
       </div>
     </section>
     <section className={styles.section} id="look" aria-labelledby="padma-compare-title">
-      <div className={styles.sectionHead}><span className={styles.eyebrow}>02 / COMPARE SATELLITE OBSERVATIONS</span><h2 id="padma-compare-title">Watch the river move.</h2>
-        <p>The dark river channels, pale sediment bars, and surrounding land show a different pattern in 1988 and 2018. Look at the bends near Harirampur and Char Janajat. Not every difference in color represents erosion.</p></div>
+      <div className={styles.sectionHead}><h2 id="padma-compare-title">Watch the river move.</h2>
+        <p>Compare the bends near Harirampur and Char Janajat. Not every color change is erosion.</p></div>
       <div className={styles.controls}>
         <div className={styles.segment} role="group" aria-label="Image comparison layout">
           <button aria-pressed={mode === "side"} onClick={() => setMode("side")}>Side by side</button>
@@ -55,16 +54,16 @@ export function PadmaErosionStory() {
           <figcaption><strong>{im.year}</strong><span>{im.label}</span><small>NASA Earth Observatory · Acquired {im.date}</small></figcaption>
         </figure>)}
       </div>
-      <p className={styles.caption}>Source: <a href={NASA_STORY} target="_blank" rel="noopener noreferrer">NASA Earth Observatory — World of Change: Padma River ↗</a>. The two images illustrate a longer history of channel migration, erosion, and deposition; they are not an aligned pixel-level measurement of land loss.</p>
+      <p className={styles.caption}>Source: <a href={NASA_STORY} target="_blank" rel="noopener noreferrer">NASA Earth Observatory — World of Change: Padma River ↗</a>. Illustrative, not a pixel-level land-loss measurement.</p>
     </section>
     <section className={styles.section} id="compare" aria-labelledby="padma-evidence-title">
-      <div className={styles.sectionHead}><span className={styles.eyebrow}>03 / MEASURED EVIDENCE AND DATA ANALYSIS</span><h2 id="padma-evidence-title">Erosion and deposition together.</h2></div>
+      <div className={styles.sectionHead}><h2 id="padma-evidence-title">Erosion and deposition together.</h2></div>
       <div className={styles.cards}>
         <div className={styles.card}><span>1988 → 2018</span><strong>30 years</strong><p>NASA&apos;s Landsat time series documents a changing channel shape, braiding, and riverbank position.</p></div>
         <div className={styles.card}><span>Published historical context</span><strong>66,000+ ha</strong><p>Land lost along the Padma since 1967, as reported by NASA&apos;s 2018 article. This is not a TANGO calculation or a 1988–2018 difference.</p></div>
         <div className={styles.card}><span>Measurement status</span><strong>Not computed</strong><p>No NISAR backscatter analysis, georeferenced shoreline-rate calculation, or confidence estimate exists in this TANGO study.</p></div>
       </div>
-      <div className={styles.sectionHead} style={{ marginTop: 36 }}><h2>What did the satellite actually observe?</h2><p>These observations use published optical and infrared imagery. No NISAR HH/HV backscatter, histogram, or paired-pixel difference is available for Padma.</p></div>
+      <details className={styles.card} style={{ marginTop: 28 }}><summary>More detail: observations, uncertainty and SAR validation</summary>
       <div className={styles.tableScroll}><table className={styles.dataTable}>
         <caption>Acquisition and analysis availability — Padma River</caption>
         <thead><tr><th scope="col">Evidence / measure</th><th scope="col">Earlier</th><th scope="col">Later</th><th scope="col">Interpretation</th></tr></thead>
@@ -75,16 +74,17 @@ export function PadmaErosionStory() {
           <tr><th scope="row">NISAR HH / HV (dB)</th><td>Not available</td><td>Not available</td><td>Cannot calculate backscatter change from these images</td></tr>
           <tr><th scope="row">Paired-pixel erosion rate</th><td colSpan={2}>Not processed</td><td>Requires aligned bankline measurements and uncertainty checks</td></tr>
         </tbody></table></div>
-      <p className={styles.caption}>Published historical erosion figures are distinct from TANGO-derived measurements. The 66,000+ hectare figure describes loss since 1967, not the difference between these two scenes.</p>
+      <p className={styles.caption}>The 66,000+ hectare figure covers loss since 1967, not these two scenes.</p>
       <div className={styles.reasoning}>
         <div><h3>What did the satellite observe?</h3><p>Across NASA&apos;s 1988–2018 image sequence, the channel bends, islands, and banks occupy different positions. The published series uses Landsat imagery acquired during the dry season.</p></div>
         <div><h3>Why is this evidence of erosion?</h3><p>NASA documents historical bank loss, especially around Harirampur, alongside deposition in lower-energy parts of the river. Channel migration can remove land on one bank while depositing sediment elsewhere.</p></div>
         <div><h3>What remains uncertain?</h3><p>Two displayed images alone cannot determine a local erosion rate, identify every cause, or measure net land change. River stage, season, georeferencing, and independently mapped banklines matter.</p></div>
         <div><h3>How could we validate with SAR?</h3><p>Find same-track NISAR GCOV acquisitions for this footprint, check metadata and QA, register grids, mask water and invalid pixels, and compare derived shoreline positions against independent optical and field evidence. Do not equate backscatter with erosion by itself.</p></div>
       </div>
+      </details>
     </section>
     <section className={styles.section} id="verify" aria-labelledby="padma-source-title">
-      <div className={styles.sectionHead}><span className={styles.eyebrow}>04 / CHECK EVIDENCE AND PROVENANCE</span><h2 id="padma-source-title">Know which instrument produced the evidence.</h2></div>
+      <div className={styles.sectionHead}><h2 id="padma-source-title">What is established.</h2></div>
       <div className={styles.tableScroll}><table className={styles.dataTable}>
         <caption>Scientific evidence checklist — not a confidence score</caption>
         <thead><tr><th scope="col">Check</th><th scope="col">Status</th><th scope="col">Evidence / limitation</th></tr></thead>
@@ -95,7 +95,7 @@ export function PadmaErosionStory() {
           <tr><th scope="row">Same-track NISAR HH / HV pair</th><td>Not verified</td><td>No validated source-grid comparison for Padma</td></tr>
           <tr><th scope="row">Quantitative erosion detection</th><td>Not established</td><td>Requires matched geometry, independent validation and uncertainty analysis</td></tr>
         </tbody></table></div>
-      <h3 className={styles.sourceHeading}>Original sources and scientific limitations</h3>
+      <details className={styles.card} style={{ marginTop: 20 }}><summary>More detail: sources and limitations</summary>
       <ul className={styles.sources}>
         <li><strong>NASA Earth Observatory:</strong> <a href={NASA_STORY} target="_blank" rel="noopener noreferrer">World of Change — Padma River (1988–2018)</a></li>
         <li><strong>Full imagery sequence:</strong> <a href={NASA_STORY + "all-images/"} target="_blank" rel="noopener noreferrer">All 14 Landsat observations (1988–2018)</a></li>
@@ -103,6 +103,7 @@ export function PadmaErosionStory() {
         <li><strong>Instruments:</strong> Landsat 5 TM and Landsat 8 OLI; these images contain optical/infrared bands, not SAR radar returns</li>
         <li><strong>Scientific status:</strong> Source-published erosion history; no TANGO-derived erosion rate or NISAR validation for this place</li>
       </ul>
+      </details>
     </section>
   </div>;
 }

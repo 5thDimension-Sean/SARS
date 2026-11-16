@@ -82,7 +82,7 @@ function Gallery({ study }: { study: ResearchStudy }) {
         </video>}
       <p>{study.video.note} Credit: {study.video.credit}.</p>
     </div>}
-    <p className={styles.caption}>Visual review only. Publisher composites and browse PNGs are not numerical radar grids; their displayed colors cannot be subtracted to calculate a dB difference.</p>
+    <p className={styles.caption}>Visual review only, not numerical grids.</p>
   </section>;
 }
 
@@ -108,6 +108,7 @@ function StudyDetail({ study }: { study: ResearchStudy }) {
     <ResearchLocationEvidenceStory study={study} />
     <Gallery study={study} />
     <ResearchDataAnalysis study={study} />
+    <details className={styles.archive}><summary>More detail: review, limitations and sources</summary>
     <div className={styles.evidenceGrid}>
       <section className={styles.qa} id="research-qa" aria-labelledby="research-qa-title">
         <span className={styles.small}>Scientific review</span><h3 id="research-qa-title">Blocked · exploratory</h3>
@@ -122,6 +123,7 @@ function StudyDetail({ study }: { study: ResearchStudy }) {
         <button type="button" onClick={() => downloadSummary(study)}>Download research summary ↓</button>
       </section>
     </div>
+    </details>
     {study.archive && <details className={styles.archive}><summary>Archived October 2026 Hubbard pair</summary><p>{study.archive.note}</p><p>{study.archive.dates.map(fmt).join(" · ")}</p></details>}
   </article>;
 }
@@ -144,10 +146,9 @@ export function ResearchPreview() {
     <a className="skip-link" href="#research-study-title">Skip to research study</a>
     <div className={styles.wrap}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}><span className={styles.dot} /> Research explorer · source referenced</p>
-        <h1>A wider world.<br /><span>Evidence comes first.</span></h1>
-        <p>Nine research stops, from lava fields to fractured ice. Explore published NISAR observations, a linked numerical investigation for Etna, and clearly marked candidates for the next studies.</p>
-        <div className={styles.headerLinks}><Link href="/nisar-prototype">Open existing investigations ↗</Link><span>Measurements are shown only where verified from actual radar data; no causal claims</span></div>
+        <h1>A wider world.</h1>
+        <p>Nine places, published NISAR imagery, exploratory only.</p>
+        <div className={styles.headerLinks}><Link href="/nisar-prototype">Open investigations ↗</Link></div>
       </header>
       <div className={styles.layout}>
         <aside className={styles.sidebar}>
@@ -162,11 +163,10 @@ export function ResearchPreview() {
               <span className={styles.locationState} data-kind={s.evidence}>{EVIDENCE_LABELS[s.evidence]}</span>
             </button>
           </li>)}</ul></nav>
-          <p className={styles.sidebarNote}>Publisher imagery and investigation measurements are clearly separated. Unverified candidates do not contain invented radar imagery or measurements.</p>
         </aside>
         <StudyDetail key={study.id} study={study} />
       </div>
-      <footer className={styles.footer}>NASA / ISRO source imagery is credited per scene. All nine research entries remain exploratory and not scientifically cleared. Etna also has a separate processed numerical investigation.</footer>
+      <footer className={styles.footer}>Imagery credited per scene. All entries exploratory, not scientifically cleared.</footer>
     </div>
   </main>;
 }

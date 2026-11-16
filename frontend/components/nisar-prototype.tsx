@@ -81,10 +81,10 @@ function Primer() {
   return <Reveal><section className={styles.primer} aria-labelledby="primer-title">
     <h2 id="primer-title">Read the return.</h2>
     <div className={styles.cards}>
-      <div className={styles.card}><h3>Backscatter</h3><p>NISAR sends microwave pulses down and records how much returns. It sees through cloud and at night. Bright means a strong return, dark a weak one. It is not a photograph.</p></div>
-      <div className={styles.card}><h3>Decibels</h3><p>Backscatter is measured on a log scale. Every −10 dB is ten times less power; about 3 dB is a doubling or halving. A number alone does not establish significance.</p></div>
-      <div className={styles.card}><h3>HH and HV</h3><p>Two ways of sending and receiving the radar wave. HV is much weaker and responds differently to the surface. Compare each with itself across dates.</p></div>
-      <div className={styles.card}><h3>Change is not cause</h3><p>Roughness, moisture, vegetation structure, noise and processing all alter backscatter. A difference between dates does not say which one happened.</p></div>
+      <div className={styles.card}><h3>Backscatter</h3><p>Radar return strength. Bright is strong, dark is weak. Not a photograph.</p></div>
+      <div className={styles.card}><h3>Decibels</h3><p>A log scale. −10 dB is ten times less power.</p></div>
+      <div className={styles.card}><h3>HH and HV</h3><p>Two radar channels. Compare each with itself.</p></div>
+      <div className={styles.card}><h3>Change is not cause</h3><p>Many things alter backscatter; the data names no cause.</p></div>
     </div>
   </section></Reveal>;
 }
@@ -170,7 +170,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
           <MapGate study={study} regions={regions} preview={preview} pol={pol} mode={effectiveMode} selectedId={selected} onSelect={setSelected}
             gibsReady={gibsReady} gibsVisible={gibsVisible} onGibsFail={onGibsFail} onProblem={setProblem} onAfterMap={setAfterMap} resetSignal={resetSignal} changeOnly={(effectiveMode === "difference" && changedOnly) || (effectiveMode !== "difference" && showChanges) ? strength : 0} showChanges={showChanges} />
           <Legend mode={effectiveMode} pol={pol} preview={preview} regions={regions} changedOnly={changedOnly} showChanges={showChanges} />
-          <p className={`${styles.small} ${styles.muted}`} style={{ marginTop: 10 }}>Pixels are drawn as published using nearest-neighbour sampling; resolution follows the published analysis grid (which may be reduced from the original source). {gibsNote}</p>
+          {gibsNote && <p className={`${styles.small} ${styles.muted}`} style={{ marginTop: 10 }}>{gibsNote}</p>}
         </div>
         <aside className={styles.inspector} aria-labelledby="h-region">
           <h2 id="h-region">Inspect a region</h2>
@@ -189,7 +189,7 @@ function Workbench({ study, pol }: { study: StudyConfig; pol: Pol }) {
 
     <section className={styles.section} id="compare" aria-labelledby="h-scene">
       <header><h2 id="h-scene">The whole scene, {pol}</h2>
-        <p className={styles.lead}>How many pixels fall at each backscatter level, on each date.</p></header>
+        <p className={styles.lead}>Pixels per backscatter level, by date.</p></header>
       <div className={styles.twoCol}>
         <div>
           <Histogram pol={pol} ev={pe} dates={study.dates} />
@@ -309,20 +309,20 @@ function buildReport(study: StudyConfig, evidence: Evidence, regions: RegionSet)
 function TrustSection({ study, evidence, regions, preview }: { study: StudyConfig; evidence: Evidence; regions: RegionSet; preview: PreviewSet | null }) {
   return <section className={styles.section} id="verify" aria-labelledby="h-trust">
     <header><h2 id="h-trust">What we can say.<br />And cannot.</h2>
-      <p className={styles.lead}>The observations are real; their interpretation is open. Failed and unverified checks stay visible. This is a status report, not a confidence score.</p></header>
+      <p className={styles.lead}>Real observations, open interpretation. Not a confidence score.</p></header>
     <div className={styles.twoCol}>
       <div className={styles.stack}>
         <div className={styles.tableScroll}><table className={`${styles.table} ${styles.qaTable}`}><caption>Quality checks for {study.label} · {evidence.scientificClearance}</caption><thead><tr><th scope="col">Check</th><th scope="col">Status and evidence</th></tr></thead><tbody>{evidence.quality.map(([key, text]) => { const state = qaState(text);
           return <tr key={key}><th scope="row">{qaLabel(key)}</th><td><span className={`${styles.qaIcon} ${styles[`qa_${state}`]}`}>{state.toUpperCase()}</span><p>{text}</p></td></tr>; })}</tbody></table></div>
-        <h3>Known limitations</h3>
-        <ul className={styles.plain}>{evidence.limitations.map((l) => <li key={l}>{l}</li>)}</ul>
+        <details className={styles.more}><summary>Known limitations</summary>
+        <ul className={styles.plain}>{evidence.limitations.map((l) => <li key={l}>{l}</li>)}</ul></details>
         <div className={styles.yesno}>
           <div><h3>What this shows</h3><ul className={styles.plain}><li>Real NISAR HH/HV backscatter on two dates, as histograms and statistics.</li><li>Three candidate regions with measured per-pixel differences, labeled {QA_LABEL}.</li></ul></div>
           <div><h3>What it does not show</h3><ul className={styles.plain}><li>Flooding, vegetation loss, burned area, damage or ground displacement.</li><li>A validated change detection, a confidence score or a prediction.</li></ul></div>
         </div>
       </div>
       <div className={styles.stack}>
-        <h3>Data provenance</h3>
+        <details className={styles.more}><summary>Data provenance</summary>
         <dl className={styles.dl}>
           <dt>Source</dt><dd>{evidence.provenance}</dd>
           <dt>Measurement</dt><dd>{evidence.measurement}</dd>
@@ -332,9 +332,9 @@ function TrustSection({ study, evidence, regions, preview }: { study: StudyConfi
           <dt>Difference</dt><dd>{regions.differenceDefinition}</dd>
           {preview && <><dt>Previews</dt><dd>{preview.sourceCollection}. {preview.measurement}. QA: {preview.scientificClearance}.</dd></>}
           <dt>Collection</dt><dd>NISAR_L2_GCOV_PROVISIONAL_V1 · <a href="https://doi.org/10.5067/NIL2GCOV-P1" rel="noopener noreferrer">Dataset DOI</a></dd>
-        </dl>
+        </dl></details>
         <button type="button" className={styles.primary} style={{ border: 0, cursor: "pointer" }} onClick={() => downloadReport(buildReport(study, evidence, regions))}>Download evidence report <span aria-hidden="true">↓</span></button>
-        <p className={`${styles.small} ${styles.muted}`}>A printable page with this place’s numbers, provenance, every quality check (failed ones included) and its limits.</p>
+        
         {study.gibsContext && <p className={`${styles.small} ${styles.muted}`}>We acknowledge the use of imagery from the NASA Global Imagery Browse Services (GIBS), part of NASA&apos;s Earth Science Data and Information System (ESDIS). GIBS mosaics may combine products and are not pixel-level lineage.</p>}
         <p className={styles.small}><a href="https://hyp3-docs.asf.alaska.edu/nisar-docs/worldview/" rel="noopener noreferrer">ASF imagery guide</a> · <a href="https://nisar-docs.asf.alaska.edu/provisional-known-issues/" rel="noopener noreferrer">Provisional-data limitations</a> · <a href="https://nasa-gibs.github.io/gibs-api-docs/" rel="noopener noreferrer">NASA GIBS</a></p>
       </div>
