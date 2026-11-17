@@ -1,5 +1,89 @@
 # Private coordinate-to-NISAR worker
 
+## Deployment status and acceptance gate
+
+The worker is implemented but no public backend URL has been provisioned by
+this change. A passing offline test uses explicitly synthetic test fixtures;
+it does not demonstrate a real NASA authenticated download. Keep the production
+submit button disabled until a reviewed HTTPS worker is running and the
+real-data check below passes. Do not set a placeholder API URL in Vercel.
+
+The coordinate shortcuts include **Padma River, Bangladesh (23.75, 90.05)**.
+Its existing `/padma-erosion` investigation uses historical Landsat imagery;
+that does not establish NISAR coverage. The worker must discover a genuine
+compatible NISAR pair at that point before showing any HH/HV results.
+
+## Resource and failure bounds
+
+- Single concurrent job; six accepted jobs per hour across the whole worker.
+- At most 100 catalog results, 3 GB per source and 6 GB of source downloads.
+- A 1 KiB request-body limit counts streamed bodies as well as Content-Length.
+- Private downloads have 15-second connect / 60-second idle timeouts, a
+  15-minute aggregate download deadline, and catalog byte limits enforced while
+  streaming. NASA credentials are never sent to signed S3 redirect hosts.
+- Catalog search, download and HDF5 processing run in a separate process with
+  a hard 20-minute job deadline. Shutdown/timeout kills that process and removes
+  raw and incomplete derived data. This does not depend on a cooperative thread.
+- Finished jobs expire 45 minutes after submission; a background reaper runs
+  every 30 seconds even when nobody makes another API request.
+- Results include source filenames, byte counts and SHA-256 hashes, dates,
+  product/specification versions, native analysis-grid CRS and QA limitations.
+- Native HDF5 track/frame/pass/release/maturity/version and requested geographic
+  coverage are checked against catalog selection. Unknown catalog metadata is
+  never treated as matching by converting it to the string `None`.
+
+## Run without local Docker
+
+No local Docker installation is required. Use a Linux host with Python 3.13,
+at least 2 vCPU / 8 GB RAM and 30 GB free private disk as an initial demo
+allocation; measure real job peak memory/disk before admitting more traffic.
+A persistent VM has predictable storage and process lifetime, but incurs cost
+while running and needs patching. Short-lived/serverless functions have less
+idle cost but do not meet these disk/runtime assumptions. Do not provision
+paid infrastructure without the owner's hosting choice and spending limit.
+
+The reviewed checkout belongs at `/opt/tango`. Create `/opt/tango/.venv`,
+install `pipeline/private-api-requirements.txt`, and use the supplied
+`deployment/tango-processing.service` for process and resource limits.
+Supply `/etc/tango-processing.env` with the exact deployed frontend origin:
+
+```text
+PROCESSING_ALLOWED_ORIGINS=https://sars-d9rv0zhx6-seanzhangeng-6080.vercel.app
+```
+
+The service binds only to 127.0.0.1:8090. Point a backend domain at the host
+and serve it with the supplied `deployment/Caddyfile`, setting
+`PROCESSING_DOMAIN` in Caddy's environment. Only HTTPS should be publicly
+reachable. Do not expose 8090, the private job directory or raw HDF5 files.
+Validate the Caddy and systemd configuration on the chosen host before
+enabling them. Never enable request/header/body debug logging at the proxy.
+
+After `/v1/health` is healthy, configure Vercel's build-time
+`NEXT_PUBLIC_PROCESSING_API_URL` to that actual HTTPS backend, rebuild, and
+verify the resulting deployment's exact origin still matches the allowlist.
+If Vercel creates a new preview origin, update the allowlist before testing.
+
+## Real-data acceptance check
+
+Set `PROCESSING_API_URL`, `FRONTEND_ORIGIN` and your authorized
+`EARTHDATA_TOKEN` locally without recording them in shell history or files.
+Run:
+
+```sh
+python -m pipeline.verify_coordinate_backend
+```
+
+The check submits Everglades coordinates, waits for the actual worker,
+validates two ordered genuine-source acquisitions, histogram count accounting,
+three regions, protected PNGs and denial of unauthenticated results. It prints
+only source hashes/provenance and the result status, never tokens or job access
+URLs. It fails rather than claiming success when data, authentication, processing
+or access controls are unavailable. Then browser-test coordinates, HH/HV,
+swipe/side/difference modes, progress, errors and expiry on desktop and mobile.
+
+The host/account/domain and an authorized real-data test are still required
+before claiming a functioning deployed backend. Do not paste tokens into chat.
+
 The TANGO site is statically exported and **cannot** run scientific HDF5
 processing. This directory contains a separate, disk-backed API that Sean (or
 the infrastructure owner) must deploy before live custom coordinates work.
@@ -85,3 +169,4 @@ at rest for temporary worker disks and monitored resource quotas at the TLS
 proxy before exposing it publicly. Origin checks alone are not authentication.
 The user's token must have Earthdata access; do not ask users to paste tokens
 in ChatGPT or share them with other users.
+

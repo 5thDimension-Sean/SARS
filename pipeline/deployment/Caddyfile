@@ -1,0 +1,17 @@
+{$PROCESSING_DOMAIN} {
+    request_body {
+        max_size 1KB
+    }
+    header {
+        Cache-Control "no-store, private"
+        Referrer-Policy "no-referrer"
+        X-Content-Type-Options "nosniff"
+    }
+    # No access-log directive: never log job Authorization or Earthdata headers.
+    reverse_proxy 127.0.0.1:8090 {
+        transport http {
+            dial_timeout 5s
+            response_header_timeout 30s
+        }
+    }
+}

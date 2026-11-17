@@ -91,7 +91,7 @@ def test_download_is_validated_then_published(monkeypatch: pytest.MonkeyPatch, t
     asf, entry = fake_asf(), product(size=len(hdf_payload))
     closed = []
     session = SimpleNamespace(close=lambda: closed.append(True))
-    monkeypatch.setattr(fetch_nisar, "authenticated_session", lambda _: session)
+    monkeypatch.setattr(fetch_nisar, "authenticated_session", lambda _, **kwargs: session)
     asf.download_url = lambda **kwargs: (Path(kwargs["path"]) / kwargs["filename"]).write_bytes(hdf_payload)
     fetch_nisar.download_products([entry], tmp_path, asf)
     assert (tmp_path / entry.properties["fileName"]).read_bytes() == hdf_payload
@@ -105,7 +105,7 @@ def test_download_failure_does_not_expose_credentials(monkeypatch: pytest.Monkey
         raise RuntimeError("EARTHDATA_TOKEN=private-credential-secret URL=private-url-secret")
     asf.download_url = fail
     monkeypatch.setattr(fetch_nisar, "load_asf", lambda: asf)
-    monkeypatch.setattr(fetch_nisar, "authenticated_session", lambda _: SimpleNamespace(close=lambda: None))
+    monkeypatch.setattr(fetch_nisar, "authenticated_session", lambda _, **kwargs: SimpleNamespace(close=lambda: None))
     status = fetch_nisar.main(["--bbox=-81,25,-80,26", "--start", "2026-07-03", "--end", "2026-07-15", "--out", str(tmp_path)])
     assert status == 2 and "private-credential-secret" not in caplog.text and "private-url-secret" not in caplog.text
     assert not (tmp_path / product().properties["fileName"]).exists()
@@ -114,7 +114,7 @@ def test_download_failure_does_not_expose_credentials(monkeypatch: pytest.Monkey
 @pytest.mark.parametrize("payload,expected", [(b"<html>login</html>", 18), (b"wrong-size", 100)])
 def test_bad_download_never_becomes_completed_file(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, payload: bytes, expected: int) -> None:
     asf, entry = fake_asf(), product(size=expected)
-    monkeypatch.setattr(fetch_nisar, "authenticated_session", lambda _: SimpleNamespace(close=lambda: None))
+    monkeypatch.setattr(fetch_nisar, "authenticated_session", lambda _, **kwargs: SimpleNamespace(close=lambda: None))
     asf.download_url = lambda **kwargs: (Path(kwargs["path"]) / kwargs["filename"]).write_bytes(payload)
     with pytest.raises(PipelineError):
         fetch_nisar.download_products([entry], tmp_path, asf)
@@ -144,6 +144,16 @@ def test_authentication_prefers_token_and_sanitizes_errors(monkeypatch: pytest.M
     with pytest.raises(PipelineError) as error:
         fetch_nisar.authenticated_session(asf)
     assert "private-credential-secret" not in str(error.value)
+
+
+def test_explicit_request_token_does_not_use_or_change_process_credentials(monkeypatch):
+    seen = []
+    asf = fake_asf()
+    asf.ASFSession = lambda: SimpleNamespace(auth_with_token=lambda token: seen.append(token) or "authenticated")
+    monkeypatch.setenv("EARTHDATA_TOKEN", "different-process-test-token")
+    assert fetch_nisar.authenticated_session(asf, token="per-request-test-token") == "authenticated"
+    assert seen == ["per-request-test-token"]
+    assert fetch_nisar.os.environ["EARTHDATA_TOKEN"] == "different-process-test-token"
 
 
 def test_catalog_byte_dictionary_and_path_validation() -> None:
